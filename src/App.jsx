@@ -1,5 +1,13 @@
+import Content from "./Content"
+import TopBar from "./TopBar"
+
 const App = () => {
-  return <p>Hello from React!</p>
+  return (
+    <>
+      <TopBar />
+      <Content />
+    </>
+  )
 }
 
 export default App
