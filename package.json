@@ -1,0 +1,61 @@
+{
+  "name": "react-online-store",
+  "version": "0.1.0",
+  "description": "A template for an e-commerce application/website, made with React!",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronituohino/react-online-store.git"
+  },
+  "keywords": [
+    "react",
+    "e-commerce"
+  ],
+  "author": "ronituohino",
+  "license": "MIT",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "apollo-server": "^3.4.0",
+    "apollo-server-core": "^3.4.0",
+    "apollo-server-express": "^3.4.0",
+    "express": "^4.17.1",
+    "graphql": "^15.6.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "server": "node index.js",
+    "server-dev": "nodemon index.js",
+    "start": "react-scripts start",
+    "lint": "eslint \"./**/*.{js,jsx}\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
