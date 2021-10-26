@@ -3,51 +3,154 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
 import express from "express"
 import http from "http"
 
-let persons = [
+const items = [
   {
-    name: "Arto Hellas",
-    phone: "040-123543",
-    street: "Tapiolankatu 5 A",
-    city: "Espoo",
-    id: "3d594650-3436-11e9-bc57-8b80ba54c431",
+    name: [
+      {
+        language: "EN",
+        name: "Strawberry",
+      },
+      {
+        language: "FI",
+        name: "Mansikka",
+      },
+    ],
+    price: 2.4,
+    description: [
+      {
+        language: "EN",
+        description: "A juicy fruit I think?",
+      },
+      {
+        language: "FI",
+        description: "Mehukas hedelmä, ehkä?",
+      },
+    ],
+    available: true,
+    category: "Fruits",
   },
+
   {
-    name: "Matti Luukkainen",
-    phone: "040-432342",
-    street: "Malminkaari 10 A",
-    city: "Helsinki",
-    id: "3d599470-3436-11e9-bc57-8b80ba54c431",
+    name: [
+      {
+        language: "EN",
+        name: "Banana",
+      },
+      {
+        language: "FI",
+        name: "Banaani",
+      },
+    ],
+    price: 3.45,
+    description: [
+      {
+        language: "EN",
+        description: "A long yellow banana",
+      },
+      {
+        language: "FI",
+        description: "Pitkä keltainen banaani",
+      },
+    ],
+    available: false,
+    category: "Bananas",
   },
+
   {
-    name: "Venla Ruuska",
-    street: "Nallemäentie 22 C",
-    city: "Helsinki",
-    id: "3d599471-3436-11e9-bc57-8b80ba54c431",
+    name: [
+      {
+        language: "EN",
+        name: "Blueberry",
+      },
+      {
+        language: "FI",
+        name: "Mustikka",
+      },
+    ],
+    price: 2,
+    description: [
+      {
+        language: "EN",
+        description: "A round and juicy and blue blueberry",
+      },
+      {
+        language: "FI",
+        description: "Pyöreä ja mehukas ja sininen mustikka",
+      },
+    ],
+    available: false,
+    category: "Fruits",
   },
 ]
 
 const typeDefs = gql`
-  type Person {
-    name: String!
-    phone: String
-    street: String!
-    city: String!
+  type User {
     id: ID!
+    username: String!
+    password: String!
+    email: String!
+    contact: Contact!
+    orders: [Order]!
+  }
+
+  type Contact {
+    id: ID!
+    fullname: String!
+    business: String
+    address: String!
+    city: String!
+    postalcode: String!
+    country: String!
+    phone: String!
+    email: String!
+  }
+
+  type Order {
+    id: ID!
+    items: [[Item!]!]!
+    date: Int!
+    deliveryAddress: Contact!
+    billingAddress: Contact!
+  }
+
+  enum Category {
+    Fruits
+    Pears
+    Bananas
+  }
+
+  type Item {
+    id: ID!
+    name: [LanguageString!]!
+    price: Float!
+    description: [LanguageString!]
+    available: Boolean!
+    category: Category!
+  }
+
+  enum Language {
+    FI
+    EN
+  }
+
+  type LanguageString {
+    text: String!
+    language: Language!
   }
 
   type Query {
-    personCount: Int!
-    allPersons: [Person!]!
-    findPerson(name: String!): Person
+    itemCount: Int!
+    allItems: [Item!]!
   }
 `
 
 const resolvers = {
   Query: {
-    personCount: () => persons.length,
-    allPersons: () => persons,
-    findPerson: (root, args) => persons.find((p) => p.name === args.name),
+    itemCount: () => items.length(),
+    allItems: () => items,
   },
+
+  Item: {},
 }
 
 const startApolloServer = async (typeDefs, resolvers) => {
