@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 import {
+  Box,
   AppBar,
   Toolbar,
   Badge,
@@ -38,54 +39,52 @@ const TopBar = () => {
 
   return (
     <>
-      <div style={{ margin: "-8px" }}>
-        <AppBar position="static">
-          <Container>
-            <Toolbar>
-              <Link to="/">
-                <img
-                  style={{
-                    height: 40,
-                    width: 80,
-                    maxHeight: { xs: 233, md: 167 },
-                    maxWidth: { xs: 350, md: 250 },
-                    margin: "4px",
-                  }}
-                  src={logo}
-                />
-              </Link>
-
-              <IconButton
-                color="inherit"
-                sx={{ margin: "4px" }}
-                onClick={openSearchBar}
-              >
-                <SearchIcon />
-              </IconButton>
-
-              <SearchBar
-                searchProps={searchProps}
-                searchDisabled={searchDisabled}
-                closeSearchBar={closeSearchBar}
+      <AppBar position="static" sx={{ margin: "-8px" }}>
+        <Container>
+          <Toolbar>
+            <Link to="/">
+              <img
+                style={{
+                  height: 40,
+                  width: 80,
+                  maxHeight: { xs: 233, md: 167 },
+                  maxWidth: { xs: 350, md: 250 },
+                  margin: "4px",
+                }}
+                src={logo}
               />
+            </Link>
 
-              <div style={{ flexGrow: 1 }}></div>
+            <IconButton
+              color="inherit"
+              sx={{ margin: "4px" }}
+              onClick={openSearchBar}
+            >
+              <SearchIcon />
+            </IconButton>
 
-              <CategoryBar searchDisabled={searchDisabled} />
+            <SearchBar
+              searchProps={searchProps}
+              searchDisabled={searchDisabled}
+              closeSearchBar={closeSearchBar}
+            />
 
-              <IconButton color="inherit" sx={{ margin: "4px" }}>
-                <Badge badgeContent={3} color="secondary">
-                  <ShoppingCartIcon />
-                </Badge>
-              </IconButton>
+            <div style={{ flexGrow: 1 }}></div>
 
-              <IconButton color="inherit" sx={{ margin: "4px" }}>
-                <PersonIcon />
-              </IconButton>
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </div>
+            <CategoryBar searchDisabled={searchDisabled} />
+
+            <IconButton color="inherit" sx={{ margin: "4px" }}>
+              <Badge badgeContent={3} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+
+            <IconButton color="inherit" sx={{ margin: "4px" }}>
+              <PersonIcon />
+            </IconButton>
+          </Toolbar>
+        </Container>
+      </AppBar>
     </>
   )
 }
@@ -102,28 +101,26 @@ const SearchBar = ({ searchProps, closeSearchBar }) => {
           setSearchWord("")
         }}
       >
-        <div style={{}}>
-          <animated.input
-            style={{
-              ...searchProps,
-              borderStyle: "hidden",
+        <animated.input
+          style={{
+            ...searchProps,
+            borderStyle: "hidden",
 
-              width: "60%",
-              height: "50%",
-              position: "absolute",
+            width: "60%",
+            height: "50%",
+            position: "absolute",
 
-              left: "20%",
-              right: "20%",
-              top: "25%",
+            left: "20%",
+            right: "20%",
+            top: "25%",
 
-              borderRadius: 16,
-              justifyContent: "center",
-              alignContent: "center",
-            }}
-            value={searchWord}
-            onChange={(e) => setSearchWord(e.target.value)}
-          />
-        </div>
+            borderRadius: 16,
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+          value={searchWord}
+          onChange={(e) => setSearchWord(e.target.value)}
+        />
       </ClickAwayListener>
     </>
   )
@@ -132,8 +129,8 @@ const SearchBar = ({ searchProps, closeSearchBar }) => {
 const CategoryBar = ({ searchDisabled }) => {
   return (
     <>
-      <div
-        style={{
+      <Box
+        sx={{
           left: "20%",
           right: "20%",
           marginLeft: 0,
@@ -157,7 +154,7 @@ const CategoryBar = ({ searchDisabled }) => {
         ) : (
           <></>
         )}
-      </div>
+      </Box>
     </>
   )
 }
