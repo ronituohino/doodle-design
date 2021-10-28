@@ -46,7 +46,7 @@
   "scripts": {
     "server": "node index.js",
     "server-dev": "nodemon index.js",
-    "start": "react-scripts start",
+    "client-dev": "react-scripts start",
     "lint": "eslint \"./**/*.{js,jsx}\"",
     "build": "react-scripts build",
     "test": "react-scripts test",

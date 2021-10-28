@@ -14,12 +14,12 @@ export const typeDefs = gql`
   }
 `
 
-const port = process.env.PORT || 4000
+const port = process.env.BACKEND_PORT || 4000
 
 const client = new ApolloClient({
   cache,
   link: new HttpLink({
-    uri: `http://localhost:${port}`,
+    uri: `http://localhost:${port}/graphql`,
   }),
 
   typeDefs,

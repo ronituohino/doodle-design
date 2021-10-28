@@ -3,10 +3,12 @@ import TopBar from "./TopBar"
 
 import { Switch, Route } from "react-router-dom"
 import { useQuery } from "@apollo/client"
-import { IS_LOGGED_IN } from "./queries/queries"
+import { GET_ITEMS } from "./queries/queries"
 
 const App = () => {
-  const { data } = useQuery(IS_LOGGED_IN)
+  const { data } = useQuery(GET_ITEMS, {
+    variables: { language: "FI" },
+  })
 
   console.log(data)
 

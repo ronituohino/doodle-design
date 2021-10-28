@@ -309,7 +309,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
   await server.start()
   server.applyMiddleware({ app })
 
-  const port = process.env.PORT || 4000
+  const port = process.env.BACKEND_PORT || 4000
   await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
