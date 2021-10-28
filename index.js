@@ -2,6 +2,7 @@ import { ApolloServer, gql } from "apollo-server-express"
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
 import express from "express"
 import http from "http"
+import cors from "cors"
 
 const items = [
   {
@@ -296,6 +297,7 @@ const resolvers = {
 const startApolloServer = async (typeDefs, resolvers) => {
   const app = express()
   app.use(express.static("build"))
+  app.use(cors())
 
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
@@ -306,10 +308,14 @@ const startApolloServer = async (typeDefs, resolvers) => {
 
   await server.start()
   server.applyMiddleware({ app })
-  await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve))
+
+  const port = process.env.PORT || 4000
+  await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  console.log(
+    `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+  )
 }
 
 startApolloServer(typeDefs, resolvers)
