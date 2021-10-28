@@ -43,7 +43,7 @@ const ItemCard = ({ item }) => {
     <>
       <Link
         to={`/product/${item.category.toLowerCase()}/${item.name.toLowerCase()}`}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", margin: 8 }}
       >
         <animated.div
           onMouseEnter={() =>
@@ -61,7 +61,6 @@ const ItemCard = ({ item }) => {
           style={{
             width: "200px",
             height: "280px",
-            margin: 8,
             borderRadius: 16,
             boxShadow: blurSpread.to(
               (blur, spread) =>
