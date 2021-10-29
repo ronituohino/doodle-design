@@ -19,7 +19,7 @@ import { Link, useHistory } from "react-router-dom"
 
 import { useSpring, animated } from "react-spring"
 
-import logo from "./images/logo.png"
+import logo from "../../images/logo.png"
 
 const TopBar = () => {
   const [searchDisabled, setSearchDisabled] = useState(true)
