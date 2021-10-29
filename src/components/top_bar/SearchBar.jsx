@@ -1,12 +1,38 @@
 import { useState } from "react"
-import { ClickAwayListener } from "@mui/material"
-import { animated } from "react-spring"
+import { ClickAwayListener, IconButton } from "@mui/material"
+import { useSpring, animated } from "react-spring"
 
-const SearchBar = ({ searchProps, closeSearchBar }) => {
+import SearchIcon from "@mui/icons-material/Search"
+
+// Renders a search icon, which opens a search bar
+// Dialog?
+const SearchBar = ({ setSearchDisabled }) => {
   const [searchWord, setSearchWord] = useState("")
+
+  const [searchProps, searchApi] = useSpring(() => ({
+    backgroundColor: "rgba(255,255,255,0)",
+  }))
+
+  const openSearchBar = () => {
+    setSearchDisabled(false)
+    searchApi.start({ backgroundColor: "rgba(255,255,255,255)" })
+  }
+
+  const closeSearchBar = () => {
+    setSearchDisabled(true)
+    searchApi.start({ backgroundColor: "rgba(255,255,255,0)" })
+  }
 
   return (
     <>
+      <IconButton
+        color="inherit"
+        sx={{ margin: "4px" }}
+        onClick={openSearchBar}
+      >
+        <SearchIcon />
+      </IconButton>
+
       <ClickAwayListener
         mouseEvent="onMouseUp"
         onClickAway={() => {

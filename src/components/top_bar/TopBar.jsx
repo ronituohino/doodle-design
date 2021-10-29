@@ -1,42 +1,20 @@
 import { useState } from "react"
 
-import {
-  AppBar,
-  Toolbar,
-  Badge,
-  Container,
-  IconButton,
-} from "@mui/material"
+import { AppBar, Toolbar, Container, IconButton } from "@mui/material"
 
-import SearchIcon from "@mui/icons-material/Search"
 import PersonIcon from "@mui/icons-material/Person"
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 
 import CategoryBar from "./CategoryBar"
 import SearchBar from "./SearchBar"
 
 import { Link, useHistory } from "react-router-dom"
-import { useSpring } from "react-spring"
 
 import logo from "../../images/logo.png"
+import ShoppingCart from "./ShoppingCart"
 
 const TopBar = () => {
   const history = useHistory()
-
   const [searchDisabled, setSearchDisabled] = useState(true)
-  const [searchProps, searchApi] = useSpring(() => ({
-    backgroundColor: "rgba(255,255,255,0)",
-  }))
-
-  const openSearchBar = () => {
-    setSearchDisabled(false)
-    searchApi.start({ backgroundColor: "rgba(255,255,255,255)" })
-  }
-
-  const closeSearchBar = () => {
-    setSearchDisabled(true)
-    searchApi.start({ backgroundColor: "rgba(255,255,255,0)" })
-  }
 
   return (
     <>
@@ -56,29 +34,13 @@ const TopBar = () => {
               />
             </Link>
 
-            <IconButton
-              color="inherit"
-              sx={{ margin: "4px" }}
-              onClick={openSearchBar}
-            >
-              <SearchIcon />
-            </IconButton>
-
-            <SearchBar
-              searchProps={searchProps}
-              searchDisabled={searchDisabled}
-              closeSearchBar={closeSearchBar}
-            />
+            <SearchBar setSearchDisabled={setSearchDisabled} />
 
             <div style={{ flexGrow: 1 }}></div>
 
             <CategoryBar searchDisabled={searchDisabled} />
 
-            <IconButton color="inherit" sx={{ margin: "4px" }}>
-              <Badge badgeContent={3} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
+            <ShoppingCart />
 
             <IconButton
               color="inherit"
