@@ -11,6 +11,12 @@ export const GET_ITEMS = gql`
   }
 `
 
+export const LANGUAGE = gql`
+  query GetLanguage {
+    language @client
+  }
+`
+
 export const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
     isLoggedIn @client

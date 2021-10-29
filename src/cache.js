@@ -4,6 +4,11 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
+        language: {
+          read() {
+            return languageVar()
+          },
+        },
         isLoggedIn: {
           read() {
             return isLoggedInVar()
@@ -22,6 +27,8 @@ const cache = new InMemoryCache({
     },
   },
 })
+
+export const languageVar = makeVar("en")
 
 // Initializes to true if localStorage includes a 'token' key,
 // false otherwise

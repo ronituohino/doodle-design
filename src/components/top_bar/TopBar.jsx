@@ -11,15 +11,17 @@ import { Link, useHistory } from "react-router-dom"
 
 import logo from "../../images/logo.png"
 import ShoppingCart from "./ShoppingCart"
+import Language from "./Language"
 
 const TopBar = () => {
   const history = useHistory()
+
   const [searchDisabled, setSearchDisabled] = useState(true)
 
   return (
     <>
-      <AppBar position="static" sx={{ margin: "-8px" }}>
-        <Container>
+      <Container>
+        <AppBar position="static" sx={{ borderRadius: 4 }}>
           <Toolbar>
             <Link to="/">
               <img
@@ -28,7 +30,7 @@ const TopBar = () => {
                   width: 80,
                   maxHeight: { xs: 233, md: 167 },
                   maxWidth: { xs: 350, md: 250 },
-                  margin: "4px",
+                  margin: 4,
                 }}
                 src={logo}
               />
@@ -44,14 +46,16 @@ const TopBar = () => {
 
             <IconButton
               color="inherit"
-              sx={{ margin: "4px" }}
+              sx={{ margin: 0.5 }}
               onClick={() => history.push("/account")}
             >
               <PersonIcon />
             </IconButton>
+
+            <Language />
           </Toolbar>
-        </Container>
-      </AppBar>
+        </AppBar>
+      </Container>
     </>
   )
 }

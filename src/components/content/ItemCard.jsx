@@ -1,12 +1,14 @@
 import ContentCard from "./ContentCard"
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, IconButton } from "@mui/material"
+
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
 
 const ItemCard = ({ item }) => {
   return (
     <>
       <ContentCard
         link={`/product/${item.category.toLowerCase()}/${item.name.toLowerCase()}`}
-        size={{ width: "200px", height: "280px" }}
+        size={{ width: "200px", height: "300px" }}
       >
         <ItemContent item={item} />
       </ContentCard>
@@ -34,31 +36,64 @@ const ItemContent = ({ item }) => {
 
       <Box
         sx={{
+          display: "flex",
+          justifyContent: "center",
           textAlign: "center",
           marginTop: 2.1,
+          backgroundColor: "green",
         }}
       >
         <Typography
           variant="subtitle1"
           color="black"
           sx={{
-            marginBottom: "-5px",
             fontWeight: "bold",
             letterSpacing: 0.5,
           }}
         >
           {item.name}
         </Typography>
-        <Typography
-          variant="subtitle1"
-          color="black"
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          textAlign: "center",
+          backgroundColor: "yellow",
+        }}
+      >
+        <Box
           sx={{
-            fontWeight: "bold",
-            letterSpacing: 0.5,
+            flexGrow: 0.5,
+            marginTop: 1,
           }}
         >
-          {item.price}
-        </Typography>
+          <Typography
+            variant="subtitle1"
+            color="black"
+            sx={{
+              fontWeight: "bold",
+              letterSpacing: 0.5,
+            }}
+          >
+            {item.price}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            flexGrow: 0.5,
+          }}
+        >
+          <IconButton
+            color="default"
+            sx={{ margin: "4px" }}
+            onClick={() => console.log("helo")}
+          >
+            <AddShoppingCartIcon />
+          </IconButton>
+        </Box>
       </Box>
     </>
   )

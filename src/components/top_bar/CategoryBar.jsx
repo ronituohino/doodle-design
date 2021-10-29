@@ -1,6 +1,9 @@
 import { useHistory } from "react-router"
 import { Box, Button } from "@mui/material"
 
+import { LANGUAGE } from "../../queries/queries"
+import { useQuery } from "@apollo/client"
+
 const CategoryBar = ({ searchDisabled }) => {
   return (
     <>
@@ -35,9 +38,11 @@ const CategoryBar = ({ searchDisabled }) => {
 }
 
 const Category = ({ name }) => {
+  const { data } = useQuery(LANGUAGE)
   const history = useHistory()
+
   const press = () => {
-    history.push(`/product/${name}`)
+    history.push(`/${data.language}/product/${name}`)
   }
 
   return (

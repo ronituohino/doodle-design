@@ -9,22 +9,22 @@ const items = [
     id: "i1",
     name: [
       {
-        language: "EN",
+        language: "en",
         text: "Strawberry",
       },
       {
-        language: "FI",
+        language: "fi",
         text: "Mansikka",
       },
     ],
     price: 2.4,
     description: [
       {
-        language: "EN",
+        language: "en",
         text: "A juicy fruit I think?",
       },
       {
-        language: "FI",
+        language: "fi",
         text: "Mehukas hedelmä, ehkä?",
       },
     ],
@@ -36,22 +36,22 @@ const items = [
     id: "i2",
     name: [
       {
-        language: "EN",
+        language: "en",
         text: "Banana",
       },
       {
-        language: "FI",
+        language: "fi",
         text: "Banaani",
       },
     ],
     price: 3.45,
     description: [
       {
-        language: "EN",
+        language: "en",
         text: "A long yellow banana",
       },
       {
-        language: "FI",
+        language: "fi",
         text: "Pitkä keltainen banaani",
       },
     ],
@@ -63,22 +63,22 @@ const items = [
     id: "i3",
     name: [
       {
-        language: "EN",
+        language: "en",
         text: "Blueberry",
       },
       {
-        language: "FI",
+        language: "fi",
         text: "Mustikka",
       },
     ],
     price: 2,
     description: [
       {
-        language: "EN",
+        language: "en",
         text: "A round and juicy and blue blueberry",
       },
       {
-        language: "FI",
+        language: "fi",
         text: "Pyöreä ja mehukas ja sininen mustikka",
       },
     ],
@@ -104,22 +104,22 @@ const users = [
             id: "i3",
             name: [
               {
-                language: "EN",
+                language: "en",
                 text: "Blueberry",
               },
               {
-                language: "FI",
+                language: "fi",
                 text: "Mustikka",
               },
             ],
             price: 2,
             description: [
               {
-                language: "EN",
+                language: "en",
                 text: "A round and juicy and blue blueberry",
               },
               {
-                language: "FI",
+                language: "fi",
                 text: "Pyöreä ja mehukas ja sininen mustikka",
               },
             ],
@@ -177,8 +177,8 @@ const typeDefs = gql`
   }
 
   enum Language {
-    FI
-    EN
+    fi
+    en
   }
 
   type LanguageString {

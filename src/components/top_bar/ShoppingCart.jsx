@@ -2,10 +2,14 @@ import { useState } from "react"
 import { Badge, IconButton, Menu, MenuItem } from "@mui/material"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
 const ShoppingCart = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const [shoppingCartItems, setShoppingCartItems] = useState(3)
+  const [shoppingCartItems, setShoppingCartItems] = useState([
+    "1",
+    "2",
+  ])
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -33,14 +37,19 @@ const ShoppingCart = () => {
         color="inherit"
         sx={{ margin: "4px" }}
         onClick={openMenu}
-        aria-label={notificationsLabel(shoppingCartItems)}
+        aria-label={notificationsLabel(shoppingCartItems.length)}
       >
-        <Badge badgeContent={shoppingCartItems} color="secondary">
+        <Badge
+          badgeContent={shoppingCartItems.length}
+          color="secondary"
+        >
           <ShoppingCartIcon />
+          <ArrowDropDownIcon sx={{ position: "absolute", top: 18 }} />
         </Badge>
       </IconButton>
 
       <Menu
+        sx={{ marginTop: 2 }}
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: "bottom",

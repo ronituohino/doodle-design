@@ -28,7 +28,7 @@ const ContentCard = ({ link, size, children }) => {
             borderRadius: 16,
             boxShadow: blurSpread.to(
               (blur, spread) =>
-                `0px 0px ${blur}px ${spread}px rgba(0, 0, 0, 0.2)`
+                `0px 0px ${blur}px ${spread}px rgba(0, 0, 0, 0.3)`
             ),
           }}
         >
