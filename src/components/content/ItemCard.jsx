@@ -2,12 +2,16 @@ import ContentCard from "./ContentCard"
 import { Box, Typography, IconButton } from "@mui/material"
 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
+import { addToCart } from "../../utils/addToCart"
+
+import { useLanguage } from "../../hooks/useLanguage"
 
 const ItemCard = ({ item }) => {
+  const { language } = useLanguage()
   return (
     <>
       <ContentCard
-        link={`/product/${item.category.toLowerCase()}/${item.name.toLowerCase()}`}
+        link={`/${language}/product/${item.category.toLowerCase()}/${item.name.toLowerCase()}`}
         size={{ width: "200px", height: "300px" }}
       >
         <ItemContent item={item} />
@@ -89,7 +93,7 @@ const ItemContent = ({ item }) => {
           <IconButton
             color="default"
             sx={{ margin: "4px" }}
-            onClick={() => console.log("helo")}
+            onClick={() => addToCart(item)}
           >
             <AddShoppingCartIcon />
           </IconButton>

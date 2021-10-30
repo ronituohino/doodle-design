@@ -8,12 +8,14 @@ import CategoryBar from "./CategoryBar"
 import SearchBar from "./SearchBar"
 
 import { Link, useHistory } from "react-router-dom"
+import { useLanguage } from "../../hooks/useLanguage"
 
 import logo from "../../images/logo.png"
 import ShoppingCart from "./ShoppingCart"
 import Language from "./Language"
 
 const TopBar = () => {
+  const { language } = useLanguage()
   const history = useHistory()
 
   const [searchDisabled, setSearchDisabled] = useState(true)
@@ -47,7 +49,7 @@ const TopBar = () => {
             <IconButton
               color="inherit"
               sx={{ margin: 0.5 }}
-              onClick={() => history.push("/account")}
+              onClick={() => history.push(`/${language}/account`)}
             >
               <PersonIcon />
             </IconButton>

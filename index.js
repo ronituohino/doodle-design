@@ -1,5 +1,9 @@
-import { ApolloServer, gql } from "apollo-server-express"
-import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
+import apolloServerExpressPackage from "apollo-server-express"
+const { ApolloServer, gql } = apolloServerExpressPackage
+
+import apolloServerCorePackage from "apollo-server-core"
+const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
+
 import express from "express"
 import http from "http"
 import cors from "cors"

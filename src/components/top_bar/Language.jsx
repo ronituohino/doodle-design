@@ -4,14 +4,11 @@ import { IconButton, Menu, MenuItem } from "@mui/material"
 import LanguageIcon from "@mui/icons-material/Language"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
-import { useHistory, useLocation } from "react-router"
-import { languageVar } from "../../cache"
+import { useLanguage } from "../../hooks/useLanguage"
 
 const Language = () => {
-  const history = useHistory()
-  const location = useLocation()
-
   const [anchorEl, setAnchorEl] = useState(null)
+  const { setLanguage } = useLanguage()
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -23,11 +20,7 @@ const Language = () => {
 
   return (
     <>
-      <IconButton
-        color="inherit"
-        sx={{ margin: 0.5 }}
-        onClick={openMenu}
-      >
+      <IconButton color="inherit" sx={{ margin: 0.5 }} onClick={openMenu}>
         <LanguageIcon />
         <ArrowDropDownIcon sx={{ position: "absolute", top: 26 }} />
       </IconButton>
@@ -49,9 +42,8 @@ const Language = () => {
       >
         <MenuItem
           onClick={() => {
-            languageVar("fi")
             closeMenu()
-            history.push(`/fi${location.pathname.substring(3)}`)
+            setLanguage("fi")
           }}
         >
           FI
@@ -59,9 +51,8 @@ const Language = () => {
 
         <MenuItem
           onClick={() => {
-            languageVar("en")
             closeMenu()
-            history.push(`/en${location.pathname.substring(3)}`)
+            setLanguage("en")
           }}
         >
           EN

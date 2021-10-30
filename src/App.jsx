@@ -5,12 +5,7 @@ import TopBar from "./components/top_bar/TopBar"
 import { Switch, Route, Redirect } from "react-router-dom"
 import Account from "./components/account/Account"
 
-import { useQuery } from "@apollo/client"
-import { LANGUAGE } from "./queries/queries"
-
 const App = () => {
-  const { data } = useQuery(LANGUAGE)
-
   return (
     <>
       <TopBar />
@@ -23,12 +18,12 @@ const App = () => {
           <Account />
         </Route>
 
-        <Route path="/:language">
+        <Route path="/:language/home">
           <Home />
         </Route>
 
         <Route path="/">
-          <Redirect to={`/${data.language}`} />
+          <Redirect to="/en/home" />
         </Route>
       </Switch>
     </>

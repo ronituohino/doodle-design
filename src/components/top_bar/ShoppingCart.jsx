@@ -1,15 +1,15 @@
 import { useState } from "react"
 import { Badge, IconButton, Menu, MenuItem } from "@mui/material"
 
+import { useQuery } from "@apollo/client"
+import { SHOPPING_CART } from "../../queries/queries.js"
+
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
 const ShoppingCart = () => {
+  const { data } = useQuery(SHOPPING_CART)
   const [anchorEl, setAnchorEl] = useState(null)
-  const [shoppingCartItems, setShoppingCartItems] = useState([
-    "1",
-    "2",
-  ])
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -37,12 +37,9 @@ const ShoppingCart = () => {
         color="inherit"
         sx={{ margin: "4px" }}
         onClick={openMenu}
-        aria-label={notificationsLabel(shoppingCartItems.length)}
+        aria-label={notificationsLabel(data.cartItems.length)}
       >
-        <Badge
-          badgeContent={shoppingCartItems.length}
-          color="secondary"
-        >
+        <Badge badgeContent={data.cartItems.length} color="secondary">
           <ShoppingCartIcon />
           <ArrowDropDownIcon sx={{ position: "absolute", top: 18 }} />
         </Badge>

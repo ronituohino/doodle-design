@@ -11,9 +11,9 @@ export const GET_ITEMS = gql`
   }
 `
 
-export const LANGUAGE = gql`
-  query GetLanguage {
-    language @client
+export const SHOPPING_CART = gql`
+  query GetShoppingCartItems {
+    cartItems @client
   }
 `
 
