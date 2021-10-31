@@ -1,11 +1,19 @@
 import { useState } from "react"
-import { Badge, IconButton, Menu, MenuItem } from "@mui/material"
+import {
+  Badge,
+  IconButton,
+  Menu,
+  MenuItem,
+  Box,
+  Input,
+} from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { SHOPPING_CART } from "../../queries/queries.js"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
+import ClearIcon from "@mui/icons-material/Clear"
 
 const ShoppingCart = () => {
   const { data } = useQuery(SHOPPING_CART)
@@ -60,9 +68,46 @@ const ShoppingCart = () => {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>Profile</MenuItem>
-        <MenuItem onClick={closeMenu}>My account</MenuItem>
+        {data.cartItems.map((i) => (
+          <ShoppinCartItem key={i.id} item={i} />
+        ))}
       </Menu>
+    </>
+  )
+}
+
+const ShoppinCartItem = ({ item }) => {
+  return (
+    <>
+      <MenuItem dense disableTouchRipple={true}>
+        <Box
+          sx={{ display: "flex", flexDirection: "row" }}
+          onClick={() => console.log("click!")}
+        >
+          <img
+            component="img"
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+            alt="name"
+            style={{
+              margin: "auto",
+              width: "50px",
+              height: "50px",
+              borderRadius: 4,
+            }}
+          />
+          <p>{item.name}</p>
+        </Box>
+        <Input
+          variant="outlined"
+          sx={{
+            width: "30px",
+            height: "30px",
+          }}
+        />
+        <IconButton onClick={() => console.log("del!")}>
+          <ClearIcon />
+        </IconButton>
+      </MenuItem>
     </>
   )
 }

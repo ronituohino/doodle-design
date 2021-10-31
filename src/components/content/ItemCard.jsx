@@ -11,7 +11,9 @@ const ItemCard = ({ item }) => {
   return (
     <>
       <ContentCard
-        link={`/${language}/product/${item.category.toLowerCase()}/${item.name.toLowerCase()}`}
+        link={`/${language}/product/${item.category.toLowerCase()}/${
+          item.id
+        }`}
         size={{ width: "200px", height: "300px" }}
       >
         <ItemContent item={item} />

@@ -10,7 +10,7 @@ import cors from "cors"
 
 const items = [
   {
-    id: "i1",
+    id: "strawber",
     name: [
       {
         language: "en",
@@ -33,11 +33,12 @@ const items = [
       },
     ],
     available: true,
-    category: "Fruits",
+    visible: true,
+    category: "apples",
   },
 
   {
-    id: "i2",
+    id: "banana",
     name: [
       {
         language: "en",
@@ -60,11 +61,12 @@ const items = [
       },
     ],
     available: false,
-    category: "Bananas",
+    visible: true,
+    category: "bananas",
   },
 
   {
-    id: "i3",
+    id: "blueberry",
     name: [
       {
         language: "en",
@@ -87,7 +89,8 @@ const items = [
       },
     ],
     available: false,
-    category: "Fruits",
+    visible: false,
+    category: "apples",
   },
 ]
 
@@ -172,12 +175,12 @@ const typeDefs = gql`
     description(language: Language!): String!
     available: Boolean!
     category: Category!
+    visible: Boolean!
   }
 
   enum Category {
-    Fruits
-    Pears
-    Bananas
+    apples
+    bananas
   }
 
   enum Language {
@@ -196,7 +199,7 @@ const typeDefs = gql`
     password: String!
     contact: Contact!
     orders: [Order]!
-    cart: [String]!
+    cart: [ID]!
   }
 
   type Contact {
@@ -217,7 +220,7 @@ const typeDefs = gql`
 
   type Order {
     id: ID!
-    items: [Item!]!
+    items: [ID!]!
     date: String!
     deliveryAddress: Address!
     billingAddress: Address!
@@ -233,7 +236,7 @@ const typeDefs = gql`
 
   type Query {
     itemCount: Int!
-    allItems: [Item]!
+    allItems(category: Category): [Item]!
 
     allUsers: [User]!
   }
@@ -242,7 +245,15 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     itemCount: () => items.length,
-    allItems: () => items,
+    allItems: (root, args) => {
+      let result = items.filter((i) => i.visible)
+
+      if (args.category) {
+        result = result.filter((i) => i.category === args.category)
+      }
+
+      return result
+    },
 
     allUsers: () => users,
   },
