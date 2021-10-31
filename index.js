@@ -178,6 +178,11 @@ const typeDefs = gql`
     visible: Boolean!
   }
 
+  type OrderItem {
+    item: ID!
+    amount: Int!
+  }
+
   enum Category {
     apples
     bananas
@@ -220,7 +225,7 @@ const typeDefs = gql`
 
   type Order {
     id: ID!
-    items: [ID!]!
+    items: [OrderItem!]!
     date: String!
     deliveryAddress: Address!
     billingAddress: Address!

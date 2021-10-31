@@ -2,7 +2,7 @@ import ContentCard from "./ContentCard"
 import { Box, Typography, IconButton } from "@mui/material"
 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
-import { addToCart } from "../../utils/addToCart"
+import { addItemToCart } from "../../utils/shoppingCart"
 
 import { useLanguage } from "../../hooks/useLanguage"
 
@@ -95,7 +95,7 @@ const ItemContent = ({ item }) => {
           <IconButton
             color="default"
             sx={{ margin: "4px" }}
-            onClick={() => addToCart(item)}
+            onClick={() => addItemToCart(item)}
           >
             <AddShoppingCartIcon />
           </IconButton>

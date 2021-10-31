@@ -5,11 +5,12 @@ import {
   Menu,
   MenuItem,
   Box,
-  Input,
+  TextField,
 } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { SHOPPING_CART } from "../../queries/queries.js"
+import { totalAmountOfItems } from "../../utils/shoppingCart"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
@@ -45,9 +46,9 @@ const ShoppingCart = () => {
         color="inherit"
         sx={{ margin: "4px" }}
         onClick={openMenu}
-        aria-label={notificationsLabel(data.cartItems.length)}
+        aria-label={notificationsLabel(totalAmountOfItems())}
       >
-        <Badge badgeContent={data.cartItems.length} color="secondary">
+        <Badge badgeContent={totalAmountOfItems()} color="secondary">
           <ShoppingCartIcon />
           <ArrowDropDownIcon sx={{ position: "absolute", top: 18 }} />
         </Badge>
@@ -68,15 +69,31 @@ const ShoppingCart = () => {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        {data.cartItems.map((i) => (
-          <ShoppinCartItem key={i.id} item={i} />
-        ))}
+        {totalAmountOfItems() > 0 ? (
+          <ShoppingCartItems cartItems={data.cartItems} />
+        ) : (
+          <p>empty!</p>
+        )}
       </Menu>
     </>
   )
 }
 
-const ShoppinCartItem = ({ item }) => {
+const ShoppingCartItems = ({ cartItems }) => {
+  return (
+    <>
+      {cartItems.map((e) => (
+        <ShoppingCartItem key={e.item.id} element={e} />
+      ))}
+    </>
+  )
+}
+
+const ShoppingCartItem = ({ element }) => {
+  const amountInputChange = (e) => {
+    console.log(e.target.value)
+  }
+
   return (
     <>
       <MenuItem dense disableTouchRipple={true}>
@@ -95,14 +112,11 @@ const ShoppinCartItem = ({ item }) => {
               borderRadius: 4,
             }}
           />
-          <p>{item.name}</p>
+          <p>{element.item.name}</p>
         </Box>
-        <Input
-          variant="outlined"
-          sx={{
-            width: "30px",
-            height: "30px",
-          }}
+        <TextField
+          value={element.amount}
+          onChange={amountInputChange}
         />
         <IconButton onClick={() => console.log("del!")}>
           <ClearIcon />
