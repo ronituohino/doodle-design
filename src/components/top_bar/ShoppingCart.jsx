@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Badge,
   IconButton,
@@ -10,7 +10,10 @@ import {
 
 import { useQuery } from "@apollo/client"
 import { SHOPPING_CART } from "../../queries/queries.js"
-import { totalAmountOfItems } from "../../utils/shoppingCart"
+import {
+  totalAmountOfItems,
+  setAmount,
+} from "../../utils/shoppingCart"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
@@ -90,8 +93,43 @@ const ShoppingCartItems = ({ cartItems }) => {
 }
 
 const ShoppingCartItem = ({ element }) => {
-  const amountInputChange = (e) => {
-    console.log(e.target.value)
+  const [itemAmount, setItemAmount] = useState(element.amount)
+
+  // Updates itemAmount when amount is modified outside
+  useEffect(() => {
+    setItemAmount(element.amount)
+  }, [element.amount])
+
+  // Strict input filtering
+  const filterInt = (value) => {
+    if (/^[-+]?(\d+|Infinity)$/.test(value)) {
+      return Number(value)
+    } else {
+      return NaN
+    }
+  }
+
+  // Called when user manually enters numbers,
+  // all numbers and "" allowed
+
+  // Also push changes to cache
+  const handleValueChange = (e) => {
+    if (e.target.value === "") {
+      setItemAmount("")
+      return
+    }
+
+    const number = filterInt(e.target.value)
+    if (!isNaN(number) && number < 100) {
+      setItemAmount(e.target.value)
+      setAmount(element.item, number)
+    }
+  }
+
+  const handleBlur = (e) => {
+    if (e.target.value === "") {
+      setItemAmount(element.amount)
+    }
   }
 
   return (
@@ -107,16 +145,21 @@ const ShoppingCartItem = ({ element }) => {
             alt="name"
             style={{
               margin: "auto",
-              width: "50px",
-              height: "50px",
+              width: 50,
+              height: 50,
               borderRadius: 4,
             }}
           />
           <p>{element.item.name}</p>
         </Box>
         <TextField
-          value={element.amount}
-          onChange={amountInputChange}
+          value={itemAmount}
+          onChange={handleValueChange}
+          onBlur={handleBlur}
+          sx={{
+            width: 46,
+            textAlign: "center",
+          }}
         />
         <IconButton onClick={() => console.log("del!")}>
           <ClearIcon />
