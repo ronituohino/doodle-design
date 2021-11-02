@@ -8,7 +8,7 @@ const ContentCard = ({ link, size, children }) => {
 
   return (
     <>
-      <Link to={link} style={{ textDecoration: "none", margin: 8 }}>
+      <Link to={link} style={{ textDecoration: "none" }}>
         <animated.div
           onMouseEnter={() =>
             api.start({

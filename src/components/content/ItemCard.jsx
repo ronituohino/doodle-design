@@ -1,5 +1,5 @@
 import ContentCard from "./ContentCard"
-import { Box, Typography, IconButton } from "@mui/material"
+import { Box, Typography, IconButton, Fab } from "@mui/material"
 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
 import { addItemToCart } from "../../utils/shoppingCart"
@@ -10,95 +10,66 @@ const ItemCard = ({ item }) => {
   const { language } = useLanguage()
   return (
     <>
-      <ContentCard
-        link={`/${language}/product/${item.category.toLowerCase()}/${
-          item.id
-        }`}
-        size={{ width: "200px", height: "300px" }}
-      >
-        <ItemContent item={item} />
-      </ContentCard>
-    </>
-  )
-}
-
-const ItemContent = ({ item }) => {
-  return (
-    <>
-      <img
-        component="img"
-        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-        alt="name"
-        style={{
-          margin: "auto",
+      <Box
+        sx={{
+          position: "relative",
+          margin: 2.5,
           width: "200px",
-          height: "200px",
-          marginBottom: "-6px",
-          borderRadius: 16,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-        }}
-      />
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          textAlign: "center",
-          marginTop: 2.1,
-          backgroundColor: "green",
+          maxHeight: "325px",
         }}
       >
-        <Typography
-          variant="subtitle1"
-          color="black"
-          sx={{
-            fontWeight: "bold",
-            letterSpacing: 0.5,
-          }}
+        <ContentCard
+          link={`/${language}/product/${item.category.toLowerCase()}/${
+            item.id
+          }`}
+          size={{ width: "200px", height: "200px" }}
         >
-          {item.name}
-        </Typography>
-      </Box>
+          <img
+            component="img"
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+            alt="name"
+            style={{
+              margin: "auto",
+              width: "200px",
+              height: "200px",
+              marginBottom: "-6px",
+              borderRadius: 16,
+            }}
+          />
+        </ContentCard>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          textAlign: "center",
-          backgroundColor: "yellow",
-        }}
-      >
-        <Box
-          sx={{
-            flexGrow: 0.5,
-            marginTop: 1,
-          }}
+        <Fab
+          sx={{ position: "absolute", right: -25, top: 175 }}
+          onClick={() => addItemToCart(item)}
         >
+          <AddShoppingCartIcon />
+        </Fab>
+
+        <Box sx={{ marginTop: 1.5 }}>
           <Typography
             variant="subtitle1"
             color="black"
             sx={{
+              textAlign: "center",
               fontWeight: "bold",
+              letterSpacing: 0.5,
+            }}
+          >
+            {item.name}
+          </Typography>
+
+          <Box sx={{ flexBasis: "100%", height: 0 }} />
+
+          <Typography
+            variant="subtitle1"
+            color="black"
+            sx={{
+              textAlign: "center",
               letterSpacing: 0.5,
             }}
           >
             {item.price}
           </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            flexGrow: 0.5,
-          }}
-        >
-          <IconButton
-            color="default"
-            sx={{ margin: "4px" }}
-            onClick={() => addItemToCart(item)}
-          >
-            <AddShoppingCartIcon />
-          </IconButton>
         </Box>
       </Box>
     </>
