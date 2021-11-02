@@ -1,6 +1,12 @@
 import { useState } from "react"
 
-import { AppBar, Toolbar, Container, IconButton } from "@mui/material"
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  IconButton,
+  Box,
+} from "@mui/material"
 
 import PersonIcon from "@mui/icons-material/Person"
 
@@ -40,7 +46,7 @@ const TopBar = () => {
 
             <SearchBar setSearchDisabled={setSearchDisabled} />
 
-            <div style={{ flexGrow: 1 }}></div>
+            <Box sx={{ flexGrow: 1 }} />
 
             <CategoryBar searchDisabled={searchDisabled} />
 

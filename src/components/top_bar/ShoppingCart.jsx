@@ -6,6 +6,7 @@ import {
   MenuItem,
   Box,
   TextField,
+  Typography,
 } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
@@ -13,11 +14,14 @@ import { SHOPPING_CART } from "../../queries/queries.js"
 import {
   totalAmountOfItems,
   setAmount,
+  removeItemFromCart,
 } from "../../utils/shoppingCart"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import ClearIcon from "@mui/icons-material/Clear"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { useHistory } from "react-router"
+import { useLanguage } from "../../hooks/useLanguage"
 
 const ShoppingCart = () => {
   const { data } = useQuery(SHOPPING_CART)
@@ -93,6 +97,9 @@ const ShoppingCartItems = ({ cartItems }) => {
 }
 
 const ShoppingCartItem = ({ element }) => {
+  const history = useHistory()
+  const { language } = useLanguage()
+
   const [itemAmount, setItemAmount] = useState(element.amount)
 
   // Updates itemAmount when amount is modified outside
@@ -134,35 +141,63 @@ const ShoppingCartItem = ({ element }) => {
 
   return (
     <>
-      <MenuItem dense disableTouchRipple={true}>
+      <MenuItem
+        disableTouchRipple={true}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          flexWrap: "nowrap",
+        }}
+      >
         <Box
-          sx={{ display: "flex", flexDirection: "row" }}
-          onClick={() => console.log("click!")}
+          onClick={() =>
+            history.push(
+              `/${language}/product/${element.item.category.toLowerCase()}/${
+                element.item.id
+              }`
+            )
+          }
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexGrow: 1,
+          }}
         >
           <img
             component="img"
             src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
             alt="name"
             style={{
-              margin: "auto",
               width: 50,
               height: 50,
               borderRadius: 4,
             }}
           />
-          <p>{element.item.name}</p>
+          <Typography style={{ paddingLeft: 6, paddingRight: 6 }}>
+            {element.item.name}
+          </Typography>
         </Box>
+
         <TextField
           value={itemAmount}
           onChange={handleValueChange}
           onBlur={handleBlur}
+          size="small"
           sx={{
-            width: 46,
+            width: 44,
             textAlign: "center",
+            justifySelf: "flex-end",
+          }}
+          inputProps={{
+            style: { textAlign: "center", fontSize: 14 },
           }}
         />
-        <IconButton onClick={() => console.log("del!")}>
-          <ClearIcon />
+        <IconButton
+          sx={{ marginLeft: 0.5, marginRight: -1.5 }}
+          onClick={() => removeItemFromCart(element.item)}
+        >
+          <DeleteIcon />
         </IconButton>
       </MenuItem>
     </>

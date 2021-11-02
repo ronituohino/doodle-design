@@ -92,6 +92,33 @@ const items = [
     visible: false,
     category: "apples",
   },
+  {
+    id: "strawberry-yoghurt-with-bits-of-chocolate",
+    name: [
+      {
+        language: "en",
+        text: "Strawberry Yoghurt With Bits of Chocolate",
+      },
+      {
+        language: "fi",
+        text: "Mansikkajugurtti ja suklaahippuja",
+      },
+    ],
+    price: 13345.95,
+    description: [
+      {
+        language: "en",
+        text: "This amazing strawberry yoghurt includes chocolate bits to tingle those taste buds of yours for an amazing morning yoghurting-experience!",
+      },
+      {
+        language: "fi",
+        text: "Tämä uskomaton mansikkajugurtti sisältää suklaahippuja, jotka miellyttävät makunystyröitäsi luodakseen uskomattoman aamu-jugurtteilu-kokemuksen!",
+      },
+    ],
+    available: true,
+    visible: true,
+    category: "apples",
+  },
 ]
 
 const users = [

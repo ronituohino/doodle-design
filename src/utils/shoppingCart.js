@@ -76,14 +76,19 @@ export const removeItemFromCart = (item, matchIndex = -1) => {
   }
 
   let newArr = cartItemsVar()
-  delete newArr[matchIndex]
+  newArr.splice(matchIndex, 1)
 
   // Reference needs to changed for Apollo to call updates
   cartItemsVar([...newArr])
 }
 
 export const totalAmountOfItems = () => {
-  let sum = 0
-  cartItemsVar().forEach((e) => (sum += e.amount))
-  return sum
+  const items = cartItemsVar()
+  if (items) {
+    let sum = 0
+    items.forEach((e) => (sum += e.amount))
+    return sum
+  } else {
+    return 0
+  }
 }
