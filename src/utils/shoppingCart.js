@@ -1,5 +1,6 @@
 import { cartItemsVar } from "../cache"
 
+// Interface to handle cached shoppingCart
 export const addItemToCart = (item) => {
   const matchIndex = cartItemsVar().findIndex(
     (i) => i.item.id === item.id
