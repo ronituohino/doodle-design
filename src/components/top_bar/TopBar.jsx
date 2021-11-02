@@ -17,7 +17,7 @@ import { Link, useHistory } from "react-router-dom"
 import { useLanguage } from "../../hooks/useLanguage"
 
 import logo from "../../images/logo.png"
-import ShoppingCart from "./ShoppingCart"
+import ShoppingCart from "./shopping_cart/ShoppingCart"
 import Language from "./Language"
 
 const TopBar = () => {

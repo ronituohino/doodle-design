@@ -1,11 +1,15 @@
 import { gql } from "@apollo/client"
 
 export const GET_ITEMS = gql`
-  query GetItems($language: Language!, $category: Category) {
+  query GetItems(
+    $language: Language!
+    $category: Category
+    $currency: Currency!
+  ) {
     allItems(category: $category) {
       id
       name(language: $language)
-      price
+      price(currency: $currency)
       category
     }
   }

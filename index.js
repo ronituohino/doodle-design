@@ -21,7 +21,12 @@ const items = [
         text: "Mansikka",
       },
     ],
-    price: 2.4,
+    price: [
+      {
+        currency: "EUR",
+        amount: 2.4,
+      },
+    ],
     description: [
       {
         language: "en",
@@ -49,7 +54,12 @@ const items = [
         text: "Banaani",
       },
     ],
-    price: 3.45,
+    price: [
+      {
+        currency: "EUR",
+        amount: 1.35,
+      },
+    ],
     description: [
       {
         language: "en",
@@ -77,7 +87,12 @@ const items = [
         text: "Mustikka",
       },
     ],
-    price: 2,
+    price: [
+      {
+        currency: "EUR",
+        amount: 13,
+      },
+    ],
     description: [
       {
         language: "en",
@@ -104,7 +119,12 @@ const items = [
         text: "Mansikkajugurtti ja suklaahippuja",
       },
     ],
-    price: 13345.95,
+    price: [
+      {
+        currency: "EUR",
+        amount: 13344.55,
+      },
+    ],
     description: [
       {
         language: "en",
@@ -198,7 +218,7 @@ const typeDefs = gql`
   type Item {
     id: ID!
     name(language: Language!): String!
-    price: Float!
+    price(currency: Currency!): Float!
     description(language: Language!): String!
     available: Boolean!
     category: Category!
@@ -223,6 +243,15 @@ const typeDefs = gql`
   type LanguageString {
     text: String!
     language: Language!
+  }
+
+  enum Currency {
+    EUR
+  }
+
+  type CurrencyFloat {
+    currency: Currency!
+    amount: Float!
   }
 
   type User {
@@ -297,7 +326,11 @@ const resolvers = {
         return e.language === args.language
       }).text
     },
-    price: (root) => root.price,
+    price: (root, args) => {
+      return root.price.find((e) => {
+        return e.currency === args.currency
+      }).amount
+    },
     description: (root, args) => {
       return root.description.find((e) => {
         return e.language === args.language

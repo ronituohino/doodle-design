@@ -1,10 +1,11 @@
 import ContentCard from "./ContentCard"
-import { Box, Typography, IconButton, Fab } from "@mui/material"
+import { Box, Typography, Fab } from "@mui/material"
 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
 import { addItemToCart } from "../../utils/shoppingCart"
 
 import { useLanguage } from "../../hooks/useLanguage"
+import { formatPrice } from "../../utils/price"
 
 const ItemCard = ({ item }) => {
   const { language } = useLanguage()
@@ -68,7 +69,7 @@ const ItemCard = ({ item }) => {
               letterSpacing: 0.5,
             }}
           >
-            {item.price}
+            {formatPrice(item.price, language, "EUR")}
           </Typography>
         </Box>
       </Box>

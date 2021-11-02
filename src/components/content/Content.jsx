@@ -13,7 +13,7 @@ const Content = () => {
   const { category } = useParams()
 
   const { data: itemData, error } = useQuery(GET_ITEMS, {
-    variables: { language, category },
+    variables: { language, category, currency: "EUR" },
   })
 
   return (
