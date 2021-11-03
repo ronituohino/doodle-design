@@ -4,7 +4,7 @@ const { ApolloServer, gql } = apolloServerExpressPackage
 import apolloServerCorePackage from "apollo-server-core"
 const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
 
-import express from "express"
+import express, { text } from "express"
 import http from "http"
 import cors from "cors"
 
@@ -73,6 +73,21 @@ const items = [
     available: false,
     visible: true,
     category: "bananas",
+    options: [
+      {
+        label: [
+          {
+            language: "en",
+            text: "Banana length"
+          },
+          {
+            language: "fi",
+            text: "Banaanin pituus"
+          }
+        ]
+        
+      }
+    ]
   },
 
   {
@@ -219,10 +234,16 @@ const typeDefs = gql`
     id: ID!
     name(language: Language!): String!
     price(currency: Currency!): Float!
+    options(language: Language!): [Options]!
     description(language: Language!): String!
     available: Boolean!
     category: Category!
     visible: Boolean!
+  }
+
+  type Options {
+    label: String!
+    selections: [String!]!
   }
 
   type OrderItem {
@@ -298,6 +319,7 @@ const typeDefs = gql`
   type Query {
     itemCount: Int!
     allItems(category: Category): [Item]!
+    getItem(id: ID!): Item!
 
     allUsers: [User]!
   }
@@ -316,6 +338,10 @@ const resolvers = {
       return result
     },
 
+    getItem: (root, args) => {
+      return items.find((i) => i.id === args.id)
+    },
+
     allUsers: () => users,
   },
 
@@ -330,6 +356,13 @@ const resolvers = {
       return root.price.find((e) => {
         return e.currency === args.currency
       }).amount
+    },
+    options: (root, args) => {
+      if (root.options) {
+        root.options.forEach((o) => )
+      } else {
+        return []
+      }
     },
     description: (root, args) => {
       return root.description.find((e) => {

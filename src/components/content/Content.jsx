@@ -1,7 +1,7 @@
 import { Box, Container, Pagination } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
-import { GET_ITEMS } from "../../queries/queries"
+import { GET_ALL_ITEMS } from "../../queries/queries"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { useParams } from "react-router"
@@ -12,7 +12,7 @@ const Content = () => {
   const { language } = useLanguage()
   const { category } = useParams()
 
-  const { data: itemData, error } = useQuery(GET_ITEMS, {
+  const { data: itemData, error } = useQuery(GET_ALL_ITEMS, {
     variables: { language, category, currency: "EUR" },
   })
 

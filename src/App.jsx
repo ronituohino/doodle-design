@@ -4,12 +4,17 @@ import TopBar from "./components/top_bar/TopBar"
 
 import { Switch, Route, Redirect } from "react-router-dom"
 import Account from "./components/account/Account"
+import ItemPage from "./components/item_page/ItemPage"
 
 const App = () => {
   return (
     <>
       <TopBar />
       <Switch>
+        <Route path="/:language/product/:category/:id">
+          <ItemPage />
+        </Route>
+
         <Route path="/:language/product/:category">
           <Content />
         </Route>
