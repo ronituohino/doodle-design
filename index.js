@@ -4,39 +4,16 @@ const { ApolloServer, gql } = apolloServerExpressPackage
 import apolloServerCorePackage from "apollo-server-core"
 const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
 
-import express, { text } from "express"
+import express from "express"
 import http from "http"
 import cors from "cors"
 
 const items = [
   {
     id: "strawber",
-    name: [
-      {
-        language: "en",
-        text: "Strawberry",
-      },
-      {
-        language: "fi",
-        text: "Mansikka",
-      },
-    ],
-    price: [
-      {
-        currency: "EUR",
-        amount: 2.4,
-      },
-    ],
-    description: [
-      {
-        language: "en",
-        text: "A juicy fruit I think?",
-      },
-      {
-        language: "fi",
-        text: "Mehukas hedelmä, ehkä?",
-      },
-    ],
+    name: ["Strawberry", "Mansikka"],
+    price: [2.4],
+    description: ["A juicy fruit I think?", "Mehukas hedelmä, ehkä?"],
     available: true,
     visible: true,
     category: "apples",
@@ -44,79 +21,38 @@ const items = [
 
   {
     id: "banana",
-    name: [
-      {
-        language: "en",
-        text: "Banana",
-      },
-      {
-        language: "fi",
-        text: "Banaani",
-      },
-    ],
-    price: [
-      {
-        currency: "EUR",
-        amount: 1.35,
-      },
-    ],
-    description: [
-      {
-        language: "en",
-        text: "A long yellow banana",
-      },
-      {
-        language: "fi",
-        text: "Pitkä keltainen banaani",
-      },
-    ],
+    name: ["Banana", "Banaani"],
+    price: [1.35],
+    description: ["A long yellow banana", "Pitkä keltainen banaani"],
     available: false,
     visible: true,
     category: "bananas",
-    options: [
+    customization: [
       {
-        label: [
-          {
-            language: "en",
-            text: "Banana length"
-          },
-          {
-            language: "fi",
-            text: "Banaanin pituus"
-          }
-        ]
-        
-      }
-    ]
+        label: ["Banana length", "Banaanin pituus"],
+        options: [
+          ["Small", "Pieni"],
+          ["Big", "Iso"],
+        ],
+      },
+      {
+        label: ["Banana color", "Banaanin väri"],
+        options: [
+          ["Green", "Vihreä"],
+          ["Yellow", "Keltainen"],
+        ],
+      },
+    ],
   },
 
   {
     id: "blueberry",
-    name: [
-      {
-        language: "en",
-        text: "Blueberry",
-      },
-      {
-        language: "fi",
-        text: "Mustikka",
-      },
-    ],
-    price: [
-      {
-        currency: "EUR",
-        amount: 13,
-      },
-    ],
+    name: ["Blueberry", "Mustikka"],
+    price: [13],
     description: [
-      {
-        language: "en",
-        text: "A round and juicy and blue blueberry",
-      },
-      {
-        language: "fi",
-        text: "Pyöreä ja mehukas ja sininen mustikka",
-      },
+      "A round and juicy and blue blueberry",
+
+      "Pyöreä ja mehukas ja sininen mustikka",
     ],
     available: false,
     visible: false,
@@ -125,30 +61,15 @@ const items = [
   {
     id: "strawberry-yoghurt-with-bits-of-chocolate",
     name: [
-      {
-        language: "en",
-        text: "Strawberry Yoghurt With Bits of Chocolate",
-      },
-      {
-        language: "fi",
-        text: "Mansikkajugurtti ja suklaahippuja",
-      },
+      "Strawberry Yoghurt With Bits of Chocolate",
+
+      "Mansikkajugurtti ja suklaahippuja",
     ],
-    price: [
-      {
-        currency: "EUR",
-        amount: 13344.55,
-      },
-    ],
+    price: [13344.55],
     description: [
-      {
-        language: "en",
-        text: "This amazing strawberry yoghurt includes chocolate bits to tingle those taste buds of yours for an amazing morning yoghurting-experience!",
-      },
-      {
-        language: "fi",
-        text: "Tämä uskomaton mansikkajugurtti sisältää suklaahippuja, jotka miellyttävät makunystyröitäsi luodakseen uskomattoman aamu-jugurtteilu-kokemuksen!",
-      },
+      "This amazing strawberry yoghurt includes chocolate bits to tingle those taste buds of yours for an amazing morning yoghurting-experience!",
+
+      "Tämä uskomaton mansikkajugurtti sisältää suklaahippuja, jotka miellyttävät makunystyröitäsi luodakseen uskomattoman aamu-jugurtteilu-kokemuksen!",
     ],
     available: true,
     visible: true,
@@ -234,7 +155,7 @@ const typeDefs = gql`
     id: ID!
     name(language: Language!): String!
     price(currency: Currency!): Float!
-    options(language: Language!): [Options]!
+    customization(language: Language!): [Options]!
     description(language: Language!): String!
     available: Boolean!
     category: Category!
@@ -243,7 +164,7 @@ const typeDefs = gql`
 
   type Options {
     label: String!
-    selections: [String!]!
+    options: [String!]!
   }
 
   type OrderItem {
@@ -348,26 +269,28 @@ const resolvers = {
   Item: {
     id: (root) => root.id,
     name: (root, args) => {
-      return root.name.find((e) => {
-        return e.language === args.language
-      }).text
+      return root.name[languageToIndex(args.language)]
     },
     price: (root, args) => {
-      return root.price.find((e) => {
-        return e.currency === args.currency
-      }).amount
+      return root.price[currencyToIndex(args.currency)]
     },
-    options: (root, args) => {
-      if (root.options) {
-        root.options.forEach((o) => )
+    customization: (root, args) => {
+      if (root.customization) {
+        console.log(root)
+        let arr = []
+        root.customization.forEach((c) => {
+          arr.push({
+            label: c.label[languageToIndex(args.language)],
+            options: c.options.map((l) => l[languageToIndex(args.language)]),
+          })
+        })
+        return arr
       } else {
         return []
       }
     },
     description: (root, args) => {
-      return root.description.find((e) => {
-        return e.language === args.language
-      }).text
+      return root.description[languageToIndex(args.language)]
     },
     available: (root) => root.available,
     category: (root) => root.category,
@@ -405,6 +328,16 @@ const resolvers = {
     country: (root) => root.country,
     contact: (root) => root.contact,
   },
+}
+
+const languageToIndex = (language) => {
+  const list = ["en", "fi"]
+  return list.indexOf(language)
+}
+
+const currencyToIndex = (currency) => {
+  const list = ["EUR"]
+  return list.indexOf(currency)
 }
 
 const startApolloServer = async (typeDefs, resolvers) => {
