@@ -8,12 +8,7 @@ import {
   Typography,
 } from "@mui/material"
 
-import {
-  setAmount,
-  removeItemFromCart,
-  increaseAmount,
-  decreaseAmount,
-} from "../../../utils/shoppingCart"
+import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
@@ -28,6 +23,12 @@ import { formatPrice } from "../../../utils/price"
 
 const ShoppingCartItem = ({ element }) => {
   const history = useHistory()
+  const {
+    setAmount,
+    increaseAmount,
+    decreaseAmount,
+    removeItemFromCart,
+  } = useShoppingCart()
   const { language } = useLanguage()
 
   const [itemAmount, setItemAmount] = useState(element.amount)
@@ -89,6 +90,7 @@ const ShoppingCartItem = ({ element }) => {
   return (
     <>
       <MenuItem
+        divider
         disableTouchRipple={true}
         onClick={(e) => checkLinkClick(e)}
       >
@@ -99,7 +101,7 @@ const ShoppingCartItem = ({ element }) => {
           style={{
             width: 60,
             height: 60,
-            borderRadius: 4,
+            borderRadius: 6,
           }}
         />
         <Box
@@ -111,7 +113,13 @@ const ShoppingCartItem = ({ element }) => {
             width: 250,
           }}
         >
-          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+          <Typography
+            variant="body1"
+            sx={{
+              whiteSpace: "normal",
+              fontWeight: "bold",
+            }}
+          >
             {element.item.name}
           </Typography>
 
@@ -153,12 +161,16 @@ const ShoppingCartItem = ({ element }) => {
               }}
             />
 
-            <IconButton
-              sx={{}}
-              onClick={() => increaseAmount(element.item)}
-            >
-              <KeyboardArrowRightIcon />
-            </IconButton>
+            {element.amount < 99 ? (
+              <IconButton
+                sx={{}}
+                onClick={() => increaseAmount(element.item)}
+              >
+                <KeyboardArrowRightIcon />
+              </IconButton>
+            ) : (
+              <></>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />

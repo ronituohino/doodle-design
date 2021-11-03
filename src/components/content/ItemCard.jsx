@@ -2,13 +2,15 @@ import ContentCard from "./ContentCard"
 import { Box, Typography, Fab } from "@mui/material"
 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
-import { addItemToCart } from "../../utils/shoppingCart"
+import { useShoppingCart } from "../../hooks/useShoppingCart"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
 
 const ItemCard = ({ item }) => {
   const { language } = useLanguage()
+  const { addItemToCart } = useShoppingCart()
+
   return (
     <>
       <Box

@@ -11,7 +11,7 @@ import {
 
 import { useQuery } from "@apollo/client"
 import { SHOPPING_CART } from "../../../queries/queries.js"
-import { totalAmountOfItems } from "../../../utils/shoppingCart"
+import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
@@ -25,6 +25,8 @@ const ShoppingCart = () => {
   const { data } = useQuery(SHOPPING_CART)
   const { language } = useLanguage()
   const [anchorEl, setAnchorEl] = useState(null)
+
+  const { totalAmountOfItems } = useShoppingCart()
   const total = totalAmountOfItems()
 
   const openMenu = (event) => {
@@ -90,8 +92,13 @@ const ShoppingCart = () => {
           <p>empty!</p>
         )}
 
-        <Divider />
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 1,
+          }}
+        >
           <Typography sx={{ marginRight: 1, fontWeight: "bold" }}>
             {`Items: ${total}`}
           </Typography>

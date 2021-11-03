@@ -1,4 +1,9 @@
-import { useParams, matchPath, useLocation, useHistory } from "react-router"
+import {
+  useParams,
+  matchPath,
+  useLocation,
+  useHistory,
+} from "react-router"
 
 export const useLanguage = () => {
   let language = "en"
