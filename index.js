@@ -4,9 +4,14 @@ const { ApolloServer, gql } = apolloServerExpressPackage
 import apolloServerCorePackage from "apollo-server-core"
 const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
 
+import dotenv from "dotenv"
+dotenv.config()
+
 import express from "express"
 import http from "http"
 import cors from "cors"
+
+import jwt from "jsonwebtoken"
 
 const items = [
   {
@@ -14,7 +19,7 @@ const items = [
     name: ["Strawberry", "Mansikka"],
     price: [2.4],
     description: ["A juicy fruit I think?", "Mehukas hedelmä, ehkä?"],
-    available: true,
+    availability: { available: false },
     visible: true,
     category: "apples",
   },
@@ -24,7 +29,7 @@ const items = [
     name: ["Banana", "Banaani"],
     price: [1.35],
     description: ["A long yellow banana", "Pitkä keltainen banaani"],
-    available: false,
+    availability: { available: true },
     visible: true,
     category: "bananas",
     customization: [
@@ -54,7 +59,7 @@ const items = [
 
       "Pyöreä ja mehukas ja sininen mustikka",
     ],
-    available: false,
+    availability: { available: false },
     visible: false,
     category: "apples",
   },
@@ -71,7 +76,7 @@ const items = [
 
       "Tämä uskomaton mansikkajugurtti sisältää suklaahippuja, jotka miellyttävät makunystyröitäsi luodakseen uskomattoman aamu-jugurtteilu-kokemuksen!",
     ],
-    available: true,
+    availability: { available: true },
     visible: true,
     category: "apples",
   },
@@ -86,67 +91,50 @@ const users = [
       email: "roni.alqkw@hotmail.com",
       phone: "0120301230",
     },
+    accountType: "Admin",
     orders: [
       {
         id: "o1",
         items: [
           {
-            id: "i3",
-            name: [
+            referenceToItemId: "banana",
+            name: ["Banana", "Banaani"],
+            price: [1.35],
+            pickedCustomization: [
               {
-                language: "en",
-                text: "Blueberry",
+                label: ["Banana length", "Banaanin pituus"],
+                options: [["Small", "Pieni"]],
               },
               {
-                language: "fi",
-                text: "Mustikka",
-              },
-            ],
-            price: 2,
-            description: [
-              {
-                language: "en",
-                text: "A round and juicy and blue blueberry",
-              },
-              {
-                language: "fi",
-                text: "Pyöreä ja mehukas ja sininen mustikka",
+                label: ["Banana color", "Banaanin väri"],
+                options: [["Yellow", "Keltainen"]],
               },
             ],
-            available: false,
-            category: "Fruits",
+            amount: 3,
           },
         ],
-        date: "12.23.10",
+        datetime: "12.23.10---13:23:11.3",
         deliveryAddress: {
-          id: "a1",
           fullname: "ronija",
           address: "hämäläisentie 5",
           city: "Helsinki",
           postalcode: "00660",
           country: "Finland",
-          contact: {
-            email: "roni.alqkw@hotmail.com",
-            phone: "0120301230",
-          },
+          phone: "0120301230",
         },
         billingAddress: {
-          id: "a1",
           fullname: "ronija",
           address: "hämäläisentie 5",
           city: "Helsinki",
           postalcode: "00660",
           country: "Finland",
-          contact: {
-            email: "roni.alqkw@hotmail.com",
-            phone: "0120301230",
-          },
         },
         status: "Delivered",
       },
     ],
 
     cart: ["1", "1", "2"],
+    verified: true,
   },
 ]
 
@@ -157,19 +145,31 @@ const typeDefs = gql`
     price(currency: Currency!): Float!
     customization(language: Language!): [Options]!
     description(language: Language!): String!
-    available: Boolean!
+    availability: Availability!
     category: Category!
     visible: Boolean!
+    sale: Sale
+    ratings: [Rating]
+  }
+
+  type Availability {
+    available: Boolean!
+  }
+
+  type Rating {
+    user: ID!
+    rating: Int!
+    comment: String
+  }
+
+  type Sale {
+    salePrice: Int!
+    saleActive: Boolean!
   }
 
   type Options {
     label: String!
     options: [String!]!
-  }
-
-  type OrderItem {
-    item: ID!
-    amount: Int!
   }
 
   enum Category {
@@ -200,9 +200,17 @@ const typeDefs = gql`
     id: ID!
     username: String!
     password: String!
+    accountType: AccountType!
     contact: Contact!
     orders: [Order]!
     cart: [ID]!
+    verified: Boolean!
+  }
+
+  enum AccountType {
+    Customer
+    Support
+    Admin
   }
 
   type Contact {
@@ -211,23 +219,35 @@ const typeDefs = gql`
   }
 
   type Address {
-    id: ID!
     fullname: String!
-    business: String
     address: String!
     city: String!
     postalcode: String!
     country: String!
-    contact: Contact!
+    company: String
+    phone: String
   }
 
   type Order {
     id: ID!
     items: [OrderItem!]!
-    date: String!
+    datetime: String!
     deliveryAddress: Address!
     billingAddress: Address!
+    paymentDetails: PaymentDetails!
     status: OrderStatus!
+    extrainfo: String
+  }
+
+  type OrderItem {
+    referenceToItemId: ID!
+    price(currency: Currency!): Float!
+    customization(language: Language!): [Options]!
+    amount: Int!
+  }
+
+  type PaymentDetails {
+    details: String!
   }
 
   enum OrderStatus {
@@ -242,7 +262,15 @@ const typeDefs = gql`
     allItems(category: Category): [Item]!
     getItem(id: ID!): Item!
 
-    allUsers: [User]!
+    me: User
+  }
+
+  type Token {
+    value: String!
+  }
+
+  type Mutation {
+    login(username: String!, password: String!): Token
   }
 `
 
@@ -263,11 +291,27 @@ const resolvers = {
       return items.find((i) => i.id === args.id)
     },
 
-    allUsers: () => users,
+    me: (root, args, context) => {
+      return context.currentUser
+    },
+  },
+
+  Mutation: {
+    login: async (root, args) => {
+      const user = users.find((u) => u.username === args.username)
+      if (!args.username || !args.password || !user) {
+        throw new Error("Invalid credentials")
+      }
+
+      const userToken = {
+        id: user.id,
+      }
+
+      return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
+    },
   },
 
   Item: {
-    id: (root) => root.id,
     name: (root, args) => {
       return root.name[languageToIndex(args.language)]
     },
@@ -281,7 +325,9 @@ const resolvers = {
         root.customization.forEach((c) => {
           arr.push({
             label: c.label[languageToIndex(args.language)],
-            options: c.options.map((l) => l[languageToIndex(args.language)]),
+            options: c.options.map(
+              (l) => l[languageToIndex(args.language)]
+            ),
           })
         })
         return arr
@@ -292,41 +338,6 @@ const resolvers = {
     description: (root, args) => {
       return root.description[languageToIndex(args.language)]
     },
-    available: (root) => root.available,
-    category: (root) => root.category,
-  },
-
-  User: {
-    id: (root) => root.id,
-    username: (root) => root.username,
-    password: (root) => root.password,
-    contact: (root) => root.contact,
-    orders: (root) => root.orders,
-  },
-
-  Contact: {
-    email: (root) => root.email,
-    phone: (root) => root.phone,
-  },
-
-  Order: {
-    id: (root) => root.id,
-    items: (root) => root.items,
-    date: (root) => root.date,
-    deliveryAddress: (root) => root.deliveryAddress,
-    billingAddress: (root) => root.billingAddress,
-    status: (root) => root.status,
-  },
-
-  Address: {
-    id: (root) => root.id,
-    fullname: (root) => root.fullname,
-    business: (root) => root.business,
-    address: (root) => root.address,
-    city: (root) => root.city,
-    postalcode: (root) => root.postalcode,
-    country: (root) => root.country,
-    contact: (root) => root.contact,
   },
 }
 
@@ -349,6 +360,19 @@ const startApolloServer = async (typeDefs, resolvers) => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: async ({ req }) => {
+      const auth = req ? req.headers.authorization : null
+      if (auth && auth.toLowerCase().startsWith("bearer ")) {
+        const decodedToken = jwt.verify(
+          auth.substring(7),
+          process.env.JWT_SECRET
+        )
+        const currentUser = users.find(
+          (u) => u.id === decodedToken.id
+        )
+        return { currentUser }
+      }
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   })
 
