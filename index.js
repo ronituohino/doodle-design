@@ -247,6 +247,7 @@ const typeDefs = gql`
   }
 
   type PaymentDetails {
+    giftCard: String
     details: String!
   }
 
