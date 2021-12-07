@@ -21,75 +21,6 @@ mongoose
   .connect(process.env.DB_URI)
   .then(() => console.log("Connected to DB!"))
 
-const items = [
-  {
-    _id: "strawber",
-    name: ["Strawberry", "Mansikka"],
-    price: [2.4],
-    description: ["A juicy fruit I think?", "Mehukas hedelmä, ehkä?"],
-    availability: { available: false },
-    visible: true,
-    category: "apples",
-  },
-
-  {
-    _id: "banana",
-    name: ["Banana", "Banaani"],
-    price: [1.35],
-    description: ["A long yellow banana", "Pitkä keltainen banaani"],
-    availability: { available: true },
-    visible: true,
-    category: "bananas",
-    customization: [
-      {
-        label: ["Banana length", "Banaanin pituus"],
-        options: [
-          ["Small", "Pieni"],
-          ["Big", "Iso"],
-        ],
-      },
-      {
-        label: ["Banana color", "Banaanin väri"],
-        options: [
-          ["Green", "Vihreä"],
-          ["Yellow", "Keltainen"],
-        ],
-      },
-    ],
-  },
-
-  {
-    id: "blueberry",
-    name: ["Blueberry", "Mustikka"],
-    price: [13],
-    description: [
-      "A round and juicy and blue blueberry",
-
-      "Pyöreä ja mehukas ja sininen mustikka",
-    ],
-    availability: { available: false },
-    visible: false,
-    category: "apples",
-  },
-  {
-    id: "strawberry-yoghurt-with-bits-of-chocolate",
-    name: [
-      "Strawberry Yoghurt With Bits of Chocolate",
-
-      "Mansikkajugurtti ja suklaahippuja",
-    ],
-    price: [13344.55],
-    description: [
-      "This amazing strawberry yoghurt includes chocolate bits to tingle those taste buds of yours for an amazing morning yoghurting-experience!",
-
-      "Tämä uskomaton mansikkajugurtti sisältää suklaahippuja, jotka miellyttävät makunystyröitäsi luodakseen uskomattoman aamu-jugurtteilu-kokemuksen!",
-    ],
-    availability: { available: true },
-    visible: true,
-    category: "apples",
-  },
-]
-
 const typeDefs = gql`
   type Item {
     _id: ID!
@@ -122,6 +53,11 @@ const typeDefs = gql`
   type Options {
     label: String!
     options: [String!]!
+  }
+
+  input OptionsInput {
+    label: String!
+    option: String!
   }
 
   enum Category {
@@ -166,6 +102,11 @@ const typeDefs = gql`
   }
 
   type Address {
+    addressDetails: AddressDetails!
+    phone: String
+  }
+
+  type AddressDetails {
     firstName: String!
     lastName: String!
     address: String!
@@ -173,7 +114,21 @@ const typeDefs = gql`
     postalcode: String!
     country: String!
     company: String
+  }
+
+  input AddressInput {
+    addressDetails: AddressDetailsInput!
     phone: String
+  }
+
+  input AddressDetailsInput {
+    firstName: String!
+    lastName: String!
+    address: String!
+    city: String!
+    postalcode: String!
+    country: String!
+    company: String
   }
 
   type Order {
@@ -194,7 +149,19 @@ const typeDefs = gql`
     amount: Int!
   }
 
+  input OrderItemInput {
+    referenceToItemId: ID!
+    price: Float!
+    customization: [OptionsInput]
+    amount: Int!
+  }
+
   type PaymentDetails {
+    giftCard: String
+    details: String!
+  }
+
+  input PaymentDetailsInput {
     giftCard: String
     details: String!
   }
@@ -233,11 +200,21 @@ const typeDefs = gql`
       description: [String!]!
       category: String!
     ): Item
+
+    createOrder(
+      items: [OrderItemInput!]!
+      datetime: String!
+      deliveryAddress: AddressInput!
+      billingAddress: AddressInput!
+      paymentDetails: PaymentDetailsInput!
+      extrainfo: String
+    ): Order
   }
 `
 
 import Item from "./schemas/Item.js"
 import User from "./schemas/User.js"
+import Order from "./schemas/Order.js"
 
 const resolvers = {
   Query: {
@@ -245,18 +222,17 @@ const resolvers = {
       const items = await Item.find({})
       return items.length
     },
-    allItems: (root, args) => {
-      let result = items.filter((i) => i.visible)
+    allItems: async (root, args) => {
+      const items = await Item.find({
+        ...(args.category && { cateogory: args.category }),
+      })
 
-      if (args.category) {
-        result = result.filter((i) => i.category === args.category)
-      }
-
-      return result
+      return items
     },
 
-    getItem: (root, args) => {
-      return items.find((i) => i.id === args.id)
+    getItem: async (root, args) => {
+      const item = await Item.findById(args.id)
+      return item
     },
 
     me: (root, args, context) => {
@@ -266,10 +242,6 @@ const resolvers = {
 
   Mutation: {
     login: async (root, args) => {
-      if (!args.email || !args.password) {
-        throw new UserInputError("Missing credentials")
-      }
-
       const user = await User.findOne({ email: args.email })
       const validPassword = await bcrypt.compare(
         args.password,
@@ -280,18 +252,10 @@ const resolvers = {
         throw AuthenticationError("Invalid credentials")
       }
 
-      const userToken = {
-        id: user._id,
-      }
-
-      return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
+      return createToken(user._id)
     },
 
     createUser: async (root, args) => {
-      if (!args.username || !args.email || !args.password) {
-        throw new UserInputError("Missing user information")
-      }
-
       const salt = await bcrypt.genSalt(10)
       const passwordHash = await bcrypt.hash(args.password, salt)
 
@@ -307,23 +271,10 @@ const resolvers = {
 
       const result = await user.save()
 
-      const userToken = {
-        id: result._id,
-      }
-
-      return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
+      return createToken(result._id)
     },
 
     createItem: async (root, args) => {
-      if (
-        !args.name ||
-        !args.price ||
-        !args.description ||
-        !args.category
-      ) {
-        throw new UserInputError("Missing information")
-      }
-
       const item = new Item({
         name: args.name,
         price: args.price,
@@ -337,6 +288,34 @@ const resolvers = {
       })
 
       const result = await item.save()
+      return result
+    },
+
+    createOrder: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Customer") {
+        throw new UserInputError("Not a customer account")
+      }
+
+      const order = new Order({
+        items: args.items,
+        datetime: args.datetime,
+        deliveryAddress: args.deliveryAddress,
+        billingAddress: args.billingAddress,
+        paymentDetails: args.paymentDetails,
+        status: "Pending",
+        extrainfo: args.extrainfo,
+      })
+
+      const result = await order.save()
+
+      await User.findByIdAndUpdate(context.currentUser._id, {
+        $push: { orders: result._id },
+      })
+
       return result
     },
   },
@@ -369,6 +348,11 @@ const resolvers = {
       return root.description[languageToIndex(args.language)]
     },
   },
+}
+
+const createToken = (id) => {
+  const userToken = { id }
+  return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
 }
 
 const languageToIndex = (language) => {
@@ -417,7 +401,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
 
   //eslint-disable-next-line
   console.log(
-    `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+    `Server ready at http://localhost:${port}${server.graphqlPath}`
   )
 }
 

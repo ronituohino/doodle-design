@@ -1,5 +1,15 @@
 import mongoose from "mongoose"
 
+const addressDetails = {
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  postalcode: { type: String, required: true },
+  country: { type: String, required: true },
+  company: String,
+}
+
 const orderSchema = new mongoose.Schema({
   items: [
     {
@@ -10,7 +20,10 @@ const orderSchema = new mongoose.Schema({
       },
       price: [{ type: Number, required: true }],
       customization: [
-        { type: mongoose.Schema.Types.ObjectId, ref: "Options" },
+        {
+          label: { type: String, required: true },
+          option: { type: String, required: true },
+        },
       ],
       amount: { type: Number, required: true },
     },
@@ -30,16 +43,6 @@ const orderSchema = new mongoose.Schema({
   status: { type: String, required: true },
   extrainfo: String,
 })
-
-const addressDetails = {
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  address: { type: String, required: true },
-  city: { type: String, required: true },
-  postalcode: { type: String, required: true },
-  country: { type: String, required: true },
-  company: String,
-}
 
 const Order = mongoose.model("Order", orderSchema)
 
