@@ -1,29 +1,29 @@
 import mongoose from "mongoose"
 
 const itemSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
+  name: { type: [String], required: true },
+  price: { type: [Number], required: true },
   customization: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Options",
+      label: { type: [String], required: true },
+      options: { type: [[String]], required: true },
     },
   ],
-  description: String,
+  description: { type: [String], required: true },
   availability: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Options",
+    available: { type: Boolean, required: true },
   },
-  category: String,
-  visible: Boolean,
+  category: { type: String, required: true },
+  visible: { type: Boolean, required: true },
   sale: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Sale",
+    salePrice: { type: [Number], required: true },
+    saleActive: { type: Boolean, required: true },
   },
   ratings: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Rating",
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      rating: { type: Number, required: true },
+      comment: String,
     },
   ],
 })

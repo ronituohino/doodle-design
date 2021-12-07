@@ -1,23 +1,45 @@
 import mongoose from "mongoose"
 
 const orderSchema = new mongoose.Schema({
-  items: [{ type: mongoose.Schema.Types.ObjectId, ref: "" }],
-  datetime: Date,
+  items: [
+    {
+      referenceToItemId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Item",
+        required: true,
+      },
+      price: [{ type: Number, required: true }],
+      customization: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "Options" },
+      ],
+      amount: { type: Number, required: true },
+    },
+  ],
+  datetime: { type: Date, required: true },
   deliveryAddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
+    addressDetails,
+    phone: String,
   },
   billingAddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
+    addressDetails,
   },
   paymentDetails: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "PaymentDetails",
+    giftCard: String,
+    details: { type: String, required: true },
   },
-  status: String,
+  status: { type: String, required: true },
   extrainfo: String,
 })
+
+const addressDetails = {
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  postalcode: { type: String, required: true },
+  country: { type: String, required: true },
+  company: String,
+}
 
 const Order = mongoose.model("Order", orderSchema)
 

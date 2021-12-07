@@ -90,58 +90,6 @@ const items = [
   },
 ]
 
-const users = [
-  {
-    id: "u1",
-    password: "123qwe123",
-    email: "roni.alqkw@hotmail.com",
-    accountType: "Admin",
-    orders: [
-      {
-        id: "o1",
-        items: [
-          {
-            referenceToItemId: "banana",
-            name: ["Banana", "Banaani"],
-            price: [1.35],
-            pickedCustomization: [
-              {
-                label: ["Banana length", "Banaanin pituus"],
-                options: [["Small", "Pieni"]],
-              },
-              {
-                label: ["Banana color", "Banaanin väri"],
-                options: [["Yellow", "Keltainen"]],
-              },
-            ],
-            amount: 3,
-          },
-        ],
-        datetime: "12.23.10---13:23:11.3",
-        deliveryAddress: {
-          fullname: "ronija",
-          address: "hämäläisentie 5",
-          city: "Helsinki",
-          postalcode: "00660",
-          country: "Finland",
-          phone: "0120301230",
-        },
-        billingAddress: {
-          fullname: "ronija",
-          address: "hämäläisentie 5",
-          city: "Helsinki",
-          postalcode: "00660",
-          country: "Finland",
-        },
-        status: "Delivered",
-      },
-    ],
-
-    cart: ["1", "1", "2"],
-    verified: true,
-  },
-]
-
 const typeDefs = gql`
   type Item {
     _id: ID!
@@ -279,7 +227,12 @@ const typeDefs = gql`
       password: String!
     ): Token
 
-    createItem(name: [String!]!, price: [Float!]!): String
+    createItem(
+      name: [String!]!
+      price: [Float!]!
+      description: [String!]!
+      category: String!
+    ): Item
   }
 `
 
@@ -288,7 +241,10 @@ import User from "./schemas/User.js"
 
 const resolvers = {
   Query: {
-    itemCount: async () => await (await Item.find({})).length,
+    itemCount: async () => {
+      const items = await Item.find({})
+      return items.length
+    },
     allItems: (root, args) => {
       let result = items.filter((i) => i.visible)
 
@@ -311,7 +267,7 @@ const resolvers = {
   Mutation: {
     login: async (root, args) => {
       if (!args.email || !args.password) {
-        throw new Error("Missing credentials")
+        throw new UserInputError("Missing credentials")
       }
 
       const user = await User.findOne({ email: args.email })
@@ -321,7 +277,7 @@ const resolvers = {
       )
 
       if (!validPassword) {
-        throw Error("Invalid credentials")
+        throw AuthenticationError("Invalid credentials")
       }
 
       const userToken = {
@@ -333,7 +289,7 @@ const resolvers = {
 
     createUser: async (root, args) => {
       if (!args.username || !args.email || !args.password) {
-        throw new Error("Missing user information")
+        throw new UserInputError("Missing user information")
       }
 
       const salt = await bcrypt.genSalt(10)
@@ -349,14 +305,39 @@ const resolvers = {
         verified: false,
       })
 
-      const doc = await user.save()
-      console.log(doc)
+      const result = await user.save()
 
       const userToken = {
-        id: doc._id,
+        id: result._id,
       }
 
       return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
+    },
+
+    createItem: async (root, args) => {
+      if (
+        !args.name ||
+        !args.price ||
+        !args.description ||
+        !args.category
+      ) {
+        throw new UserInputError("Missing information")
+      }
+
+      const item = new Item({
+        name: args.name,
+        price: args.price,
+        customization: args.customization,
+        description: args.description,
+        availability: { available: false },
+        category: args.category,
+        visible: false,
+        sale: { salePrice: [], saleActive: false },
+        ratings: [],
+      })
+
+      const result = await item.save()
+      return result
     },
   },
 
@@ -419,7 +400,6 @@ const startApolloServer = async (typeDefs, resolvers) => {
           )
 
           const currentUser = await User.findById(decodedToken.id)
-          console.log(currentUser)
           return { currentUser }
         } catch (error) {
           throw new AuthenticationError("Invalid token")
