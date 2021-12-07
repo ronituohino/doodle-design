@@ -7,11 +7,15 @@ const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
 import dotenv from "dotenv"
 dotenv.config()
 
+import mongoose from "mongoose"
+
 import express from "express"
 import http from "http"
 import cors from "cors"
 
 import jwt from "jsonwebtoken"
+
+mongoose.connect(process.env.DB_URI)
 
 const items = [
   {
@@ -87,10 +91,7 @@ const users = [
     id: "u1",
     username: "Roni",
     password: "123qwe123",
-    contact: {
-      email: "roni.alqkw@hotmail.com",
-      phone: "0120301230",
-    },
+    email: "roni.alqkw@hotmail.com",
     accountType: "Admin",
     orders: [
       {
@@ -198,10 +199,9 @@ const typeDefs = gql`
 
   type User {
     id: ID!
-    username: String!
+    email: String!
     password: String!
     accountType: AccountType!
-    contact: Contact!
     orders: [Order]!
     cart: [ID]!
     verified: Boolean!
@@ -213,13 +213,9 @@ const typeDefs = gql`
     Admin
   }
 
-  type Contact {
-    email: String!
-    phone: String
-  }
-
   type Address {
-    fullname: String!
+    firstName: String!
+    lastName: String!
     address: String!
     city: String!
     postalcode: String!
@@ -272,6 +268,15 @@ const typeDefs = gql`
 
   type Mutation {
     login(username: String!, password: String!): Token
+
+    createUser(
+      firstName: String!
+      lastName: String!
+      email: String!
+      password: String!
+    ): Token
+
+    createItem(name: [String!]!, price: [Float!]!): String
   }
 `
 
@@ -309,6 +314,17 @@ const resolvers = {
       }
 
       return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
+    },
+
+    createUser: async (root, args) => {
+      if (
+        !args.firstName ||
+        !args.lastName ||
+        !args.email ||
+        !args.password
+      ) {
+        throw new Error("Missing user information")
+      }
     },
   },
 
