@@ -1,5 +1,6 @@
 import apolloServerExpressPackage from "apollo-server-express"
-const { ApolloServer, gql } = apolloServerExpressPackage
+const { ApolloServer, gql, UserInputError, AuthenticationError } =
+  apolloServerExpressPackage
 
 import apolloServerCorePackage from "apollo-server-core"
 const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
@@ -14,12 +15,15 @@ import http from "http"
 import cors from "cors"
 
 import jwt from "jsonwebtoken"
+import * as bcrypt from "bcrypt"
 
-mongoose.connect(process.env.DB_URI)
+mongoose
+  .connect(process.env.DB_URI)
+  .then(() => console.log("Connected to DB!"))
 
 const items = [
   {
-    id: "strawber",
+    _id: "strawber",
     name: ["Strawberry", "Mansikka"],
     price: [2.4],
     description: ["A juicy fruit I think?", "Mehukas hedelmä, ehkä?"],
@@ -29,7 +33,7 @@ const items = [
   },
 
   {
-    id: "banana",
+    _id: "banana",
     name: ["Banana", "Banaani"],
     price: [1.35],
     description: ["A long yellow banana", "Pitkä keltainen banaani"],
@@ -89,7 +93,6 @@ const items = [
 const users = [
   {
     id: "u1",
-    username: "Roni",
     password: "123qwe123",
     email: "roni.alqkw@hotmail.com",
     accountType: "Admin",
@@ -141,7 +144,7 @@ const users = [
 
 const typeDefs = gql`
   type Item {
-    id: ID!
+    _id: ID!
     name(language: Language!): String!
     price(currency: Currency!): Float!
     customization(language: Language!): [Options]!
@@ -198,7 +201,8 @@ const typeDefs = gql`
   }
 
   type User {
-    id: ID!
+    _id: ID!
+    username: String!
     email: String!
     password: String!
     accountType: AccountType!
@@ -225,7 +229,7 @@ const typeDefs = gql`
   }
 
   type Order {
-    id: ID!
+    _id: ID!
     items: [OrderItem!]!
     datetime: String!
     deliveryAddress: Address!
@@ -267,11 +271,10 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    login(username: String!, password: String!): Token
+    login(email: String!, password: String!): Token
 
     createUser(
-      firstName: String!
-      lastName: String!
+      username: String!
       email: String!
       password: String!
     ): Token
@@ -280,9 +283,12 @@ const typeDefs = gql`
   }
 `
 
+import Item from "./schemas/Item.js"
+import User from "./schemas/User.js"
+
 const resolvers = {
   Query: {
-    itemCount: () => items.length,
+    itemCount: async () => await (await Item.find({})).length,
     allItems: (root, args) => {
       let result = items.filter((i) => i.visible)
 
@@ -304,27 +310,53 @@ const resolvers = {
 
   Mutation: {
     login: async (root, args) => {
-      const user = users.find((u) => u.username === args.username)
-      if (!args.username || !args.password || !user) {
-        throw new Error("Invalid credentials")
+      if (!args.email || !args.password) {
+        throw new Error("Missing credentials")
+      }
+
+      const user = await User.findOne({ email: args.email })
+      const validPassword = await bcrypt.compare(
+        args.password,
+        user.password
+      )
+
+      if (!validPassword) {
+        throw Error("Invalid credentials")
       }
 
       const userToken = {
-        id: user.id,
+        id: user._id,
       }
 
       return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
     },
 
     createUser: async (root, args) => {
-      if (
-        !args.firstName ||
-        !args.lastName ||
-        !args.email ||
-        !args.password
-      ) {
+      if (!args.username || !args.email || !args.password) {
         throw new Error("Missing user information")
       }
+
+      const salt = await bcrypt.genSalt(10)
+      const passwordHash = await bcrypt.hash(args.password, salt)
+
+      const user = new User({
+        username: args.username,
+        password: passwordHash,
+        email: args.email,
+        accountType: "Customer",
+        orders: [],
+        cart: [],
+        verified: false,
+      })
+
+      const doc = await user.save()
+      console.log(doc)
+
+      const userToken = {
+        id: doc._id,
+      }
+
+      return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
     },
   },
 
@@ -380,14 +412,18 @@ const startApolloServer = async (typeDefs, resolvers) => {
     context: async ({ req }) => {
       const auth = req ? req.headers.authorization : null
       if (auth && auth.toLowerCase().startsWith("bearer ")) {
-        const decodedToken = jwt.verify(
-          auth.substring(7),
-          process.env.JWT_SECRET
-        )
-        const currentUser = users.find(
-          (u) => u.id === decodedToken.id
-        )
-        return { currentUser }
+        try {
+          const decodedToken = jwt.verify(
+            auth.substring(7),
+            process.env.JWT_SECRET
+          )
+
+          const currentUser = await User.findById(decodedToken.id)
+          console.log(currentUser)
+          return { currentUser }
+        } catch (error) {
+          throw new AuthenticationError("Invalid token")
+        }
       }
     },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
