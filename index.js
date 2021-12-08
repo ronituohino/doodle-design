@@ -1,9 +1,10 @@
-import apolloServerExpressPackage from "apollo-server-express"
-const { ApolloServer, gql, UserInputError, AuthenticationError } =
-  apolloServerExpressPackage
-
-import apolloServerCorePackage from "apollo-server-core"
-const { ApolloServerPluginDrainHttpServer } = apolloServerCorePackage
+import {
+  ApolloServer,
+  gql,
+  UserInputError,
+  AuthenticationError,
+} from "apollo-server-express"
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -15,164 +16,13 @@ import http from "http"
 import cors from "cors"
 
 import jwt from "jsonwebtoken"
-import * as bcrypt from "bcrypt"
+import bcrypt from "bcrypt"
 
 mongoose
   .connect(process.env.DB_URI)
   .then(() => console.log("Connected to DB!"))
 
-const typeDefs = gql`
-  type Item {
-    _id: ID!
-    name(language: Language!): String!
-    price(currency: Currency!): Float!
-    customization(language: Language!): [Options]!
-    description(language: Language!): String!
-    availability: Availability!
-    category: Category!
-    visible: Boolean!
-    sale: Sale
-    ratings: [Rating]
-  }
-
-  type Availability {
-    available: Boolean!
-  }
-
-  type Rating {
-    user: ID!
-    rating: Int!
-    comment: String
-  }
-
-  type Sale {
-    salePrice: Int!
-    saleActive: Boolean!
-  }
-
-  type Options {
-    label: String!
-    options: [String!]!
-  }
-
-  input OptionsInput {
-    label: String!
-    option: String!
-  }
-
-  enum Category {
-    apples
-    bananas
-  }
-
-  enum Language {
-    fi
-    en
-  }
-
-  type LanguageString {
-    text: String!
-    language: Language!
-  }
-
-  enum Currency {
-    EUR
-  }
-
-  type CurrencyFloat {
-    currency: Currency!
-    amount: Float!
-  }
-
-  type User {
-    _id: ID!
-    username: String!
-    email: String!
-    password: String!
-    accountType: AccountType!
-    orders: [Order]!
-    cart: [ID]!
-    verified: Boolean!
-  }
-
-  enum AccountType {
-    Customer
-    Support
-    Admin
-  }
-
-  type Address {
-    addressDetails: AddressDetails!
-    phone: String
-  }
-
-  type AddressDetails {
-    firstName: String!
-    lastName: String!
-    address: String!
-    city: String!
-    postalcode: String!
-    country: String!
-    company: String
-  }
-
-  input AddressInput {
-    addressDetails: AddressDetailsInput!
-    phone: String
-  }
-
-  input AddressDetailsInput {
-    firstName: String!
-    lastName: String!
-    address: String!
-    city: String!
-    postalcode: String!
-    country: String!
-    company: String
-  }
-
-  type Order {
-    _id: ID!
-    items: [OrderItem!]!
-    datetime: String!
-    deliveryAddress: Address!
-    billingAddress: Address!
-    paymentDetails: PaymentDetails!
-    status: OrderStatus!
-    extrainfo: String
-  }
-
-  type OrderItem {
-    referenceToItemId: ID!
-    price(currency: Currency!): Float!
-    customization(language: Language!): [Options]!
-    amount: Int!
-  }
-
-  input OrderItemInput {
-    referenceToItemId: ID!
-    price: Float!
-    customization: [OptionsInput]
-    amount: Int!
-  }
-
-  type PaymentDetails {
-    giftCard: String
-    details: String!
-  }
-
-  input PaymentDetailsInput {
-    giftCard: String
-    details: String!
-  }
-
-  enum OrderStatus {
-    Pending
-    Received_Order
-    In_Delivery
-    Delivered
-  }
-
+const commonTypeDefs = gql`
   type Query {
     itemCount: Int!
     allItems(category: Category): [Item]!
@@ -181,40 +31,53 @@ const typeDefs = gql`
     me: User
   }
 
+  type Mutation {
+    login(email: String!, password: String!): Token
+  }
+
+  enum Language {
+    fi
+    en
+  }
+
+  enum Currency {
+    EUR
+  }
+
   type Token {
     value: String!
   }
 
-  type Mutation {
-    login(email: String!, password: String!): Token
+  type Options {
+    label: String!
+    options: [String!]!
+  }
 
-    createUser(
-      username: String!
-      email: String!
-      password: String!
-    ): Token
-
-    createItem(
-      name: [String!]!
-      price: [Float!]!
-      description: [String!]!
-      category: String!
-    ): Item
-
-    createOrder(
-      items: [OrderItemInput!]!
-      datetime: String!
-      deliveryAddress: AddressInput!
-      billingAddress: AddressInput!
-      paymentDetails: PaymentDetailsInput!
-      extrainfo: String
-    ): Order
+  type Option {
+    label: String!
+    option: String!
   }
 `
 
-import Item from "./schemas/Item.js"
-import User from "./schemas/User.js"
-import Order from "./schemas/Order.js"
+const commonInputDefs = gql`
+  input OptionsInput {
+    label: String!
+    options: [String!]!
+  }
+
+  input OptionInput {
+    label: String!
+    option: String!
+  }
+`
+
+import { Item, itemTypeDefs, itemInputDefs } from "./schemas/Item.js"
+import { User, userTypeDefs } from "./schemas/User.js"
+import {
+  Order,
+  orderTypeDefs,
+  orderInputDefs,
+} from "./schemas/Order.js"
 
 const resolvers = {
   Query: {
@@ -274,7 +137,15 @@ const resolvers = {
       return createToken(result._id)
     },
 
-    createItem: async (root, args) => {
+    createItem: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Admin") {
+        throw new UserInputError("Not an administrator account")
+      }
+
       const item = new Item({
         name: args.name,
         price: args.price,
@@ -289,6 +160,38 @@ const resolvers = {
 
       const result = await item.save()
       return result
+    },
+
+    editItem: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Admin") {
+        throw new UserInputError("Not an administrator account")
+      }
+
+      const item = await Item.findByIdAndUpdate(
+        args.id,
+        {
+          ...(args.name && { name: args.name }),
+          ...(args.price && { price: args.price }),
+          ...(args.customization && {
+            cateogory: args.customization,
+          }),
+          ...(args.description && { description: args.description }),
+          ...(args.availability && {
+            availability: args.availability,
+          }),
+          ...(args.category && { cateogory: args.category }),
+          ...(args.visible && { visible: args.visible }),
+          ...(args.sale && { sale: args.sale }),
+          ...(args.ratings && { ratings: args.ratings }),
+        },
+        { new: true }
+      )
+
+      return item
     },
 
     createOrder: async (root, args, context) => {
@@ -329,7 +232,6 @@ const resolvers = {
     },
     customization: (root, args) => {
       if (root.customization) {
-        console.log(root)
         let arr = []
         root.customization.forEach((c) => {
           arr.push({
@@ -365,14 +267,22 @@ const currencyToIndex = (currency) => {
   return list.indexOf(currency)
 }
 
-const startApolloServer = async (typeDefs, resolvers) => {
+const startApolloServer = async () => {
   const app = express()
   app.use(express.static("build"))
   app.use(cors())
 
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
-    typeDefs,
+    typeDefs: [
+      commonTypeDefs,
+      commonInputDefs,
+      itemTypeDefs,
+      itemInputDefs,
+      orderTypeDefs,
+      orderInputDefs,
+      userTypeDefs,
+    ],
     resolvers,
     context: async ({ req }) => {
       const auth = req ? req.headers.authorization : null
@@ -405,4 +315,4 @@ const startApolloServer = async (typeDefs, resolvers) => {
   )
 }
 
-startApolloServer(typeDefs, resolvers)
+startApolloServer()

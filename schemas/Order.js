@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { gql } from "apollo-server-express"
 
 const addressDetails = {
   firstName: { type: String, required: true },
@@ -44,6 +45,91 @@ const orderSchema = new mongoose.Schema({
   extrainfo: String,
 })
 
-const Order = mongoose.model("Order", orderSchema)
+export const Order = mongoose.model("Order", orderSchema)
 
-export default Order
+export const orderTypeDefs = gql`
+  type Order {
+    _id: ID!
+    items: [OrderItem!]!
+    datetime: String!
+    deliveryAddress: Address!
+    billingAddress: Address!
+    paymentDetails: PaymentDetails!
+    status: OrderStatus!
+    extrainfo: String
+  }
+
+  type OrderItem {
+    referenceToItemId: ID!
+    price(currency: Currency!): Float!
+    customization(language: Language!): [Option]!
+    amount: Int!
+  }
+
+  type Address {
+    addressDetails: AddressDetails!
+    phone: String
+  }
+
+  type AddressDetails {
+    firstName: String!
+    lastName: String!
+    address: String!
+    city: String!
+    postalcode: String!
+    country: String!
+    company: String
+  }
+
+  type PaymentDetails {
+    giftCard: String
+    details: String!
+  }
+
+  enum OrderStatus {
+    Pending
+    Received_Order
+    In_Delivery
+    Delivered
+  }
+
+  extend type Mutation {
+    createOrder(
+      items: [OrderItemInput!]!
+      datetime: String!
+      deliveryAddress: AddressInput!
+      billingAddress: AddressInput!
+      paymentDetails: PaymentDetailsInput!
+      extrainfo: String
+    ): Order
+  }
+`
+
+export const orderInputDefs = gql`
+  input OrderItemInput {
+    referenceToItemId: ID!
+    price: Float!
+    customization: [OptionInput!]
+    amount: Int!
+  }
+
+  input AddressInput {
+    addressDetails: AddressDetailsInput!
+    phone: String
+  }
+
+  input AddressDetailsInput {
+    firstName: String!
+    lastName: String!
+    address: String!
+    city: String!
+    postalcode: String!
+    country: String!
+    company: String
+  }
+
+  input PaymentDetailsInput {
+    giftCard: String
+    details: String!
+  }
+`
