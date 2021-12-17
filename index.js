@@ -108,7 +108,7 @@ const resolvers = {
       const user = await User.findOne({ email: args.email })
       const validPassword = await bcrypt.compare(
         args.password,
-        user.password
+        user.passwordList[0]
       )
 
       if (!validPassword) {
@@ -119,12 +119,11 @@ const resolvers = {
     },
 
     createUser: async (root, args) => {
-      const salt = await bcrypt.genSalt(10)
-      const passwordHash = await bcrypt.hash(args.password, salt)
+      const passwordHash = hashPassword(args.password)
 
       const user = new User({
         username: args.username,
-        password: passwordHash,
+        password: [passwordHash],
         email: args.email,
         accountType: "Customer",
         orders: [],
@@ -135,6 +134,28 @@ const resolvers = {
       const result = await user.save()
 
       return createToken(result._id)
+    },
+
+    editUser: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      const user = await User.findByIdAndUpdate(
+        context.id,
+        {
+          ...(args.email && { email: args.email }),
+          ...(args.password && {
+            $push: { password: hashPassword(args.password) },
+          }),
+          ...(args.customization && {
+            cateogory: args.customization,
+          }),
+        },
+        { new: true }
+      )
+
+      return user
     },
 
     createItem: async (root, args, context) => {
@@ -250,6 +271,11 @@ const resolvers = {
       return root.description[languageToIndex(args.language)]
     },
   },
+}
+
+const hashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10)
+  return await bcrypt.hash(password, salt)
 }
 
 const createToken = (id) => {
