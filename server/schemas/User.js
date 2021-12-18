@@ -4,7 +4,7 @@ import { gql } from "apollo-server-express"
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  passwordList: [{ type: String, required: true }],
+  password: { type: String, required: true },
   accountType: { type: String, required: true },
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   cart: [
@@ -32,10 +32,11 @@ export const userTypeDefs = gql`
   type User {
     _id: ID!
     username: String!
+    password: String!
     email: String!
     accountType: AccountType!
-    orders: [CartItem]!
-    cart: [ID]!
+    orders: [ID]!
+    cart: [CartItem]!
     verified: Boolean!
   }
 
@@ -58,6 +59,18 @@ export const userTypeDefs = gql`
       password: String!
     ): Token
 
-    editUser(email: String, password: String, cart: [ID]): User
+    editUser(
+      email: String
+      password: String
+      cart: [CartItemInput]
+    ): User
+  }
+`
+
+export const userInputDefs = gql`
+  input CartItemInput {
+    referenceToItemId: ID!
+    customization: OptionInput
+    amount: Int!
   }
 `

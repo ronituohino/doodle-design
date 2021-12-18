@@ -25,14 +25,28 @@ mongoose
 const commonTypeDefs = gql`
   type Query {
     itemCount: Int!
-    allItems(category: Category): [Item]!
-    getItem(id: ID!): Item!
+    getItems(category: Category): Paginated!
+    getItemById(id: ID!): Item!
 
     me: User
   }
 
   type Mutation {
     login(email: String!, password: String!): Token
+  }
+
+  type Paginated {
+    docs: [Item]!
+    totalDocs: Int!
+    offset: Int!
+    limit: Int!
+    totalPages: Int!
+    page: Int!
+    pagingCounter: Int!
+    hasPrevPage: Boolean!
+    hasNextPage: Boolean!
+    prevPage: Int!
+    nextPage: Int!
   }
 
   enum Language {
@@ -71,13 +85,29 @@ const commonInputDefs = gql`
   }
 `
 
-import { Item, itemTypeDefs, itemInputDefs } from "./schemas/Item.js"
-import { User, userTypeDefs } from "./schemas/User.js"
+import {
+  Item,
+  itemTypeDefs,
+  itemInputDefs,
+} from "./server/schemas/Item.js"
+import {
+  User,
+  userTypeDefs,
+  userInputDefs,
+} from "./server/schemas/User.js"
 import {
   Order,
   orderTypeDefs,
   orderInputDefs,
-} from "./schemas/Order.js"
+} from "./server/schemas/Order.js"
+
+import {
+  languageToIndex,
+  currencyToIndex,
+  getPagination,
+  hashPassword,
+  createToken,
+} from "./server/utils/serverUtils.js"
 
 const resolvers = {
   Query: {
@@ -85,15 +115,20 @@ const resolvers = {
       const items = await Item.find({})
       return items.length
     },
-    allItems: async (root, args) => {
-      const items = await Item.find({
-        ...(args.category && { cateogory: args.category }),
-      })
+    getItems: async (root, args, context) => {
+      const hideInvisible = context.currentUser === "Customer"
+      const items = await Item.paginate(
+        {
+          ...(args.category && { category: args.category }),
+          ...(hideInvisible && { visible: true }),
+        },
+        getPagination()
+      )
 
       return items
     },
 
-    getItem: async (root, args) => {
+    getItemById: async (root, args) => {
       const item = await Item.findById(args.id)
       return item
     },
@@ -108,7 +143,7 @@ const resolvers = {
       const user = await User.findOne({ email: args.email })
       const validPassword = await bcrypt.compare(
         args.password,
-        user.passwordList[0]
+        user.password
       )
 
       if (!validPassword) {
@@ -119,11 +154,11 @@ const resolvers = {
     },
 
     createUser: async (root, args) => {
-      const passwordHash = hashPassword(args.password)
+      const passwordHash = await hashPassword(args.password)
 
       const user = new User({
         username: args.username,
-        password: [passwordHash],
+        password: passwordHash,
         email: args.email,
         accountType: "Customer",
         orders: [],
@@ -142,14 +177,14 @@ const resolvers = {
       }
 
       const user = await User.findByIdAndUpdate(
-        context.id,
+        context.currentUser._id,
         {
           ...(args.email && { email: args.email }),
           ...(args.password && {
-            $push: { password: hashPassword(args.password) },
+            password: await hashPassword(args.password),
           }),
-          ...(args.customization && {
-            cateogory: args.customization,
+          ...(args.cart && {
+            cart: args.cart,
           }),
         },
         { new: true }
@@ -273,26 +308,6 @@ const resolvers = {
   },
 }
 
-const hashPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10)
-  return await bcrypt.hash(password, salt)
-}
-
-const createToken = (id) => {
-  const userToken = { id }
-  return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
-}
-
-const languageToIndex = (language) => {
-  const list = ["en", "fi"]
-  return list.indexOf(language)
-}
-
-const currencyToIndex = (currency) => {
-  const list = ["EUR"]
-  return list.indexOf(currency)
-}
-
 const startApolloServer = async () => {
   const app = express()
   app.use(express.static("build"))
@@ -308,6 +323,7 @@ const startApolloServer = async () => {
       orderTypeDefs,
       orderInputDefs,
       userTypeDefs,
+      userInputDefs,
     ],
     resolvers,
     context: async ({ req }) => {
@@ -319,7 +335,7 @@ const startApolloServer = async () => {
             process.env.JWT_SECRET
           )
 
-          const currentUser = await User.findById(decodedToken.id)
+          const currentUser = await User.findById(decodedToken._id)
           return { currentUser }
         } catch (error) {
           throw new AuthenticationError("Invalid token")

@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import mongoosePaginate from "mongoose-paginate-v2"
 import { gql } from "apollo-server-express"
 
 const itemSchema = new mongoose.Schema({
@@ -28,6 +29,7 @@ const itemSchema = new mongoose.Schema({
     },
   ],
 })
+itemSchema.plugin(mongoosePaginate)
 
 export const Item = mongoose.model("Item", itemSchema)
 
@@ -50,8 +52,10 @@ export const itemTypeDefs = gql`
   }
 
   enum Category {
-    apples
-    bananas
+    fruits
+    cars
+    phones
+    beds
   }
 
   type Sale {
