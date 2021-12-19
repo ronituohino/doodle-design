@@ -6,9 +6,11 @@ import { useShoppingCart } from "../../hooks/useShoppingCart"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
+import { useRouting } from "../../hooks/useRouting"
 
 const ItemCard = ({ item }) => {
   const { language } = useLanguage()
+  const { itemLink } = useRouting()
   const { addItemToCart } = useShoppingCart()
 
   return (
@@ -22,9 +24,7 @@ const ItemCard = ({ item }) => {
         }}
       >
         <ContentCard
-          link={`/${language}/product/${item.category.toLowerCase()}/${
-            item.id
-          }`}
+          link={itemLink(item.category, item._id)}
           size={{ width: "200px", height: "200px" }}
         >
           <img

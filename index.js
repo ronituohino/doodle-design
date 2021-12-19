@@ -59,7 +59,7 @@ const commonTypeDefs = gql`
   }
 
   type Token {
-    value: String!
+    token: String!
   }
 
   type Options {
@@ -147,7 +147,7 @@ const resolvers = {
       )
 
       if (!validPassword) {
-        throw AuthenticationError("Invalid credentials")
+        throw new AuthenticationError("Invalid credentials")
       }
 
       return createToken(user._id)

@@ -1,7 +1,7 @@
 import { Box, Container, Pagination } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
-import { GET_ALL_ITEMS } from "../../queries/queries"
+import { GET_ALL_ITEMS } from "../../graphql/queries"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { useParams, matchPath } from "react-router"

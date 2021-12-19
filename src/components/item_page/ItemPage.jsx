@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
-import { GET_ITEM } from "../../queries/queries"
+import { GET_ITEM } from "../../graphql/queries"
 import { useParams } from "react-router"
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"

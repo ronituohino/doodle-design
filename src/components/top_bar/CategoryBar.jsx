@@ -1,6 +1,5 @@
-import { useHistory } from "react-router-dom"
 import { Box, Button } from "@mui/material"
-import { useLanguage } from "../../hooks/useLanguage"
+import { useRouting } from "../../hooks/useRouting"
 
 const CategoryBar = ({ searchDisabled }) => {
   return (
@@ -35,19 +34,14 @@ const CategoryBar = ({ searchDisabled }) => {
 }
 
 const Category = ({ name }) => {
-  const history = useHistory()
-  const { language } = useLanguage()
-
-  const press = () => {
-    history.push(`/${language}/product/${name}`)
-  }
+  const { openCategory } = useRouting()
 
   return (
     <>
       <Button
         variant="text"
         sx={{ margin: "4px", color: "white" }}
-        onClick={press}
+        onClick={() => openCategory(name)}
       >
         {name}
       </Button>

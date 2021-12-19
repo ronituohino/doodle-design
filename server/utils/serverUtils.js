@@ -26,5 +26,5 @@ export const hashPassword = async (password) => {
 
 export const createToken = (_id) => {
   const userToken = { _id }
-  return { value: jwt.sign(userToken, process.env.JWT_SECRET) }
+  return { token: jwt.sign(userToken, process.env.JWT_SECRET) }
 }

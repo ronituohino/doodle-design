@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
-import { SHOPPING_CART } from "../../../queries/queries.js"
+import { SHOPPING_CART } from "../../../graphql/queries.js"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
