@@ -306,6 +306,12 @@ const resolvers = {
       return root.description[languageToIndex(args.language)]
     },
   },
+
+  Sale: {
+    salePrice: (root, args) => {
+      return root.salePrice[currencyToIndex(args.currency)]
+    },
+  },
 }
 
 const startApolloServer = async () => {

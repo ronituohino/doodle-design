@@ -21,13 +21,34 @@ export const GET_ALL_ITEMS = gql`
 `
 
 export const GET_ITEM = gql`
-  query Query($id: ID!, $language: Language!, $currency: Currency!) {
-    getItem(id: $id) {
+  query GetItemById(
+    $id: ID!
+    $language: Language!
+    $currency: Currency!
+  ) {
+    getItemById(id: $id) {
+      _id
       name(language: $language)
       price(currency: $currency)
+      customization(language: $language) {
+        label
+        options
+      }
       description(language: $language)
+      availability {
+        available
+      }
       category
-      available
+      visible
+      sale {
+        salePrice(currency: $currency)
+        saleActive
+      }
+      ratings {
+        user
+        rating
+        comment
+      }
     }
   }
 `

@@ -59,7 +59,7 @@ export const itemTypeDefs = gql`
   }
 
   type Sale {
-    salePrice: Int!
+    salePrice(currency: Currency!): Int
     saleActive: Boolean!
   }
 

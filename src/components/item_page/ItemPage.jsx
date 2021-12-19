@@ -22,7 +22,7 @@ const ItemPage = () => {
 
         <Box>
           {data ? (
-            <ItemInformation item={data.getItem} />
+            <ItemInformation item={data.getItemById} />
           ) : (
             <p>loading...</p>
           )}
