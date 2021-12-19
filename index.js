@@ -25,7 +25,7 @@ mongoose
 const commonTypeDefs = gql`
   type Query {
     itemCount: Int!
-    getItems(category: Category): Paginated!
+    getItems(category: Category, page: Int!, size: Int!): Paginated!
     getItemById(id: ID!): Item!
 
     me: User
@@ -122,7 +122,7 @@ const resolvers = {
           ...(args.category && { category: args.category }),
           ...(hideInvisible && { visible: true }),
         },
-        getPagination()
+        getPagination(args.page, args.size)
       )
 
       return items

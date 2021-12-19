@@ -20,7 +20,7 @@ export const useShoppingCart = () => {
 
   const addItemToCart = (item) => {
     const matchIndex = cartItemsVar().findIndex(
-      (i) => i.item.id === item.id
+      (i) => i.item._id === item._id
     )
 
     if (matchIndex === -1) {
@@ -33,7 +33,7 @@ export const useShoppingCart = () => {
   const removeItemFromCart = (item, matchIndex = -1) => {
     if (matchIndex === -1) {
       matchIndex = cartItemsVar().findIndex(
-        (i) => i.item.id === item.id
+        (i) => i.item._id === item._id
       )
     }
 
@@ -52,7 +52,7 @@ export const useShoppingCart = () => {
 
     if (matchIndex === -1) {
       matchIndex = cartItemsVar().findIndex(
-        (i) => i.item.id === item.id
+        (i) => i.item._id === item._id
       )
     }
 
@@ -66,7 +66,7 @@ export const useShoppingCart = () => {
   const increaseAmount = (item, matchIndex = -1) => {
     if (matchIndex === -1) {
       matchIndex = cartItemsVar().findIndex(
-        (i) => i.item.id === item.id
+        (i) => i.item._id === item._id
       )
     }
 
@@ -87,7 +87,7 @@ export const useShoppingCart = () => {
 
     if (matchIndex === -1) {
       matchIndex = cartItemsVar().findIndex(
-        (i) => i.item.id === item.id
+        (i) => i.item._id === item._id
       )
     }
 

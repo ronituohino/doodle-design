@@ -21,11 +21,10 @@ const CategoryBar = ({ searchDisabled }) => {
       >
         {searchDisabled ? (
           <>
-            <Category name="apples" />
-            <Category name="pears" />
-            <Category name="bananas" />
-            <Category name="watermelons" />
-            <Category name="kiwis" />
+            <Category name="fruits" />
+            <Category name="cars" />
+            <Category name="phones" />
+            <Category name="beds" />
           </>
         ) : (
           <></>
