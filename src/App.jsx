@@ -5,6 +5,8 @@ import TopBar from "./components/top_bar/TopBar"
 import { Switch, Route, Redirect } from "react-router-dom"
 import Account from "./components/account/Account"
 import ItemPage from "./components/item_page/ItemPage"
+import AccountRegister from "./components/account/AccountRegister"
+import AccountLogin from "./components/account/AccountLogin"
 
 const App = () => {
   return (
@@ -17,6 +19,14 @@ const App = () => {
 
         <Route path="/:language/product/:category">
           <Content />
+        </Route>
+
+        <Route path="/:language/account/register">
+          <AccountRegister />
+        </Route>
+
+        <Route path="/:language/account/login">
+          <AccountLogin />
         </Route>
 
         <Route path="/:language/account">

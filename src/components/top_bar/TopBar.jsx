@@ -1,29 +1,18 @@
 import { useState } from "react"
 
-import {
-  AppBar,
-  Toolbar,
-  Container,
-  IconButton,
-  Box,
-} from "@mui/material"
-
-import PersonIcon from "@mui/icons-material/Person"
+import { AppBar, Toolbar, Container, Box } from "@mui/material"
 
 import CategoryBar from "./CategoryBar"
 import SearchBar from "./SearchBar"
 
-import { Link, useHistory } from "react-router-dom"
-import { useLanguage } from "../../hooks/useLanguage"
+import { Link } from "react-router-dom"
 
 import logo from "../../images/logo.png"
 import ShoppingCart from "./shopping_cart/ShoppingCart"
+import AccountPanel from "./AccountPanel"
 import Language from "./Language"
 
 const TopBar = () => {
-  const { language } = useLanguage()
-  const history = useHistory()
-
   const [searchDisabled, setSearchDisabled] = useState(true)
 
   return (
@@ -52,13 +41,7 @@ const TopBar = () => {
 
             <ShoppingCart />
 
-            <IconButton
-              color="inherit"
-              sx={{ margin: 0.5 }}
-              onClick={() => history.push(`/${language}/account`)}
-            >
-              <PersonIcon />
-            </IconButton>
+            <AccountPanel />
 
             <Language />
           </Toolbar>
