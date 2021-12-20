@@ -18,7 +18,7 @@ import { LOGIN } from "../../graphql/mutations"
 import { useRouting } from "../../hooks/useRouting"
 
 const AccountLogin = () => {
-  const { home } = useRouting()
+  const { openHome } = useRouting()
 
   const [login] = useMutation(LOGIN, {
     onError: (error) => {
@@ -26,7 +26,7 @@ const AccountLogin = () => {
     },
     onCompleted: (response) => {
       localStorage.setItem("token", response.login.token)
-      home()
+      openHome()
     },
   })
 

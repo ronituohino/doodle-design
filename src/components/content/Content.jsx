@@ -40,6 +40,7 @@ const Content = () => {
   return (
     <>
       <Container
+        maxWidth="md"
         sx={{
           marginTop: 4,
         }}

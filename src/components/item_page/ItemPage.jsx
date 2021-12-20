@@ -1,10 +1,23 @@
-import { Box, Container, Typography } from "@mui/material"
+import { useFormik } from "formik"
+import * as yup from "yup"
+
+import {
+  Box,
+  Container,
+  Typography,
+  Select,
+  MenuItem,
+  Button,
+  InputLabel,
+  TextField,
+} from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_ITEM } from "../../graphql/queries"
 import { useParams } from "react-router"
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
+import { useState } from "react"
 
 const ItemPage = () => {
   const { id } = useParams()
@@ -13,22 +26,29 @@ const ItemPage = () => {
     variables: { id, language, currency: "EUR" },
   })
 
+  console.log(data)
+
   return (
     <>
-      <Container sx={{ display: "flex", justifyContent: "center" }}>
-        <Box>
+      <Container
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 4,
+        }}
+      >
+        <Box sx={{ flexBasis: "50%" }}>
           <ItemPictures />
         </Box>
 
-        <Box>
+        <Box sx={{ flexBasis: "50%", marginLeft: 4 }}>
           {data ? (
             <ItemInformation item={data.getItemById} />
           ) : (
             <p>loading...</p>
           )}
         </Box>
-
-        <Box sx={{ flexBasis: "100%", height: 0 }} />
 
         <Box>
           <ItemExtras />
@@ -41,22 +61,123 @@ const ItemPage = () => {
 const ItemPictures = ({ item }) => {
   return (
     <>
-      <Typography>Main image</Typography>
-      <Typography>Scaling sub thingy</Typography>
+      <Box>
+        <img
+          component="img"
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+          alt="name"
+          style={{
+            width: "350px",
+            height: "350px",
+            borderRadius: 16,
+          }}
+        />
+      </Box>
     </>
   )
 }
 
 const ItemInformation = ({ item }) => {
   const { language } = useLanguage()
+
+  const getInitialObject = (item) => {
+    var newInitial = new Object()
+
+    item.customization.forEach((c) => {
+      newInitial[c.label.toLowerCase()] = ""
+    })
+
+    return newInitial
+  }
+
+  const getValidationSchema = (item) => {
+    var newValidation = new Object()
+
+    item.customization.forEach((c) => {
+      newValidation[c.label.toLowerCase()] = yup
+        .string()
+        .required(`Please select a ${c.label.toLowerCase()}`)
+    })
+
+    return yup.object(newValidation)
+  }
+
+  const formik = useFormik({
+    initialValues: getInitialObject(item),
+    validationSchema: getValidationSchema(item),
+    onSubmit: (values) => {
+      console.log(values)
+    },
+  })
+
+  const selectStyle = {
+    marginBottom: 2,
+    minWidth: "200px",
+  }
+
   return (
     <>
-      <Typography>{item.name}</Typography>
-      <Typography>
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: "bold",
+          letterSpacing: 0.5,
+        }}
+      >
+        {item.name}
+      </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          fontWeight: "bold",
+          letterSpacing: 0.5,
+        }}
+      >
         {formatPrice(item.price, language, "EUR")}
       </Typography>
 
-      <Typography>Options</Typography>
+      <form onSubmit={formik.handleSubmit}>
+        {item.customization.map((c) => {
+          const lowerLabel = c.label.toLowerCase()
+          return (
+            <TextField
+              select
+              key={lowerLabel}
+              id={lowerLabel}
+              name={lowerLabel}
+              label={c.label}
+              value={formik.values[lowerLabel]}
+              onChange={formik.handleChange}
+              error={
+                formik.touched[lowerLabel] &&
+                Boolean(formik.errors[lowerLabel])
+              }
+              helperText={
+                formik.touched[lowerLabel] &&
+                formik.errors[lowerLabel]
+              }
+              sx={selectStyle}
+            >
+              {c.options.map((o) => {
+                return (
+                  <MenuItem key={o.toLowerCase()} value={o}>
+                    {o}
+                  </MenuItem>
+                )
+              })}
+            </TextField>
+          )
+        })}
+
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+        >
+          Add to shopping cart
+        </Button>
+      </form>
     </>
   )
 }

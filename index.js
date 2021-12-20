@@ -292,9 +292,7 @@ const resolvers = {
         root.customization.forEach((c) => {
           arr.push({
             label: c.label[languageToIndex(args.language)],
-            options: c.options.map(
-              (l) => l[languageToIndex(args.language)]
-            ),
+            options: c.options[languageToIndex(args.language)],
           })
         })
         return arr
