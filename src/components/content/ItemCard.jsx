@@ -1,8 +1,5 @@
 import ContentCard from "./ContentCard"
-import { Box, Typography, Fab } from "@mui/material"
-
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
-import { useShoppingCart } from "../../hooks/useShoppingCart"
+import { Box, Typography } from "@mui/material"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
@@ -11,14 +8,13 @@ import { useRouting } from "../../hooks/useRouting"
 const ItemCard = ({ item }) => {
   const { language } = useLanguage()
   const { itemLink } = useRouting()
-  const { addItemToCart } = useShoppingCart()
 
   return (
     <>
       <Box
         sx={{
           position: "relative",
-          margin: 2.5,
+          margin: 2,
           width: "200px",
           maxHeight: "325px",
         }}
@@ -40,13 +36,6 @@ const ItemCard = ({ item }) => {
             }}
           />
         </ContentCard>
-
-        <Fab
-          sx={{ position: "absolute", right: -25, top: 175 }}
-          onClick={() => addItemToCart(item)}
-        >
-          <AddShoppingCartIcon />
-        </Fab>
 
         <Box sx={{ marginTop: 1.5 }}>
           <Typography

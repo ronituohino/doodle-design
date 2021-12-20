@@ -17,7 +17,9 @@ import { GET_ITEM } from "../../graphql/queries"
 import { useParams } from "react-router"
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
-import { useState } from "react"
+import { useShoppingCart } from "../../hooks/useShoppingCart"
+
+import hash from "object-hash"
 
 const ItemPage = () => {
   const { id } = useParams()
@@ -79,6 +81,7 @@ const ItemPictures = ({ item }) => {
 
 const ItemInformation = ({ item }) => {
   const { language } = useLanguage()
+  const { addItemToCart } = useShoppingCart()
 
   const getInitialObject = (item) => {
     var newInitial = new Object()
@@ -96,7 +99,7 @@ const ItemInformation = ({ item }) => {
     item.customization.forEach((c) => {
       newValidation[c.label.toLowerCase()] = yup
         .string()
-        .required(`Please select a ${c.label.toLowerCase()}`)
+        .required(`Please select: ${c.label.toLowerCase()}`)
     })
 
     return yup.object(newValidation)
@@ -106,7 +109,25 @@ const ItemInformation = ({ item }) => {
     initialValues: getInitialObject(item),
     validationSchema: getValidationSchema(item),
     onSubmit: (values) => {
-      console.log(values)
+      // Pack customization into item
+      const customizationKeys = Object.keys(values)
+      var customizationOptions = []
+
+      customizationKeys.forEach((key) => {
+        var customization = new Object()
+        customization.label = key
+        customization.option = values[key]
+        customizationOptions.push(customization)
+      })
+
+      // Add a hash: items with same _id might appear in lists
+      const selectedItem = {
+        ...item,
+        customization: customizationOptions,
+      }
+
+      selectedItem.hash = hash(selectedItem)
+      addItemToCart(selectedItem)
     },
   })
 

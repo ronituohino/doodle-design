@@ -18,10 +18,14 @@ export const useShoppingCart = () => {
     }
   }, [language])
 
+  const match = (item) => {
+    return cartItemsVar().findIndex((i) => {
+      return i.item._id === item._id && i.item.hash === item.hash
+    })
+  }
+
   const addItemToCart = (item) => {
-    const matchIndex = cartItemsVar().findIndex(
-      (i) => i.item._id === item._id
-    )
+    const matchIndex = match(item)
 
     if (matchIndex === -1) {
       cartItemsVar([...cartItemsVar(), { item, amount: 1 }])
@@ -32,9 +36,7 @@ export const useShoppingCart = () => {
 
   const removeItemFromCart = (item, matchIndex = -1) => {
     if (matchIndex === -1) {
-      matchIndex = cartItemsVar().findIndex(
-        (i) => i.item._id === item._id
-      )
+      matchIndex = match(item)
     }
 
     let newArr = cartItemsVar()
@@ -51,9 +53,7 @@ export const useShoppingCart = () => {
     }
 
     if (matchIndex === -1) {
-      matchIndex = cartItemsVar().findIndex(
-        (i) => i.item._id === item._id
-      )
+      matchIndex = match(item)
     }
 
     let newArr = cartItemsVar()
@@ -65,9 +65,7 @@ export const useShoppingCart = () => {
 
   const increaseAmount = (item, matchIndex = -1) => {
     if (matchIndex === -1) {
-      matchIndex = cartItemsVar().findIndex(
-        (i) => i.item._id === item._id
-      )
+      matchIndex = match(item)
     }
 
     let newArr = cartItemsVar()
@@ -86,9 +84,7 @@ export const useShoppingCart = () => {
     }
 
     if (matchIndex === -1) {
-      matchIndex = cartItemsVar().findIndex(
-        (i) => i.item._id === item._id
-      )
+      matchIndex = match(item)
     }
 
     let newArr = cartItemsVar()

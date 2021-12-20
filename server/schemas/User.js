@@ -70,7 +70,7 @@ export const userTypeDefs = gql`
 export const userInputDefs = gql`
   input CartItemInput {
     referenceToItemId: ID!
-    customization: OptionInput
+    customization: [OptionInput]
     amount: Int!
   }
 `

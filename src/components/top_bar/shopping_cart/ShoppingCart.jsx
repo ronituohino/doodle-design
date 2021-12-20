@@ -128,7 +128,7 @@ const ShoppingCartItems = ({ cartItems }) => {
   return (
     <>
       {cartItems.map((e) => (
-        <ShoppingCartItem key={e.item._id} element={e} />
+        <ShoppingCartItem key={e.item.hash} element={e} />
       ))}
     </>
   )
