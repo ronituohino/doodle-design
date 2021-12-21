@@ -20,10 +20,12 @@ import ShoppingCartItem from "./ShoppingCartItem"
 
 import { formatPrice } from "../../../utils/price.js"
 import { useLanguage } from "../../../hooks/useLanguage.js"
+import { useRouting } from "../../../hooks/useRouting.js"
 
 const ShoppingCart = () => {
   const { data } = useQuery(SHOPPING_CART)
   const { language } = useLanguage()
+  const { openCheckout } = useRouting()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const { totalAmountOfItems } = useShoppingCart()
@@ -86,11 +88,11 @@ const ShoppingCart = () => {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        {total > 0 ? (
-          <ShoppingCartItems cartItems={data.cartItems} />
-        ) : (
-          <p>empty!</p>
-        )}
+        {total === 0 && <p>empty!</p>}
+        {total > 0 &&
+          data.cartItems.map((e) => (
+            <ShoppingCartItem key={e.item.hash} element={e} />
+          ))}
 
         <Box
           sx={{
@@ -99,10 +101,6 @@ const ShoppingCart = () => {
             marginTop: 1,
           }}
         >
-          <Typography sx={{ marginRight: 1, fontWeight: "bold" }}>
-            {`Items: ${total}`}
-          </Typography>
-
           <Typography
             sx={{
               marginLeft: 1,
@@ -118,18 +116,16 @@ const ShoppingCart = () => {
           </Typography>
         </Box>
         <Divider />
-        <Button color="primary">Checkout</Button>
+        <Button
+          color="primary"
+          onClick={() => {
+            openCheckout()
+            closeMenu()
+          }}
+        >
+          Checkout
+        </Button>
       </Menu>
-    </>
-  )
-}
-
-const ShoppingCartItems = ({ cartItems }) => {
-  return (
-    <>
-      {cartItems.map((e) => (
-        <ShoppingCartItem key={e.item.hash} element={e} />
-      ))}
     </>
   )
 }

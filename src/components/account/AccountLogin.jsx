@@ -13,22 +13,16 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 
 import { useState } from "react"
-import { useMutation } from "@apollo/client"
-import { LOGIN } from "../../graphql/mutations"
+import { useAccount } from "../../hooks/useAccount"
 import { useRouting } from "../../hooks/useRouting"
 
 const AccountLogin = () => {
-  const { openHome } = useRouting()
+  const onLogin = () => {
+    openHome()
+  }
 
-  const [login] = useMutation(LOGIN, {
-    onError: (error) => {
-      console.log(error)
-    },
-    onCompleted: (response) => {
-      localStorage.setItem("token", response.login.token)
-      openHome()
-    },
-  })
+  const { openHome } = useRouting()
+  const { login } = useAccount(onLogin)
 
   const formik = useFormik({
     initialValues: {

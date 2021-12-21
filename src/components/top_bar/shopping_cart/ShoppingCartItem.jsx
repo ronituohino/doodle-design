@@ -15,14 +15,13 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 
 import { useLanguage } from "../../../hooks/useLanguage"
-import { useHistory } from "react-router"
 
 import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
 
 import { formatPrice } from "../../../utils/price"
+import { useRouting } from "../../../hooks/useRouting"
 
 const ShoppingCartItem = ({ element }) => {
-  const history = useHistory()
   const {
     setAmount,
     increaseAmount,
@@ -30,6 +29,7 @@ const ShoppingCartItem = ({ element }) => {
     removeItemFromCart,
   } = useShoppingCart()
   const { language } = useLanguage()
+  const { openItem } = useRouting()
 
   const [itemAmount, setItemAmount] = useState(element.amount)
 
@@ -79,11 +79,7 @@ const ShoppingCartItem = ({ element }) => {
         true
       )
     ) {
-      history.push(
-        `/${language}/product/${element.item.category.toLowerCase()}/${
-          element.item.id
-        }`
-      )
+      openItem(element.item.category, element.item._id)
     }
   }
 

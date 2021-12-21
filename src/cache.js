@@ -14,10 +14,6 @@ const cache = new InMemoryCache({
             return cartItemsVar()
           },
         },
-
-        launches: {
-          // ...field policy definitions...
-        },
       },
     },
   },

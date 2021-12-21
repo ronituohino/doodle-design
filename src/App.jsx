@@ -7,6 +7,7 @@ import Account from "./components/account/Account"
 import ItemPage from "./components/item_page/ItemPage"
 import AccountRegister from "./components/account/AccountRegister"
 import AccountLogin from "./components/account/AccountLogin"
+import Checkout from "./components/checkout/Checkout"
 
 const App = () => {
   return (
@@ -19,6 +20,10 @@ const App = () => {
 
         <Route path="/:language/product/:category">
           <Content />
+        </Route>
+
+        <Route path="/:language/account/checkout">
+          <Checkout />
         </Route>
 
         <Route path="/:language/account/register">

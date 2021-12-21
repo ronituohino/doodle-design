@@ -26,12 +26,24 @@ export const useRouting = () => {
     history.push(itemLink(category, itemId))
   }
 
+  const checkoutLink = () => {
+    return `/${language}/account/checkout`
+  }
+  const openCheckout = () => {
+    history.push(checkoutLink())
+  }
+
   return {
-    openHome,
     homeLink,
-    openCategory,
+    openHome,
+
     categoryLink,
-    openItem,
+    openCategory,
+
     itemLink,
+    openItem,
+
+    checkoutLink,
+    openCheckout,
   }
 }
