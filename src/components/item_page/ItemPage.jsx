@@ -26,8 +26,6 @@ const ItemPage = () => {
     variables: { id, language, currency: "EUR" },
   })
 
-  console.log(data)
-
   return (
     <>
       <Container
@@ -58,6 +56,7 @@ const ItemPage = () => {
   )
 }
 
+// eslint-disable-next-line
 const ItemPictures = ({ item }) => {
   return (
     <>
@@ -202,6 +201,7 @@ const ItemInformation = ({ item }) => {
 }
 
 // Description, ratings, etc
+// eslint-disable-next-line
 const ItemExtras = ({ item }) => {
   return (
     <>

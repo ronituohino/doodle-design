@@ -1,15 +1,21 @@
 import { useState } from "react"
-import { IconButton, Menu, Button, Box } from "@mui/material"
+import {
+  IconButton,
+  Menu,
+  Button,
+  Box,
+  Typography,
+} from "@mui/material"
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import PersonIcon from "@mui/icons-material/Person"
-import { useHistory } from "react-router-dom"
-import { useLanguage } from "../../hooks/useLanguage"
+import { useRouting } from "../../hooks/useRouting"
+import { useAccount } from "../../hooks/useAccount"
 
 const AccountPanel = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const history = useHistory()
-  const { language } = useLanguage()
+  const { openLogin, openRegister } = useRouting()
+  const { logOut, data } = useAccount()
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -52,27 +58,38 @@ const AccountPanel = () => {
             margin: 0.5,
           }}
         >
-          <Button
-            onClick={() => history.push(`/${language}/account/login`)}
-          >
-            Log In
-          </Button>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            margin: 0.5,
-          }}
-        >
-          <Button
-            onClick={() =>
-              history.push(`/${language}/account/register`)
-            }
-          >
-            Register
-          </Button>
+          {data && data.me ? (
+            <>
+              <Typography>Logged in: {data.me.username}</Typography>
+              <Button
+                onClick={() => {
+                  closeMenu()
+                  logOut()
+                }}
+              >
+                Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  closeMenu()
+                  openLogin()
+                }}
+              >
+                Log In
+              </Button>
+              <Button
+                onClick={() => {
+                  closeMenu()
+                  openRegister()
+                }}
+              >
+                Register
+              </Button>
+            </>
+          )}
         </Box>
       </Menu>
     </>

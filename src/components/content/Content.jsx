@@ -15,6 +15,7 @@ const Content = () => {
   const { category } = useParams()
 
   const [page, setPage] = useState(0)
+  // eslint-disable-next-line
   const [size, setSize] = useState(6)
 
   const { data, error } = useQuery(GET_ALL_ITEMS, {

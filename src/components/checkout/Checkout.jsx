@@ -4,6 +4,7 @@ import { useState } from "react"
 const steps = ["Check shopping cart", "Checkout", "Confirmation"]
 
 const Checkout = () => {
+  // eslint-disable-next-line
   const [activeStep, setActiveStep] = useState(0)
 
   return (

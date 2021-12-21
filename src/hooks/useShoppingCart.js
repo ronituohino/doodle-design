@@ -4,6 +4,12 @@ import { cartItemsVar } from "../cache"
 import { useLanguage } from "./useLanguage"
 
 // Hook to handle cached shoppingCart
+
+// When the shopping cart is centralized in the cache, all
+// components that use this hook get updated when the shopping cart
+// is updated somewhere
+
+// The shopping cart is accessed using the query SHOPPING_CART, see graphql/queries.js
 export const useShoppingCart = () => {
   const { language } = useLanguage()
   const [previousLang, setPreviousLang] = useState(language)

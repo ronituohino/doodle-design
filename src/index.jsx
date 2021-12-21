@@ -5,12 +5,12 @@ import { BrowserRouter as Router } from "react-router-dom"
 
 import {
   ApolloClient,
+  ApolloLink,
   HttpLink,
   gql,
   ApolloProvider,
 } from "@apollo/client"
 
-import { setContext } from "@apollo/client/link/context"
 import cache from "./cache"
 
 export const typeDefs = gql`
@@ -26,15 +26,16 @@ const httpLink = new HttpLink({
   uri: `http://localhost:${port}/graphql`,
 })
 
-const authLink = setContext((_, { headers }) => {
+const authLink = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem("token")
 
-  return {
+  operation.setContext(({ headers }) => ({
     headers: {
+      Authorization: token ? `Bearer ${token}` : "",
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
     },
-  }
+  }))
+  return forward(operation)
 })
 
 const client = new ApolloClient({

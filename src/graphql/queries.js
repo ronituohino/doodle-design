@@ -59,8 +59,10 @@ export const SHOPPING_CART = gql`
   }
 `
 
-export const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
+export const USER = gql`
+  query GetUserInfo {
+    me {
+      username
+    }
   }
 `

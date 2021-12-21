@@ -5,6 +5,10 @@ export const useRouting = () => {
   const history = useHistory()
   const { language } = useLanguage()
 
+  const back = () => {
+    history.goBack()
+  }
+
   const homeLink = () => {
     return `/${language}/home`
   }
@@ -33,7 +37,23 @@ export const useRouting = () => {
     history.push(checkoutLink())
   }
 
+  const loginLink = () => {
+    return `/${language}/account/login`
+  }
+  const openLogin = () => {
+    history.push(loginLink())
+  }
+
+  const registerLink = () => {
+    return `/${language}/account/register`
+  }
+  const openRegister = () => {
+    history.push(registerLink())
+  }
+
   return {
+    back,
+
     homeLink,
     openHome,
 
@@ -45,5 +65,11 @@ export const useRouting = () => {
 
     checkoutLink,
     openCheckout,
+
+    loginLink,
+    openLogin,
+
+    registerLink,
+    openRegister,
   }
 }

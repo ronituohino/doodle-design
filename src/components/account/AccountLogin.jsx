@@ -13,16 +13,12 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 
 import { useState } from "react"
-import { useAccount } from "../../hooks/useAccount"
 import { useRouting } from "../../hooks/useRouting"
+import { useAccount } from "../../hooks/useAccount"
 
 const AccountLogin = () => {
-  const onLogin = () => {
-    openHome()
-  }
-
-  const { openHome } = useRouting()
-  const { login } = useAccount(onLogin)
+  const { back } = useRouting()
+  const { logIn } = useAccount()
 
   const formik = useFormik({
     initialValues: {
@@ -34,12 +30,7 @@ const AccountLogin = () => {
       password: yup.string().required("Password is required"),
     }),
     onSubmit: (values) => {
-      login({
-        variables: {
-          email: values.email,
-          password: values.password,
-        },
-      })
+      logIn(values.email, values.password, back)
     },
   })
 
