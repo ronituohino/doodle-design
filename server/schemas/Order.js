@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import { gql } from "apollo-server-express"
+const mongoose = require("mongoose")
+const { gql } = require("apollo-server-express")
 
 const addressDetails = {
   firstName: { type: String, required: true },
@@ -45,9 +45,9 @@ const orderSchema = new mongoose.Schema({
   extrainfo: String,
 })
 
-export const Order = mongoose.model("Order", orderSchema)
+const Order = mongoose.model("Order", orderSchema)
 
-export const orderTypeDefs = gql`
+const orderTypeDefs = gql`
   type Order {
     _id: ID!
     items: [OrderItem!]!
@@ -105,7 +105,7 @@ export const orderTypeDefs = gql`
   }
 `
 
-export const orderInputDefs = gql`
+const orderInputDefs = gql`
   input OrderItemInput {
     referenceToItemId: ID!
     price: Float!
@@ -133,3 +133,4 @@ export const orderInputDefs = gql`
     details: String!
   }
 `
+module.exports = { Order, orderTypeDefs, orderInputDefs }

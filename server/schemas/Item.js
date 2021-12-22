@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
-import { gql } from "apollo-server-express"
+const mongoose = require("mongoose")
+const mongoosePaginate = require("mongoose-paginate-v2")
+const { gql } = require("apollo-server-express")
 
 const itemSchema = new mongoose.Schema({
   name: { type: [String], required: true },
@@ -31,9 +31,9 @@ const itemSchema = new mongoose.Schema({
 })
 itemSchema.plugin(mongoosePaginate)
 
-export const Item = mongoose.model("Item", itemSchema)
+const Item = mongoose.model("Item", itemSchema)
 
-export const itemTypeDefs = gql`
+const itemTypeDefs = gql`
   type Item {
     _id: ID!
     name(language: Language!): String!
@@ -92,7 +92,7 @@ export const itemTypeDefs = gql`
   }
 `
 
-export const itemInputDefs = gql`
+const itemInputDefs = gql`
   input AvailabilityInput {
     available: Boolean!
   }
@@ -108,3 +108,5 @@ export const itemInputDefs = gql`
     comment: String
   }
 `
+
+module.exports = { Item, itemTypeDefs, itemInputDefs }

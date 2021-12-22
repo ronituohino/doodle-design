@@ -1,26 +1,31 @@
-import {
+const {
   ApolloServer,
   gql,
   UserInputError,
   AuthenticationError,
-} from "apollo-server-express"
-import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
+} = require("apollo-server-express")
+const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core")
 
-import dotenv from "dotenv"
+const dotenv = require("dotenv")
 dotenv.config()
 
-import mongoose from "mongoose"
+// Check that environment variables are set
+const check = require("./server/utils/envValidation")
+check()
 
-import express from "express"
-import http from "http"
-import cors from "cors"
+const mongoose = require("mongoose")
 
-import jwt from "jsonwebtoken"
-import bcrypt from "bcrypt"
+const express = require("express")
+const http = require("http")
+const cors = require("cors")
+
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
 mongoose
   .connect(process.env.DB_URI)
-  .then(() => console.log("Connected to DB!"))
+  .then(() => console.log("Connected to database"))
+  .catch((e) => console.log(`Error connecting to database: ${e}`))
 
 const commonTypeDefs = gql`
   type Query {
@@ -85,29 +90,29 @@ const commonInputDefs = gql`
   }
 `
 
-import {
+const {
   Item,
   itemTypeDefs,
   itemInputDefs,
-} from "./server/schemas/Item.js"
-import {
+} = require("./server/schemas/Item.js")
+const {
   User,
   userTypeDefs,
   userInputDefs,
-} from "./server/schemas/User.js"
-import {
+} = require("./server/schemas/User.js")
+const {
   Order,
   orderTypeDefs,
   orderInputDefs,
-} from "./server/schemas/Order.js"
+} = require("./server/schemas/Order.js")
 
-import {
+const {
   languageToIndex,
   currencyToIndex,
   getPagination,
   hashPassword,
   createToken,
-} from "./server/utils/serverUtils.js"
+} = require("./server/utils/serverUtils.js")
 
 const resolvers = {
   Query: {
@@ -141,10 +146,7 @@ const resolvers = {
   Mutation: {
     login: async (root, args) => {
       const user = await User.findOne({ email: args.email })
-      const validPassword = await bcrypt.compare(
-        args.password,
-        user.password
-      )
+      const validPassword = await bcrypt.compare(args.password, user.password)
 
       if (!validPassword) {
         throw new AuthenticationError("Invalid credentials")
@@ -356,9 +358,7 @@ const startApolloServer = async () => {
   await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
-  console.log(
-    `Server ready at http://localhost:${port}${server.graphqlPath}`
-  )
+  console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`)
 }
 
 startApolloServer()

@@ -57,7 +57,7 @@
     "server": "node index.js",
     "server-dev": "nodemon index.js",
     "client-dev": "react-scripts start",
-    "lint": "eslint \"./**/*.{js,jsx}\"",
+    "eslint": "eslint \"./**/*.{js,jsx}\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -80,7 +80,7 @@
       "last 1 safari version"
     ]
   },
-  "type": "module",
+  "type": "commonjs",
   "devDependencies": {
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.14"
