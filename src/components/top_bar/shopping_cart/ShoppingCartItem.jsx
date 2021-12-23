@@ -6,12 +6,15 @@ import {
   Box,
   TextField,
   Typography,
+  Button,
 } from "@mui/material"
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import ClearIcon from "@mui/icons-material/Clear"
+
 import { useLanguage } from "../../../hooks/useLanguage"
 
 import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
@@ -20,12 +23,17 @@ import { formatPrice } from "../../../utils/price"
 import { useRouting } from "../../../hooks/useRouting"
 
 const ShoppingCartItem = ({ cartObject }) => {
-  const { setAmount, increaseAmount, decreaseAmount } =
-    useShoppingCart()
+  const {
+    setAmount,
+    increaseAmount,
+    decreaseAmount,
+    removeItemFromCart,
+  } = useShoppingCart()
   const { language } = useLanguage()
   const { openItem } = useRouting()
 
   const [itemAmount, setItemAmount] = useState(cartObject.amount)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
 
   // Updates itemAmount when amount is modified outside
   useEffect(() => {
@@ -53,8 +61,13 @@ const ShoppingCartItem = ({ cartObject }) => {
 
     const number = filterInt(e.target.value)
     if (!isNaN(number) && number < 100) {
-      setItemAmount(e.target.value)
-      setAmount(cartObject.item, number)
+      if (number <= 0) {
+        setDeleteConfirm(true)
+        setItemAmount(cartObject.amount)
+      } else {
+        setItemAmount(e.target.value)
+        setAmount(cartObject.item, number)
+      }
     }
   }
 
@@ -63,6 +76,7 @@ const ShoppingCartItem = ({ cartObject }) => {
     if (e.target.value === "") {
       setItemAmount(cartObject.amount)
     }
+    setDeleteConfirm(false)
   }
 
   const checkLinkClick = (e) => {
@@ -76,8 +90,6 @@ const ShoppingCartItem = ({ cartObject }) => {
       openItem(cartObject.item.category, cartObject.item._id)
     }
   }
-
-  console.log(cartObject)
 
   return (
     <>
@@ -93,19 +105,19 @@ const ShoppingCartItem = ({ cartObject }) => {
           style={{
             width: 60,
             height: 60,
-            borderRadius: 6,
-            paddingLeft: 1,
+            borderRadius: 8,
+            marginLeft: 6,
           }}
         />
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
-            paddingLeft: 2,
+            paddingLeft: 1.5,
             gap: "5px",
           }}
         >
-          <Box sx={{ alignSelf: "center", width: 100 }}>
+          <Box sx={{ alignSelf: "center", width: 140 }}>
             <Typography
               variant="body1"
               noWrap
@@ -135,8 +147,7 @@ const ShoppingCartItem = ({ cartObject }) => {
           <Box
             sx={{
               alignSelf: "center",
-              width: 110,
-              backgroundColor: "blue",
+              width: 80,
             }}
           >
             <Typography sx={{ fontWeight: "bold" }}>
@@ -148,51 +159,101 @@ const ShoppingCartItem = ({ cartObject }) => {
             </Typography>
           </Box>
 
-          <Box
-            id="product-controls"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "red",
-              width: 46,
-              paddingRight: 1,
-            }}
-          >
-            <IconButton
-              sx={{}}
-              onClick={() => {
-                increaseAmount(cartObject.item)
+          {!deleteConfirm && (
+            <Box
+              id="product-controls"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                paddingRight: 1,
+                paddingLeft: 1,
+                height: 80,
               }}
             >
-              <KeyboardArrowUpIcon />
-            </IconButton>
-
-            <TextField
-              value={itemAmount}
-              onChange={handleValueChange}
-              onBlur={handleBlur}
-              size="small"
-              sx={{
-                textAlign: "center",
-                justifySelf: "flex-end",
-              }}
-              inputProps={{
-                style: { textAlign: "center" },
-              }}
-            />
-
-            {cartObject.amount < 99 ? (
               <IconButton
-                sx={{}}
+                disabled={cartObject.amount < 99 ? false : true}
+                disableRipple
+                sx={{
+                  width: 16,
+                  height: 16,
+                  alignSelf: "center",
+                  paddingBottom: 1.5,
+                }}
+                onClick={() => {
+                  increaseAmount(cartObject.item)
+                }}
+              >
+                <KeyboardArrowUpIcon />
+              </IconButton>
+
+              <TextField
+                value={itemAmount}
+                onChange={handleValueChange}
+                onBlur={handleBlur}
+                size="small"
+                sx={{
+                  textAlign: "center",
+                  alignSelf: "center",
+                  width: 46,
+                }}
+                inputProps={{
+                  style: { textAlign: "center" },
+                }}
+              />
+
+              <IconButton
+                disabled={cartObject.amount <= 1 ? true : false}
+                disableRipple
+                sx={{
+                  width: 16,
+                  height: 16,
+                  alignSelf: "center",
+                  paddingTop: 1.5,
+                }}
                 onClick={() => decreaseAmount(cartObject)}
               >
                 <KeyboardArrowDownIcon />
               </IconButton>
-            ) : (
-              <></>
-            )}
-          </Box>
+            </Box>
+          )}
+          {deleteConfirm && (
+            <Box
+              id="product-controls"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: 46,
+                height: 80,
+              }}
+            >
+              <Button
+                onClick={() => removeItemFromCart(cartObject.item)}
+              >
+                Delete
+              </Button>
+              <Button onClick={() => setDeleteConfirm(false)}>
+                Cancel
+              </Button>
+            </Box>
+          )}
         </Box>
+
+        {!deleteConfirm && (
+          <IconButton
+            id="product-controls"
+            disableRipple
+            sx={{
+              width: 16,
+              height: 16,
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+            }}
+            onClick={() => setDeleteConfirm(true)}
+          >
+            <ClearIcon />
+          </IconButton>
+        )}
       </MenuItem>
     </>
   )

@@ -85,8 +85,7 @@ export const useShoppingCart = () => {
 
   const decreaseAmount = (cartObject, matchIndex = -1) => {
     if (cartObject.amount === 1) {
-      console.log("removed!")
-      removeItemFromCart(cartObject)
+      removeItemFromCart(cartObject.item)
       return
     }
 
