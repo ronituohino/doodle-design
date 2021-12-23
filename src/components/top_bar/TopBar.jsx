@@ -18,7 +18,7 @@ const TopBar = () => {
   return (
     <>
       <Container>
-        <AppBar position="static" sx={{ borderRadius: 4 }}>
+        <AppBar position="static" sx={{ borderRadius: 1 }}>
           <Toolbar>
             <Link to="/">
               <img

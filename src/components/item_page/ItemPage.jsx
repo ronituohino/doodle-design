@@ -68,7 +68,7 @@ const ItemPictures = ({ item }) => {
           style={{
             width: "350px",
             height: "350px",
-            borderRadius: 16,
+            borderRadius: 4,
           }}
         />
       </Box>

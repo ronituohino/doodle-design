@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material"
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
 import { useRouting } from "../../hooks/useRouting"
+import { Link } from "react-router-dom"
 
 const ItemCard = ({ item }) => {
   const { language } = useLanguage()
@@ -19,23 +20,22 @@ const ItemCard = ({ item }) => {
           maxHeight: "325px",
         }}
       >
-        <ContentCard
-          link={itemLink(item.category, item._id)}
-          size={{ width: "200px", height: "200px" }}
-        >
-          <img
-            component="img"
-            src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-            alt="name"
-            style={{
-              margin: "auto",
-              width: "200px",
-              height: "200px",
-              marginBottom: "-6px",
-              borderRadius: 16,
-            }}
-          />
-        </ContentCard>
+        <Link to={itemLink(item.category, item._id)}>
+          <ContentCard size={{ width: "200px", height: "200px" }}>
+            <img
+              component="img"
+              src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+              alt="name"
+              style={{
+                margin: "auto",
+                width: "200px",
+                height: "200px",
+                marginBottom: "-6px",
+                borderRadius: 4,
+              }}
+            />
+          </ContentCard>
+        </Link>
 
         <Box sx={{ marginTop: 1.5 }}>
           <Typography

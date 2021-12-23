@@ -92,170 +92,173 @@ const ShoppingCartItem = ({ cartObject }) => {
   }
 
   return (
-    <>
-      <MenuItem
-        divider
-        disableTouchRipple={true}
-        onClick={(e) => checkLinkClick(e)}
+    <MenuItem
+      divider
+      disableTouchRipple={true}
+      onClick={(e) => checkLinkClick(e)}
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        paddingLeft: 1.5,
+        gap: "5px",
+      }}
+    >
+      <img
+        component="img"
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+        alt="name"
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: 4,
+          marginLeft: 6,
+        }}
+      />
+
+      <Box
+        sx={{
+          alignSelf: "center",
+          minWidth: "42%",
+          maxWidth: "42%",
+          backgroundColor: "blue",
+        }}
       >
-        <img
-          component="img"
-          src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-          alt="name"
+        <Typography
+          variant="body1"
           style={{
-            width: 60,
-            height: 60,
-            borderRadius: 8,
-            marginLeft: 6,
-          }}
-        />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            paddingLeft: 1.5,
-            gap: "5px",
+            fontWeight: "bold",
+            wordWrap: "break-word",
           }}
         >
-          <Box sx={{ alignSelf: "center", width: 140 }}>
-            <Typography
-              variant="body1"
-              noWrap
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
-              {cartObject.item.name}
-            </Typography>
+          {cartObject.item.name}
+        </Typography>
 
-            {cartObject.item.customization &&
-              cartObject.item.customization.map((c) => {
-                return (
-                  <Typography
-                    key={`${cartObject.item.hash}-${c.label}`}
-                    variant="caption"
-                    sx={{
-                      color: "grey",
-                    }}
-                  >
-                    {c.label}: {c.option}
-                  </Typography>
-                )
-              })}
-          </Box>
-
-          <Box
-            sx={{
-              alignSelf: "center",
-              width: 80,
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>
-              {formatPrice(
-                cartObject.item.price * cartObject.amount,
-                language,
-                "EUR"
-              )}
-            </Typography>
-          </Box>
-
-          {!deleteConfirm && (
-            <Box
-              id="product-controls"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                paddingRight: 1,
-                paddingLeft: 1,
-                height: 80,
-              }}
-            >
-              <IconButton
-                disabled={cartObject.amount < 99 ? false : true}
-                disableRipple
+        {cartObject.item.customization &&
+          cartObject.item.customization.map((c) => {
+            return (
+              <Typography
+                key={`${cartObject.item.hash}-${c.label}`}
+                variant="caption"
                 sx={{
-                  width: 16,
-                  height: 16,
-                  alignSelf: "center",
-                  paddingBottom: 1.5,
-                }}
-                onClick={() => {
-                  increaseAmount(cartObject.item)
+                  color: "grey",
                 }}
               >
-                <KeyboardArrowUpIcon />
-              </IconButton>
+                {c.label}: {c.option}
+              </Typography>
+            )
+          })}
+      </Box>
 
-              <TextField
-                value={itemAmount}
-                onChange={handleValueChange}
-                onBlur={handleBlur}
-                size="small"
-                sx={{
-                  textAlign: "center",
-                  alignSelf: "center",
-                  width: 46,
-                }}
-                inputProps={{
-                  style: { textAlign: "center" },
-                }}
-              />
+      <Typography
+        noWrap
+        sx={{
+          minWidth: "24%",
+          maxWidth: "24%",
+          alignSelf: "center",
+          fontWeight: "bold",
+          backgroundColor: "red",
+        }}
+      >
+        {formatPrice(
+          cartObject.item.price * cartObject.amount,
+          language,
+          "EUR"
+        )}
+      </Typography>
 
-              <IconButton
-                disabled={cartObject.amount <= 1 ? true : false}
-                disableRipple
-                sx={{
-                  width: 16,
-                  height: 16,
-                  alignSelf: "center",
-                  paddingTop: 1.5,
-                }}
-                onClick={() => decreaseAmount(cartObject)}
-              >
-                <KeyboardArrowDownIcon />
-              </IconButton>
-            </Box>
-          )}
-          {deleteConfirm && (
-            <Box
-              id="product-controls"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: 46,
-                height: 80,
-              }}
-            >
-              <Button
-                onClick={() => removeItemFromCart(cartObject.item)}
-              >
-                Delete
-              </Button>
-              <Button onClick={() => setDeleteConfirm(false)}>
-                Cancel
-              </Button>
-            </Box>
-          )}
-        </Box>
-
-        {!deleteConfirm && (
+      {!deleteConfirm && (
+        <Box
+          id="product-controls"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            paddingRight: 1,
+            paddingLeft: 1,
+            height: 80,
+          }}
+        >
           <IconButton
-            id="product-controls"
+            disabled={cartObject.amount < 99 ? false : true}
             disableRipple
             sx={{
               width: 16,
               height: 16,
-              position: "absolute",
-              top: "5px",
-              right: "5px",
+              alignSelf: "center",
+              paddingBottom: 1.5,
             }}
-            onClick={() => setDeleteConfirm(true)}
+            onClick={() => {
+              increaseAmount(cartObject.item)
+            }}
           >
-            <ClearIcon />
+            <KeyboardArrowUpIcon />
           </IconButton>
-        )}
-      </MenuItem>
-    </>
+
+          <TextField
+            value={itemAmount}
+            onChange={handleValueChange}
+            onBlur={handleBlur}
+            size="small"
+            sx={{
+              textAlign: "center",
+              alignSelf: "center",
+              width: 46,
+            }}
+            inputProps={{
+              style: { textAlign: "center" },
+            }}
+          />
+
+          <IconButton
+            disabled={cartObject.amount <= 1 ? true : false}
+            disableRipple
+            sx={{
+              width: 16,
+              height: 16,
+              alignSelf: "center",
+              paddingTop: 1.5,
+            }}
+            onClick={() => decreaseAmount(cartObject)}
+          >
+            <KeyboardArrowDownIcon />
+          </IconButton>
+        </Box>
+      )}
+      {deleteConfirm && (
+        <Box
+          id="product-controls"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: 46,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => removeItemFromCart(cartObject.item)}>
+            Delete
+          </Button>
+          <Button onClick={() => setDeleteConfirm(false)}>
+            Cancel
+          </Button>
+        </Box>
+      )}
+
+      {!deleteConfirm && (
+        <IconButton
+          id="product-controls"
+          disableRipple
+          sx={{
+            width: 16,
+            height: 16,
+            position: "absolute",
+            top: "5px",
+            right: "5px",
+          }}
+          onClick={() => setDeleteConfirm(true)}
+        >
+          <ClearIcon />
+        </IconButton>
+      )}
+    </MenuItem>
   )
 }
 

@@ -88,11 +88,16 @@ const ShoppingCart = () => {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        {total === 0 && <p>empty!</p>}
-        {total > 0 &&
-          data.cartItems.map((obj) => (
-            <ShoppingCartItem key={obj.item.hash} cartObject={obj} />
-          ))}
+        <Box sx={{ width: 420 }}>
+          {total === 0 && <p>empty!</p>}
+          {total > 0 &&
+            data.cartItems.map((obj) => (
+              <ShoppingCartItem
+                key={obj.item.hash}
+                cartObject={obj}
+              />
+            ))}
+        </Box>
 
         <Box
           sx={{
