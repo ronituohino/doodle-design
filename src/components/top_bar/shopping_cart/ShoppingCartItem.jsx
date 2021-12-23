@@ -10,10 +10,8 @@ import {
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
-import DeleteIcon from "@mui/icons-material/Delete"
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
-
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import { useLanguage } from "../../../hooks/useLanguage"
 
 import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
@@ -21,22 +19,18 @@ import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
 import { formatPrice } from "../../../utils/price"
 import { useRouting } from "../../../hooks/useRouting"
 
-const ShoppingCartItem = ({ element }) => {
-  const {
-    setAmount,
-    increaseAmount,
-    decreaseAmount,
-    removeItemFromCart,
-  } = useShoppingCart()
+const ShoppingCartItem = ({ cartObject }) => {
+  const { setAmount, increaseAmount, decreaseAmount } =
+    useShoppingCart()
   const { language } = useLanguage()
   const { openItem } = useRouting()
 
-  const [itemAmount, setItemAmount] = useState(element.amount)
+  const [itemAmount, setItemAmount] = useState(cartObject.amount)
 
   // Updates itemAmount when amount is modified outside
   useEffect(() => {
-    setItemAmount(element.amount)
-  }, [element.amount])
+    setItemAmount(cartObject.amount)
+  }, [cartObject.amount])
 
   // Strict input filtering
   const filterInt = (value) => {
@@ -60,14 +54,14 @@ const ShoppingCartItem = ({ element }) => {
     const number = filterInt(e.target.value)
     if (!isNaN(number) && number < 100) {
       setItemAmount(e.target.value)
-      setAmount(element.item, number)
+      setAmount(cartObject.item, number)
     }
   }
 
   // If the cart is closed while input is empty, set amount to 1
   const handleBlur = (e) => {
     if (e.target.value === "") {
-      setItemAmount(element.amount)
+      setItemAmount(cartObject.amount)
     }
   }
 
@@ -79,11 +73,11 @@ const ShoppingCartItem = ({ element }) => {
         true
       )
     ) {
-      openItem(element.item.category, element.item._id)
+      openItem(cartObject.item.category, cartObject.item._id)
     }
   }
 
-  console.log(element.item)
+  console.log(cartObject)
 
   return (
     <>
@@ -100,69 +94,77 @@ const ShoppingCartItem = ({ element }) => {
             width: 60,
             height: 60,
             borderRadius: 6,
+            paddingLeft: 1,
           }}
         />
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
-            flexWrap: "wrap",
-            paddingLeft: 1,
-            width: 250,
+            flexDirection: "row",
+            paddingLeft: 2,
+            gap: "5px",
           }}
         >
-          <Box>
+          <Box sx={{ alignSelf: "center", width: 100 }}>
             <Typography
               variant="body1"
+              noWrap
               sx={{
-                whiteSpace: "normal",
                 fontWeight: "bold",
               }}
             >
-              {element.item.name}
+              {cartObject.item.name}
             </Typography>
 
-            {element.item.customization ? (
-              element.item.customization.map((c) => {
+            {cartObject.item.customization &&
+              cartObject.item.customization.map((c) => {
                 return (
                   <Typography
-                    key={`${element.item.hash}-${c.label}`}
+                    key={`${cartObject.item.hash}-${c.label}`}
                     variant="caption"
                     sx={{
-                      whiteSpace: "normal",
                       color: "grey",
                     }}
                   >
                     {c.label}: {c.option}
                   </Typography>
                 )
-              })
-            ) : (
-              <></>
-            )}
+              })}
           </Box>
 
-          <Box sx={{ flexBasis: "100%", height: 4 }} />
+          <Box
+            sx={{
+              alignSelf: "center",
+              width: 110,
+              backgroundColor: "blue",
+            }}
+          >
+            <Typography sx={{ fontWeight: "bold" }}>
+              {formatPrice(
+                cartObject.item.price * cartObject.amount,
+                language,
+                "EUR"
+              )}
+            </Typography>
+          </Box>
 
           <Box
             id="product-controls"
             sx={{
               display: "flex",
+              flexDirection: "column",
+              backgroundColor: "red",
+              width: 46,
+              paddingRight: 1,
             }}
           >
             <IconButton
               sx={{}}
               onClick={() => {
-                element.amount === 1
-                  ? removeItemFromCart(element.item)
-                  : decreaseAmount(element.item)
+                increaseAmount(cartObject.item)
               }}
             >
-              {element.amount === 1 ? (
-                <DeleteIcon />
-              ) : (
-                <KeyboardArrowLeftIcon />
-              )}
+              <KeyboardArrowUpIcon />
             </IconButton>
 
             <TextField
@@ -171,7 +173,6 @@ const ShoppingCartItem = ({ element }) => {
               onBlur={handleBlur}
               size="small"
               sx={{
-                width: 46,
                 textAlign: "center",
                 justifySelf: "flex-end",
               }}
@@ -180,28 +181,16 @@ const ShoppingCartItem = ({ element }) => {
               }}
             />
 
-            {element.amount < 99 ? (
+            {cartObject.amount < 99 ? (
               <IconButton
                 sx={{}}
-                onClick={() => increaseAmount(element.item)}
+                onClick={() => decreaseAmount(cartObject)}
               >
-                <KeyboardArrowRightIcon />
+                <KeyboardArrowDownIcon />
               </IconButton>
             ) : (
               <></>
             )}
-          </Box>
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography sx={{ fontWeight: "bold" }}>
-              {formatPrice(
-                element.item.price * element.amount,
-                language,
-                "EUR"
-              )}
-            </Typography>
           </Box>
         </Box>
       </MenuItem>

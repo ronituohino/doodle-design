@@ -90,8 +90,8 @@ const ShoppingCart = () => {
       >
         {total === 0 && <p>empty!</p>}
         {total > 0 &&
-          data.cartItems.map((e) => (
-            <ShoppingCartItem key={e.item.hash} element={e} />
+          data.cartItems.map((obj) => (
+            <ShoppingCartItem key={obj.item.hash} cartObject={obj} />
           ))}
 
         <Box

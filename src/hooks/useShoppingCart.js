@@ -25,8 +25,8 @@ export const useShoppingCart = () => {
   }, [language])
 
   const match = (item) => {
-    return cartItemsVar().findIndex((i) => {
-      return i.item._id === item._id && i.item.hash === item.hash
+    return cartItemsVar().findIndex((c) => {
+      return c.item._id === item._id && c.item.hash === item.hash
     })
   }
 
@@ -77,26 +77,30 @@ export const useShoppingCart = () => {
     let newArr = cartItemsVar()
     const prevItem = newArr[matchIndex]
 
-    newArr[matchIndex] = { item, amount: prevItem.amount + 1 }
+    newArr[matchIndex] = { item: item, amount: prevItem.amount + 1 }
 
     // Reference needs to changed for Apollo to call updates
     cartItemsVar([...newArr])
   }
 
-  const decreaseAmount = (item, matchIndex = -1) => {
-    if (item.amount === 1) {
-      removeItemFromCart(item)
+  const decreaseAmount = (cartObject, matchIndex = -1) => {
+    if (cartObject.amount === 1) {
+      console.log("removed!")
+      removeItemFromCart(cartObject)
       return
     }
 
     if (matchIndex === -1) {
-      matchIndex = match(item)
+      matchIndex = match(cartObject.item)
     }
 
     let newArr = cartItemsVar()
     const prevItem = newArr[matchIndex]
 
-    newArr[matchIndex] = { item, amount: prevItem.amount - 1 }
+    newArr[matchIndex] = {
+      item: cartObject.item,
+      amount: prevItem.amount - 1,
+    }
 
     // Reference needs to changed for Apollo to call updates
     cartItemsVar([...newArr])
