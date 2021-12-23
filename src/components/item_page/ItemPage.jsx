@@ -84,7 +84,7 @@ const ItemInformation = ({ item }) => {
     var newInitial = new Object()
 
     item.customization.forEach((c) => {
-      newInitial[c.label.toLowerCase()] = ""
+      newInitial[c.label] = ""
     })
 
     return newInitial
@@ -94,9 +94,9 @@ const ItemInformation = ({ item }) => {
     var newValidation = new Object()
 
     item.customization.forEach((c) => {
-      newValidation[c.label.toLowerCase()] = yup
+      newValidation[c.label] = yup
         .string()
-        .required(`Please select: ${c.label.toLowerCase()}`)
+        .required(`Please select: ${c.label}`)
     })
 
     return yup.object(newValidation)
@@ -156,23 +156,21 @@ const ItemInformation = ({ item }) => {
 
       <form onSubmit={formik.handleSubmit}>
         {item.customization.map((c) => {
-          const lowerLabel = c.label.toLowerCase()
           return (
             <TextField
               select
-              key={lowerLabel}
-              id={lowerLabel}
-              name={lowerLabel}
+              key={c.label}
+              id={c.label}
+              name={c.label}
               label={c.label}
-              value={formik.values[lowerLabel]}
+              value={formik.values[c.label]}
               onChange={formik.handleChange}
               error={
-                formik.touched[lowerLabel] &&
-                Boolean(formik.errors[lowerLabel])
+                formik.touched[c.label] &&
+                Boolean(formik.errors[c.label])
               }
               helperText={
-                formik.touched[lowerLabel] &&
-                formik.errors[lowerLabel]
+                formik.touched[c.label] && formik.errors[c.label]
               }
               sx={selectStyle}
             >

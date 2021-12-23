@@ -1,4 +1,10 @@
-import { Container, Stepper, Step, StepLabel } from "@mui/material"
+import {
+  Container,
+  Stepper,
+  Step,
+  StepLabel,
+  Typography,
+} from "@mui/material"
 import { useState } from "react"
 
 const steps = ["Check shopping cart", "Checkout", "Confirmation"]
@@ -15,11 +21,20 @@ const Checkout = () => {
       }}
     >
       <Stepper activeStep={activeStep}>
-        {steps.map((label) => {
-          // params (label, index) possible
+        {steps.map((label, index) => {
           return (
             <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel
+                optional={
+                  index === 0 ? (
+                    <Typography variant="caption">
+                      Apply coupons / gift cards here
+                    </Typography>
+                  ) : null
+                }
+              >
+                {label}
+              </StepLabel>
             </Step>
           )
         })}

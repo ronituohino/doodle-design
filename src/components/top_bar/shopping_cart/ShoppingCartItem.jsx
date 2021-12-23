@@ -83,6 +83,8 @@ const ShoppingCartItem = ({ element }) => {
     }
   }
 
+  console.log(element.item)
+
   return (
     <>
       <MenuItem
@@ -103,21 +105,42 @@ const ShoppingCartItem = ({ element }) => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             flexWrap: "wrap",
             paddingLeft: 1,
             width: 250,
           }}
         >
-          <Typography
-            variant="body1"
-            sx={{
-              whiteSpace: "normal",
-              fontWeight: "bold",
-            }}
-          >
-            {element.item.name}
-          </Typography>
+          <Box>
+            <Typography
+              variant="body1"
+              sx={{
+                whiteSpace: "normal",
+                fontWeight: "bold",
+              }}
+            >
+              {element.item.name}
+            </Typography>
+
+            {element.item.customization ? (
+              element.item.customization.map((c) => {
+                return (
+                  <Typography
+                    key={`${element.item.hash}-${c.label}`}
+                    variant="caption"
+                    sx={{
+                      whiteSpace: "normal",
+                      color: "grey",
+                    }}
+                  >
+                    {c.label}: {c.option}
+                  </Typography>
+                )
+              })
+            ) : (
+              <></>
+            )}
+          </Box>
 
           <Box sx={{ flexBasis: "100%", height: 4 }} />
 
