@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import {
   Badge,
   IconButton,
@@ -9,8 +9,6 @@ import {
   Typography,
 } from "@mui/material"
 
-import { useQuery } from "@apollo/client"
-import { SHOPPING_CART } from "../../../graphql/queries.js"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
@@ -23,20 +21,23 @@ import { useLanguage } from "../../../hooks/useLanguage.js"
 import { useRouting } from "../../../hooks/useRouting.js"
 
 const ShoppingCart = () => {
-  const { data } = useQuery(SHOPPING_CART)
   const { language } = useLanguage()
   const { openCheckout } = useRouting()
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const { totalAmountOfItems } = useShoppingCart()
-  const total = totalAmountOfItems()
+  const { data, totalAmountOfItems, totalPriceOfItems } =
+    useShoppingCart()
+  const totalAmount = totalAmountOfItems()
+  const totalPrice = totalPriceOfItems()
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
+  const childRef = useRef()
   const closeMenu = () => {
     setAnchorEl(null)
+    childRef.current.onClose()
   }
 
   const notificationsLabel = (itemCount) => {
@@ -51,21 +52,15 @@ const ShoppingCart = () => {
     }
   }
 
-  const calculateSubTotal = () => {
-    let sum = 0
-    data.cartItems.forEach((e) => (sum += e.amount * e.item.price))
-    return sum
-  }
-
   return (
     <>
       <IconButton
         color="inherit"
         sx={{ margin: "4px" }}
         onClick={openMenu}
-        aria-label={notificationsLabel(total)}
+        aria-label={notificationsLabel(totalAmount)}
       >
-        <Badge badgeContent={total} color="secondary">
+        <Badge badgeContent={totalAmount} color="secondary">
           <ShoppingCartIcon />
           <ArrowDropDownIcon sx={{ position: "absolute", top: 18 }} />
         </Badge>
@@ -89,12 +84,13 @@ const ShoppingCart = () => {
         onClose={closeMenu}
       >
         <Box sx={{ width: 420 }}>
-          {total === 0 && <p>empty!</p>}
-          {total > 0 &&
+          {totalAmount === 0 && <p>empty!</p>}
+          {totalAmount > 0 &&
             data.cartItems.map((obj) => (
               <ShoppingCartItem
                 key={obj.item.hash}
                 cartObject={obj}
+                ref={childRef}
               />
             ))}
         </Box>
@@ -113,11 +109,7 @@ const ShoppingCart = () => {
               fontWeight: "bold",
             }}
           >
-            {`Subtotal: ${formatPrice(
-              calculateSubTotal(),
-              language,
-              "EUR"
-            )}`}
+            {`Total: ${formatPrice(totalPrice, language, "EUR")}`}
           </Typography>
         </Box>
         <Divider />

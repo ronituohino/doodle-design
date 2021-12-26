@@ -8,12 +8,11 @@ import {
 } from "@mui/material"
 import { useState } from "react"
 
-import { useQuery } from "@apollo/client"
-import { SHOPPING_CART } from "../../graphql/queries"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 
 import ShoppingCartItem from "../top_bar/shopping_cart/ShoppingCartItem"
 import ContentCard from "../content/ContentCard"
+import Receipt from "./Receipt"
 
 const steps = ["Check shopping cart", "Checkout", "Confirmation"]
 
@@ -21,9 +20,7 @@ const Checkout = () => {
   // eslint-disable-next-line
   const [activeStep, setActiveStep] = useState(0)
 
-  const { data } = useQuery(SHOPPING_CART)
-
-  const { totalAmountOfItems } = useShoppingCart()
+  const { data, totalAmountOfItems } = useShoppingCart()
   const total = totalAmountOfItems()
 
   return (
@@ -69,18 +66,12 @@ const Checkout = () => {
               <ShoppingCartItem
                 key={obj.item.hash}
                 cartObject={obj}
+                ref={null}
               />
             ))}
         </ContentCard>
 
-        <ContentCard
-          disableHover
-          size={{ width: "40%", height: "100%" }}
-        >
-          <Typography>Subtotal:</Typography>
-
-          <Box></Box>
-        </ContentCard>
+        <Receipt />
       </Box>
     </Container>
   )

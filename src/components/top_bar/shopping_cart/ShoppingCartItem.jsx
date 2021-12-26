@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useImperativeHandle } from "react"
 
 import {
   IconButton,
@@ -21,8 +21,17 @@ import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
 
 import { formatPrice } from "../../../utils/price"
 import { useRouting } from "../../../hooks/useRouting"
+import { forwardRef } from "react"
 
-const ShoppingCartItem = ({ cartObject }) => {
+// eslint-disable-next-line react/display-name
+const ShoppingCartItem = forwardRef(({ cartObject }, ref) => {
+  // Call onClose from parent component
+  useImperativeHandle(ref, () => ({
+    onClose: () => {
+      setDeleteConfirm(false)
+    },
+  }))
+
   const {
     setAmount,
     increaseAmount,
@@ -76,7 +85,6 @@ const ShoppingCartItem = ({ cartObject }) => {
     if (e.target.value === "") {
       setItemAmount(cartObject.amount)
     }
-    setDeleteConfirm(false)
   }
 
   const checkLinkClick = (e) => {
@@ -99,7 +107,6 @@ const ShoppingCartItem = ({ cartObject }) => {
       sx={{
         display: "flex",
         flexDirection: "row",
-        paddingLeft: 1.5,
         gap: "5px",
       }}
     >
@@ -111,22 +118,21 @@ const ShoppingCartItem = ({ cartObject }) => {
           width: 60,
           height: 60,
           borderRadius: 4,
-          marginLeft: 6,
         }}
       />
 
       <Box
         sx={{
           alignSelf: "center",
-          minWidth: "42%",
-          maxWidth: "42%",
-          backgroundColor: "blue",
+          minWidth: "35%",
+          flexGrow: 2,
         }}
       >
         <Typography
           variant="body1"
           style={{
             fontWeight: "bold",
+            whiteSpace: "normal",
             wordWrap: "break-word",
           }}
         >
@@ -137,7 +143,7 @@ const ShoppingCartItem = ({ cartObject }) => {
           cartObject.item.customization.map((c) => {
             return (
               <Typography
-                key={`${cartObject.item.hash}-${c.label}`}
+                key={`${cartObject.item.hash}-${c.label}-${c.option}`}
                 variant="caption"
                 sx={{
                   color: "grey",
@@ -149,22 +155,34 @@ const ShoppingCartItem = ({ cartObject }) => {
           })}
       </Box>
 
-      <Typography
-        noWrap
-        sx={{
-          minWidth: "24%",
-          maxWidth: "24%",
-          alignSelf: "center",
-          fontWeight: "bold",
-          backgroundColor: "red",
-        }}
-      >
-        {formatPrice(
-          cartObject.item.price * cartObject.amount,
-          language,
-          "EUR"
-        )}
-      </Typography>
+      <Box sx={{ minWidth: "24%" }}>
+        <Typography
+          noWrap
+          sx={{
+            fontWeight: "bold",
+          }}
+        >
+          {formatPrice(
+            cartObject.item.price * cartObject.amount,
+            language,
+            "EUR"
+          )}
+        </Typography>
+
+        <Typography
+          noWrap
+          variant="caption"
+          sx={{
+            color: "grey",
+          }}
+        >
+          {`(${formatPrice(
+            cartObject.item.price,
+            language,
+            "EUR"
+          )} x${cartObject.amount})`}
+        </Typography>
+      </Box>
 
       {!deleteConfirm && (
         <Box
@@ -174,6 +192,7 @@ const ShoppingCartItem = ({ cartObject }) => {
             flexDirection: "column",
             paddingRight: 1,
             paddingLeft: 1,
+            width: 46,
             height: 80,
           }}
         >
@@ -229,6 +248,8 @@ const ShoppingCartItem = ({ cartObject }) => {
           sx={{
             display: "flex",
             flexDirection: "column",
+            paddingRight: 1,
+            paddingLeft: 1,
             width: 46,
             height: 80,
           }}
@@ -260,6 +281,6 @@ const ShoppingCartItem = ({ cartObject }) => {
       )}
     </MenuItem>
   )
-}
+})
 
 export default ShoppingCartItem

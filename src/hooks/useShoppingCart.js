@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 
+import { useQuery } from "@apollo/client"
+import { SHOPPING_CART } from "../graphql/queries"
+
 import { cartItemsVar } from "../cache"
 import { useLanguage } from "./useLanguage"
 
@@ -8,9 +11,8 @@ import { useLanguage } from "./useLanguage"
 // When the shopping cart is centralized in the cache, all
 // components that use this hook get updated when the shopping cart
 // is updated somewhere
-
-// The shopping cart is accessed using the query SHOPPING_CART, see graphql/queries.js
 export const useShoppingCart = () => {
+  const { data } = useQuery(SHOPPING_CART)
   const { language } = useLanguage()
   const [previousLang, setPreviousLang] = useState(language)
 
@@ -116,12 +118,20 @@ export const useShoppingCart = () => {
     }
   }
 
+  const totalPriceOfItems = () => {
+    let sum = 0
+    data.cartItems.forEach((e) => (sum += e.amount * e.item.price))
+    return sum
+  }
+
   return {
+    data,
     addItemToCart,
     removeItemFromCart,
     setAmount,
     increaseAmount,
     decreaseAmount,
     totalAmountOfItems,
+    totalPriceOfItems,
   }
 }
