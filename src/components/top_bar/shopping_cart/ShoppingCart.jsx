@@ -37,7 +37,9 @@ const ShoppingCart = () => {
   const childRef = useRef()
   const closeMenu = () => {
     setAnchorEl(null)
-    childRef.current.onClose()
+    if (childRef.current) {
+      childRef.current.onClose()
+    }
   }
 
   const notificationsLabel = (itemCount) => {

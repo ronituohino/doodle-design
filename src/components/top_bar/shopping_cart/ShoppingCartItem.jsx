@@ -254,11 +254,11 @@ const ShoppingCartItem = forwardRef(({ cartObject }, ref) => {
             height: 80,
           }}
         >
-          <Button onClick={() => removeItemFromCart(cartObject.item)}>
-            Delete
-          </Button>
           <Button onClick={() => setDeleteConfirm(false)}>
             Cancel
+          </Button>
+          <Button onClick={() => removeItemFromCart(cartObject.item)}>
+            Delete
           </Button>
         </Box>
       )}
@@ -272,7 +272,7 @@ const ShoppingCartItem = forwardRef(({ cartObject }, ref) => {
             height: 16,
             position: "absolute",
             top: "5px",
-            right: "5px",
+            right: "20px",
           }}
           onClick={() => setDeleteConfirm(true)}
         >

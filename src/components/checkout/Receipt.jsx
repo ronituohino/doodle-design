@@ -1,4 +1,4 @@
-import { Typography, Box } from "@mui/material"
+import { Typography, Box, List, ListItem } from "@mui/material"
 import ContentCard from "../content/ContentCard"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { formatPrice } from "../../utils/price"
@@ -12,15 +12,7 @@ const Receipt = () => {
 
   return (
     <ContentCard disableHover size={{ width: "40%", height: "100%" }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          paddingLeft: 1,
-          paddingRight: 1,
-        }}
-      >
+      <List sx={{ padding: 1, paddingRight: 0 }}>
         <ReceiptLine
           leftText="Total"
           rightText={formatPrice(totalPrice, language, "EUR")}
@@ -30,11 +22,15 @@ const Receipt = () => {
             fontWeight: "bold",
           }}
         />
+
         <ReceiptLine
           leftText={"Items"}
           rightText={formatPrice(totalPrice, language, "EUR")}
           variant="body1"
           indent={8}
+          sx={{
+            fontWeight: "bold",
+          }}
         />
         {data.cartItems.map((cartObject) => {
           return (
@@ -51,13 +47,20 @@ const Receipt = () => {
           rightText={formatPrice(0, language, "EUR")}
           variant="body1"
           indent={8}
+          sx={{
+            fontWeight: "bold",
+          }}
         />
         <ReceiptLine
           leftText={"Coupons"}
+          rightText={formatPrice(0, language, "EUR")}
           variant="body1"
           indent={8}
+          sx={{
+            fontWeight: "bold",
+          }}
         />
-      </Box>
+      </List>
     </ContentCard>
   )
 }
@@ -70,6 +73,7 @@ const ItemListing = ({ cartObject, language }) => {
         variant="caption"
         indent={16}
         sx={{
+          fontWeight: "bold",
           color: "grey",
         }}
       />
@@ -81,6 +85,9 @@ const ItemListing = ({ cartObject, language }) => {
             leftText={`${c.label}: ${c.option}`}
             variant="caption"
             indent={24}
+            sx={{
+              color: "grey",
+            }}
           />
         )
       })}
@@ -98,6 +105,9 @@ const ItemListing = ({ cartObject, language }) => {
         )}
         variant="caption"
         indent={24}
+        sx={{
+          color: "grey",
+        }}
       />
     </>
   )
@@ -111,32 +121,27 @@ const ReceiptLine = ({
   sx,
 }) => {
   return (
-    <>
-      <Box sx={{ width: "60%" }}>
-        <Typography
-          variant={variant}
-          sx={{
-            ...sx,
-            textIndent: indent,
-            whiteSpace: "normal",
-            wordWrap: "break-word",
-          }}
-        >
-          {leftText}
-        </Typography>
-      </Box>
-      <Box
-        sx={{ display: "flex", width: "40%", alignSelf: "center" }}
-      >
-        <Box sx={{ flexGrow: 1 }} />
-        <Typography
-          variant={variant}
-          sx={{ ...sx, textIndent: indent }}
-        >
+    <ListItem
+      inset
+      disablePadding
+      secondaryAction={
+        <Typography variant={variant} sx={{ ...sx }}>
           {rightText}
         </Typography>
-      </Box>
-    </>
+      }
+    >
+      <Typography
+        variant={variant}
+        sx={{
+          ...sx,
+          textIndent: indent,
+          whiteSpace: "normal",
+          wordWrap: "break-word",
+        }}
+      >
+        {leftText}
+      </Typography>
+    </ListItem>
   )
 }
 
