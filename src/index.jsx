@@ -7,18 +7,10 @@ import {
   ApolloClient,
   ApolloLink,
   HttpLink,
-  gql,
   ApolloProvider,
 } from "@apollo/client"
 
 import cache from "./cache"
-
-export const typeDefs = gql`
-  extend type Query {
-    isLoggedIn: Boolean!
-    cartItems: [ID!]!
-  }
-`
 
 const port = process.env.BACKEND_PORT || 4000
 
@@ -41,8 +33,6 @@ const authLink = new ApolloLink((operation, forward) => {
 const client = new ApolloClient({
   cache,
   link: authLink.concat(httpLink),
-
-  typeDefs,
 })
 
 ReactDOM.render(

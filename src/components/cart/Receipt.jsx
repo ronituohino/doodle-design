@@ -11,7 +11,10 @@ const Receipt = () => {
   const totalPrice = totalPriceOfItems()
 
   return (
-    <ContentCard disableHover size={{ width: "40%", height: "100%" }}>
+    <ContentCard
+      disableHover
+      size={{ width: "100%", height: "100%" }}
+    >
       <List sx={{ padding: 1, paddingRight: 0 }}>
         <ReceiptLine
           leftText="Total"
@@ -122,7 +125,6 @@ const ReceiptLine = ({
 }) => {
   return (
     <ListItem
-      inset
       disablePadding
       secondaryAction={
         <Typography variant={variant} sx={{ ...sx }}>

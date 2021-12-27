@@ -30,11 +30,11 @@ export const useRouting = () => {
     history.push(itemLink(category, itemId))
   }
 
-  const checkoutLink = () => {
-    return `/${language}/account/checkout`
+  const cartLink = () => {
+    return `/${language}/cart`
   }
-  const openCheckout = () => {
-    history.push(checkoutLink())
+  const openCart = () => {
+    history.push(cartLink())
   }
 
   const loginLink = () => {
@@ -63,8 +63,8 @@ export const useRouting = () => {
     itemLink,
     openItem,
 
-    checkoutLink,
-    openCheckout,
+    cartLink,
+    openCart,
 
     loginLink,
     openLogin,

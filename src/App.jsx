@@ -7,7 +7,7 @@ import Account from "./components/account/Account"
 import ItemPage from "./components/item_page/ItemPage"
 import AccountRegister from "./components/account/AccountRegister"
 import AccountLogin from "./components/account/AccountLogin"
-import Checkout from "./components/checkout/Checkout"
+import Cart from "./components/cart/Cart"
 
 const App = () => {
   return (
@@ -22,10 +22,6 @@ const App = () => {
           <Content />
         </Route>
 
-        <Route path="/:language/account/checkout">
-          <Checkout />
-        </Route>
-
         <Route path="/:language/account/register">
           <AccountRegister />
         </Route>
@@ -36,6 +32,10 @@ const App = () => {
 
         <Route path="/:language/account">
           <Account />
+        </Route>
+
+        <Route path="/:language/cart">
+          <Cart />
         </Route>
 
         <Route path="/:language/home">

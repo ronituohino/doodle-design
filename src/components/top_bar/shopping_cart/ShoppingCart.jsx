@@ -22,7 +22,7 @@ import { useRouting } from "../../../hooks/useRouting.js"
 
 const ShoppingCart = () => {
   const { language } = useLanguage()
-  const { openCheckout } = useRouting()
+  const { openCart } = useRouting()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const { data, totalAmountOfItems, totalPriceOfItems } =
@@ -118,7 +118,7 @@ const ShoppingCart = () => {
         <Button
           color="primary"
           onClick={() => {
-            openCheckout()
+            openCart()
             closeMenu()
           }}
         >
