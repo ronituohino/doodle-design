@@ -3,11 +3,12 @@ import * as yup from "yup"
 
 import {
   Container,
-  TextField,
   Button,
   InputAdornment,
   IconButton,
 } from "@mui/material"
+
+import FormikField from "../general/FormikField"
 
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
@@ -54,10 +55,6 @@ const AccountRegister = () => {
     setValues({ ...values, showPassword: !values.showPassword })
   }
 
-  const textInputStyle = {
-    marginBottom: 2,
-  }
-
   return (
     <Container
       maxWidth={"xs"}
@@ -66,60 +63,24 @@ const AccountRegister = () => {
       }}
     >
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="firstName"
-          name="firstName"
+        <FormikField
+          field="firstName"
           label="First Name"
-          value={formik.values.firstName}
-          onChange={formik.handleChange}
-          error={
-            formik.touched.firstName &&
-            Boolean(formik.errors.firstName)
-          }
-          helperText={
-            formik.touched.firstName && formik.errors.firstName
-          }
-          sx={textInputStyle}
+          formik={formik}
         />
 
-        <TextField
-          fullWidth
-          id="lastName"
-          name="lastName"
+        <FormikField
+          field="lastName"
           label="Last Name"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          error={
-            formik.touched.lastName && Boolean(formik.errors.lastName)
-          }
-          helperText={
-            formik.touched.lastName && formik.errors.lastName
-          }
-          sx={textInputStyle}
+          formik={formik}
         />
 
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label="Email"
-          type="text"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          sx={textInputStyle}
-        />
+        <FormikField field="email" label="Email" formik={formik} />
 
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
+        <FormikField
+          field="password"
           label="Password"
           type={values.showPassword ? "text" : "password"}
-          value={formik.values.password}
-          onChange={formik.handleChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -133,15 +94,8 @@ const AccountRegister = () => {
               </InputAdornment>
             ),
           }}
-          error={
-            formik.touched.password && Boolean(formik.errors.password)
-          }
-          helperText={
-            formik.touched.password && formik.errors.password
-          }
-          sx={textInputStyle}
+          formik={formik}
         />
-
         <Button
           color="primary"
           variant="contained"

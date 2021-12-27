@@ -9,12 +9,13 @@ import {
 } from "@mui/material"
 import { useState } from "react"
 
-import { useShoppingCart } from "../../hooks/useShoppingCart"
+import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
-import ShoppingCartItem from "../top_bar/shopping_cart/ShoppingCartItem"
-import ContentCard from "../content/ContentCard"
+import ShoppingCartItem from "../../top_bar/shopping_cart/ShoppingCartItem"
+import ContentCard from "../../content/ContentCard"
 import Receipt from "./Receipt"
 import Coupons from "./Coupons"
+import { useRouting } from "../../../hooks/useRouting"
 
 const steps = ["Check shopping cart", "Checkout", "Confirmation"]
 
@@ -24,6 +25,8 @@ const Cart = () => {
 
   const { data, totalAmountOfItems } = useShoppingCart()
   const total = totalAmountOfItems()
+
+  const { openCheckoutAddress } = useRouting()
 
   return (
     <Container
@@ -78,7 +81,11 @@ const Cart = () => {
           <Box sx={{ height: 30 }} />
           <Coupons />
           <Box sx={{ height: 30 }} />
-          <Button variant="contained" sx={{ width: "100%" }}>
+          <Button
+            variant="contained"
+            onClick={openCheckoutAddress}
+            sx={{ width: "100%" }}
+          >
             Proceed
           </Button>
         </Box>

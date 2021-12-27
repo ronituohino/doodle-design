@@ -3,7 +3,6 @@ import * as yup from "yup"
 
 import {
   Container,
-  TextField,
   Button,
   InputAdornment,
   IconButton,
@@ -15,6 +14,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import { useState } from "react"
 import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
+
+import FormikField from "../general/FormikField"
 
 const AccountLogin = () => {
   const { back } = useRouting()
@@ -42,10 +43,6 @@ const AccountLogin = () => {
     setValues({ ...values, showPassword: !values.showPassword })
   }
 
-  const textInputStyle = {
-    marginBottom: 2,
-  }
-
   return (
     <Container
       maxWidth={"xs"}
@@ -54,27 +51,12 @@ const AccountLogin = () => {
       }}
     >
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label="Email"
-          type="text"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          sx={textInputStyle}
-        />
+        <FormikField field="email" label="Email" formik={formik} />
 
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
+        <FormikField
+          field="password"
           label="Password"
           type={values.showPassword ? "text" : "password"}
-          value={formik.values.password}
-          onChange={formik.handleChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -88,13 +70,7 @@ const AccountLogin = () => {
               </InputAdornment>
             ),
           }}
-          error={
-            formik.touched.password && Boolean(formik.errors.password)
-          }
-          helperText={
-            formik.touched.password && formik.errors.password
-          }
-          sx={textInputStyle}
+          formik={formik}
         />
 
         <Button

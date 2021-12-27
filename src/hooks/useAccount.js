@@ -46,5 +46,12 @@ export const useAccount = () => {
     }
   }
 
-  return { logIn, logOut, data }
+  const loggedIn = () => {
+    if (data && data.me) {
+      return true
+    }
+    return false
+  }
+
+  return { logIn, logOut, data, loggedIn }
 }

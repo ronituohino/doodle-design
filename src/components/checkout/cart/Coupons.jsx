@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from "@mui/material"
-import ContentCard from "../content/ContentCard"
+import ContentCard from "../../content/ContentCard"
 
 const Coupons = () => {
   return (

@@ -1,8 +1,8 @@
 import { Typography, Box, List, ListItem } from "@mui/material"
-import ContentCard from "../content/ContentCard"
-import { useShoppingCart } from "../../hooks/useShoppingCart"
-import { formatPrice } from "../../utils/price"
-import { useLanguage } from "../../hooks/useLanguage"
+import ContentCard from "../../content/ContentCard"
+import { useShoppingCart } from "../../../hooks/useShoppingCart"
+import { formatPrice } from "../../../utils/price"
+import { useLanguage } from "../../../hooks/useLanguage"
 
 const Receipt = () => {
   const { language } = useLanguage()
