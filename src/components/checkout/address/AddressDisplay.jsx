@@ -2,7 +2,7 @@ import { Box, IconButton, Typography } from "@mui/material"
 
 import EditIcon from "@mui/icons-material/Edit"
 
-const AddressDisplay = ({ address, enterEdit }) => {
+const AddressDisplay = ({ address, enterEdit, disableEdit }) => {
   return (
     <Box sx={{ display: "flex", width: "100%", margin: 2 }}>
       <Box sx={{ width: "75%" }}>
@@ -31,21 +31,23 @@ const AddressDisplay = ({ address, enterEdit }) => {
           {address.company}
         </Typography>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          width: "25%",
-          alignSelf: "center",
-        }}
-      >
-        <IconButton
-          onClick={enterEdit}
-          sx={{ width: 48, height: 48 }}
+      {!disableEdit && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "25%",
+            alignSelf: "center",
+          }}
         >
-          <EditIcon fontSize="large" />
-        </IconButton>
-      </Box>
+          <IconButton
+            onClick={enterEdit}
+            sx={{ width: 48, height: 48 }}
+          >
+            <EditIcon fontSize="large" />
+          </IconButton>
+        </Box>
+      )}
     </Box>
   )
 }
