@@ -12,7 +12,7 @@ const AddressForm = ({ submit, address, sx }) => {
       lastName: "",
       address: "",
       city: "",
-      postalcode: "",
+      zipCode: "",
       country: "FI",
       company: "",
     },
@@ -21,7 +21,7 @@ const AddressForm = ({ submit, address, sx }) => {
       lastName: yup.string().required("Last name is required"),
       address: yup.string().required("Address is required"),
       city: yup.string().required("City is required"),
-      postalcode: yup
+      zipCode: yup
         .string()
         .matches(/^[0-9]+$/, "Must be digits only")
         .min(5, "Must be 5 digits")
@@ -67,8 +67,8 @@ const AddressForm = ({ submit, address, sx }) => {
         <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
           <FormikField
             formik={formik}
-            field="postalcode"
-            label="Postal Code"
+            field="zipCode"
+            label="Zip Code"
             sx={{ width: "40%" }}
           />
           <FormikField

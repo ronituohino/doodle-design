@@ -1,6 +1,9 @@
 import { useState } from "react"
+
 import {
   Container,
+  Box,
+  Button,
   Typography,
   Tabs,
   Tab,
@@ -8,9 +11,18 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@mui/material"
+
+import { useFormik } from "formik"
+import * as yup from "yup"
+
+import FormikField from "../../general/FormikField"
+
 import ContentCard from "../../content/ContentCard"
 import AddressForm from "./AddressForm"
 import AddressDisplay from "./AddressDisplay"
+
+import { getPostalPoints } from "../../../axios/requests"
+import PostAddress from "./PostAddress"
 
 const Address = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("pickup")
@@ -24,6 +36,14 @@ const Address = () => {
   const [useDeliveryAsBilling, setUseDeliveryAsBilling] =
     useState(true)
 
+  const [deliveryPoints, setDeliveryPoints] = useState(undefined)
+
+  console.log(deliveryPoints)
+  const fetchDeliveryPoints = async (values) => {
+    const response = await getPostalPoints(values.zipCode, 5)
+    setDeliveryPoints(response)
+  }
+
   const requireExplicitBillingAddress =
     deliveryMethod === "pickup" || !useDeliveryAsBilling
 
@@ -36,6 +56,23 @@ const Address = () => {
     setBillingAddress(values)
     setEditBillingAddress(false)
   }
+
+  const formik = useFormik({
+    initialValues: {
+      zipCode: "",
+    },
+    validationSchema: yup.object({
+      zipCode: yup
+        .string()
+        .matches(/^[0-9]+$/, "Must be digits only")
+        .min(5, "Must be 5 digits")
+        .max(5, "Must be 5 digits")
+        .required("Postal code is required"),
+    }),
+    onSubmit: (values) => {
+      fetchDeliveryPoints(values)
+    },
+  })
 
   return (
     <Container
@@ -68,6 +105,30 @@ const Address = () => {
           <Tab value="home" label="Home Delivery" />
         </Tabs>
 
+        {deliveryMethod === "pickup" && (
+          <>
+            <form
+              onSubmit={formik.handleSubmit}
+              style={{ margin: 8 }}
+            >
+              <Box sx={{ display: "flex", gap: "15px" }}>
+                <FormikField
+                  formik={formik}
+                  field="zipCode"
+                  label="Zip Code"
+                  sx={{ width: "70%" }}
+                />
+                <Button type="submit" sx={{ width: "30%" }}>
+                  Search
+                </Button>
+              </Box>
+            </form>
+            {deliveryPoints &&
+              deliveryPoints.locations.map((p) => (
+                <PostAddress key={p.id} point={p} />
+              ))}
+          </>
+        )}
         {deliveryMethod === "home" && (
           <>
             {editDeliveryAddress && (
