@@ -18,6 +18,7 @@ const FormikField = (props) => {
         props.formik.touched[props.field] &&
         props.formik.errors[props.field]
       }
+      InputLabelProps={{ shrink: true }}
       sx={{ marginBottom: 2, ...props.sx }}
       {...props}
     />
