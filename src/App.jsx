@@ -7,17 +7,9 @@ import Account from "./components/account/Account"
 import ItemPage from "./components/item_page/ItemPage"
 import AccountRegister from "./components/account/AccountRegister"
 import AccountLogin from "./components/account/AccountLogin"
-import Cart from "./components/checkout/cart/Cart"
-import Address from "./components/checkout/address/Address"
-import { useAccount } from "./hooks/useAccount"
-import { useRouting } from "./hooks/useRouting"
+import Checkout from "./components/checkout/Checkout"
 
 const App = () => {
-  const { loggedIn } = useAccount()
-  const isLoggedIn = loggedIn()
-
-  const { loginLink } = useRouting()
-
   return (
     <>
       <TopBar />
@@ -42,12 +34,8 @@ const App = () => {
           <Account />
         </Route>
 
-        <Route path="/:language/checkout/cart">
-          <Cart />
-        </Route>
-
-        <Route path="/:language/checkout/address">
-          {isLoggedIn ? <Address /> : <Redirect to={loginLink()} />}
+        <Route path="/:language/checkout/">
+          <Checkout />
         </Route>
 
         <Route path="/:language/home">
