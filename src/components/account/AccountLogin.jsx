@@ -15,7 +15,7 @@ import { useState } from "react"
 import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
 
-import FormikField from "../general/FormikField"
+import FormikField from "../general/formik/FormikField"
 
 const AccountLogin = () => {
   const { back } = useRouting()

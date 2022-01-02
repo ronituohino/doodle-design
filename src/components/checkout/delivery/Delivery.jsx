@@ -2,11 +2,12 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 
 import { Box, Button } from "@mui/material"
-import FormikField from "../../general/FormikField"
-import FormikRadioField from "../../general/FormikRadioField"
+import FormikRadioField from "../../general/formik/FormikRadioField"
 import { useEffect } from "react"
-import FormikRadioGroup from "../../general/FormikRadioGroup"
+import FormikRadioGroup from "../../general/formik/FormikRadioGroup"
 import DeliveryMethod from "./DeliveryMethod"
+import AddressForm from "../address/AddressForm"
+import ParcelAddressSelection from "../address/ParcelAddressSelection"
 
 const Delivery = ({ submit, delivery, sx }) => {
   const formik = useFormik({
@@ -33,19 +34,31 @@ const Delivery = ({ submit, delivery, sx }) => {
     <Box sx={{ ...sx }}>
       <form onSubmit={formik.handleSubmit}>
         <FormikRadioGroup formik={formik} field="delivery">
-          <FormikRadioField
-            value="home-delivery"
-            content={
-              <DeliveryMethod
-                title="Home Delivery"
-                text="Delivery straight to your door"
-              />
-            }
-          />
-          <FormikRadioField
-            value="female"
-            content={<DeliveryMethod />}
-          />
+          <FormikRadioField value="home-delivery">
+            <DeliveryMethod
+              title="Home Delivery"
+              text="Delivery straight to your doorstep"
+            >
+              <AddressForm />
+            </DeliveryMethod>
+          </FormikRadioField>
+
+          <FormikRadioField value="posti-parcel">
+            <DeliveryMethod
+              title="Posti Parcel"
+              text="Delivery to a Posti pickup point"
+            >
+              <ParcelAddressSelection />
+            </DeliveryMethod>
+          </FormikRadioField>
+
+          <FormikRadioField value="store-pickup">
+            <DeliveryMethod
+              title="Pickup From Store"
+              text="Fetch package from our store"
+              price="100"
+            ></DeliveryMethod>
+          </FormikRadioField>
         </FormikRadioGroup>
 
         <Button

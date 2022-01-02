@@ -31,7 +31,7 @@ export const useRouting = () => {
   }
 
   const checkoutLink = () => {
-    return `/${language}/checkout/cart`
+    return `/${language}/checkout/`
   }
   const openCheckout = () => {
     history.push(checkoutLink())

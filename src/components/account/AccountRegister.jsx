@@ -8,7 +8,7 @@ import {
   IconButton,
 } from "@mui/material"
 
-import FormikField from "../general/FormikField"
+import FormikField from "../general/formik/FormikField"
 
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"

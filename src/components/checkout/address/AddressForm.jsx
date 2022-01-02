@@ -2,8 +2,9 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 
 import { Box, Button } from "@mui/material"
-import FormikField from "../../general/FormikField"
 import { useEffect } from "react"
+
+import AddressFields from "./AddressFields"
 
 const AddressForm = ({ submit, address, sx }) => {
   const formik = useFormik({
@@ -46,44 +47,7 @@ const AddressForm = ({ submit, address, sx }) => {
   return (
     <Box sx={{ ...sx }}>
       <form onSubmit={formik.handleSubmit}>
-        <FormikField
-          formik={formik}
-          field="firstName"
-          label="First Name"
-        />
-
-        <FormikField
-          formik={formik}
-          field="lastName"
-          label="Last Name"
-        />
-
-        <FormikField
-          formik={formik}
-          field="address"
-          label="Address"
-        />
-
-        <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
-          <FormikField
-            formik={formik}
-            field="zipCode"
-            label="Zip Code"
-            sx={{ width: "40%" }}
-          />
-          <FormikField
-            formik={formik}
-            field="city"
-            label="City"
-            sx={{ width: "60%" }}
-          />
-        </Box>
-
-        <FormikField
-          formik={formik}
-          field="company"
-          label="Company"
-        />
+        <AddressFields formik={formik} />
         <Button
           color="primary"
           variant="contained"

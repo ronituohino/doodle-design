@@ -16,7 +16,7 @@ const Cart = ({ complete }) => {
   const total = totalAmountOfItems()
 
   return (
-    <Box sx={{ marginTop: "30px", display: "flex", gap: "30px" }}>
+    <Box sx={{ display: "flex", gap: "30px" }}>
       <ContentCard
         disableHover
         size={{ width: "60%", height: "100%" }}

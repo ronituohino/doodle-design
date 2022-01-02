@@ -14,6 +14,7 @@ const FormikRadioGroup = ({ formik, field, label, children }) => {
     }
     return child
   })
+
   return (
     <Box sx={{ marginBottom: 2, marginTop: -2.5 }}>
       <Box
@@ -35,6 +36,7 @@ const FormikRadioGroup = ({ formik, field, label, children }) => {
       <Box
         sx={{
           display: "flex",
+          flexWrap: "wrap",
           border: 1,
           borderColor: boxColor,
           borderRadius: 1,

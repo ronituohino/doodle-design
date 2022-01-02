@@ -1,9 +1,8 @@
 import { useState } from "react"
-import { Container } from "@mui/material"
+import { Container, Typography } from "@mui/material"
 import Stepper from "@mui/material/Stepper"
 import Step from "@mui/material/Step"
 import StepLabel from "@mui/material/StepLabel"
-import StepContent from "@mui/material/StepContent"
 import Button from "@mui/material/Button"
 
 import Cart from "./cart/Cart"
@@ -15,16 +14,25 @@ const steps = [
     label: "Cart",
   },
   {
-    label: "Your details",
+    label: "Billing Address",
+    sublabel: "(Your details)",
   },
   {
-    label: "Delivery",
+    label: "Delivery Address",
+  },
+  {
+    label: "Payment Method",
+  },
+  {
+    label: "Confirmation",
   },
 ]
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0)
   const [completed, setCompleted] = useState({})
+
+  const [address, setAddress] = useState(undefined)
 
   const handleComplete = () => {
     const newCompleted = completed
@@ -57,6 +65,11 @@ const Checkout = () => {
     return completedSteps() === totalSteps()
   }
 
+  const addressSubmit = (values) => {
+    setAddress(values)
+    handleComplete()
+  }
+
   return (
     <Container
       maxWidth="md"
@@ -67,28 +80,32 @@ const Checkout = () => {
       <Stepper
         nonLinear
         activeStep={activeStep}
-        orientation="vertical"
+        sx={{ marginBottom: 2 }}
       >
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
-            <StepLabel onClick={() => setActiveStep(index)}>
-              {step.label}
+            <StepLabel
+              onClick={() => setActiveStep(index)}
+              sx={{ cursor: "pointer", border: 2, padding: 1 }}
+            >
+              <Typography variant="body2">{step.label}</Typography>
+              <Typography variant="caption">
+                {step.sublabel}
+              </Typography>
             </StepLabel>
-
-            <StepContent>
-              {/* This is a switch statement */}
-              {
-                {
-                  0: <Cart complete={handleComplete} />,
-                  1: <AddressForm submit={handleComplete} />,
-                  2: <Delivery />,
-                }[index]
-              }
-            </StepContent>
           </Step>
         ))}
       </Stepper>
       {activeStep === steps.length && <Button>Purchase</Button>}
+
+      {/* This is a switch statement */}
+      {
+        {
+          0: <Cart complete={handleComplete} />,
+          1: <AddressForm submit={addressSubmit} address={address} />,
+          2: <Delivery />,
+        }[activeStep]
+      }
     </Container>
   )
 }

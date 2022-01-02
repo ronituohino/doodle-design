@@ -1,10 +1,8 @@
 import { Box, Typography, Button } from "@mui/material"
-import { useLanguage } from "../../../hooks/useLanguage"
 
-const PostAddress = ({ point }) => {
-  const { language } = useLanguage()
-
-  const location = point.address[language]
+// Don't use language here, because not all points have "en" in them
+const ParcelAddress = ({ point }) => {
+  const location = point.address.fi
   if (!location) {
     return <></>
   }
@@ -15,7 +13,7 @@ const PostAddress = ({ point }) => {
         <Typography
           sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
         >
-          {point.publicName[language]}
+          {point.publicName.fi}
         </Typography>
         <Typography
           sx={{
@@ -46,4 +44,4 @@ const PostAddress = ({ point }) => {
   )
 }
 
-export default PostAddress
+export default ParcelAddress
