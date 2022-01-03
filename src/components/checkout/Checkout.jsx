@@ -32,7 +32,7 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0)
   const [completed, setCompleted] = useState({})
 
-  const [address, setAddress] = useState(undefined)
+  const [billingAddress, setBillingAddress] = useState(undefined)
 
   const handleComplete = () => {
     const newCompleted = completed
@@ -66,7 +66,7 @@ const Checkout = () => {
   }
 
   const addressSubmit = (values) => {
-    setAddress(values)
+    setBillingAddress(values)
     handleComplete()
   }
 
@@ -102,8 +102,13 @@ const Checkout = () => {
       {
         {
           0: <Cart complete={handleComplete} />,
-          1: <AddressForm submit={addressSubmit} address={address} />,
-          2: <Delivery />,
+          1: (
+            <AddressForm
+              submit={addressSubmit}
+              address={billingAddress}
+            />
+          ),
+          2: <Delivery billingAddress={billingAddress} />,
         }[activeStep]
       }
     </Container>

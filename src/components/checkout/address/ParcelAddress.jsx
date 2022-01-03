@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material"
 
 // Don't use language here, because not all points have "en" in them
-const ParcelAddress = ({ point }) => {
+const ParcelAddress = ({ point, selectCallback }) => {
   const location = point.address.fi
   if (!location) {
     return <></>
@@ -38,7 +38,7 @@ const ParcelAddress = ({ point }) => {
           alignSelf: "center",
         }}
       >
-        <Button>Select</Button>
+        <Button onClick={() => selectCallback(point)}>Select</Button>
       </Box>
     </Box>
   )

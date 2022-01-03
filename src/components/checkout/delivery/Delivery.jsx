@@ -1,21 +1,49 @@
 import { useFormik } from "formik"
 import * as yup from "yup"
 
+import { useState } from "react"
+
 import { Box, Button } from "@mui/material"
 import FormikRadioField from "../../general/formik/FormikRadioField"
 import { useEffect } from "react"
 import FormikRadioGroup from "../../general/formik/FormikRadioGroup"
 import DeliveryMethod from "./DeliveryMethod"
-import AddressForm from "../address/AddressForm"
 import ParcelAddressSelection from "../address/ParcelAddressSelection"
+import AddressFields from "../address/AddressFields"
+import AddressDisplay from "../address/AddressDisplay"
 
-const Delivery = ({ submit, delivery, sx }) => {
+const Delivery = ({ submit, billingAddress, delivery, sx }) => {
   const formik = useFormik({
     initialValues: {
       delivery: "",
+
+      // These fields are reserved for home delivery,
+      // other delivery methods use states down below
+      firstName: "",
+      lastName: "",
+      address: "",
+      city: "",
+      zipCode: "",
+      country: "FI",
+      extra: "",
+      company: "",
     },
     validationSchema: yup.object({
       delivery: yup.string().required("Delivery method is required"),
+
+      firstName: yup.string().required("First name is required"),
+      lastName: yup.string().required("Last name is required"),
+      address: yup.string().required("Address is required"),
+      city: yup.string().required("City is required"),
+      zipCode: yup
+        .string()
+        .matches(/^[0-9]+$/, "Must be digits only")
+        .min(5, "Must be 5 digits")
+        .max(5, "Must be 5 digits")
+        .required("Postal code is required"),
+      country: yup.string().required("Country is required"),
+      extra: yup.string(),
+      company: yup.string(),
     }),
     onSubmit: (values) => {
       submit(values)
@@ -30,6 +58,17 @@ const Delivery = ({ submit, delivery, sx }) => {
     }
   }, [delivery])
 
+  const setPostiParcel = (values) => {
+    setPostiParcelAddress({
+      firstName: billingAddress.firstName,
+      lastName: billingAddress.lastName,
+      ...values,
+      company: billingAddress.company,
+    })
+  }
+  const [postiParcelAddress, setPostiParcelAddress] =
+    useState(undefined)
+
   return (
     <Box sx={{ ...sx }}>
       <form onSubmit={formik.handleSubmit}>
@@ -39,7 +78,7 @@ const Delivery = ({ submit, delivery, sx }) => {
               title="Home Delivery"
               text="Delivery straight to your doorstep"
             >
-              <AddressForm />
+              <AddressFields formik={formik} />
             </DeliveryMethod>
           </FormikRadioField>
 
@@ -48,7 +87,15 @@ const Delivery = ({ submit, delivery, sx }) => {
               title="Posti Parcel"
               text="Delivery to a Posti pickup point"
             >
-              <ParcelAddressSelection />
+              {postiParcelAddress && (
+                <AddressDisplay
+                  address={postiParcelAddress}
+                  enterEdit={() => setPostiParcelAddress(undefined)}
+                />
+              )}
+              {!postiParcelAddress && (
+                <ParcelAddressSelection setAddress={setPostiParcel} />
+              )}
             </DeliveryMethod>
           </FormikRadioField>
 
@@ -57,7 +104,19 @@ const Delivery = ({ submit, delivery, sx }) => {
               title="Pickup From Store"
               text="Fetch package from our store"
               price="100"
-            ></DeliveryMethod>
+            >
+              <AddressDisplay
+                address={{
+                  firstName: billingAddress.firstName,
+                  lastName: billingAddress.lastName,
+                  extra: "Fred's Computers!",
+                  address: "Suometsäntie 66",
+                  zipCode: "00650",
+                  city: "HELSINKI",
+                  company: billingAddress.company,
+                }}
+              />
+            </DeliveryMethod>
           </FormikRadioField>
         </FormikRadioGroup>
 

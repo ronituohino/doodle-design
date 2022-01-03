@@ -1,5 +1,4 @@
 import { Box, Button } from "@mui/material"
-import { useState } from "react"
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
@@ -9,9 +8,6 @@ import Receipt from "./Receipt"
 import Coupons from "./Coupons"
 
 const Cart = ({ complete }) => {
-  // eslint-disable-next-line
-  const [activeStep, setActiveStep] = useState(0)
-
   const { data, totalAmountOfItems } = useShoppingCart()
   const total = totalAmountOfItems()
 

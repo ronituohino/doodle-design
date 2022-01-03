@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit"
 
 const AddressDisplay = ({ address, enterEdit, disableEdit }) => {
   return (
-    <Box sx={{ display: "flex", width: "100%", margin: 2 }}>
+    <Box sx={{ display: "flex" }}>
       <Box sx={{ width: "75%" }}>
         <Typography
           sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
@@ -18,12 +18,20 @@ const AddressDisplay = ({ address, enterEdit, disableEdit }) => {
             fontWeight: "bold",
           }}
         >
+          {address.extra}
+        </Typography>
+        <Typography
+          sx={{
+            wordWrap: "break-word",
+            whiteSpace: "normal",
+          }}
+        >
           {address.address}
         </Typography>
         <Typography
           sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
         >
-          {address.postalcode} {address.city}
+          {address.zipCode} {address.city}
         </Typography>
         <Typography
           sx={{ wordWrap: "break-word", whiteSpace: "normal" }}

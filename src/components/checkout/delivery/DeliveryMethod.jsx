@@ -16,7 +16,7 @@ const DeliveryMethod = ({
   return (
     <Accordion
       expanded={checked}
-      sx={{ boxShadow: 0 }}
+      sx={{ boxShadow: 0, width: "100%" }}
       disableGutters
     >
       <AccordionSummary>
