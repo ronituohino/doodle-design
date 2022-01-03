@@ -8,6 +8,7 @@ import Button from "@mui/material/Button"
 import Cart from "./cart/Cart"
 import AddressForm from "./billing_address/AddressForm"
 import Delivery from "./delivery_address/Delivery"
+import Payment from "./payment/Payment"
 
 const steps = [
   {
@@ -130,6 +131,8 @@ const Checkout = () => {
         billingAddress={billingAddress}
         hidden={activeStep !== 2}
       />
+
+      <Payment hidden={activeStep !== 3} />
     </Container>
   )
 }
