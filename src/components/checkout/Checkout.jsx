@@ -7,7 +7,7 @@ import Button from "@mui/material/Button"
 
 import Cart from "./cart/Cart"
 import AddressForm from "./billing_address/AddressForm"
-import Delivery from "./delivery/Delivery"
+import Delivery from "./delivery_address/Delivery"
 
 const steps = [
   {
@@ -33,6 +33,7 @@ const Checkout = () => {
   const [completed, setCompleted] = useState({})
 
   const [billingAddress, setBillingAddress] = useState(undefined)
+  const [deliveryAddress, setDeliveryAddresss] = useState(undefined)
 
   const handleComplete = () => {
     const newCompleted = completed
@@ -69,8 +70,13 @@ const Checkout = () => {
     return completedSteps() === totalSteps()
   }
 
-  const addressSubmit = (values) => {
+  const billingAddressSubmit = (values) => {
     setBillingAddress(values)
+    handleComplete()
+  }
+
+  const deliveryAddressSubmit = (values) => {
+    setDeliveryAddresss(values)
     handleComplete()
   }
 
@@ -113,19 +119,17 @@ const Checkout = () => {
       </Stepper>
       {activeStep === steps.length && <Button>Purchase</Button>}
 
-      {/* This is a switch statement */}
-      {
-        {
-          0: <Cart complete={handleComplete} />,
-          1: (
-            <AddressForm
-              submit={addressSubmit}
-              address={billingAddress}
-            />
-          ),
-          2: <Delivery billingAddress={billingAddress} />,
-        }[activeStep]
-      }
+      <Cart complete={handleComplete} hidden={activeStep !== 0} />
+
+      <AddressForm
+        submit={billingAddressSubmit}
+        hidden={activeStep !== 1}
+      />
+      <Delivery
+        submit={deliveryAddressSubmit}
+        billingAddress={billingAddress}
+        hidden={activeStep !== 2}
+      />
     </Container>
   )
 }

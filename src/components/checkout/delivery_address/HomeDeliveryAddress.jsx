@@ -1,7 +1,7 @@
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, Button } from "@mui/material"
 import { useEffect } from "react"
 
 import FormikField from "../../general/formik/FormikField"
@@ -17,23 +17,41 @@ const HomeDeliveryAddress = ({ submit, address, sx }) => {
       city: "HELSINKI",
       zipCode: "99922",
       country: "FI",
-      company: "softaajat",
     },
     validationSchema: yup.object({
-      firstName: yup.string().required("First name is required"),
-      lastName: yup.string().required("Last name is required"),
-      address: yup.string().required("Address is required"),
-      city: yup.string().required("City is required"),
-      zipCode: yup
-        .string()
-        .matches(/^[0-9]+$/, "Must be digits only")
-        .min(5, "Must be 5 digits")
-        .max(5, "Must be 5 digits")
-        .required("Postal code is required"),
-      country: yup.string().required("Country is required"),
-      company: yup.string(),
+      useBillingAddress: yup.boolean(),
+      firstName: yup.string().when("useBillingAddress", {
+        is: false,
+        then: yup.string().required("First name is required"),
+      }),
+      lastName: yup.string().when("useBillingAddress", {
+        is: false,
+        then: yup.string().required("Last name is required"),
+      }),
+      address: yup.string().when("useBillingAddress", {
+        is: false,
+        then: yup.string().required("Address is required"),
+      }),
+      city: yup.string().when("useBillingAddress", {
+        is: false,
+        then: yup.string().required("City is required"),
+      }),
+      zipCode: yup.string().when("useBillingAddress", {
+        is: false,
+        then: yup
+          .string()
+          .matches(/^[0-9]+$/, "Must be digits only")
+          .min(5, "Must be 5 digits")
+          .max(5, "Must be 5 digits")
+          .required("Postal code is required"),
+      }),
+      country: yup.string().when("useBillingAddress", {
+        is: false,
+        then: yup.string().required("Country is required"),
+      }),
     }),
     onSubmit: (values) => {
+      console.log(values)
       submit(values)
     },
   })
@@ -88,14 +106,16 @@ const HomeDeliveryAddress = ({ submit, address, sx }) => {
               sx={{ width: "60%" }}
             />
           </Box>
-
-          <FormikField
-            formik={formik}
-            field="company"
-            label="Company"
-          />
         </>
       )}
+
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={formik.handleSubmit}
+      >
+        Save
+      </Button>
     </Box>
   )
 }
