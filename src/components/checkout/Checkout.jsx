@@ -6,7 +6,7 @@ import StepLabel from "@mui/material/StepLabel"
 import Button from "@mui/material/Button"
 
 import Cart from "./cart/Cart"
-import AddressForm from "./address/AddressForm"
+import AddressForm from "./billing_address/AddressForm"
 import Delivery from "./delivery/Delivery"
 
 const steps = [
@@ -49,6 +49,10 @@ const Checkout = () => {
     setActiveStep(newActiveStep)
   }
 
+  const previousStepsCompleted = (index) => {
+    return completedSteps() >= index
+  }
+
   const isLastStep = () => {
     return activeStep === totalSteps() - 1
   }
@@ -70,6 +74,9 @@ const Checkout = () => {
     handleComplete()
   }
 
+  const regularLabel = { border: 2, padding: 1, borderColor: "red" }
+  const clickableLabel = { border: 2, padding: 1, cursor: "pointer" }
+
   return (
     <Container
       maxWidth="md"
@@ -85,8 +92,16 @@ const Checkout = () => {
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
             <StepLabel
-              onClick={() => setActiveStep(index)}
-              sx={{ cursor: "pointer", border: 2, padding: 1 }}
+              onClick={() => {
+                if (previousStepsCompleted(index)) {
+                  setActiveStep(index)
+                }
+              }}
+              sx={
+                previousStepsCompleted(index)
+                  ? clickableLabel
+                  : regularLabel
+              }
             >
               <Typography variant="body2">{step.label}</Typography>
               <Typography variant="caption">

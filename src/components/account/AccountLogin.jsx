@@ -50,38 +50,36 @@ const AccountLogin = () => {
         marginTop: 4,
       }}
     >
-      <form onSubmit={formik.handleSubmit}>
-        <FormikField field="email" label="Email" formik={formik} />
+      <FormikField field="email" label="Email" formik={formik} />
 
-        <FormikField
-          field="password"
-          label="Password"
-          type={values.showPassword ? "text" : "password"}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={togglePasswordVisibility}>
-                  {values.showPassword ? (
-                    <VisibilityOffIcon />
-                  ) : (
-                    <VisibilityIcon />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          formik={formik}
-        />
+      <FormikField
+        field="password"
+        label="Password"
+        type={values.showPassword ? "text" : "password"}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={togglePasswordVisibility}>
+                {values.showPassword ? (
+                  <VisibilityOffIcon />
+                ) : (
+                  <VisibilityIcon />
+                )}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        formik={formik}
+      />
 
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Log in
-        </Button>
-      </form>
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={formik.handleSubmit}
+      >
+        Log in
+      </Button>
     </Container>
   )
 }

@@ -62,49 +62,47 @@ const AccountRegister = () => {
         marginTop: 4,
       }}
     >
-      <form onSubmit={formik.handleSubmit}>
-        <FormikField
-          field="firstName"
-          label="First Name"
-          formik={formik}
-        />
+      <FormikField
+        field="firstName"
+        label="First Name"
+        formik={formik}
+      />
 
-        <FormikField
-          field="lastName"
-          label="Last Name"
-          formik={formik}
-        />
+      <FormikField
+        field="lastName"
+        label="Last Name"
+        formik={formik}
+      />
 
-        <FormikField field="email" label="Email" formik={formik} />
+      <FormikField field="email" label="Email" formik={formik} />
 
-        <FormikField
-          field="password"
-          label="Password"
-          type={values.showPassword ? "text" : "password"}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={togglePasswordVisibility}>
-                  {values.showPassword ? (
-                    <VisibilityOffIcon />
-                  ) : (
-                    <VisibilityIcon />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          formik={formik}
-        />
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Register
-        </Button>
-      </form>
+      <FormikField
+        field="password"
+        label="Password"
+        type={values.showPassword ? "text" : "password"}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={togglePasswordVisibility}>
+                {values.showPassword ? (
+                  <VisibilityOffIcon />
+                ) : (
+                  <VisibilityIcon />
+                )}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        formik={formik}
+      />
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={formik.handleSubmit}
+      >
+        Register
+      </Button>
     </Container>
   )
 }

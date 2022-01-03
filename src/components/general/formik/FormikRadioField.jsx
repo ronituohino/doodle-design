@@ -24,17 +24,18 @@ const FormikRadioField = ({ formik, field, children, value }) => {
 
   return (
     <Box
+      onClick={() => formik.setFieldValue(field, value)}
       sx={{
         display: "flex",
         flexBasis: "100%",
-        margin: 1,
+        marginLeft: 1,
+        mariginRight: 1,
       }}
     >
       <Radio
         id={field}
         name={field}
         checked={checked}
-        onClick={formik.handleChange}
         value={value}
         disableRipple
         className={classes.root}

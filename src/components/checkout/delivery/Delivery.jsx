@@ -8,42 +8,17 @@ import FormikRadioField from "../../general/formik/FormikRadioField"
 import { useEffect } from "react"
 import FormikRadioGroup from "../../general/formik/FormikRadioGroup"
 import DeliveryMethod from "./DeliveryMethod"
-import ParcelAddressSelection from "../address/ParcelAddressSelection"
-import AddressFields from "../address/AddressFields"
-import AddressDisplay from "../address/AddressDisplay"
+import ParcelAddressSelection from "../delivery_address/ParcelAddressSelection"
+import HomeDeliveryAddress from "../delivery_address/HomeDeliveryAddress"
+import AddressDisplay from "../delivery_address/AddressDisplay"
 
 const Delivery = ({ submit, billingAddress, delivery, sx }) => {
   const formik = useFormik({
     initialValues: {
       delivery: "",
-
-      // These fields are reserved for home delivery,
-      // other delivery methods use states down below
-      firstName: "",
-      lastName: "",
-      address: "",
-      city: "",
-      zipCode: "",
-      country: "FI",
-      extra: "",
-      company: "",
     },
     validationSchema: yup.object({
       delivery: yup.string().required("Delivery method is required"),
-
-      firstName: yup.string().required("First name is required"),
-      lastName: yup.string().required("Last name is required"),
-      address: yup.string().required("Address is required"),
-      city: yup.string().required("City is required"),
-      zipCode: yup
-        .string()
-        .matches(/^[0-9]+$/, "Must be digits only")
-        .min(5, "Must be 5 digits")
-        .max(5, "Must be 5 digits")
-        .required("Postal code is required"),
-      country: yup.string().required("Country is required"),
-      extra: yup.string(),
-      company: yup.string(),
     }),
     onSubmit: (values) => {
       submit(values)
@@ -58,6 +33,14 @@ const Delivery = ({ submit, billingAddress, delivery, sx }) => {
     }
   }, [delivery])
 
+  const [explicitBillingAddress, setExplicitBillingAddress] =
+    useState(undefined)
+
+  useEffect(() => {
+    console.log("val")
+    formik.validateForm().then((c) => console.log(c))
+  }, [])
+
   const setPostiParcel = (values) => {
     setPostiParcelAddress({
       firstName: billingAddress.firstName,
@@ -71,64 +54,66 @@ const Delivery = ({ submit, billingAddress, delivery, sx }) => {
 
   return (
     <Box sx={{ ...sx }}>
-      <form onSubmit={formik.handleSubmit}>
-        <FormikRadioGroup formik={formik} field="delivery">
-          <FormikRadioField value="home-delivery">
-            <DeliveryMethod
-              title="Home Delivery"
-              text="Delivery straight to your doorstep"
-            >
-              <AddressFields formik={formik} />
-            </DeliveryMethod>
-          </FormikRadioField>
+      <FormikRadioGroup formik={formik} field="delivery">
+        <FormikRadioField value="home-delivery">
+          <DeliveryMethod
+            title="Home Delivery"
+            text="Delivery straight to your (or your friend's) doorstep"
+          >
+            <HomeDeliveryAddress
+              submit={(values) => setExplicitBillingAddress(values)}
+              address={explicitBillingAddress}
+            />
+          </DeliveryMethod>
+        </FormikRadioField>
 
-          <FormikRadioField value="posti-parcel">
-            <DeliveryMethod
-              title="Posti Parcel"
-              text="Delivery to a Posti pickup point"
-            >
-              {postiParcelAddress && (
-                <AddressDisplay
-                  address={postiParcelAddress}
-                  enterEdit={() => setPostiParcelAddress(undefined)}
-                />
-              )}
-              {!postiParcelAddress && (
-                <ParcelAddressSelection setAddress={setPostiParcel} />
-              )}
-            </DeliveryMethod>
-          </FormikRadioField>
-
-          <FormikRadioField value="store-pickup">
-            <DeliveryMethod
-              title="Pickup From Store"
-              text="Fetch package from our store"
-              price="100"
-            >
+        <FormikRadioField value="posti-parcel">
+          <DeliveryMethod
+            title="Posti Parcel"
+            text="Delivery to a Posti pickup point"
+          >
+            {postiParcelAddress && (
               <AddressDisplay
-                address={{
-                  firstName: billingAddress.firstName,
-                  lastName: billingAddress.lastName,
-                  extra: "Fred's Computers!",
-                  address: "Suometsäntie 66",
-                  zipCode: "00650",
-                  city: "HELSINKI",
-                  company: billingAddress.company,
-                }}
+                address={postiParcelAddress}
+                enterEdit={() => setPostiParcelAddress(undefined)}
               />
-            </DeliveryMethod>
-          </FormikRadioField>
-        </FormikRadioGroup>
+            )}
+            {!postiParcelAddress && (
+              <ParcelAddressSelection setAddress={setPostiParcel} />
+            )}
+          </DeliveryMethod>
+        </FormikRadioField>
 
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Save
-        </Button>
-      </form>
+        <FormikRadioField value="store-pickup">
+          <DeliveryMethod
+            title="Pickup From Store"
+            text="Fetch package from our store"
+            price="100"
+          >
+            <AddressDisplay
+              address={{
+                firstName: billingAddress.firstName,
+                lastName: billingAddress.lastName,
+                extra: "Fred's Computers!",
+                address: "Suometsäntie 66",
+                zipCode: "00650",
+                city: "HELSINKI",
+                company: billingAddress.company,
+              }}
+              disableEdit
+            />
+          </DeliveryMethod>
+        </FormikRadioField>
+      </FormikRadioGroup>
+
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={formik.handleSubmit}
+      >
+        Save
+      </Button>
     </Box>
   )
 }

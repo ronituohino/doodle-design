@@ -4,18 +4,18 @@ import * as yup from "yup"
 import { Box, Button } from "@mui/material"
 import { useEffect } from "react"
 
-import AddressFields from "./AddressFields"
+import FormikField from "../../general/formik/FormikField"
 
 const AddressForm = ({ submit, address, sx }) => {
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      address: "",
-      city: "",
-      zipCode: "",
+      firstName: "Alex",
+      lastName: "Jermikov",
+      address: "Hämäläisentie 22",
+      city: "HELSINKI",
+      zipCode: "99922",
       country: "FI",
-      company: "",
+      company: "softaajat",
     },
     validationSchema: yup.object({
       firstName: yup.string().required("First name is required"),
@@ -46,17 +46,44 @@ const AddressForm = ({ submit, address, sx }) => {
 
   return (
     <Box sx={{ ...sx }}>
-      <form onSubmit={formik.handleSubmit}>
-        <AddressFields formik={formik} />
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Save
-        </Button>
-      </form>
+      <FormikField
+        formik={formik}
+        field="firstName"
+        label="First Name"
+      />
+
+      <FormikField
+        formik={formik}
+        field="lastName"
+        label="Last Name"
+      />
+
+      <FormikField formik={formik} field="address" label="Address" />
+
+      <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
+        <FormikField
+          formik={formik}
+          field="zipCode"
+          label="Zip Code"
+          sx={{ width: "40%" }}
+        />
+        <FormikField
+          formik={formik}
+          field="city"
+          label="City"
+          sx={{ width: "60%" }}
+        />
+      </Box>
+
+      <FormikField formik={formik} field="company" label="Company" />
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={formik.handleSubmit}
+      >
+        Save
+      </Button>
     </Box>
   )
 }
