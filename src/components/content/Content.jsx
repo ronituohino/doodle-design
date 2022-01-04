@@ -55,6 +55,7 @@ const Content = () => {
                 flexDirection: "row",
                 flexWrap: "wrap",
                 justifyContent: "center",
+                gap: "30px",
               }}
             >
               {!data && <p>loading...</p>}

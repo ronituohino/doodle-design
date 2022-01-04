@@ -1,18 +1,21 @@
-import { Box, Button, TextField } from "@mui/material"
-import ContentCard from "../../content/ContentCard"
+import { Box, Button, TextField, Paper } from "@mui/material"
 
 const Coupons = () => {
   return (
-    <ContentCard size={{ width: "100%", height: "100%" }}>
+    <Paper sx={{ width: "100%" }} variant="outlined">
       <Box sx={{ display: "flex", padding: 1, gap: "5px" }}>
         <TextField
-          placeholder="Apply coupons"
+          label="Coupons"
+          placeholder="ABCD-1234..."
           size="small"
           sx={{ width: "70%" }}
+          InputLabelProps={{ shrink: true }}
         ></TextField>
-        <Button sx={{ width: "30%" }}>Apply</Button>
+        <Button sx={{ width: "30%" }} variant="outlined">
+          Apply
+        </Button>
       </Box>
-    </ContentCard>
+    </Paper>
   )
 }
 

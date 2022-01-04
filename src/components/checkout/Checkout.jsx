@@ -9,6 +9,7 @@ import Cart from "./cart/Cart"
 import AddressForm from "./billing_address/AddressForm"
 import Delivery from "./delivery_address/Delivery"
 import Payment from "./payment/Payment"
+import Confirmation from "./confirmation/Confirmation"
 
 const steps = [
   {
@@ -35,6 +36,7 @@ const Checkout = () => {
 
   const [billingAddress, setBillingAddress] = useState(undefined)
   const [deliveryAddress, setDeliveryAddresss] = useState(undefined)
+  const [paymentDetails, setPaymentDetails] = useState(undefined)
 
   const handleComplete = () => {
     const newCompleted = completed
@@ -79,6 +81,17 @@ const Checkout = () => {
   const deliveryAddressSubmit = (values) => {
     setDeliveryAddresss(values)
     handleComplete()
+  }
+
+  const paymentDetailsSubmit = (values) => {
+    setPaymentDetails(values)
+    handleComplete()
+  }
+
+  // This is called when all forms are filled,
+  // and the purchase button is pressed
+  const purchase = () => {
+    console.log("place order!")
   }
 
   const regularLabel = { border: 2, padding: 1, borderColor: "red" }
@@ -132,7 +145,19 @@ const Checkout = () => {
         hidden={activeStep !== 2}
       />
 
-      <Payment delivery={deliveryAddress} hidden={activeStep !== 3} />
+      <Payment
+        submit={paymentDetailsSubmit}
+        delivery={deliveryAddress}
+        hidden={activeStep !== 3}
+      />
+
+      <Confirmation
+        purchase={purchase}
+        billingAddress={billingAddress}
+        deliveryAddress={deliveryAddress}
+        paymentDetails={paymentDetails}
+        hidden={activeStep !== 4}
+      />
     </Container>
   )
 }

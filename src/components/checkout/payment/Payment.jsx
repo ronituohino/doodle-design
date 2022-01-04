@@ -29,13 +29,13 @@ const Payment = ({ delivery, submit, hidden, sx }) => {
       // and add them to the return object
 
       if (values.paymentMethod === PREPAYMENT && selectedPrePayment) {
-        const returnValues = { ...values, ...selectedPrePayment }
+        const returnValues = { ...values, selectedPrePayment }
         submit(returnValues)
       } else if (
         values.paymentMethod === INSTALLMENT &&
         selectedInstallment
       ) {
-        const returnValues = { ...values, ...selectedInstallment }
+        const returnValues = { ...values, selectedInstallment }
         submit(returnValues)
       } else if (values.paymentMethod === LOCAL_PAYMENT) {
         submit(values)

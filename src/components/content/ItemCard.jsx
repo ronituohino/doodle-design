@@ -1,5 +1,4 @@
-import ContentCard from "./ContentCard"
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, Paper } from "@mui/material"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { formatPrice } from "../../utils/price"
@@ -11,60 +10,44 @@ const ItemCard = ({ item }) => {
   const { itemLink } = useRouting()
 
   return (
-    <>
-      <Box
-        sx={{
-          position: "relative",
-          margin: 2,
-          width: "200px",
-          maxHeight: "325px",
-        }}
-      >
-        <Link to={itemLink(item.category, item._id)}>
-          <ContentCard size={{ width: "200px", height: "200px" }}>
-            <img
-              component="img"
-              src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-              alt="name"
-              style={{
-                margin: "auto",
-                width: "200px",
-                height: "200px",
-                marginBottom: "-6px",
-                borderRadius: 4,
-              }}
-            />
-          </ContentCard>
-        </Link>
+    <Link to={itemLink(item.category, item._id)}>
+      <Paper elevation={8}>
+        <img
+          component="img"
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+          alt="name"
+          style={{
+            width: "200px",
+            height: "200px",
+            borderTopLeftRadius: 4,
+            borderTopRightRadius: 4,
+          }}
+        />
 
-        <Box sx={{ marginTop: 1.5 }}>
+        <Box sx={{ padding: 2 }}>
           <Typography
             variant="subtitle1"
             color="black"
             sx={{
               textAlign: "center",
               fontWeight: "bold",
-              letterSpacing: 0.5,
             }}
           >
             {item.name}
           </Typography>
-
-          <Box sx={{ flexBasis: "100%", height: 0 }} />
 
           <Typography
             variant="subtitle1"
             color="black"
             sx={{
               textAlign: "center",
-              letterSpacing: 0.5,
             }}
           >
             {formatPrice(item.price, language, "EUR")}
           </Typography>
         </Box>
-      </Box>
-    </>
+      </Paper>
+    </Link>
   )
 }
 

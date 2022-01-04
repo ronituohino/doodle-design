@@ -1,13 +1,12 @@
-import { Box, Button } from "@mui/material"
+import { Box, Button, Paper } from "@mui/material"
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartItem from "../../top_bar/shopping_cart/ShoppingCartItem"
-import ContentCard from "../../content/ContentCard"
 import Receipt from "./Receipt"
 import Coupons from "./Coupons"
 
-const Cart = ({ complete, hidden }) => {
+const Cart = ({ complete, hidden, hideControls, children }) => {
   const { data, totalAmountOfItems } = useShoppingCart()
   const total = totalAmountOfItems()
 
@@ -15,9 +14,9 @@ const Cart = ({ complete, hidden }) => {
     <>
       {!hidden && (
         <Box sx={{ display: "flex", gap: "30px" }}>
-          <ContentCard
-            disableHover
-            size={{ width: "60%", height: "100%" }}
+          <Paper
+            sx={{ width: "60%", height: "100%" }}
+            variant="outlined"
           >
             {total === 0 && <p>empty!</p>}
             {total > 0 &&
@@ -25,23 +24,36 @@ const Cart = ({ complete, hidden }) => {
                 <ShoppingCartItem
                   key={obj.item.hash}
                   cartObject={obj}
+                  hideControls
                   ref={null}
                 />
               ))}
-          </ContentCard>
+          </Paper>
 
-          <Box sx={{ width: "40%", height: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "20px",
+              width: "40%",
+              height: "100%",
+            }}
+          >
             <Receipt />
-            <Box sx={{ height: 30 }} />
-            <Coupons />
-            <Box sx={{ height: 30 }} />
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={() => complete()}
-            >
-              Next
-            </Button>
+            {!hideControls && (
+              <>
+                <Coupons />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => complete()}
+                >
+                  Next
+                </Button>
+              </>
+            )}
+
+            {children}
           </Box>
         </Box>
       )}

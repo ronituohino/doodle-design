@@ -1,5 +1,4 @@
-import { Typography, Box, List, ListItem } from "@mui/material"
-import ContentCard from "../../content/ContentCard"
+import { Typography, List, ListItem, Paper } from "@mui/material"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import { formatPrice } from "../../../utils/price"
 import { useLanguage } from "../../../hooks/useLanguage"
@@ -11,10 +10,7 @@ const Receipt = () => {
   const totalPrice = totalPriceOfItems()
 
   return (
-    <ContentCard
-      disableHover
-      size={{ width: "100%", height: "100%" }}
-    >
+    <Paper sx={{ width: "100%" }} variant="outlined">
       <List sx={{ padding: 1, paddingRight: 0 }}>
         <ReceiptLine
           leftText="Total"
@@ -64,7 +60,7 @@ const Receipt = () => {
           }}
         />
       </List>
-    </ContentCard>
+    </Paper>
   )
 }
 
