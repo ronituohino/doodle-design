@@ -22,7 +22,7 @@ const steps = [
     label: "Delivery Address",
   },
   {
-    label: "Payment Method",
+    label: "Payment Details",
   },
   {
     label: "Confirmation",
