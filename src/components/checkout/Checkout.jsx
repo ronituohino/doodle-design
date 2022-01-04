@@ -8,7 +8,7 @@ import Button from "@mui/material/Button"
 import Cart from "./cart/Cart"
 import AddressForm from "./billing_address/AddressForm"
 import Delivery from "./delivery_address/Delivery"
-import PaymentDetails from "./payment/PaymentDetails"
+import Payment from "./payment/Payment"
 
 const steps = [
   {
@@ -132,7 +132,7 @@ const Checkout = () => {
         hidden={activeStep !== 2}
       />
 
-      <PaymentDetails hidden={activeStep !== 3} />
+      <Payment delivery={deliveryAddress} hidden={activeStep !== 3} />
     </Container>
   )
 }

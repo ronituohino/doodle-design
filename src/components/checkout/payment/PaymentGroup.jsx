@@ -1,29 +1,38 @@
-import { useState } from "react"
-
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import PaymentMethod from "./PaymentMethod"
 
-import danskebank from "../../../images/payment_methods/danskebank.png"
-import mastercard from "../../../images/payment_methods/mastercard.png"
-import mobilepay from "../../../images/payment_methods/mobilepay.png"
-import op from "../../../images/payment_methods/op.png"
-import paypal from "../../../images/payment_methods/paypal.png"
-import pivo from "../../../images/payment_methods/pivo.png"
-import spankki from "../../../images/payment_methods/spankki.png"
-import visa from "../../../images/payment_methods/visa.png"
+import danskebankLogo from "../../../images/payment_methods/danskebank.png"
+import klarnaLogo from "../../../images/payment_methods/klarna.png"
+import mastercardLogo from "../../../images/payment_methods/mastercard.png"
+import mobilepayLogo from "../../../images/payment_methods/mobilepay.png"
+import nordeaLogo from "../../../images/payment_methods/nordea.png"
+import opLogo from "../../../images/payment_methods/op.png"
+import paypalLogo from "../../../images/payment_methods/paypal.png"
+import pivoLogo from "../../../images/payment_methods/pivo.png"
+import spankkiLogo from "../../../images/payment_methods/spankki.png"
+import visaLogo from "../../../images/payment_methods/visa.png"
 
-const PaymentGroup = ({ hidden, submit }) => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState(undefined)
+// Create state in parent, an set value to selected
+// and update function to submit
+const PaymentGroup = ({
+  groupName,
+  hidden,
+  submit,
+  selected,
 
+  danskebank,
+  klarna,
+  mastercard,
+  mobilepay,
+  nordea,
+  op,
+  paypal,
+  pivo,
+  spankki,
+  visa,
+}) => {
   const handleSelection = (name) => {
-    if (!submit) {
-      console.log("local")
-      setSelectedPaymentMethod(name)
-    } else {
-      console.log("upper")
-      submit(name)
-    }
+    submit(name)
   }
 
   return (
@@ -34,57 +43,94 @@ const PaymentGroup = ({ hidden, submit }) => {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            justifyContent: "center",
+            gap: "5px",
+            marginBottom: 2,
           }}
         >
-          <PaymentMethod
-            name="Danske Bank"
-            imgSrc={danskebank}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="Mastercard"
-            imgSrc={mastercard}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="MobilePay"
-            imgSrc={mobilepay}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="OP"
-            imgSrc={op}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="PayPal"
-            imgSrc={paypal}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="pivo"
-            imgSrc={pivo}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="S-Pankki"
-            imgSrc={spankki}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
-          <PaymentMethod
-            name="Visa"
-            imgSrc={visa}
-            selected={selectedPaymentMethod}
-            selectThis={handleSelection}
-          />
+          <Typography sx={{ flexBasis: "100%" }}>
+            {groupName}
+          </Typography>
+
+          {danskebank && (
+            <PaymentMethod
+              name="Danske Bank"
+              imgSrc={danskebankLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {klarna && (
+            <PaymentMethod
+              name="Klarna"
+              imgSrc={klarnaLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {mastercard && (
+            <PaymentMethod
+              name="Mastercard"
+              imgSrc={mastercardLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {mobilepay && (
+            <PaymentMethod
+              name="MobilePay"
+              imgSrc={mobilepayLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {nordea && (
+            <PaymentMethod
+              name="Nordea"
+              imgSrc={nordeaLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {op && (
+            <PaymentMethod
+              name="OP"
+              imgSrc={opLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {paypal && (
+            <PaymentMethod
+              name="PayPal"
+              imgSrc={paypalLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {pivo && (
+            <PaymentMethod
+              name="Pivo"
+              imgSrc={pivoLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {spankki && (
+            <PaymentMethod
+              name="S-Pankki"
+              imgSrc={spankkiLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
+          {visa && (
+            <PaymentMethod
+              name="Visa"
+              imgSrc={visaLogo}
+              selected={selected}
+              selectThis={handleSelection}
+            />
+          )}
         </Box>
       )}
     </>

@@ -28,27 +28,22 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
       // Before submitting,
       // check that selected subfields are correct
       // and add them to the return object
-      let valid = false
       if (
         values.delivery === HOME_DELIVERY &&
         explicitBillingAddress
       ) {
-        values = { ...values, ...explicitBillingAddress }
-        valid = true
+        const returnValues = { ...values, ...explicitBillingAddress }
+        submit(returnValues)
       } else if (
         values.delivery === POSTI_PARCEL &&
         postiParcelAddress
       ) {
-        values = { ...values, ...postiParcelAddress }
-        valid = true
+        const returnValues = { ...values, ...postiParcelAddress }
+        submit(returnValues)
       } else if (values.delivery === STORE_PICKUP) {
-        valid = true
+        submit(values)
       } else {
         formik.setFieldError("delivery", "Delivery info not complete")
-      }
-
-      if (valid) {
-        submit(values)
       }
     },
   })

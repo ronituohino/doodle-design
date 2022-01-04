@@ -1,19 +1,19 @@
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 
 const nonSelectedSx = {
-  width: "150px",
-  height: "150px",
-  borderRadius: 4,
+  width: "100px",
+  height: "100px",
+  borderRadius: 2,
   cursor: "pointer",
-  border: 4,
+  border: 2,
   borderColor: "lightgray",
 }
 const selectedSx = {
-  width: "150px",
-  height: "150px",
-  borderRadius: 4,
+  width: "100px",
+  height: "100px",
+  borderRadius: 2,
   cursor: "pointer",
-  border: 4,
+  border: 2,
   borderColor: "cornflowerblue",
 }
 
@@ -21,12 +21,19 @@ const PaymentMethod = ({ name, imgSrc, selected, selectThis }) => {
   return (
     <Box
       onClick={() => selectThis(name)}
-      sx={selected === name ? selectedSx : nonSelectedSx}
+      sx={{ textAlign: "center", cursor: "pointer" }}
     >
-      <img
-        src={imgSrc}
-        style={{ borderRadius: 16, width: "150px", height: "150px" }}
-      />
+      <Box sx={selected === name ? selectedSx : nonSelectedSx}>
+        <img
+          src={imgSrc}
+          style={{
+            borderRadius: 8,
+            width: "100px",
+            height: "100px",
+          }}
+        />
+      </Box>
+      <Typography variant="caption">{name}</Typography>
     </Box>
   )
 }
