@@ -44,6 +44,7 @@ const Cart = ({ complete, hidden, hideControls, children }) => {
               <>
                 <Coupons />
                 <Button
+                  disabled={total <= 0}
                   fullWidth
                   variant="contained"
                   onClick={() => complete()}

@@ -48,9 +48,11 @@ const Payment = ({ delivery, submit, hidden, sx }) => {
     },
   })
 
+  // Prepayment state
   const [selectedPrePayment, setSelectedPrePayment] =
     useState(undefined)
 
+  // Installment state
   const [selectedInstallment, setSelectedInstallment] =
     useState(undefined)
 

@@ -6,10 +6,10 @@ import StepLabel from "@mui/material/StepLabel"
 import Button from "@mui/material/Button"
 
 import Cart from "./cart/Cart"
-import AddressForm from "./billing_address/AddressForm"
 import Delivery from "./delivery_address/Delivery"
 import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
+import BillingAddress from "./billing_address/BillingAddress"
 
 const steps = [
   {
@@ -135,7 +135,7 @@ const Checkout = () => {
 
       <Cart complete={handleComplete} hidden={activeStep !== 0} />
 
-      <AddressForm
+      <BillingAddress
         submit={billingAddressSubmit}
         hidden={activeStep !== 1}
       />

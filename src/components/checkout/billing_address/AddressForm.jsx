@@ -1,11 +1,12 @@
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-import { Box, Button } from "@mui/material"
+import { Box } from "@mui/material"
 
 import FormikField from "../../general/formik/FormikField"
+import FormikAutoSave from "../../general/formik/FormikAutoSave"
 
-const AddressForm = ({ submit, sx, hidden }) => {
+const AddressForm = ({ submit, sx }) => {
   const formik = useFormik({
     initialValues: {
       firstName: "Alex",
@@ -36,58 +37,40 @@ const AddressForm = ({ submit, sx, hidden }) => {
   })
 
   return (
-    <>
-      {!hidden && (
-        <Box sx={{ ...sx }}>
-          <FormikField
-            formik={formik}
-            field="firstName"
-            label="First Name"
-          />
+    <Box sx={{ ...sx }}>
+      <FormikField
+        formik={formik}
+        field="firstName"
+        label="First Name"
+      />
 
-          <FormikField
-            formik={formik}
-            field="lastName"
-            label="Last Name"
-          />
+      <FormikField
+        formik={formik}
+        field="lastName"
+        label="Last Name"
+      />
 
-          <FormikField
-            formik={formik}
-            field="address"
-            label="Address"
-          />
+      <FormikField formik={formik} field="address" label="Address" />
 
-          <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
-            <FormikField
-              formik={formik}
-              field="zipCode"
-              label="Zip Code"
-              sx={{ width: "40%" }}
-            />
-            <FormikField
-              formik={formik}
-              field="city"
-              label="City"
-              sx={{ width: "60%" }}
-            />
-          </Box>
+      <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
+        <FormikField
+          formik={formik}
+          field="zipCode"
+          label="Zip Code"
+          sx={{ width: "40%" }}
+        />
+        <FormikField
+          formik={formik}
+          field="city"
+          label="City"
+          sx={{ width: "60%" }}
+        />
+      </Box>
 
-          <FormikField
-            formik={formik}
-            field="company"
-            label="Company"
-          />
-          <Button
-            color="primary"
-            variant="contained"
-            fullWidth
-            onClick={formik.handleSubmit}
-          >
-            Save
-          </Button>
-        </Box>
-      )}
-    </>
+      <FormikField formik={formik} field="company" label="Company" />
+
+      <FormikAutoSave formik={formik} />
+    </Box>
   )
 }
 

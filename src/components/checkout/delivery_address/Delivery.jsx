@@ -48,9 +48,11 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
     },
   })
 
+  // Home delivery state here
   const [explicitBillingAddress, setExplicitBillingAddress] =
     useState(undefined)
 
+  // Posti parcel state here
   const setPostiParcel = (values) => {
     setPostiParcelAddress({
       firstName: billingAddress.firstName,
@@ -62,6 +64,7 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
   const [postiParcelAddress, setPostiParcelAddress] =
     useState(undefined)
 
+  // Store pickup state here
   const [storePickupAddress, setStorePickupAddress] =
     useState(undefined)
 
