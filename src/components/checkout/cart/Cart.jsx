@@ -6,7 +6,7 @@ import ShoppingCartItem from "../../top_bar/shopping_cart/ShoppingCartItem"
 import Receipt from "./Receipt"
 import Coupons from "./Coupons"
 
-const Cart = ({ complete, hidden, hideControls, children }) => {
+const Cart = ({ next, hidden, hideControls, children }) => {
   const { data, totalAmountOfItems } = useShoppingCart()
   const total = totalAmountOfItems()
 
@@ -47,7 +47,7 @@ const Cart = ({ complete, hidden, hideControls, children }) => {
                   disabled={total <= 0}
                   fullWidth
                   variant="contained"
-                  onClick={() => complete()}
+                  onClick={next}
                 >
                   Next
                 </Button>

@@ -10,6 +10,7 @@ import Delivery from "./delivery_address/Delivery"
 import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
 import BillingAddress from "./billing_address/BillingAddress"
+import { useCheckout } from "../../hooks/useCheckout"
 
 const steps = [
   {
@@ -34,9 +35,12 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0)
   const [completed, setCompleted] = useState({})
 
-  const [billingAddress, setBillingAddress] = useState(undefined)
-  const [deliveryAddress, setDeliveryAddresss] = useState(undefined)
-  const [paymentDetails, setPaymentDetails] = useState(undefined)
+  const {
+    data,
+    setBillingDetails,
+    setDeliveryDetails,
+    setPaymentDetails,
+  } = useCheckout()
 
   const handleComplete = () => {
     const newCompleted = completed
@@ -71,21 +75,6 @@ const Checkout = () => {
 
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps()
-  }
-
-  const billingAddressSubmit = (values) => {
-    setBillingAddress(values)
-    handleComplete()
-  }
-
-  const deliveryAddressSubmit = (values) => {
-    setDeliveryAddresss(values)
-    handleComplete()
-  }
-
-  const paymentDetailsSubmit = (values) => {
-    setPaymentDetails(values)
-    handleComplete()
   }
 
   // This is called when all forms are filled,
@@ -133,31 +122,18 @@ const Checkout = () => {
       </Stepper>
       {activeStep === steps.length && <Button>Purchase</Button>}
 
-      <Cart complete={handleComplete} hidden={activeStep !== 0} />
+      <Cart hidden={activeStep !== 0} next={handleComplete} />
 
       <BillingAddress
-        submit={billingAddressSubmit}
         hidden={activeStep !== 1}
-      />
-      <Delivery
-        submit={deliveryAddressSubmit}
-        billingAddress={billingAddress}
-        hidden={activeStep !== 2}
+        next={handleComplete}
       />
 
-      <Payment
-        submit={paymentDetailsSubmit}
-        delivery={deliveryAddress}
-        hidden={activeStep !== 3}
-      />
+      <Delivery hidden={activeStep !== 2} next={handleComplete} />
 
-      <Confirmation
-        purchase={purchase}
-        billingAddress={billingAddress}
-        deliveryAddress={deliveryAddress}
-        paymentDetails={paymentDetails}
-        hidden={activeStep !== 4}
-      />
+      <Payment hidden={activeStep !== 3} next={handleComplete} />
+
+      <Confirmation hidden={activeStep !== 4} next={purchase} />
     </Container>
   )
 }

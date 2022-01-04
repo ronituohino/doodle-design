@@ -13,7 +13,7 @@ const AddressForm = ({ submit, sx }) => {
       lastName: "Jermikov",
       address: "Hämäläisentie 22",
       city: "HELSINKI",
-      zipCode: "99922",
+      zipCode: "",
       country: "FI",
       company: "softaajat",
     },

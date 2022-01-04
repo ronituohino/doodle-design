@@ -1,13 +1,16 @@
-import { useState } from "react"
 import { Button } from "@mui/material"
 import AddressForm from "./AddressForm"
+import { useCheckout } from "../../../hooks/useCheckout"
 
-const BillingAddress = ({ submit, hidden }) => {
-  const [billing, setBilling] = useState(undefined)
+const BillingAddress = ({ next, hidden }) => {
+  const { data, setBillingDetails } = useCheckout()
 
   const handleAutoSave = (values) => {
-    setBilling(values)
+    setBillingDetails(values)
   }
+
+  const disabled =
+    !data || !data.checkout || !data.checkout.billingDetails
 
   return (
     <>
@@ -15,8 +18,10 @@ const BillingAddress = ({ submit, hidden }) => {
         <>
           <AddressForm submit={handleAutoSave} />
           <Button
-            disabled={billing === undefined}
-            onClick={submit(billing)}
+            fullWidth
+            variant="contained"
+            disabled={disabled}
+            onClick={next}
           >
             Next
           </Button>
