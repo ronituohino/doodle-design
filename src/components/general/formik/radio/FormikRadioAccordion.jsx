@@ -6,7 +6,7 @@ import {
   AccordionDetails,
 } from "@mui/material"
 
-const DeliveryMethod = ({
+const FormikRadioAccordion = ({
   title,
   text,
   price,
@@ -30,4 +30,4 @@ const DeliveryMethod = ({
   )
 }
 
-export default DeliveryMethod
+export default FormikRadioAccordion

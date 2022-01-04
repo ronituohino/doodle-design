@@ -4,10 +4,10 @@ import * as yup from "yup"
 import { useState } from "react"
 
 import { Box, Button } from "@mui/material"
-import FormikRadioField from "../../general/formik/FormikRadioField"
+import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import { useEffect } from "react"
-import FormikRadioGroup from "../../general/formik/FormikRadioGroup"
-import DeliveryMethod from "./DeliveryMethod"
+import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
+import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
 import ParcelAddressSelection from "./ParcelAddressSelection"
 import HomeDeliveryAddress from "./HomeDeliveryAddress"
 import AddressDisplay from "./AddressDisplay"
@@ -90,7 +90,7 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
         <Box sx={{ ...sx }}>
           <FormikRadioGroup formik={formik} field="delivery">
             <FormikRadioField value={HOME_DELIVERY}>
-              <DeliveryMethod
+              <FormikRadioAccordion
                 title="Home Delivery"
                 text="Delivery straight to your (or your friend's) doorstep"
               >
@@ -100,11 +100,11 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
                   }
                   address={explicitBillingAddress}
                 />
-              </DeliveryMethod>
+              </FormikRadioAccordion>
             </FormikRadioField>
 
             <FormikRadioField value={POSTI_PARCEL}>
-              <DeliveryMethod
+              <FormikRadioAccordion
                 title="Posti Parcel"
                 text="Delivery to a Posti pickup point"
               >
@@ -119,11 +119,11 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
                     setAddress={setPostiParcel}
                   />
                 )}
-              </DeliveryMethod>
+              </FormikRadioAccordion>
             </FormikRadioField>
 
             <FormikRadioField value={STORE_PICKUP}>
-              <DeliveryMethod
+              <FormikRadioAccordion
                 title="Pickup From Store"
                 text="Fetch package from our store"
                 price="100"
@@ -134,7 +134,7 @@ const Delivery = ({ submit, billingAddress, sx, hidden }) => {
                     disableEdit
                   />
                 )}
-              </DeliveryMethod>
+              </FormikRadioAccordion>
             </FormikRadioField>
           </FormikRadioGroup>
 

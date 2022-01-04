@@ -12,9 +12,19 @@ import pivo from "../../../images/payment_methods/pivo.png"
 import spankki from "../../../images/payment_methods/spankki.png"
 import visa from "../../../images/payment_methods/visa.png"
 
-const Payment = ({ hidden }) => {
+const PaymentGroup = ({ hidden, submit }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState(undefined)
+
+  const handleSelection = (name) => {
+    if (!submit) {
+      console.log("local")
+      setSelectedPaymentMethod(name)
+    } else {
+      console.log("upper")
+      submit(name)
+    }
+  }
 
   return (
     <>
@@ -31,49 +41,49 @@ const Payment = ({ hidden }) => {
             name="Danske Bank"
             imgSrc={danskebank}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="Mastercard"
             imgSrc={mastercard}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="MobilePay"
             imgSrc={mobilepay}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="OP"
             imgSrc={op}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="PayPal"
             imgSrc={paypal}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="pivo"
             imgSrc={pivo}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="S-Pankki"
             imgSrc={spankki}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
           <PaymentMethod
             name="Visa"
             imgSrc={visa}
             selected={selectedPaymentMethod}
-            selectThis={setSelectedPaymentMethod}
+            selectThis={handleSelection}
           />
         </Box>
       )}
@@ -81,4 +91,4 @@ const Payment = ({ hidden }) => {
   )
 }
 
-export default Payment
+export default PaymentGroup
