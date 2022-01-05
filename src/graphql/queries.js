@@ -59,12 +59,6 @@ export const SHOPPING_CART = gql`
   }
 `
 
-export const CHECKOUT = gql`
-  query GetCheckoutVariables {
-    checkout @client
-  }
-`
-
 export const USER = gql`
   query GetUserInfo {
     me {

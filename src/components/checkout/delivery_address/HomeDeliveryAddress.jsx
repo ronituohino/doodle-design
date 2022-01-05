@@ -1,12 +1,12 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, Paper } from "@mui/material"
 
 import FormikField from "../../general/formik/FormikField"
 import FormikCheckbox from "../../general/formik/FormikCheckbox"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 
-const HomeDeliveryAddress = ({ formik, sx }) => {
+const HomeDeliveryAddress = ({ formik }) => {
   return (
-    <Box sx={{ ...sx }}>
+    <Paper sx={{ padding: 2, width: "60%" }} variant="outlined">
       <FormikCheckbox formik={formik} field="useBillingAddress">
         <Typography sx={{ alignSelf: "center" }}>
           Recipient is not me
@@ -59,9 +59,7 @@ const HomeDeliveryAddress = ({ formik, sx }) => {
           />
         </>
       )}
-
-      <FormikAutoSave formik={formik} />
-    </Box>
+    </Paper>
   )
 }
 

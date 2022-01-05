@@ -10,16 +10,19 @@ import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordio
 import ParcelAddressSelection from "./ParcelAddressSelection"
 import HomeDeliveryAddress from "./HomeDeliveryAddress"
 import AddressDisplay from "./AddressDisplay"
-import { useCheckout } from "../../../hooks/useCheckout"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 
 const HOME_DELIVERY = "home-delivery"
 const POSTI_PARCEL = "posti-parcel"
 const STORE_PICKUP = "store-pickup"
 
-const Delivery = ({ next, sx }) => {
-  const { data, setDeliveryDetails } = useCheckout()
-
+const Delivery = ({
+  next,
+  checkout,
+  setDeliveryDetails,
+  setError,
+  hidden,
+}) => {
   const formik = useFormik({
     initialValues: {
       deliveryMethod: "",
@@ -100,85 +103,88 @@ const Delivery = ({ next, sx }) => {
     validateOnBlur: false,
   })
 
+  // Used to set checkout errors
   useEffect(() => {
-    if (data && data.checkout && data.checkout.deliveryDetails) {
-      formik.setValues(data.checkout.deliveryDetails)
-    }
-  }, [])
+    setError(formik.isValid)
+  }, [formik.isValid])
 
   const nextButtonDisabled =
-    !data ||
-    !data.checkout ||
-    !data.checkout.deliveryDetails ||
-    !formik.isValid
+    !checkout || !checkout.deliveryDetails || !formik.isValid
 
   return (
-    <Box sx={{ ...sx }}>
-      <FormikRadioGroup formik={formik} field="deliveryMethod">
-        <FormikRadioField value={HOME_DELIVERY}>
-          <FormikRadioAccordion
-            title="Home Delivery"
-            text="Delivery straight to your (or your friend's) doorstep"
+    <>
+      {!hidden && (
+        <Box>
+          <FormikRadioGroup formik={formik} field="deliveryMethod">
+            <FormikRadioField value={HOME_DELIVERY}>
+              <FormikRadioAccordion
+                title="Home Delivery"
+                text="Delivery straight to your (or your friend's) doorstep"
+              >
+                <HomeDeliveryAddress formik={formik} />
+              </FormikRadioAccordion>
+            </FormikRadioField>
+
+            <FormikRadioField value={POSTI_PARCEL}>
+              <FormikRadioAccordion
+                title="Posti Parcel"
+                text="Delivery to a Posti pickup point"
+              >
+                {formik.values.postiParcelAddress && (
+                  <AddressDisplay
+                    address={formik.values.postiParcelAddress}
+                    enterEdit={() =>
+                      formik.setFieldValue(
+                        "postiParcelAddress",
+                        undefined
+                      )
+                    }
+                  />
+                )}
+                {!formik.values.postiParcelAddress && (
+                  <ParcelAddressSelection
+                    setAddress={(values) =>
+                      formik.setFieldValue(
+                        "postiParcelAddress",
+                        values
+                      )
+                    }
+                  />
+                )}
+              </FormikRadioAccordion>
+            </FormikRadioField>
+
+            <FormikRadioField value={STORE_PICKUP}>
+              <FormikRadioAccordion
+                title="Pickup From Store"
+                text="Fetch package from our store"
+                price="100"
+              >
+                <AddressDisplay
+                  address={formik.values.storePickupAddress}
+                  disableEdit
+                />
+              </FormikRadioAccordion>
+            </FormikRadioField>
+          </FormikRadioGroup>
+
+          <FormikAutoSave
+            formik={formik}
+            onSave={() => setDeliveryDetails(formik.values)}
+          />
+
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={nextButtonDisabled}
+            fullWidth
+            onClick={next}
           >
-            <HomeDeliveryAddress formik={formik} />
-          </FormikRadioAccordion>
-        </FormikRadioField>
-
-        <FormikRadioField value={POSTI_PARCEL}>
-          <FormikRadioAccordion
-            title="Posti Parcel"
-            text="Delivery to a Posti pickup point"
-          >
-            {formik.values.postiParcelAddress && (
-              <AddressDisplay
-                address={formik.values.postiParcelAddress}
-                enterEdit={() =>
-                  formik.setFieldValue(
-                    "postiParcelAddress",
-                    undefined
-                  )
-                }
-              />
-            )}
-            {!formik.values.postiParcelAddress && (
-              <ParcelAddressSelection
-                setAddress={(values) =>
-                  formik.setFieldValue("postiParcelAddress", values)
-                }
-              />
-            )}
-          </FormikRadioAccordion>
-        </FormikRadioField>
-
-        <FormikRadioField value={STORE_PICKUP}>
-          <FormikRadioAccordion
-            title="Pickup From Store"
-            text="Fetch package from our store"
-            price="100"
-          >
-            <AddressDisplay
-              address={formik.values.storePickupAddress}
-              disableEdit
-            />
-          </FormikRadioAccordion>
-        </FormikRadioField>
-      </FormikRadioGroup>
-
-      <FormikAutoSave
-        formik={formik}
-        onSave={() => setDeliveryDetails(formik.values)}
-      />
-
-      <Button
-        color="primary"
-        variant="contained"
-        disabled={nextButtonDisabled}
-        fullWidth
-        onClick={next}
-      >
-        Next
-      </Button>
-    </Box>
+            Next
+          </Button>
+        </Box>
+      )}
+    </>
   )
 }
 

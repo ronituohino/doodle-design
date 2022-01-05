@@ -1,4 +1,5 @@
 import { useState } from "react"
+
 import { Container, Typography } from "@mui/material"
 import Stepper from "@mui/material/Stepper"
 import Step from "@mui/material/Step"
@@ -33,13 +34,20 @@ const steps = [
 const Checkout = () => {
   // Stepper state variables
   const [activeStep, setActiveStep] = useState(0)
-  const [completed, setCompleted] = useState({})
 
-  // The other state variables used in checkout
-  // are handled by useCheckout()
+  // These states store steps as 0: true, 1: true ...
+  const [completed, setCompleted] = useState({})
+  const [failed, setFailed] = useState({})
+
+  // The main checkout state
+  const [checkoutState, setCheckoutState] = useState({
+    billingDetails: undefined,
+    deliveryDetails: undefined,
+    paymentDetails: undefined,
+  })
 
   const handleComplete = () => {
-    const newCompleted = completed
+    const newCompleted = { ...completed }
     newCompleted[activeStep] = true
     setCompleted(newCompleted)
     handleNext()
@@ -82,6 +90,26 @@ const Checkout = () => {
   const regularLabel = { border: 2, padding: 1, borderColor: "red" }
   const clickableLabel = { border: 2, padding: 1, cursor: "pointer" }
 
+  const setBillingDetails = (value) => {
+    setCheckoutState({ ...checkoutState, billingDetails: value })
+  }
+
+  const setDeliveryDetails = (value) => {
+    setCheckoutState({ ...checkoutState, deliveryDetails: value })
+  }
+
+  const setPaymentDetails = (value) => {
+    setCheckoutState({ ...checkoutState, paymentDetails: value })
+  }
+
+  const handleError = (isValid, stepIndex) => {
+    if (isValid !== undefined) {
+      const newFailed = { ...failed }
+      newFailed[stepIndex] = !isValid
+      setFailed(newFailed)
+    }
+  }
+
   return (
     <Container
       maxWidth="md"
@@ -107,6 +135,7 @@ const Checkout = () => {
                   ? clickableLabel
                   : regularLabel
               }
+              error={failed[index]}
             >
               <Typography variant="body2">{step.label}</Typography>
               <Typography variant="caption">
@@ -116,18 +145,44 @@ const Checkout = () => {
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && <Button>Purchase</Button>}
 
-      {/* This is a switch statement */}
-      {
-        {
-          0: <Cart next={handleComplete} />,
-          1: <BillingAddress next={handleComplete} />,
-          2: <Delivery next={handleComplete} />,
-          3: <Payment next={handleComplete} />,
-          4: <Confirmation next={purchase} />,
-        }[activeStep]
-      }
+      <Cart next={handleComplete} hidden={activeStep !== 0} />
+
+      <BillingAddress
+        next={handleComplete}
+        checkout={checkoutState}
+        setBillingDetails={setBillingDetails}
+        setError={(valid) => {
+          handleError(valid, 1)
+        }}
+        hidden={activeStep !== 1}
+      />
+      <Delivery
+        next={handleComplete}
+        checkout={checkoutState}
+        setDeliveryDetails={setDeliveryDetails}
+        setError={(valid) => {
+          handleError(valid, 2)
+        }}
+        hidden={activeStep !== 2}
+      />
+      <Payment
+        next={handleComplete}
+        checkout={checkoutState}
+        setPaymentDetails={setPaymentDetails}
+        setError={(valid) => {
+          handleError(valid, 3)
+        }}
+        hidden={activeStep !== 3}
+      />
+      <Confirmation
+        next={purchase}
+        checkout={checkoutState}
+        setError={(valid) => {
+          handleError(valid, 4)
+        }}
+        hidden={activeStep !== 4}
+      />
     </Container>
   )
 }

@@ -14,11 +14,14 @@ import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
 import PaymentGroup from "./PaymentGroup"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
-import { useCheckout } from "../../../hooks/useCheckout"
 
-const Payment = ({ next, sx }) => {
-  const { data, setPaymentDetails } = useCheckout()
-
+const Payment = ({
+  next,
+  checkout,
+  setPaymentDetails,
+  setError,
+  hidden,
+}) => {
   const formik = useFormik({
     initialValues: {
       paymentMethod: "",
@@ -48,107 +51,107 @@ const Payment = ({ next, sx }) => {
     onSubmit: () => {},
   })
 
+  // Used to set checkout errors
   useEffect(() => {
-    if (data && data.checkout && data.checkout.paymentDetails) {
-      formik.setValues(data.checkout.paymentDetails)
-    }
-  }, [])
+    setError(formik.isValid)
+  }, [formik.isValid])
 
   const nextButtonDisabled =
-    !data ||
-    !data.checkout ||
-    !data.checkout.paymentDetails ||
-    !formik.isValid
+    !checkout || !checkout.paymentDetails || !formik.isValid
 
   return (
-    <Box sx={{ ...sx }}>
-      <FormikRadioGroup formik={formik} field="paymentMethod">
-        <FormikRadioField value={PREPAYMENT}>
-          <FormikRadioAccordion
-            title="Prepayment"
-            text="Payment using a card, banking applications, or payment services"
+    <>
+      {!hidden && (
+        <Box>
+          <FormikRadioGroup formik={formik} field="paymentMethod">
+            <FormikRadioField value={PREPAYMENT}>
+              <FormikRadioAccordion
+                title="Prepayment"
+                text="Payment using a card, banking applications, or payment services"
+              >
+                <>
+                  <PaymentGroup
+                    groupName="Bank Payment"
+                    submit={(name) =>
+                      formik.setFieldValue("prePayment", name)
+                    }
+                    selected={formik.values.prePayment}
+                    op
+                    danskebank
+                    spankki
+                    nordea
+                  />
+
+                  <PaymentGroup
+                    groupName="Card"
+                    submit={(name) =>
+                      formik.setFieldValue("prePayment", name)
+                    }
+                    selected={formik.values.prePayment}
+                    visa
+                    mastercard
+                  />
+
+                  <PaymentGroup
+                    groupName="Payment Service"
+                    submit={(name) =>
+                      formik.setFieldValue("prePayment", name)
+                    }
+                    selected={formik.values.prePayment}
+                    mobilepay
+                    pivo
+                    paypal
+                  />
+                </>
+              </FormikRadioAccordion>
+            </FormikRadioField>
+
+            <FormikRadioField value={INSTALLMENT}>
+              <FormikRadioAccordion
+                title="Installment"
+                text="Get your package now, pay later"
+              >
+                <>
+                  <PaymentGroup
+                    submit={(name) =>
+                      formik.setFieldValue("installment", name)
+                    }
+                    selected={formik.values.installment}
+                    paypal
+                    klarna
+                  />
+                </>
+              </FormikRadioAccordion>
+            </FormikRadioField>
+
+            {formik.values.paymentMethod === "store-pickup" && (
+              <FormikRadioField value={LOCAL_PAYMENT}>
+                <FormikRadioAccordion
+                  title="Local Payment"
+                  text="Pay at the store"
+                  price="100"
+                ></FormikRadioAccordion>
+              </FormikRadioField>
+            )}
+          </FormikRadioGroup>
+
+          <FormikAutoSave
+            formik={formik}
+            onSave={() => setPaymentDetails(formik.values)}
+          />
+
+          <Button
+            color="primary"
+            variant="contained"
+            fullWidth
+            onClick={next}
+            disabled={nextButtonDisabled}
           >
-            <>
-              <PaymentGroup
-                groupName="Bank Payment"
-                submit={(name) =>
-                  formik.setFieldValue("prePayment", name)
-                }
-                selected={formik.values.prePayment}
-                op
-                danskebank
-                spankki
-                nordea
-              />
-
-              <PaymentGroup
-                groupName="Card"
-                submit={(name) =>
-                  formik.setFieldValue("prePayment", name)
-                }
-                selected={formik.values.prePayment}
-                visa
-                mastercard
-              />
-
-              <PaymentGroup
-                groupName="Payment Service"
-                submit={(name) =>
-                  formik.setFieldValue("prePayment", name)
-                }
-                selected={formik.values.prePayment}
-                mobilepay
-                pivo
-                paypal
-              />
-            </>
-          </FormikRadioAccordion>
-        </FormikRadioField>
-
-        <FormikRadioField value={INSTALLMENT}>
-          <FormikRadioAccordion
-            title="Installment"
-            text="Get your package now, pay later"
-          >
-            <>
-              <PaymentGroup
-                submit={(name) =>
-                  formik.setFieldValue("installment", name)
-                }
-                selected={formik.values.installment}
-                paypal
-                klarna
-              />
-            </>
-          </FormikRadioAccordion>
-        </FormikRadioField>
-
-        {formik.values.paymentMethod === "store-pickup" && (
-          <FormikRadioField value={LOCAL_PAYMENT}>
-            <FormikRadioAccordion
-              title="Local Payment"
-              text="Pay at the store"
-              price="100"
-            ></FormikRadioAccordion>
-          </FormikRadioField>
-        )}
-      </FormikRadioGroup>
-
-      <FormikAutoSave
-        formik={formik}
-        onSave={() => setPaymentDetails(formik.values)}
-      />
-
-      <Button
-        color="primary"
-        variant="contained"
-        fullWidth
-        onClick={next}
-        disabled={nextButtonDisabled}
-      >
-        Next
-      </Button>
-    </Box>
+            Next
+          </Button>
+        </Box>
+      )}
+    </>
   )
 }
 

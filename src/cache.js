@@ -9,11 +9,6 @@ const cache = new InMemoryCache({
             return cartItemsVar()
           },
         },
-        checkout: {
-          read() {
-            return checkoutVar()
-          },
-        },
       },
     },
   },
@@ -28,11 +23,5 @@ const cache = new InMemoryCache({
 // it replaces the variable's current value with the provided value.
 
 export const cartItemsVar = makeVar([])
-
-export const checkoutVar = makeVar({
-  billingDetails: undefined,
-  deliveryDetails: undefined,
-  paymentDetails: undefined,
-})
 
 export default cache
