@@ -1,6 +1,8 @@
 import { useFormik } from "formik"
 import * as yup from "yup"
 
+import { useEffect } from "react"
+
 import { Box, Button } from "@mui/material"
 
 const PREPAYMENT = "prepayment"
@@ -28,14 +30,37 @@ const Payment = ({ next, sx }) => {
       paymentMethod: yup
         .string()
         .required("Payment method is required"),
+
+      prePayment: yup.string().when("paymentMethod", {
+        is: (paymentMethod) => paymentMethod === PREPAYMENT,
+        then: yup
+          .string()
+          .required("Prepayment provider is required"),
+      }),
+
+      installment: yup.string().when("paymentMethod", {
+        is: (paymentMethod) => paymentMethod === INSTALLMENT,
+        then: yup
+          .string()
+          .required("Installment provider is required"),
+      }),
     }),
     onSubmit: (values) => {
       setPaymentDetails(values)
     },
   })
 
+  useEffect(() => {
+    if (data && data.checkout && data.checkout.paymentDetails) {
+      formik.setValues(data.checkout.paymentDetails)
+    }
+  }, [])
+
   const nextButtonDisabled =
-    !data || !data.checkout || !data.checkout.paymentDetails
+    !data ||
+    !data.checkout ||
+    !data.checkout.paymentDetails ||
+    !formik.isValid
 
   return (
     <Box sx={{ ...sx }}>

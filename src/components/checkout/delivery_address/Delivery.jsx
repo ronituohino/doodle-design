@@ -1,6 +1,8 @@
 import { useFormik } from "formik"
 import * as yup from "yup"
 
+import { useEffect } from "react"
+
 import { Box, Button } from "@mui/material"
 import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
@@ -56,22 +58,31 @@ const Delivery = ({ next, sx }) => {
         .object()
         .when(["deliveryMethod", "useBillingAddress"], {
           is: (deliveryMethod, useBillingAddress) =>
-            deliveryMethod === HOME_DELIVERY && !useBillingAddress,
-          then: yup.object({
-            firstName: yup
-              .string()
-              .required("First name is required"),
-            lastName: yup.string().required("Last name is required"),
-            address: yup.string().required("Address is required"),
-            city: yup.string().required("City is required"),
-            zipCode: yup
-              .string()
-              .matches(/^[0-9]+$/, "Must be digits only")
-              .min(5, "Must be 5 digits")
-              .max(5, "Must be 5 digits")
-              .required("Zip code is required"),
-            country: yup.string().required("Country is required"),
-          }),
+            deliveryMethod === HOME_DELIVERY && useBillingAddress,
+          then: yup
+            .object({
+              firstName: yup
+                .string()
+                .required("First name is required"),
+              lastName: yup
+                .string()
+                .required("Last name is required"),
+              address: yup.string().required("Address is required"),
+              city: yup.string().required("City is required"),
+              zipCode: yup
+                .string()
+                .matches(/^[0-9]+$/, "Must be digits only")
+                .min(5, "Must be 5 digits")
+                .max(5, "Must be 5 digits")
+                .required("Zip code is required"),
+              country: yup.string().required("Country is required"),
+              phone: yup
+                .string()
+                .matches(/^[0-9]+$/, "Must be digits only")
+                .min(10, "Must be 10 digits")
+                .max(10, "Must be 10 digits"),
+            })
+            .required("Delivery address missing"),
         }),
 
       // POSTI_PARCEL
@@ -83,13 +94,22 @@ const Delivery = ({ next, sx }) => {
       // STORE_PICKUP
       storePickupAddress: yup.object(),
     }),
-    onSubmit: (values) => {
-      setDeliveryDetails(values)
-    },
+    onSubmit: (values) => {},
+    validateOnChange: false,
+    validateOnBlur: false,
   })
 
+  useEffect(() => {
+    if (data && data.checkout && data.checkout.deliveryDetails) {
+      formik.setValues(data.checkout.deliveryDetails)
+    }
+  }, [])
+
   const nextButtonDisabled =
-    !data || !data.checkout || !data.checkout.deliveryDetails
+    !data ||
+    !data.checkout ||
+    !data.checkout.deliveryDetails ||
+    !formik.isValid
 
   return (
     <Box sx={{ ...sx }}>
@@ -143,7 +163,10 @@ const Delivery = ({ next, sx }) => {
         </FormikRadioField>
       </FormikRadioGroup>
 
-      <FormikAutoSave formik={formik} />
+      <FormikAutoSave
+        formik={formik}
+        onSave={() => setDeliveryDetails(formik.values)}
+      />
 
       <Button
         color="primary"

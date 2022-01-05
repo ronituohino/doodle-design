@@ -9,11 +9,11 @@ const HomeDeliveryAddress = ({ formik, sx }) => {
     <Box sx={{ ...sx }}>
       <FormikCheckbox formik={formik} field="useBillingAddress">
         <Typography sx={{ alignSelf: "center" }}>
-          Use Billing Address as Delivery Address
+          Recipient is not me
         </Typography>
       </FormikCheckbox>
 
-      {!formik.values.useBillingAddress && (
+      {formik.values.useBillingAddress && (
         <>
           <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
             <FormikField
@@ -51,6 +51,12 @@ const HomeDeliveryAddress = ({ formik, sx }) => {
               sx={{ width: "60%" }}
             />
           </Box>
+
+          <FormikField
+            formik={formik}
+            field="phone"
+            label="Phone Number (for package tracking)"
+          />
         </>
       )}
 
