@@ -1,26 +1,24 @@
 import { TextField } from "@mui/material"
+import { getInnerFieldFromObject } from "../../../utils/utils"
 
-const FormikField = (props) => {
+const FormikField = ({ field, label, type, formik, sx }) => {
+  const value = getInnerFieldFromObject(formik.values, field)
+  const error = getInnerFieldFromObject(formik.errors, field)
+  const touched = getInnerFieldFromObject(formik.touched, field)
+
   return (
     <TextField
       fullWidth
-      id={props.field}
-      name={props.field}
-      label={props.label}
-      type={props.type ? props.type : "text"}
-      value={props.formik.values[props.field]}
-      onChange={props.formik.handleChange}
-      error={
-        props.formik.touched[props.field] &&
-        Boolean(props.formik.errors[props.field])
-      }
-      helperText={
-        props.formik.touched[props.field] &&
-        props.formik.errors[props.field]
-      }
+      id={field}
+      name={field}
+      label={label}
+      type={type ? type : "text"}
+      value={value}
+      onChange={formik.handleChange}
+      error={touched && Boolean(error)}
+      helperText={touched && error}
       InputLabelProps={{ shrink: true }}
-      sx={{ marginBottom: 2, ...props.sx }}
-      {...props}
+      sx={{ marginBottom: 2, ...sx }}
     />
   )
 }

@@ -21,7 +21,7 @@ export const hasParentWithMatchingSelector = (
 }
 
 export const getInnerFieldFromObject = (object, stringField) => {
-  const subfields = stringField.split("/")
+  const subfields = stringField.split(".")
 
   let value = null
   if (subfields.length > 1) {

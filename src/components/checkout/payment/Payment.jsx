@@ -45,9 +45,7 @@ const Payment = ({ next, sx }) => {
           .required("Installment provider is required"),
       }),
     }),
-    onSubmit: (values) => {
-      setPaymentDetails(values)
-    },
+    onSubmit: () => {},
   })
 
   useEffect(() => {
@@ -136,7 +134,10 @@ const Payment = ({ next, sx }) => {
         )}
       </FormikRadioGroup>
 
-      <FormikAutoSave formik={formik} />
+      <FormikAutoSave
+        formik={formik}
+        onSave={() => setPaymentDetails(formik.values)}
+      />
 
       <Button
         color="primary"

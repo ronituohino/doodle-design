@@ -42,9 +42,7 @@ const BillingAddress = ({ next }) => {
         .min(10, "Must be 10 digits")
         .max(10, "Must be 10 digits"),
     }),
-    onSubmit: (values) => {
-      setBillingDetails(values)
-    },
+    onSubmit: () => {},
     validateOnChange: false,
     validateOnBlur: false,
   })
@@ -104,7 +102,10 @@ const BillingAddress = ({ next }) => {
         label="Phone Number (for package tracking)"
       />
 
-      <FormikAutoSave formik={formik} />
+      <FormikAutoSave
+        formik={formik}
+        onSave={() => setBillingDetails(formik.values)}
+      />
 
       <Button
         fullWidth

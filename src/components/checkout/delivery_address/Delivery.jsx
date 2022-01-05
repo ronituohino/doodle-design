@@ -1,4 +1,4 @@
-import { useFormik } from "formik"
+import { useFormik, Formik, Field } from "formik"
 import * as yup from "yup"
 
 import { useEffect } from "react"
@@ -33,6 +33,7 @@ const Delivery = ({ next, sx }) => {
         city: "",
         zipCode: "",
         country: "FI",
+        phone: "",
       },
 
       // POSTI_PARCEL
@@ -94,7 +95,7 @@ const Delivery = ({ next, sx }) => {
       // STORE_PICKUP
       storePickupAddress: yup.object(),
     }),
-    onSubmit: (values) => {},
+    onSubmit: () => {},
     validateOnChange: false,
     validateOnBlur: false,
   })

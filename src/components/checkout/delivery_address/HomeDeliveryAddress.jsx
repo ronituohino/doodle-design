@@ -54,7 +54,7 @@ const HomeDeliveryAddress = ({ formik, sx }) => {
 
           <FormikField
             formik={formik}
-            field="phone"
+            field="homeDeliveryAddress.phone"
             label="Phone Number (for package tracking)"
           />
         </>
