@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
 
@@ -6,7 +7,7 @@ import { Box } from "@mui/material"
 import FormikField from "../../general/formik/FormikField"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 
-const AddressForm = ({ submit, sx }) => {
+const AddressForm = ({ address, submit, sx }) => {
   const formik = useFormik({
     initialValues: {
       firstName: "Alex",
@@ -36,19 +37,31 @@ const AddressForm = ({ submit, sx }) => {
     },
   })
 
+  useEffect(() => {
+    if (address) {
+      if (Object.keys(address).length > 1) {
+        formik.setValues(address)
+      }
+    }
+  }, [address])
+
   return (
     <Box sx={{ ...sx }}>
-      <FormikField
-        formik={formik}
-        field="firstName"
-        label="First Name"
-      />
+      <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
+        <FormikField
+          formik={formik}
+          field="firstName"
+          label="First Name"
+          sx={{ width: "50%" }}
+        />
 
-      <FormikField
-        formik={formik}
-        field="lastName"
-        label="Last Name"
-      />
+        <FormikField
+          formik={formik}
+          field="lastName"
+          label="Last Name"
+          sx={{ width: "50%" }}
+        />
+      </Box>
 
       <FormikField formik={formik} field="address" label="Address" />
 

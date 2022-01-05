@@ -19,3 +19,39 @@ export const hasParentWithMatchingSelector = (
     )
   }
 }
+
+export const getInnerFieldFromObject = (object, stringField) => {
+  const subfields = stringField.split("/")
+
+  let value = null
+  if (subfields.length > 1) {
+    value = traverse(object, subfields)
+  } else {
+    value = object[subfields[0]]
+  }
+
+  return value
+}
+
+const traverse = (object, subfields) => {
+  let value = null
+
+  let newSubFields = subfields
+  let field = newSubFields.shift()
+
+  if (newSubFields.length > 0) {
+    const newObject = object[field]
+
+    if (newObject) {
+      value = traverse(newObject, newSubFields)
+    } else {
+      return null
+    }
+  }
+
+  if (value === null) {
+    return object[field]
+  } else {
+    return value
+  }
+}

@@ -1,152 +1,160 @@
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-import { useState } from "react"
-
 import { Box, Button } from "@mui/material"
 import FormikRadioField from "../../general/formik/radio/FormikRadioField"
-import { useEffect } from "react"
 import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
 import ParcelAddressSelection from "./ParcelAddressSelection"
 import HomeDeliveryAddress from "./HomeDeliveryAddress"
 import AddressDisplay from "./AddressDisplay"
+import { useCheckout } from "../../../hooks/useCheckout"
+import FormikAutoSave from "../../general/formik/FormikAutoSave"
 
 const HOME_DELIVERY = "home-delivery"
 const POSTI_PARCEL = "posti-parcel"
 const STORE_PICKUP = "store-pickup"
 
-const Delivery = ({ submit, billingAddress, sx, hidden }) => {
+const Delivery = ({ next, sx }) => {
+  const { data, setDeliveryDetails } = useCheckout()
+
   const formik = useFormik({
     initialValues: {
-      delivery: "",
+      deliveryMethod: "",
+
+      // HOME_DELIVERY
+      useBillingAddress: false,
+      homeDeliveryAddress: {
+        firstName: "lol",
+        lastName: "",
+        address: "",
+        city: "",
+        zipCode: "",
+        country: "FI",
+      },
+
+      // POSTI_PARCEL
+      postiParcelAddress: undefined,
+
+      // STORE_PICKUP
+      storePickupAddress: {
+        extra: "Fred's Computers!",
+        address: "Joukolankatu 12",
+        city: "HELSINKI",
+        zipCode: "00510",
+        country: "FI",
+      },
     },
     validationSchema: yup.object({
-      delivery: yup.string().required("Delivery method is required"),
+      deliveryMethod: yup
+        .string()
+        .required("Delivery method is required"),
+
+      // HOME_DELIVERY
+      useBillingAddress: yup.boolean(),
+      homeDeliveryAddress: yup
+        .object()
+        .when(["deliveryMethod", "useBillingAddress"], {
+          is: (deliveryMethod, useBillingAddress) =>
+            deliveryMethod === HOME_DELIVERY && !useBillingAddress,
+          then: yup.object({
+            firstName: yup
+              .string()
+              .required("First name is required"),
+            lastName: yup.string().required("Last name is required"),
+            address: yup.string().required("Address is required"),
+            city: yup.string().required("City is required"),
+            zipCode: yup
+              .string()
+              .matches(/^[0-9]+$/, "Must be digits only")
+              .min(5, "Must be 5 digits")
+              .max(5, "Must be 5 digits")
+              .required("Zip code is required"),
+            country: yup.string().required("Country is required"),
+          }),
+        }),
+
+      // POSTI_PARCEL
+      postiParcelAddress: yup.object().when("deliveryMethod", {
+        is: (deliveryMethod) => deliveryMethod === POSTI_PARCEL,
+        then: yup.object().required("Please select parcel address"),
+      }),
+
+      // STORE_PICKUP
+      storePickupAddress: yup.object(),
     }),
     onSubmit: (values) => {
-      // Before submitting,
-      // check that selected subfields are correct
-      // and add them to the return object
-      if (
-        values.delivery === HOME_DELIVERY &&
-        explicitBillingAddress
-      ) {
-        const returnValues = { ...values, ...explicitBillingAddress }
-        submit(returnValues)
-      } else if (
-        values.delivery === POSTI_PARCEL &&
-        postiParcelAddress
-      ) {
-        const returnValues = { ...values, ...postiParcelAddress }
-        submit(returnValues)
-      } else if (values.delivery === STORE_PICKUP) {
-        submit(values)
-      } else {
-        formik.setFieldError("delivery", "Delivery info not complete")
-      }
+      setDeliveryDetails(values)
     },
   })
 
-  // Home delivery state here
-  const [explicitBillingAddress, setExplicitBillingAddress] =
-    useState(undefined)
-
-  // Posti parcel state here
-  const setPostiParcel = (values) => {
-    setPostiParcelAddress({
-      firstName: billingAddress.firstName,
-      lastName: billingAddress.lastName,
-      ...values,
-      company: billingAddress.company,
-    })
-  }
-  const [postiParcelAddress, setPostiParcelAddress] =
-    useState(undefined)
-
-  // Store pickup state here
-  const [storePickupAddress, setStorePickupAddress] =
-    useState(undefined)
-
-  useEffect(() => {
-    if (billingAddress) {
-      setStorePickupAddress({
-        firstName: billingAddress.firstName,
-        lastName: billingAddress.lastName,
-        extra: "Fred's Computers!",
-        address: "Suometsäntie 66",
-        zipCode: "00650",
-        city: "HELSINKI",
-        company: billingAddress.company,
-      })
-    }
-  }, [billingAddress])
+  const nextButtonDisabled =
+    !data || !data.checkout || !data.checkout.deliveryDetails
 
   return (
-    <>
-      {!hidden && (
-        <Box sx={{ ...sx }}>
-          <FormikRadioGroup formik={formik} field="delivery">
-            <FormikRadioField value={HOME_DELIVERY}>
-              <FormikRadioAccordion
-                title="Home Delivery"
-                text="Delivery straight to your (or your friend's) doorstep"
-              >
-                <HomeDeliveryAddress
-                  submit={(values) =>
-                    setExplicitBillingAddress(values)
-                  }
-                  address={explicitBillingAddress}
-                />
-              </FormikRadioAccordion>
-            </FormikRadioField>
-
-            <FormikRadioField value={POSTI_PARCEL}>
-              <FormikRadioAccordion
-                title="Posti Parcel"
-                text="Delivery to a Posti pickup point"
-              >
-                {postiParcelAddress && (
-                  <AddressDisplay
-                    address={postiParcelAddress}
-                    enterEdit={() => setPostiParcelAddress(undefined)}
-                  />
-                )}
-                {!postiParcelAddress && (
-                  <ParcelAddressSelection
-                    setAddress={setPostiParcel}
-                  />
-                )}
-              </FormikRadioAccordion>
-            </FormikRadioField>
-
-            <FormikRadioField value={STORE_PICKUP}>
-              <FormikRadioAccordion
-                title="Pickup From Store"
-                text="Fetch package from our store"
-                price="100"
-              >
-                {storePickupAddress && (
-                  <AddressDisplay
-                    address={storePickupAddress}
-                    disableEdit
-                  />
-                )}
-              </FormikRadioAccordion>
-            </FormikRadioField>
-          </FormikRadioGroup>
-
-          <Button
-            color="primary"
-            variant="contained"
-            fullWidth
-            onClick={formik.handleSubmit}
+    <Box sx={{ ...sx }}>
+      <FormikRadioGroup formik={formik} field="deliveryMethod">
+        <FormikRadioField value={HOME_DELIVERY}>
+          <FormikRadioAccordion
+            title="Home Delivery"
+            text="Delivery straight to your (or your friend's) doorstep"
           >
-            Save
-          </Button>
-        </Box>
-      )}
-    </>
+            <HomeDeliveryAddress formik={formik} />
+          </FormikRadioAccordion>
+        </FormikRadioField>
+
+        <FormikRadioField value={POSTI_PARCEL}>
+          <FormikRadioAccordion
+            title="Posti Parcel"
+            text="Delivery to a Posti pickup point"
+          >
+            {formik.values.postiParcelAddress && (
+              <AddressDisplay
+                address={formik.values.postiParcelAddress}
+                enterEdit={() =>
+                  formik.setFieldValue(
+                    "postiParcelAddress",
+                    undefined
+                  )
+                }
+              />
+            )}
+            {!formik.values.postiParcelAddress && (
+              <ParcelAddressSelection
+                setAddress={(values) =>
+                  formik.setFieldValue("postiParcelAddress", values)
+                }
+              />
+            )}
+          </FormikRadioAccordion>
+        </FormikRadioField>
+
+        <FormikRadioField value={STORE_PICKUP}>
+          <FormikRadioAccordion
+            title="Pickup From Store"
+            text="Fetch package from our store"
+            price="100"
+          >
+            <AddressDisplay
+              address={formik.values.storePickupAddress}
+              disableEdit
+            />
+          </FormikRadioAccordion>
+        </FormikRadioField>
+      </FormikRadioGroup>
+
+      <FormikAutoSave formik={formik} />
+
+      <Button
+        color="primary"
+        variant="contained"
+        disabled={nextButtonDisabled}
+        fullWidth
+        onClick={next}
+      >
+        Next
+      </Button>
+    </Box>
   )
 }
 

@@ -6,13 +6,7 @@ import {
   AccordionDetails,
 } from "@mui/material"
 
-const FormikRadioAccordion = ({
-  title,
-  text,
-  price,
-  checked,
-  children,
-}) => {
+const FormikRadioAccordion = ({ title, text, checked, children }) => {
   return (
     <Accordion
       expanded={checked}

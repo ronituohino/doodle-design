@@ -10,7 +10,6 @@ import Delivery from "./delivery_address/Delivery"
 import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
 import BillingAddress from "./billing_address/BillingAddress"
-import { useCheckout } from "../../hooks/useCheckout"
 
 const steps = [
   {
@@ -32,15 +31,12 @@ const steps = [
 ]
 
 const Checkout = () => {
+  // Stepper state variables
   const [activeStep, setActiveStep] = useState(0)
   const [completed, setCompleted] = useState({})
 
-  const {
-    data,
-    setBillingDetails,
-    setDeliveryDetails,
-    setPaymentDetails,
-  } = useCheckout()
+  // The other state variables used in checkout
+  // are handled by useCheckout()
 
   const handleComplete = () => {
     const newCompleted = completed
@@ -122,18 +118,16 @@ const Checkout = () => {
       </Stepper>
       {activeStep === steps.length && <Button>Purchase</Button>}
 
-      <Cart hidden={activeStep !== 0} next={handleComplete} />
-
-      <BillingAddress
-        hidden={activeStep !== 1}
-        next={handleComplete}
-      />
-
-      <Delivery hidden={activeStep !== 2} next={handleComplete} />
-
-      <Payment hidden={activeStep !== 3} next={handleComplete} />
-
-      <Confirmation hidden={activeStep !== 4} next={purchase} />
+      {/* This is a switch statement */}
+      {
+        {
+          0: <Cart next={handleComplete} />,
+          1: <BillingAddress next={handleComplete} />,
+          2: <Delivery next={handleComplete} />,
+          3: <Payment next={handleComplete} />,
+          4: <Confirmation next={purchase} />,
+        }[activeStep]
+      }
     </Container>
   )
 }

@@ -5,11 +5,8 @@ import { CHECKOUT } from "../graphql/queries"
 export const useCheckout = () => {
   const { data } = useQuery(CHECKOUT)
 
-  console.log(data)
   const setBillingDetails = (billingDetails) => {
-    console.log("updated!")
     checkoutVar({ ...checkoutVar(), billingDetails })
-    console.log(data)
   }
 
   const setDeliveryDetails = (deliveryDetails) => {
@@ -19,6 +16,8 @@ export const useCheckout = () => {
   const setPaymentDetails = (paymentDetails) => {
     checkoutVar({ ...checkoutVar(), paymentDetails })
   }
+
+  console.log(data)
 
   return {
     data,
