@@ -38,7 +38,12 @@ const ParcelAddress = ({ point, selectCallback }) => {
           alignSelf: "center",
         }}
       >
-        <Button onClick={() => selectCallback(point)}>Select</Button>
+        <Button
+          variant="outlined"
+          onClick={() => selectCallback(point)}
+        >
+          Select
+        </Button>
       </Box>
     </Box>
   )

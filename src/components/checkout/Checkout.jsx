@@ -52,6 +52,11 @@ const Checkout = () => {
   const { billingFormik, deliveryFormik, paymentFormik } =
     useCheckoutForms(constants)
 
+  const allValid =
+    billingFormik.isValid &&
+    deliveryFormik.isValid &&
+    paymentFormik.isValid
+
   // Used to set checkout errors
   useEffect(() => {
     handleErrors(
@@ -145,7 +150,7 @@ const Checkout = () => {
       <Stepper
         nonLinear
         activeStep={activeStep}
-        sx={{ marginBottom: 2 }}
+        sx={{ marginBottom: 4 }}
       >
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
@@ -194,6 +199,8 @@ const Checkout = () => {
         hidden={activeStep !== 3}
       />
       <Confirmation
+        allValid={allValid}
+        constants={constants}
         next={purchase}
         checkout={checkout}
         hidden={activeStep !== 4}

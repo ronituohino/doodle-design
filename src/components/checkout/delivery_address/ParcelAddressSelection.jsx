@@ -51,7 +51,7 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
     <FormikBox
       formik={formik}
       field="postiParcelAddress"
-      sx={{ marginRight: 7, marginTop: -2 }}
+      sx={{ marginRight: 7 }}
     >
       <Box
         sx={{

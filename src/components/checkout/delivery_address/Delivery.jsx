@@ -50,7 +50,8 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                         undefined
                       )
                     }
-                    sx={{ padding: 2, marginRight: 7 }}
+                    sx={{ marginRight: 7 }}
+                    innerSx={{ padding: 2 }}
                   />
                 )}
                 {!formik.values.postiParcelAddress && (
@@ -76,7 +77,8 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                 <AddressDisplay
                   address={formik.values.storePickupAddress}
                   disableEdit
-                  sx={{ padding: 2, marginRight: 7 }}
+                  innerSx={{ padding: 2 }}
+                  sx={{ marginRight: 7 }}
                 />
               </FormikRadioAccordion>
             </FormikRadioField>

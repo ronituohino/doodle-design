@@ -20,7 +20,7 @@ const BetterPaper = ({
           paddingRight: 0.5,
           paddingLeft: 0.5,
           position: "relative",
-          top: 10,
+          top: -10,
           left: 10,
           backgroundColor: "white",
         }}
@@ -33,9 +33,8 @@ const BetterPaper = ({
       <Paper
         variant="outlined"
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
           borderColor: boxCol,
+          marginTop: -2.5,
           ...innerSx,
         }}
       >

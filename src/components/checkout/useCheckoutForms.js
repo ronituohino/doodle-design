@@ -43,7 +43,7 @@ export const useCheckoutForms = (constants) => {
       deliveryMethod: "",
 
       // HOME_DELIVERY
-      useBillingAddress: false,
+      useExplicitDeliveryAddress: false,
       homeDeliveryAddress: {
         firstName: "lol",
         lastName: "",
@@ -73,13 +73,13 @@ export const useCheckoutForms = (constants) => {
         .required("Delivery method is required"),
 
       // HOME_DELIVERY
-      useBillingAddress: yup.boolean(),
+      useExplicitDeliveryAddress: yup.boolean(),
       homeDeliveryAddress: yup
         .object()
-        .when(["deliveryMethod", "useBillingAddress"], {
-          is: (deliveryMethod, useBillingAddress) =>
+        .when(["deliveryMethod", "useExplicitDeliveryAddress"], {
+          is: (deliveryMethod, useExplicitDeliveryAddress) =>
             deliveryMethod === constants.HOME_DELIVERY &&
-            useBillingAddress,
+            useExplicitDeliveryAddress,
           then: yup
             .object({
               firstName: yup

@@ -1,35 +1,78 @@
-import { Paper, Button, Typography } from "@mui/material"
+import { Button } from "@mui/material"
 
 import Cart from "../cart/Cart"
 import AddressDisplay from "../delivery_address/AddressDisplay"
+import PaymentDisplay from "./PaymentDisplay"
 
-const Confirmation = ({ next, checkout, hidden }) => {
+const Confirmation = ({
+  allValid,
+  constants,
+  next,
+  checkout,
+  hidden,
+}) => {
+  const explicitDeliveryAddress =
+    checkout.deliveryDetails.useExplicitDeliveryAddress
+
+  let deliveryAddress = undefined
+  let isStorePickup = false
+
+  switch (checkout.deliveryDetails.deliveryMethod) {
+    case constants.HOME_DELIVERY:
+      deliveryAddress = explicitDeliveryAddress
+        ? checkout.deliveryDetails.homeDeliveryAddress
+        : checkout.billingDetails
+      break
+    case constants.POSTI_PARCEL:
+      deliveryAddress = checkout.deliveryDetails.postiParcelAddress
+      break
+    case constants.STORE_PICKUP:
+      isStorePickup = true
+      deliveryAddress = checkout.deliveryDetails.storePickupAddress
+      break
+  }
+
   return (
     <>
       {!hidden && (
         <Cart hideControls>
-          <Paper>
-            {checkout.billingDetails && (
-              <AddressDisplay
-                address={checkout.billingDetails}
-                disableEdit
-              />
-            )}
-          </Paper>
+          {checkout.billingDetails && (
+            <AddressDisplay
+              address={checkout.billingDetails}
+              label={
+                !explicitDeliveryAddress
+                  ? "Your details & delivered to"
+                  : "Your details"
+              }
+              disableEdit
+              sx={{ width: "100%" }}
+              innerSx={{ padding: 2 }}
+            />
+          )}
 
-          <Paper>
-            {checkout.deliveryDetails && (
-              <AddressDisplay
-                address={checkout.deliveryDetails}
-                disableEdit
-              />
-            )}
-          </Paper>
+          {checkout.deliveryDetails && explicitDeliveryAddress && (
+            <AddressDisplay
+              address={deliveryAddress}
+              label={isStorePickup ? "Pick up from" : "Delivered to"}
+              disableEdit
+              sx={{ width: "100%" }}
+              innerSx={{ padding: 2 }}
+            />
+          )}
 
-          <Paper>
-            <Typography>pay</Typography>
-          </Paper>
-          <Button fullWidth variant="contained" onClick={next}>
+          {checkout.paymentDetails && (
+            <PaymentDisplay
+              checkout={checkout}
+              constants={constants}
+            />
+          )}
+
+          <Button
+            disabled={!allValid}
+            fullWidth
+            variant="contained"
+            onClick={next}
+          >
             Purchase
           </Button>
         </Cart>

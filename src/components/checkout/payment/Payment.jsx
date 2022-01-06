@@ -35,7 +35,7 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
                 <FormikBox
                   formik={formik}
                   field="prePayment"
-                  sx={{ marginTop: -2 }}
+                  sx={{ marginTop: -2, marginRight: 7 }}
                   innerSx={{
                     padding: 4,
                     paddingTop: 2,
@@ -87,7 +87,7 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
                 <FormikBox
                   formik={formik}
                   field="installment"
-                  sx={{ marginTop: -2 }}
+                  sx={{ marginTop: -2, marginRight: 7 }}
                   innerSx={{
                     padding: 4,
                     paddingTop: 2,
