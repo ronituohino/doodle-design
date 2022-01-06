@@ -102,6 +102,12 @@ const Checkout = () => {
     setCheckoutState({ ...checkoutState, paymentDetails: value })
   }
 
+  const setters = {
+    setBillingDetails,
+    setDeliveryDetails,
+    setPaymentDetails,
+  }
+
   const handleError = (isValid, stepIndex) => {
     if (isValid !== undefined) {
       const newFailed = { ...failed }
@@ -151,7 +157,7 @@ const Checkout = () => {
       <BillingAddress
         next={handleComplete}
         checkout={checkoutState}
-        setBillingDetails={setBillingDetails}
+        setters={setters}
         setError={(valid) => {
           handleError(valid, 1)
         }}
@@ -160,7 +166,7 @@ const Checkout = () => {
       <Delivery
         next={handleComplete}
         checkout={checkoutState}
-        setDeliveryDetails={setDeliveryDetails}
+        setters={setters}
         setError={(valid) => {
           handleError(valid, 2)
         }}
@@ -169,7 +175,7 @@ const Checkout = () => {
       <Payment
         next={handleComplete}
         checkout={checkoutState}
-        setPaymentDetails={setPaymentDetails}
+        setters={setters}
         setError={(valid) => {
           handleError(valid, 3)
         }}

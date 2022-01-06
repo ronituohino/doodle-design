@@ -7,24 +7,25 @@ import { useEffect } from "react"
 
 import FormikField from "../../general/formik/FormikField"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
+import BetterPaper from "../../general/BetterPaper"
 
 const BillingAddress = ({
   next,
   checkout,
-  setBillingDetails,
+  setters,
   setError,
   hidden,
 }) => {
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      address: "",
-      city: "",
-      zipCode: "",
+      firstName: "Jeremy",
+      lastName: "Jenking",
+      address: "Tampereenkatu 12",
+      city: "TAMPERE",
+      zipCode: "05001",
       country: "FI",
       company: "",
-      phone: "",
+      phone: "0504802233",
     },
     validationSchema: yup.object({
       firstName: yup.string().required("First name is required"),
@@ -61,15 +62,19 @@ const BillingAddress = ({
   return (
     <>
       {!hidden && (
-        <Container
-          maxWidth="sm"
-          sx={{
-            marginTop: 2,
-          }}
-        >
-          <Paper sx={{ padding: 2 }} variant="outlined">
+        <Container maxWidth="sm">
+          <BetterPaper
+            label="Billing Address"
+            sx={{ marginBottom: 2 }}
+            innerSx={{ padding: 3 }}
+          >
             <Box
-              sx={{ display: "flex", gap: "15px", marginBottom: 2 }}
+              sx={{
+                display: "flex",
+                gap: "15px",
+                marginBottom: 2,
+                width: "100%",
+              }}
             >
               <FormikField
                 formik={formik}
@@ -90,10 +95,16 @@ const BillingAddress = ({
               formik={formik}
               field="address"
               label="Address"
+              sx={{ marginBottom: 2 }}
             />
 
             <Box
-              sx={{ display: "flex", gap: "15px", marginBottom: 2 }}
+              sx={{
+                display: "flex",
+                gap: "15px",
+                marginBottom: 2,
+                width: "100%",
+              }}
             >
               <FormikField
                 formik={formik}
@@ -113,6 +124,7 @@ const BillingAddress = ({
               formik={formik}
               field="company"
               label="Company"
+              sx={{ marginBottom: 2 }}
             />
 
             <FormikField
@@ -124,19 +136,19 @@ const BillingAddress = ({
             <FormikAutoSave
               formik={formik}
               onSave={() => {
-                setBillingDetails(formik.values)
+                setters.setBillingDetails(formik.values)
               }}
             />
+          </BetterPaper>
 
-            <Button
-              fullWidth
-              variant="contained"
-              disabled={nextButtonDisabled}
-              onClick={next}
-            >
-              Next
-            </Button>
-          </Paper>
+          <Button
+            fullWidth
+            variant="contained"
+            disabled={nextButtonDisabled}
+            onClick={next}
+          >
+            Next
+          </Button>
         </Container>
       )}
     </>

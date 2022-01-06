@@ -15,13 +15,7 @@ import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordio
 import PaymentGroup from "./PaymentGroup"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 
-const Payment = ({
-  next,
-  checkout,
-  setPaymentDetails,
-  setError,
-  hidden,
-}) => {
+const Payment = ({ next, checkout, setters, setError, hidden }) => {
   const formik = useFormik({
     initialValues: {
       paymentMethod: "",
@@ -63,46 +57,49 @@ const Payment = ({
     <>
       {!hidden && (
         <Box>
-          <FormikRadioGroup formik={formik} field="paymentMethod">
+          <FormikRadioGroup
+            formik={formik}
+            field="paymentMethod"
+            sx={{ marginBottom: 2 }}
+          >
             <FormikRadioField value={PREPAYMENT}>
               <FormikRadioAccordion
                 title="Prepayment"
                 text="Payment using a card, banking applications, or payment services"
+                sx={{ display: "flex", flexWrap: "wrap" }}
               >
-                <>
-                  <PaymentGroup
-                    groupName="Bank Payment"
-                    submit={(name) =>
-                      formik.setFieldValue("prePayment", name)
-                    }
-                    selected={formik.values.prePayment}
-                    op
-                    danskebank
-                    spankki
-                    nordea
-                  />
+                <PaymentGroup
+                  groupName="Bank Payment"
+                  submit={(name) =>
+                    formik.setFieldValue("prePayment", name)
+                  }
+                  selected={formik.values.prePayment}
+                  op
+                  danskebank
+                  spankki
+                  nordea
+                />
 
-                  <PaymentGroup
-                    groupName="Card"
-                    submit={(name) =>
-                      formik.setFieldValue("prePayment", name)
-                    }
-                    selected={formik.values.prePayment}
-                    visa
-                    mastercard
-                  />
+                <PaymentGroup
+                  groupName="Card"
+                  submit={(name) =>
+                    formik.setFieldValue("prePayment", name)
+                  }
+                  selected={formik.values.prePayment}
+                  visa
+                  mastercard
+                />
 
-                  <PaymentGroup
-                    groupName="Payment Service"
-                    submit={(name) =>
-                      formik.setFieldValue("prePayment", name)
-                    }
-                    selected={formik.values.prePayment}
-                    mobilepay
-                    pivo
-                    paypal
-                  />
-                </>
+                <PaymentGroup
+                  groupName="Payment Service"
+                  submit={(name) =>
+                    formik.setFieldValue("prePayment", name)
+                  }
+                  selected={formik.values.prePayment}
+                  mobilepay
+                  pivo
+                  paypal
+                />
               </FormikRadioAccordion>
             </FormikRadioField>
 
@@ -110,6 +107,7 @@ const Payment = ({
               <FormikRadioAccordion
                 title="Installment"
                 text="Get your package now, pay later"
+                sx={{ display: "flex", flexWrap: "wrap" }}
               >
                 <>
                   <PaymentGroup
@@ -124,7 +122,8 @@ const Payment = ({
               </FormikRadioAccordion>
             </FormikRadioField>
 
-            {formik.values.paymentMethod === "store-pickup" && (
+            {checkout.deliveryDetails.deliveryMethod ===
+              "store-pickup" && (
               <FormikRadioField value={LOCAL_PAYMENT}>
                 <FormikRadioAccordion
                   title="Local Payment"
@@ -137,7 +136,7 @@ const Payment = ({
 
           <FormikAutoSave
             formik={formik}
-            onSave={() => setPaymentDetails(formik.values)}
+            onSave={() => setters.setPaymentDetails(formik.values)}
           />
 
           <Button

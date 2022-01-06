@@ -1,12 +1,13 @@
-import { Box, TextField, Button, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import { getPostalPoints } from "../../../axios/requests"
 
 import ParcelAddress from "./ParcelAddress"
+import FormikField from "../../general/formik/FormikField"
+import FormikBox from "../../general/formik/FormikBox"
 
-const ParcelAddressSelection = ({ setAddress }) => {
+const ParcelAddressSelection = ({ formik, setAddress }) => {
   const [deliveryPoints, setDeliveryPoints] = useState(undefined)
-  const [zipCode, setZipCode] = useState("")
 
   const foundDeliveryPoints =
     deliveryPoints && deliveryPoints.locations
@@ -14,7 +15,10 @@ const ParcelAddressSelection = ({ setAddress }) => {
     deliveryPoints && !deliveryPoints.locations
 
   const fetchDeliveryPoints = async () => {
-    const response = await getPostalPoints(zipCode, 5)
+    const response = await getPostalPoints(
+      formik.values.searchZipCode,
+      5
+    )
     setDeliveryPoints(response)
   }
 
@@ -44,19 +48,25 @@ const ParcelAddressSelection = ({ setAddress }) => {
   }
 
   return (
-    <Box sx={{ width: "500px" }}>
-      <Box sx={{ display: "flex", gap: "15px" }}>
-        <TextField
+    <FormikBox
+      formik={formik}
+      field="postiParcelAddress"
+      sx={{ marginRight: 7, marginTop: -2 }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          gap: "15px",
+          padding: 2,
+        }}
+      >
+        <FormikField
+          formik={formik}
           label="Zip Code"
-          sx={{ width: "25%" }}
-          onChange={(e) => setZipCode(e.target.value)}
-          InputLabelProps={{ shrink: true }}
+          field="searchZipCode"
+          sx={{ width: "30%" }}
         />
-        <Button
-          onClick={fetchDeliveryPoints}
-          sx={{ width: "15%" }}
-          variant="contained"
-        >
+        <Button onClick={fetchDeliveryPoints} variant="contained">
           Search
         </Button>
       </Box>
@@ -77,7 +87,7 @@ const ParcelAddressSelection = ({ setAddress }) => {
           No Posti points found!
         </Typography>
       )}
-    </Box>
+    </FormikBox>
   )
 }
 

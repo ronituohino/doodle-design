@@ -1,10 +1,19 @@
 import { TextField } from "@mui/material"
 import { getInnerFieldFromObject } from "../../../utils/utils"
 
-const FormikField = ({ field, label, type, formik, sx }) => {
+const FormikField = ({
+  field,
+  label,
+  type,
+  formik,
+  errorField,
+  sx,
+}) => {
   const value = getInnerFieldFromObject(formik.values, field)
-  const error = getInnerFieldFromObject(formik.errors, field)
-  const touched = getInnerFieldFromObject(formik.touched, field)
+  const error = getInnerFieldFromObject(
+    formik.errors,
+    errorField ? errorField : field
+  )
 
   return (
     <TextField
@@ -15,10 +24,10 @@ const FormikField = ({ field, label, type, formik, sx }) => {
       type={type ? type : "text"}
       value={value}
       onChange={formik.handleChange}
-      error={touched && Boolean(error)}
-      helperText={touched && error}
+      error={Boolean(error)}
+      helperText={error}
       InputLabelProps={{ shrink: true }}
-      sx={{ marginBottom: 2, ...sx }}
+      sx={{ ...sx }}
     />
   )
 }

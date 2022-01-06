@@ -1,9 +1,9 @@
-import { useFormik, Formik, Field } from "formik"
+import { useFormik } from "formik"
 import * as yup from "yup"
 
 import { useEffect } from "react"
 
-import { Box, Button } from "@mui/material"
+import { Button, Container } from "@mui/material"
 import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
@@ -16,13 +16,7 @@ const HOME_DELIVERY = "home-delivery"
 const POSTI_PARCEL = "posti-parcel"
 const STORE_PICKUP = "store-pickup"
 
-const Delivery = ({
-  next,
-  checkout,
-  setDeliveryDetails,
-  setError,
-  hidden,
-}) => {
+const Delivery = ({ next, checkout, setters, setError, hidden }) => {
   const formik = useFormik({
     initialValues: {
       deliveryMethod: "",
@@ -41,6 +35,7 @@ const Delivery = ({
 
       // POSTI_PARCEL
       postiParcelAddress: undefined,
+      searchZipCode: "",
 
       // STORE_PICKUP
       storePickupAddress: {
@@ -114,8 +109,19 @@ const Delivery = ({
   return (
     <>
       {!hidden && (
-        <Box>
-          <FormikRadioGroup formik={formik} field="deliveryMethod">
+        <Container
+          maxWidth="md"
+          sx={{
+            marginTop: 2,
+          }}
+        >
+          <FormikRadioGroup
+            formik={formik}
+            field="deliveryMethod"
+            label="Delivery Address"
+            sx={{ marginBottom: 2 }}
+            innerSx={{ padding: 2 }}
+          >
             <FormikRadioField value={HOME_DELIVERY}>
               <FormikRadioAccordion
                 title="Home Delivery"
@@ -139,10 +145,12 @@ const Delivery = ({
                         undefined
                       )
                     }
+                    sx={{ padding: 2, marginRight: 7 }}
                   />
                 )}
                 {!formik.values.postiParcelAddress && (
                   <ParcelAddressSelection
+                    formik={formik}
                     setAddress={(values) =>
                       formik.setFieldValue(
                         "postiParcelAddress",
@@ -163,6 +171,7 @@ const Delivery = ({
                 <AddressDisplay
                   address={formik.values.storePickupAddress}
                   disableEdit
+                  sx={{ padding: 2, marginRight: 7 }}
                 />
               </FormikRadioAccordion>
             </FormikRadioField>
@@ -170,7 +179,21 @@ const Delivery = ({
 
           <FormikAutoSave
             formik={formik}
-            onSave={() => setDeliveryDetails(formik.values)}
+            onSave={() => {
+              setters.setDeliveryDetails(formik.values)
+
+              // If paymentMethod is set to local payment already, invalidate it
+              if (
+                checkout.paymentDetails &&
+                checkout.paymentDetails.paymentMethod ===
+                  "local-payment"
+              ) {
+                setters.setPaymentDetails({
+                  ...checkout.paymentDetails,
+                  paymentMethod: "",
+                })
+              }
+            }}
           />
 
           <Button
@@ -182,7 +205,7 @@ const Delivery = ({
           >
             Next
           </Button>
-        </Box>
+        </Container>
       )}
     </>
   )

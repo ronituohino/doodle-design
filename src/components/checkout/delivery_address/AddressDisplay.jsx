@@ -1,10 +1,10 @@
-import { Box, IconButton, Typography } from "@mui/material"
+import { Paper, Box, IconButton, Typography } from "@mui/material"
 
 import EditIcon from "@mui/icons-material/Edit"
 
 const AddressDisplay = ({ address, enterEdit, disableEdit, sx }) => {
   return (
-    <Box sx={{ display: "flex", ...sx }}>
+    <Paper variant="outlined" sx={{ display: "flex", ...sx }}>
       <Box sx={{ width: "75%" }}>
         <Typography
           sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
@@ -56,7 +56,7 @@ const AddressDisplay = ({ address, enterEdit, disableEdit, sx }) => {
           </IconButton>
         </Box>
       )}
-    </Box>
+    </Paper>
   )
 }
 
