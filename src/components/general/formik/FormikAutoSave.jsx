@@ -5,7 +5,10 @@ const FormikAutoSave = ({ formik, onSave, debounceMs = 300 }) => {
   const debouncedSubmit = useCallback(
     useDebouncedCallback(() => {
       formik.submitForm()
-      onSave()
+
+      if (onSave) {
+        onSave()
+      }
     }, debounceMs),
     [formik.submitForm, debounceMs]
   )

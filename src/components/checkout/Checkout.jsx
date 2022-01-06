@@ -1,16 +1,16 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { Container, Typography } from "@mui/material"
 import Stepper from "@mui/material/Stepper"
 import Step from "@mui/material/Step"
 import StepLabel from "@mui/material/StepLabel"
-import Button from "@mui/material/Button"
 
 import Cart from "./cart/Cart"
 import Delivery from "./delivery_address/Delivery"
 import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
 import BillingAddress from "./billing_address/BillingAddress"
+import { useCheckoutForms } from "./useCheckoutForms"
 
 const steps = [
   {
@@ -31,6 +31,16 @@ const steps = [
   },
 ]
 
+const constants = {
+  HOME_DELIVERY: "home-delivery",
+  POSTI_PARCEL: "posti-parcel",
+  STORE_PICKUP: "store-pickup",
+
+  PREPAYMENT: "prepayment",
+  INSTALLMENT: "installment",
+  LOCAL_PAYMENT: "local-payment",
+}
+
 const Checkout = () => {
   // Stepper state variables
   const [activeStep, setActiveStep] = useState(0)
@@ -39,12 +49,27 @@ const Checkout = () => {
   const [completed, setCompleted] = useState({})
   const [failed, setFailed] = useState({})
 
-  // The main checkout state
-  const [checkoutState, setCheckoutState] = useState({
-    billingDetails: undefined,
-    deliveryDetails: undefined,
-    paymentDetails: undefined,
-  })
+  const { billingFormik, deliveryFormik, paymentFormik } =
+    useCheckoutForms(constants)
+
+  // Used to set checkout errors
+  useEffect(() => {
+    handleErrors(
+      billingFormik.isValid,
+      deliveryFormik.isValid,
+      paymentFormik.isValid
+    )
+  }, [
+    billingFormik.isValid,
+    deliveryFormik.isValid,
+    paymentFormik.isValid,
+  ])
+
+  const checkout = {
+    billingDetails: billingFormik.values,
+    deliveryDetails: deliveryFormik.values,
+    paymentDetails: paymentFormik.values,
+  }
 
   const handleComplete = () => {
     const newCompleted = { ...completed }
@@ -90,30 +115,24 @@ const Checkout = () => {
   const regularLabel = { border: 2, padding: 1, borderColor: "red" }
   const clickableLabel = { border: 2, padding: 1, cursor: "pointer" }
 
-  const setBillingDetails = (value) => {
-    setCheckoutState({ ...checkoutState, billingDetails: value })
-  }
+  const handleErrors = (
+    billingValid,
+    deliveryValid,
+    paymentValid
+  ) => {
+    const newFailed = { ...failed }
 
-  const setDeliveryDetails = (value) => {
-    setCheckoutState({ ...checkoutState, deliveryDetails: value })
-  }
-
-  const setPaymentDetails = (value) => {
-    setCheckoutState({ ...checkoutState, paymentDetails: value })
-  }
-
-  const setters = {
-    setBillingDetails,
-    setDeliveryDetails,
-    setPaymentDetails,
-  }
-
-  const handleError = (isValid, stepIndex) => {
-    if (isValid !== undefined) {
-      const newFailed = { ...failed }
-      newFailed[stepIndex] = !isValid
-      setFailed(newFailed)
+    if (billingValid !== undefined) {
+      newFailed[1] = !billingValid
     }
+    if (deliveryValid !== undefined) {
+      newFailed[2] = !deliveryValid
+    }
+    if (paymentValid !== undefined) {
+      newFailed[3] = !paymentValid
+    }
+
+    setFailed(newFailed)
   }
 
   return (
@@ -155,38 +174,28 @@ const Checkout = () => {
       <Cart next={handleComplete} hidden={activeStep !== 0} />
 
       <BillingAddress
+        formik={billingFormik}
         next={handleComplete}
-        checkout={checkoutState}
-        setters={setters}
-        setError={(valid) => {
-          handleError(valid, 1)
-        }}
+        checkout={checkout}
         hidden={activeStep !== 1}
       />
       <Delivery
+        formik={deliveryFormik}
+        constants={constants}
         next={handleComplete}
-        checkout={checkoutState}
-        setters={setters}
-        setError={(valid) => {
-          handleError(valid, 2)
-        }}
+        checkout={checkout}
         hidden={activeStep !== 2}
       />
       <Payment
+        formik={paymentFormik}
+        constants={constants}
         next={handleComplete}
-        checkout={checkoutState}
-        setters={setters}
-        setError={(valid) => {
-          handleError(valid, 3)
-        }}
+        checkout={checkout}
         hidden={activeStep !== 3}
       />
       <Confirmation
         next={purchase}
-        checkout={checkoutState}
-        setError={(valid) => {
-          handleError(valid, 4)
-        }}
+        checkout={checkout}
         hidden={activeStep !== 4}
       />
     </Container>

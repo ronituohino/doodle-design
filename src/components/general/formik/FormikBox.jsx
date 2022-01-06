@@ -4,16 +4,12 @@ import BetterPaper from "../BetterPaper"
 const FormikBox = ({
   formik,
   field,
-  errorField,
   label,
   children,
   sx,
   innerSx,
 }) => {
-  const error = getInnerFieldFromObject(
-    formik.errors,
-    errorField ? errorField : field
-  )
+  const error = getInnerFieldFromObject(formik.errors, field)
 
   const boxColor = error ? "crimson" : "lightgray"
   const boxColorBold = error ? "crimson" : "gray"
@@ -23,6 +19,7 @@ const FormikBox = ({
       label={label}
       boxColor={boxColor}
       labelColor={boxColorBold}
+      helper={error}
       sx={sx}
       innerSx={innerSx}
     >

@@ -4,8 +4,16 @@ import FormikField from "../../general/formik/FormikField"
 import FormikCheckbox from "../../general/formik/FormikCheckbox"
 
 const HomeDeliveryAddress = ({ formik }) => {
+  // Fixes tiny offset
+  const paperPaddingBottom = formik.values.useBillingAddress
+    ? { paddingBottom: 2 }
+    : { paddingBottom: 1 }
+
   return (
-    <Paper sx={{ padding: 2, marginRight: 7 }} variant="outlined">
+    <Paper
+      sx={{ padding: 2, marginRight: 7, ...paperPaddingBottom }}
+      variant="outlined"
+    >
       <FormikCheckbox formik={formik} field="useBillingAddress">
         <Typography sx={{ alignSelf: "center" }}>
           Recipient is not me

@@ -5,7 +5,6 @@ import FormikBox from "../FormikBox"
 const FormikRadioGroup = ({
   formik,
   field,
-  errorField,
   label,
   children,
   sx,
@@ -24,7 +23,6 @@ const FormikRadioGroup = ({
     <FormikBox
       formik={formik}
       field={field}
-      errorField={errorField}
       label={label}
       sx={sx}
       innerSx={innerSx}
