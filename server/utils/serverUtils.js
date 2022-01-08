@@ -29,13 +29,13 @@ const createToken = (_id) => {
   return { token: jwt.sign(userToken, process.env.JWT_SECRET) }
 }
 
-const streamToString = (stream) => {
+const streamToBase64 = (stream) => {
   const chunks = []
   return new Promise((resolve, reject) => {
     stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)))
     stream.on("error", (err) => reject(err))
     stream.on("end", () =>
-      resolve(Buffer.concat(chunks).toString("utf8"))
+      resolve(Buffer.concat(chunks).toString("base64"))
     )
   })
 }
@@ -46,5 +46,5 @@ module.exports = {
   getPagination,
   hashPassword,
   createToken,
-  streamToString,
+  streamToBase64,
 }

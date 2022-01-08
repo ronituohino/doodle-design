@@ -7,3 +7,9 @@ export const LOGIN = gql`
     }
   }
 `
+
+export const FILE_UPLOAD = gql`
+  mutation singleUpload($file: Upload!) {
+    singleUpload(file: $file)
+  }
+`

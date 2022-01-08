@@ -13,6 +13,8 @@ const {
   graphqlUploadExpress, // A Koa implementation is also exported.
 } = require("graphql-upload")
 
+const fs = require("fs")
+
 const dotenv = require("dotenv")
 dotenv.config()
 
@@ -38,6 +40,7 @@ const commonTypeDefs = gql`
   type Query {
     itemCount: Int!
     getItems(category: Category, page: Int!, size: Int!): Paginated!
+    getFileById(id: ID!): File!
     getItemById(id: ID!): Item!
 
     me: User
@@ -121,7 +124,7 @@ const {
   getPagination,
   hashPassword,
   createToken,
-  streamToString,
+  streamToBase64,
 } = require("./server/utils/serverUtils.js")
 
 const resolvers = {
@@ -146,6 +149,11 @@ const resolvers = {
     getItemById: async (root, args) => {
       const item = await Item.findById(args.id)
       return item
+    },
+
+    getFileById: async (root, args) => {
+      const file = await File.findById(args.id)
+      return file
     },
 
     me: (root, args, context) => {
@@ -294,7 +302,7 @@ const resolvers = {
     },
 
     singleUpload: async (root, { file }, context) => {
-      console.log(file)
+      // Check auth
       if (!context.currentUser) {
         throw new AuthenticationError("Not logged in, token invalid")
       }
@@ -306,20 +314,36 @@ const resolvers = {
       const { createReadStream, filename, mimetype, encoding } =
         await file
 
-      console.log(filename, mimetype, encoding)
       // Invoking the `createReadStream` will return a Readable Stream.
       // See https://nodejs.org/api/stream.html#stream_readable_streams
+
+      // Store image in the database
       const stream = createReadStream()
-      const streamData = await streamToString(stream)
+      const streamData = await streamToBase64(stream)
+      const fileId = new mongoose.Types.ObjectId()
+      const location = `./public/files/test/${fileId}-${filename}`
 
       const mongooseFile = new File({
-        type: "image/png",
+        _id: fileId,
+        filename,
+        mimetype,
+        encoding,
+        location,
         data: streamData,
       })
 
-      const result = await mongooseFile.save()
+      await mongooseFile.save()
 
-      return { filename, mimetype, encoding, result }
+      // Then save image to public/files/... folder
+      // where it can be served from
+      const buffer = Buffer.from(streamData, "base64")
+      fs.writeFile(location, buffer, () => {
+        console.log(
+          `File ${filename} uploaded to server and database`
+        )
+      })
+
+      return true
     },
   },
 

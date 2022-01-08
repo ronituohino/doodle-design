@@ -4,7 +4,6 @@ import FormikField from "../../general/formik/FormikField"
 import FormikCheckbox from "../../general/formik/FormikCheckbox"
 
 const HomeDeliveryAddress = ({ formik }) => {
-  console.log("update")
   // Fixes tiny offset
   const paperPaddingBottom = formik.values.useExplicitDeliveryAddress
     ? { paddingBottom: 2 }

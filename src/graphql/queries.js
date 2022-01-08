@@ -53,14 +53,6 @@ export const GET_ITEM = gql`
   }
 `
 
-export const FILE_UPLOAD = gql`
-  mutation singleUpload($file: Upload!) {
-    singleUpload(file: $file) {
-      filename
-    }
-  }
-`
-
 export const SHOPPING_CART = gql`
   query GetShoppingCartItems {
     cartItems @client
@@ -71,6 +63,17 @@ export const USER = gql`
   query GetUserInfo {
     me {
       username
+    }
+  }
+`
+
+export const GET_FILE_DETAILS = gql`
+  query GetFileDetails($id: ID!) {
+    getFileById(id: $id) {
+      filename
+      mimetype
+      encoding
+      location
     }
   }
 `
