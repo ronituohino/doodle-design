@@ -4,7 +4,14 @@ const {
   UserInputError,
   AuthenticationError,
 } = require("apollo-server-express")
-const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core")
+const {
+  ApolloServerPluginDrainHttpServer,
+} = require("apollo-server-core")
+
+const {
+  GraphQLUpload,
+  graphqlUploadExpress, // A Koa implementation is also exported.
+} = require("graphql-upload")
 
 const dotenv = require("dotenv")
 dotenv.config()
@@ -90,16 +97,12 @@ const commonInputDefs = gql`
   }
 `
 
+const { File, fileTypeDefs } = require("./server/schemas/File.js")
 const {
   Item,
   itemTypeDefs,
   itemInputDefs,
 } = require("./server/schemas/Item.js")
-const {
-  User,
-  userTypeDefs,
-  userInputDefs,
-} = require("./server/schemas/User.js")
 const {
   Order,
   orderTypeDefs,
@@ -107,11 +110,18 @@ const {
 } = require("./server/schemas/Order.js")
 
 const {
+  User,
+  userTypeDefs,
+  userInputDefs,
+} = require("./server/schemas/User.js")
+
+const {
   languageToIndex,
   currencyToIndex,
   getPagination,
   hashPassword,
   createToken,
+  streamToString,
 } = require("./server/utils/serverUtils.js")
 
 const resolvers = {
@@ -146,7 +156,10 @@ const resolvers = {
   Mutation: {
     login: async (root, args) => {
       const user = await User.findOne({ email: args.email })
-      const validPassword = await bcrypt.compare(args.password, user.password)
+      const validPassword = await bcrypt.compare(
+        args.password,
+        user.password
+      )
 
       if (!validPassword) {
         throw new AuthenticationError("Invalid credentials")
@@ -279,6 +292,35 @@ const resolvers = {
 
       return result
     },
+
+    singleUpload: async (root, { file }, context) => {
+      console.log(file)
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Admin") {
+        throw new UserInputError("Not an administrator account")
+      }
+
+      const { createReadStream, filename, mimetype, encoding } =
+        await file
+
+      console.log(filename, mimetype, encoding)
+      // Invoking the `createReadStream` will return a Readable Stream.
+      // See https://nodejs.org/api/stream.html#stream_readable_streams
+      const stream = createReadStream()
+      const streamData = await streamToString(stream)
+
+      const mongooseFile = new File({
+        type: "image/png",
+        data: streamData,
+      })
+
+      const result = await mongooseFile.save()
+
+      return { filename, mimetype, encoding, result }
+    },
   },
 
   Item: {
@@ -312,18 +354,24 @@ const resolvers = {
       return root.salePrice[currencyToIndex(args.currency)]
     },
   },
+
+  Upload: GraphQLUpload,
 }
 
 const startApolloServer = async () => {
   const app = express()
   app.use(express.static("build"))
   app.use(cors())
+  app.use(
+    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 })
+  )
 
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
     typeDefs: [
       commonTypeDefs,
       commonInputDefs,
+      fileTypeDefs,
       itemTypeDefs,
       itemInputDefs,
       orderTypeDefs,
@@ -358,7 +406,9 @@ const startApolloServer = async () => {
   await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
-  console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`)
+  console.log(
+    `Server ready at http://localhost:${port}${server.graphqlPath}`
+  )
 }
 
 startApolloServer()

@@ -6,15 +6,15 @@ import { BrowserRouter as Router } from "react-router-dom"
 import {
   ApolloClient,
   ApolloLink,
-  HttpLink,
   ApolloProvider,
 } from "@apollo/client"
+import { createUploadLink } from "apollo-upload-client"
 
 import cache from "./cache"
 
 const port = process.env.BACKEND_PORT || 4000
 
-const httpLink = new HttpLink({
+const uploadLink = createUploadLink({
   uri: `http://localhost:${port}/graphql`,
 })
 
@@ -32,7 +32,7 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const client = new ApolloClient({
   cache,
-  link: authLink.concat(httpLink),
+  link: authLink.concat(uploadLink),
 })
 
 ReactDOM.render(

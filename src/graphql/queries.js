@@ -53,6 +53,14 @@ export const GET_ITEM = gql`
   }
 `
 
+export const FILE_UPLOAD = gql`
+  mutation singleUpload($file: Upload!) {
+    singleUpload(file: $file) {
+      filename
+    }
+  }
+`
+
 export const SHOPPING_CART = gql`
   query GetShoppingCartItems {
     cartItems @client
