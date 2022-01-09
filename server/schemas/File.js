@@ -2,11 +2,10 @@ const mongoose = require("mongoose")
 const { gql } = require("apollo-server-express")
 
 const fileSchema = new mongoose.Schema({
-  filename: { type: String },
-  mimetype: { type: String },
-  encoding: { type: String },
-  location: { type: String },
-  data: { type: Buffer },
+  filename: { type: String, required: true },
+  mimetype: { type: String, required: true },
+  encoding: { type: String, required: true },
+  location: { type: String, required: true },
 })
 
 const File = mongoose.model("File", fileSchema)
@@ -20,7 +19,6 @@ const fileTypeDefs = gql`
     mimetype: String!
     encoding: String!
     location: String!
-    data: String!
   }
 
   extend type Mutation {

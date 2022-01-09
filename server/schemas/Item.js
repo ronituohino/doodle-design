@@ -5,6 +5,7 @@ const { gql } = require("apollo-server-express")
 const itemSchema = new mongoose.Schema({
   name: { type: [String], required: true },
   price: { type: [Number], required: true },
+  images: { type: [mongoose.Schema.Types.ObjectId], ref: "File" },
   customization: [
     {
       label: { type: [String], required: true },
@@ -38,6 +39,7 @@ const itemTypeDefs = gql`
     _id: ID!
     name(language: Language!): String!
     price(currency: Currency!): Float!
+    images: [ID!]!
     customization(language: Language!): [Options]!
     description(language: Language!): String!
     availability: Availability!

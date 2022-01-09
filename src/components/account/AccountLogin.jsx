@@ -16,6 +16,7 @@ import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
 
 import FormikField from "../general/formik/FormikField"
+import BetterPaper from "../general/BetterPaper"
 
 const AccountLogin = () => {
   const { back } = useRouting()
@@ -50,36 +51,44 @@ const AccountLogin = () => {
         marginTop: 4,
       }}
     >
-      <FormikField field="email" label="Email" formik={formik} />
+      <BetterPaper innerSx={{ padding: 2 }}>
+        <FormikField
+          field="email"
+          label="Email"
+          formik={formik}
+          sx={{ marginBottom: 2 }}
+        />
 
-      <FormikField
-        field="password"
-        label="Password"
-        type={values.showPassword ? "text" : "password"}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={togglePasswordVisibility}>
-                {values.showPassword ? (
-                  <VisibilityOffIcon />
-                ) : (
-                  <VisibilityIcon />
-                )}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        formik={formik}
-      />
+        <FormikField
+          field="password"
+          label="Password"
+          type={values.showPassword ? "text" : "password"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={togglePasswordVisibility}>
+                  {values.showPassword ? (
+                    <VisibilityOffIcon />
+                  ) : (
+                    <VisibilityIcon />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          formik={formik}
+          sx={{ marginBottom: 2 }}
+        />
 
-      <Button
-        color="primary"
-        variant="contained"
-        fullWidth
-        onClick={formik.handleSubmit}
-      >
-        Log in
-      </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          onClick={formik.handleSubmit}
+        >
+          Log in
+        </Button>
+      </BetterPaper>
     </Container>
   )
 }

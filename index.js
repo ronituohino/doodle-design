@@ -314,14 +314,21 @@ const resolvers = {
       const { createReadStream, filename, mimetype, encoding } =
         await file
 
+      // Accept images only
+      if (mimetype.split("/")[0] !== "image") {
+        return false
+      }
+
       // Invoking the `createReadStream` will return a Readable Stream.
       // See https://nodejs.org/api/stream.html#stream_readable_streams
 
-      // Store image in the database
       const stream = createReadStream()
       const streamData = await streamToBase64(stream)
+
       const fileId = new mongoose.Types.ObjectId()
-      const location = `./public/files/test/${fileId}-${filename}`
+
+      // If location has folders that don't exist, the image is not saved
+      const location = `./public/files/images/${fileId}-${filename}`
 
       const mongooseFile = new File({
         _id: fileId,
@@ -329,7 +336,8 @@ const resolvers = {
         mimetype,
         encoding,
         location,
-        data: streamData,
+        // Image backup disabled for now
+        //data: streamData,
       })
 
       await mongooseFile.save()
@@ -338,9 +346,7 @@ const resolvers = {
       // where it can be served from
       const buffer = Buffer.from(streamData, "base64")
       fs.writeFile(location, buffer, () => {
-        console.log(
-          `File ${filename} uploaded to server and database`
-        )
+        console.log(`File ${filename} uploaded to server`)
       })
 
       return true

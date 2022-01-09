@@ -1,7 +1,23 @@
 import { gql } from "@apollo/client"
 
+export const REGISTER = gql`
+  mutation Register(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    createUser(
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      token
+    }
+  }
+`
+
 export const LOGIN = gql`
-  mutation Mutation($email: String!, $password: String!) {
+  mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
     }
@@ -9,7 +25,7 @@ export const LOGIN = gql`
 `
 
 export const FILE_UPLOAD = gql`
-  mutation singleUpload($file: Upload!) {
+  mutation FileUpload($file: Upload!) {
     singleUpload(file: $file)
   }
 `
