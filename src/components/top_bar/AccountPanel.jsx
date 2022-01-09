@@ -2,9 +2,12 @@ import { useState } from "react"
 import {
   IconButton,
   Menu,
-  Button,
-  Box,
-  Typography,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material"
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
@@ -12,9 +15,14 @@ import PersonIcon from "@mui/icons-material/Person"
 import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
 
+import LoginIcon from "@mui/icons-material/Login"
+import LogoutIcon from "@mui/icons-material/Logout"
+import PersonAddIcon from "@mui/icons-material/PersonAdd"
+import ShieldIcon from "@mui/icons-material/Shield"
+
 const AccountPanel = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const { openLogin, openRegister } = useRouting()
+  const { openLogin, openRegister, openAdmin } = useRouting()
   const { logOut, data } = useAccount()
 
   const openMenu = (event) => {
@@ -51,46 +59,84 @@ const AccountPanel = () => {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            margin: 0.5,
-          }}
-        >
-          {data && data.me ? (
+        <List>
+          {data && data.me && (
             <>
-              <Typography>Logged in: {data.me.username}</Typography>
-              <Button
-                onClick={() => {
-                  closeMenu()
-                  logOut()
-                }}
-              >
-                Log out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                onClick={() => {
-                  closeMenu()
-                  openLogin()
-                }}
-              >
-                Log In
-              </Button>
-              <Button
-                onClick={() => {
-                  closeMenu()
-                  openRegister()
-                }}
-              >
-                Register
-              </Button>
+              <ListItem>
+                <ListItemText
+                  primary={`Logged in: ${data.me.username}`}
+                />
+              </ListItem>
+
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    logOut()
+                    closeMenu()
+                  }}
+                >
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItemButton>
+              </ListItem>
+
+              {(data.me.accountType === "Admin" ||
+                data.me.accountType === "Support") && (
+                <>
+                  <Divider />
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      onClick={() => {
+                        logOut()
+                        openAdmin()
+                      }}
+                    >
+                      <ListItemIcon>
+                        <ShieldIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Admin Panel" />
+                    </ListItemButton>
+                  </ListItem>
+                </>
+              )}
             </>
           )}
-        </Box>
+
+          {!data ||
+            (!data.me && (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      closeMenu()
+                      openLogin()
+                    }}
+                  >
+                    <ListItemIcon>
+                      <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Login" />
+                  </ListItemButton>
+                </ListItem>
+
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      closeMenu()
+                      openRegister()
+                    }}
+                  >
+                    <ListItemIcon>
+                      <PersonAddIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Register" />
+                  </ListItemButton>
+                </ListItem>
+              </>
+            ))}
+        </List>
       </Menu>
     </>
   )

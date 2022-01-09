@@ -9,6 +9,14 @@ export const useRouting = () => {
     history.goBack()
   }
 
+  const adminLink = () => {
+    return `/${language}/admin`
+  }
+
+  const openAdmin = () => {
+    history.push(adminLink())
+  }
+
   const homeLink = () => {
     return `/${language}/home`
   }
@@ -53,6 +61,9 @@ export const useRouting = () => {
 
   return {
     back,
+
+    adminLink,
+    openAdmin,
 
     homeLink,
     openHome,

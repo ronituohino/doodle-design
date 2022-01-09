@@ -63,6 +63,7 @@ export const USER = gql`
   query GetUserInfo {
     me {
       username
+      accountType
     }
   }
 `

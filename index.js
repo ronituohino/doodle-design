@@ -40,8 +40,8 @@ const commonTypeDefs = gql`
   type Query {
     itemCount: Int!
     getItems(category: Category, page: Int!, size: Int!): Paginated!
-    getFileById(id: ID!): File!
-    getItemById(id: ID!): Item!
+    getFileById(id: ID!): File
+    getItemById(id: ID!): Item
 
     me: User
   }
