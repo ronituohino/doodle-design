@@ -5,82 +5,74 @@ export const useRouting = () => {
   const history = useHistory()
   const { language } = useLanguage()
 
+  const openLink = (link) => {
+    history.push(link)
+  }
+
   const back = () => {
     history.goBack()
-  }
-
-  const adminLink = () => {
-    return `/${language}/admin`
-  }
-
-  const openAdmin = () => {
-    history.push(adminLink())
   }
 
   const homeLink = () => {
     return `/${language}/home`
   }
-  const openHome = () => {
-    history.push(homeLink())
-  }
 
   const categoryLink = (category) => {
     return `/${language}/product/${category}`
-  }
-  const openCategory = (category) => {
-    history.push(categoryLink(category))
   }
 
   const itemLink = (category, itemId) => {
     return `/${language}/product/${category.toLowerCase()}/${itemId}`
   }
-  const openItem = (category, itemId) => {
-    history.push(itemLink(category, itemId))
-  }
 
   const checkoutLink = () => {
     return `/${language}/checkout/`
-  }
-  const openCheckout = () => {
-    history.push(checkoutLink())
   }
 
   const loginLink = () => {
     return `/${language}/account/login`
   }
-  const openLogin = () => {
-    history.push(loginLink())
-  }
 
   const registerLink = () => {
     return `/${language}/account/register`
   }
-  const openRegister = () => {
-    history.push(registerLink())
+
+  // ADMIN
+  const adminLink = () => {
+    return `/${language}/admin`
+  }
+
+  const itemStatisticsLink = () => {
+    return `/${language}/admin/items/statistics`
+  }
+
+  const itemManageLink = () => {
+    return `/${language}/admin/items/manage`
+  }
+
+  const itemCategoriesLink = () => {
+    return `/${language}/admin/items/categories`
+  }
+
+  const itemCampaignsLink = () => {
+    return `/${language}/admin/items/campaigns`
   }
 
   return {
+    openLink,
     back,
 
-    adminLink,
-    openAdmin,
-
     homeLink,
-    openHome,
-
     categoryLink,
-    openCategory,
-
     itemLink,
-    openItem,
-
     checkoutLink,
-    openCheckout,
-
     loginLink,
-    openLogin,
-
     registerLink,
-    openRegister,
+
+    adminLink,
+    itemStatisticsLink,
+    itemManageLink,
+    itemCategoriesLink,
+    itemCampaignsLink,
   }
 }

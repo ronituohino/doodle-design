@@ -40,7 +40,7 @@ const ShoppingCartItem = forwardRef(
       removeItemFromCart,
     } = useShoppingCart()
     const { language } = useLanguage()
-    const { openItem } = useRouting()
+    const { openLink, itemLink } = useRouting()
 
     const [itemAmount, setItemAmount] = useState(cartObject.amount)
     const [deleteConfirm, setDeleteConfirm] = useState(false)
@@ -96,7 +96,9 @@ const ShoppingCartItem = forwardRef(
           true
         )
       ) {
-        openItem(cartObject.item.category, cartObject.item._id)
+        openLink(
+          itemLink(cartObject.item.category, cartObject.item._id)
+        )
       }
     }
 

@@ -34,14 +34,14 @@ const CategoryBar = ({ searchDisabled }) => {
 }
 
 const Category = ({ name }) => {
-  const { openCategory } = useRouting()
+  const { openLink, categoryLink } = useRouting()
 
   return (
     <>
       <Button
         variant="text"
         sx={{ margin: "4px", color: "white" }}
-        onClick={() => openCategory(name)}
+        onClick={() => openLink(categoryLink(name))}
       >
         {name}
       </Button>

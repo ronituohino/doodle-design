@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 
 import logo from "../../images/logo.png"
 import ShoppingCart from "./shopping_cart/ShoppingCart"
-import AccountPanel from "./AccountPanel"
+import AccountPanel from "./account_panel/AccountPanel"
 import Language from "./Language"
 
 const TopBar = () => {
