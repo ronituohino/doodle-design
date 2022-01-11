@@ -58,13 +58,12 @@ const ShoppingCart = () => {
     <>
       <IconButton
         color="inherit"
-        sx={{ margin: "4px" }}
         onClick={openMenu}
         aria-label={notificationsLabel(totalAmount)}
       >
         <Badge badgeContent={totalAmount} color="secondary">
           <ShoppingCartIcon />
-          <ArrowDropDownIcon sx={{ position: "absolute", top: 18 }} />
+          <ArrowDropDownIcon sx={{ position: "absolute", top: 20 }} />
         </Badge>
       </IconButton>
 

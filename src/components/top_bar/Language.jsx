@@ -20,9 +20,9 @@ const Language = () => {
 
   return (
     <>
-      <IconButton color="inherit" sx={{ margin: 0.5 }} onClick={openMenu}>
+      <IconButton color="inherit" onClick={openMenu}>
         <LanguageIcon />
-        <ArrowDropDownIcon sx={{ position: "absolute", top: 26 }} />
+        <ArrowDropDownIcon sx={{ position: "absolute", top: 27.5 }} />
       </IconButton>
 
       <Menu

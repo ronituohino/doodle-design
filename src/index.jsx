@@ -35,12 +35,17 @@ const client = new ApolloClient({
   link: authLink.concat(uploadLink),
 })
 
+import { ThemeProvider } from "@mui/material/styles"
+import theme from "./theme"
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <Router>
-        <App />
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <App />
+        </Router>
+      </ThemeProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

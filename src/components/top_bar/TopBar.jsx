@@ -1,8 +1,5 @@
-import { useState } from "react"
+import { AppBar, Box, Container, Toolbar } from "@mui/material"
 
-import { AppBar, Toolbar, Container, Box } from "@mui/material"
-
-import CategoryBar from "./CategoryBar"
 import SearchBar from "./SearchBar"
 
 import { Link } from "react-router-dom"
@@ -11,16 +8,22 @@ import logo from "../../images/logo.png"
 import ShoppingCart from "./shopping_cart/ShoppingCart"
 import AccountPanel from "./account_panel/AccountPanel"
 import Language from "./Language"
+import { useRouting } from "../../hooks/useRouting"
+import CategoryDrawer from "./category_drawer/CategoryDrawer"
 
 const TopBar = () => {
-  const [searchDisabled, setSearchDisabled] = useState(true)
+  const { homeLink } = useRouting()
 
   return (
-    <>
-      <Container>
-        <AppBar position="static" sx={{ borderRadius: 1 }}>
-          <Toolbar>
-            <Link to="/">
+    <AppBar color="primary">
+      <Toolbar>
+        <CategoryDrawer />
+        <Container
+          maxWidth="md"
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Box sx={{ mr: 2, alignSelf: "center" }}>
+            <Link to={homeLink()}>
               <img
                 style={{
                   height: 40,
@@ -32,22 +35,24 @@ const TopBar = () => {
                 src={logo}
               />
             </Link>
+          </Box>
 
-            <SearchBar setSearchDisabled={setSearchDisabled} />
+          <Box sx={{ alignSelf: "center" }}>
+            <SearchBar
+              placeholder="Search..."
+              sx={{
+                backgroundColor: "background.default",
+                margin: "auto",
+              }}
+            />
+          </Box>
+        </Container>
 
-            <Box sx={{ flexGrow: 1 }} />
-
-            <CategoryBar searchDisabled={searchDisabled} />
-
-            <ShoppingCart />
-
-            <AccountPanel />
-
-            <Language />
-          </Toolbar>
-        </AppBar>
-      </Container>
-    </>
+        <ShoppingCart />
+        <AccountPanel />
+        <Language />
+      </Toolbar>
+    </AppBar>
   )
 }
 

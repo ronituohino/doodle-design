@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 import {
-  Drawer,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -45,10 +44,10 @@ const AdminDrawer = () => {
 
   return (
     <>
-      <Drawer anchor="left" variant="permanent">
+      <List>
         {data && data.me && (
-          <ListSubheader sx={{ width: "230px" }}>
-            Logged in as: {data.me.username} ({data.me.accountType})
+          <ListSubheader>
+            {data.me.username} ({data.me.accountType})
           </ListSubheader>
         )}
 
@@ -213,7 +212,7 @@ const AdminDrawer = () => {
             </ListItem>
           </List>
         </Collapse>
-      </Drawer>
+      </List>
     </>
   )
 }
