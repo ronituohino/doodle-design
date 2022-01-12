@@ -24,13 +24,12 @@ const FormikRadioField = ({ formik, field, children, value }) => {
 
   return (
     <Paper
-      elevation={8}
+      elevation={4}
       onClick={() => formik.setFieldValue(field, value)}
       sx={{
         display: "flex",
         flexBasis: "100%",
         mb: 1,
-        backgroundColor: "rgba(16.3, 16.3, 16.3, 1)",
       }}
     >
       <Radio

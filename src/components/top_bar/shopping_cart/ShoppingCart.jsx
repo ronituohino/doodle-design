@@ -21,7 +21,7 @@ import { useRouting } from "../../../hooks/useRouting.js"
 
 const ShoppingCart = () => {
   const { language } = useLanguage()
-  const { openLink, checkoutLink } = useRouting()
+  const { openLink, checkoutLink, inCheckout } = useRouting()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const { data, totalAmountOfItems, totalPriceOfItems } =
@@ -53,9 +53,12 @@ const ShoppingCart = () => {
     }
   }
 
+  const disableCartButton = inCheckout()
+
   return (
     <>
       <IconButton
+        disabled={disableCartButton}
         color="inherit"
         onClick={openMenu}
         aria-label={notificationsLabel(totalAmount)}

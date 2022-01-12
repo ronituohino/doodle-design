@@ -32,7 +32,7 @@ const AdminDrawer = () => {
 
   return (
     <>
-      <List sx={{ backgroundColor: "primary.main" }}>
+      <List sx={{ backgroundColor: "common.white" }}>
         {data && data.me && (
           <ListSubheader>
             {data.me.username} ({data.me.accountType})
@@ -48,10 +48,7 @@ const AdminDrawer = () => {
             <ListItemIcon>
               <Icon name="KeyboardReturnIcon" />
             </ListItemIcon>
-            <ListItemText
-              primary="Return"
-              primaryTypographyProps={{ color: "blue" }}
-            />
+            <ListItemText primary="Return" />
           </ListItemButton>
         </ListItem>
 

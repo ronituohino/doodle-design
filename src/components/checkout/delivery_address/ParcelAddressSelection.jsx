@@ -47,7 +47,7 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
   }
 
   return (
-    <Paper elevation={12} sx={{ padding: 2, marginRight: 7 }}>
+    <Paper variant="outlined" sx={{ padding: 2, marginRight: 6 }}>
       <Box
         sx={{
           display: "flex",

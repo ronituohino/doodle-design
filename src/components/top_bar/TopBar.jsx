@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, Toolbar } from "@mui/material"
+import { AppBar, Box, Toolbar } from "@mui/material"
 
 import SearchBar from "./SearchBar"
 
@@ -15,51 +15,53 @@ const TopBar = () => {
   const { homeLink } = useRouting()
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 2 }}>
-      <AppBar
-        position="static"
-        color="primary"
-        enableColorOnDark
-        sx={{ borderRadius: 1 }}
-      >
-        <Toolbar sx={{ display: "flex" }}>
-          <Box sx={{ width: "33%" }}>
-            <CategoryDrawer />
-          </Box>
+    <AppBar
+      position="static"
+      color="primary"
+      enableColorOnDark
+      sx={{}}
+    >
+      <Toolbar sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <CategoryDrawer />
 
-          <Box sx={{ mr: 2, alignSelf: "center" }}>
-            <Link to={homeLink()}>
-              <img
-                style={{
-                  height: 40,
-                  width: 80,
-                  maxHeight: { xs: 233, md: 167 },
-                  maxWidth: { xs: 350, md: 250 },
-                  margin: 4,
-                }}
-                src={logo}
-              />
-            </Link>
-          </Box>
-
-          <Box sx={{ width: "100%", alignSelf: "center" }}>
-            <SearchBar
-              placeholder="Search..."
-              sx={{
-                backgroundColor: "primary.dark",
+          <Link to={homeLink()}>
+            <img
+              style={{
+                height: 40,
+                width: 80,
+                maxHeight: { xs: 233, md: 167 },
+                maxWidth: { xs: 350, md: 250 },
+                margin: 4,
               }}
+              src={logo}
             />
-          </Box>
+          </Link>
+        </Box>
 
-          <Box sx={{ display: "flex" }}>
-            <Box sx={{ flexBasis: "100%" }} />
-            <ShoppingCart />
-            <AccountPanel />
-            <Language />
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </Container>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <SearchBar
+            placeholder="Search..."
+            sx={{
+              backgroundColor: "primary.dark",
+            }}
+          />
+        </Box>
+
+        <Box sx={{ display: "flex", gap: "5px" }}>
+          <Box sx={{ flexBasis: "100%" }} />
+          <ShoppingCart />
+          <AccountPanel />
+          <Language />
+        </Box>
+      </Toolbar>
+    </AppBar>
   )
 }
 

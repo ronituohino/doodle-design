@@ -38,6 +38,7 @@ const Confirmation = ({
         <Cart hideControls>
           {checkout.billingDetails && (
             <AddressDisplay
+              elevation={4}
               address={checkout.billingDetails}
               label={
                 !explicitDeliveryAddress
@@ -46,17 +47,16 @@ const Confirmation = ({
               }
               disableEdit
               sx={{ width: "100%" }}
-              innerSx={{ padding: 2 }}
             />
           )}
 
           {checkout.deliveryDetails && explicitDeliveryAddress && (
             <AddressDisplay
+              elevation={4}
               address={deliveryAddress}
               label={isStorePickup ? "Pick up from" : "Delivered to"}
               disableEdit
               sx={{ width: "100%" }}
-              innerSx={{ padding: 2 }}
             />
           )}
 

@@ -43,7 +43,7 @@ const PaymentGroup = ({
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            gap: "5px",
+            gap: "10px",
             marginBottom: 2,
           }}
         >

@@ -1,29 +1,23 @@
 import { Box, Typography } from "@mui/material"
 
 const nonSelectedSx = {
-  width: "100px",
-  height: "100px",
-  borderRadius: 2,
-  cursor: "pointer",
-  border: 2,
   borderColor: "lightgray",
 }
 const selectedSx = {
-  width: "100px",
-  height: "100px",
-  borderRadius: 2,
-  cursor: "pointer",
-  border: 2,
-  borderColor: "cornflowerblue",
+  borderColor: "primary.main",
 }
 
 const PaymentMethod = ({ name, imgSrc, selected, selectThis }) => {
+  const sx = selected === name ? selectedSx : nonSelectedSx
+
   return (
     <Box
       onClick={() => selectThis(name)}
       sx={{ textAlign: "center", cursor: "pointer" }}
     >
-      <Box sx={selected === name ? selectedSx : nonSelectedSx}>
+      <Box
+        sx={{ cursor: "pointer", border: 2, borderRadius: 2, ...sx }}
+      >
         <img
           src={imgSrc}
           style={{

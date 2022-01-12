@@ -13,7 +13,6 @@ const FormikRadioAccordion = ({ title, text, checked, children }) => {
       sx={{
         boxShadow: 0,
         width: "100%",
-        backgroundColor: "rgba(35, 35, 35, 1)",
       }}
       disableGutters
     >

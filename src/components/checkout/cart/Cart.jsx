@@ -21,7 +21,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                 <ShoppingCartItem
                   key={obj.item.hash}
                   cartObject={obj}
-                  hideControls
+                  hideControls={hideControls}
                   ref={null}
                 />
               ))}

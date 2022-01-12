@@ -1,5 +1,5 @@
-import BetterPaper from "../../general/BetterPaper"
-import { Typography, Box } from "@mui/material"
+import LabelPaper from "../../general/LabelPaper"
+import { Typography } from "@mui/material"
 
 const PaymentDisplay = ({ checkout, constants }) => {
   let paymentMethodText = ""
@@ -18,16 +18,14 @@ const PaymentDisplay = ({ checkout, constants }) => {
       break
   }
   return (
-    <BetterPaper
+    <LabelPaper
       label="Payment details"
+      elevation={4}
       sx={{ width: "100%" }}
-      innerSx={{ padding: 2 }}
     >
-      <Box>
-        <Typography>Method: {paymentMethodText}</Typography>
-        <Typography>Provider: {paymentProviderText}</Typography>
-      </Box>
-    </BetterPaper>
+      <Typography>Method: {paymentMethodText}</Typography>
+      <Typography>Provider: {paymentProviderText}</Typography>
+    </LabelPaper>
   )
 }
 

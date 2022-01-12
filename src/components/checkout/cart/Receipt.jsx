@@ -73,7 +73,7 @@ const ItemListing = ({ cartObject, language }) => {
         indent={16}
         sx={{
           fontWeight: "bold",
-          color: "grey",
+          color: "text.secondary",
         }}
       />
 
@@ -85,7 +85,7 @@ const ItemListing = ({ cartObject, language }) => {
             variant="caption"
             indent={24}
             sx={{
-              color: "grey",
+              color: "text.secondary",
             }}
           />
         )
@@ -105,7 +105,7 @@ const ItemListing = ({ cartObject, language }) => {
         variant="caption"
         indent={24}
         sx={{
-          color: "grey",
+          color: "text.secondary",
         }}
       />
     </>

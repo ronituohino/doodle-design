@@ -11,8 +11,8 @@ const HomeDeliveryAddress = ({ formik }) => {
 
   return (
     <Paper
-      elevation={12}
-      sx={{ padding: 2, marginRight: 7, ...paperPaddingBottom }}
+      variant="outlined"
+      sx={{ padding: 2, marginRight: 6, ...paperPaddingBottom }}
     >
       <FormikCheckbox
         formik={formik}

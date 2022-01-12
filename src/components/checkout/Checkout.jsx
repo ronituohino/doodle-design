@@ -150,21 +150,19 @@ const Checkout = () => {
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
             <Paper
-              elevation={previousStepsCompleted(index) ? 4 : 1}
+              onClick={() => {
+                if (previousStepsCompleted(index)) {
+                  setActiveStep(index)
+                }
+              }}
+              elevation={previousStepsCompleted(index) ? 4 : 0}
               sx={
                 previousStepsCompleted(index)
                   ? clickableLabel
                   : regularLabel
               }
             >
-              <StepLabel
-                onClick={() => {
-                  if (previousStepsCompleted(index)) {
-                    setActiveStep(index)
-                  }
-                }}
-                error={failed[index]}
-              >
+              <StepLabel error={failed[index]}>
                 <Typography variant="body2">{step.label}</Typography>
                 <Typography variant="caption">
                   {step.sublabel}

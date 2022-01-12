@@ -48,7 +48,8 @@ ReactDOM.render(
           <Router>
             <Helmet
               bodyAttributes={{
-                style: `background-color: ${theme.palette.background.default}`,
+                style:
+                  "background: linear-gradient(160deg, #0093E9 0%, #0093E9 0%, #80D0C7 60%) fixed",
               }}
             />
             <App />

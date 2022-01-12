@@ -146,7 +146,7 @@ const ShoppingCartItem = forwardRef(
                   key={`${cartObject.item.hash}-${c.label}-${c.option}`}
                   variant="caption"
                   sx={{
-                    color: "grey",
+                    color: "text.secondary",
                   }}
                 >
                   {c.label}: {c.option}
@@ -173,7 +173,7 @@ const ShoppingCartItem = forwardRef(
             noWrap
             variant="caption"
             sx={{
-              color: "grey",
+              color: "text.secondary",
             }}
           >
             {`(${formatPrice(

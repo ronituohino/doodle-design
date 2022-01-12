@@ -1,9 +1,10 @@
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import { useLanguage } from "./useLanguage"
 
 export const useRouting = () => {
   const history = useHistory()
   const { language } = useLanguage()
+  const location = useLocation()
 
   const openLink = (link) => {
     history.push(link)
@@ -11,6 +12,10 @@ export const useRouting = () => {
 
   const back = () => {
     history.goBack()
+  }
+
+  const inCheckout = () => {
+    return location.pathname.includes("checkout")
   }
 
   const homeLink = () => {
@@ -61,6 +66,7 @@ export const useRouting = () => {
   return {
     openLink,
     back,
+    inCheckout,
 
     homeLink,
     categoryLink,

@@ -20,7 +20,7 @@ const CategoryDrawer = () => {
   return (
     <>
       <IconButton onClick={() => setDrawerOpen(true)}>
-        <Icon sx={{ color: "black" }} name="MenuIcon" />
+        <Icon sx={{ color: "white" }} name="MenuIcon" />
       </IconButton>
 
       <Drawer anchor="left" open={drawerOpen}>

@@ -5,7 +5,6 @@ import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
 import PaymentGroup from "./PaymentGroup"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
-import FormikBox from "../../general/formik/FormikBox"
 
 const Payment = ({ formik, constants, next, checkout, hidden }) => {
   const nextButtonDisabled =
@@ -32,49 +31,38 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
                 title="Prepayment"
                 text="Payment using a card, banking applications, or payment services"
               >
-                <FormikBox
-                  formik={formik}
-                  field="prePayment"
-                  sx={{ marginTop: -2, marginRight: 7 }}
-                  innerSx={{
-                    padding: 4,
-                    paddingTop: 2,
-                    paddingBottom: 0,
-                  }}
-                >
-                  <PaymentGroup
-                    groupName="Bank Payment"
-                    submit={(name) =>
-                      formik.setFieldValue("prePayment", name)
-                    }
-                    selected={formik.values.prePayment}
-                    op
-                    danskebank
-                    spankki
-                    nordea
-                  />
+                <PaymentGroup
+                  groupName="Bank Payment"
+                  submit={(name) =>
+                    formik.setFieldValue("prePayment", name)
+                  }
+                  selected={formik.values.prePayment}
+                  op
+                  danskebank
+                  spankki
+                  nordea
+                />
 
-                  <PaymentGroup
-                    groupName="Card"
-                    submit={(name) =>
-                      formik.setFieldValue("prePayment", name)
-                    }
-                    selected={formik.values.prePayment}
-                    visa
-                    mastercard
-                  />
+                <PaymentGroup
+                  groupName="Card"
+                  submit={(name) =>
+                    formik.setFieldValue("prePayment", name)
+                  }
+                  selected={formik.values.prePayment}
+                  visa
+                  mastercard
+                />
 
-                  <PaymentGroup
-                    groupName="Payment Service"
-                    submit={(name) =>
-                      formik.setFieldValue("prePayment", name)
-                    }
-                    selected={formik.values.prePayment}
-                    mobilepay
-                    pivo
-                    paypal
-                  />
-                </FormikBox>
+                <PaymentGroup
+                  groupName="Payment Service"
+                  submit={(name) =>
+                    formik.setFieldValue("prePayment", name)
+                  }
+                  selected={formik.values.prePayment}
+                  mobilepay
+                  pivo
+                  paypal
+                />
               </FormikRadioAccordion>
             </FormikRadioField>
 
@@ -84,25 +72,14 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
                 text="Get your package now, pay later"
                 sx={{ display: "flex", flexWrap: "wrap" }}
               >
-                <FormikBox
-                  formik={formik}
-                  field="installment"
-                  sx={{ marginTop: -2, marginRight: 7 }}
-                  innerSx={{
-                    padding: 4,
-                    paddingTop: 2,
-                    paddingBottom: 0,
-                  }}
-                >
-                  <PaymentGroup
-                    submit={(name) =>
-                      formik.setFieldValue("installment", name)
-                    }
-                    selected={formik.values.installment}
-                    paypal
-                    klarna
-                  />
-                </FormikBox>
+                <PaymentGroup
+                  submit={(name) =>
+                    formik.setFieldValue("installment", name)
+                  }
+                  selected={formik.values.installment}
+                  paypal
+                  klarna
+                />
               </FormikRadioAccordion>
             </FormikRadioField>
 

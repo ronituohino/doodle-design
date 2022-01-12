@@ -1,9 +1,12 @@
-import { Box, IconButton, Typography, Paper } from "@mui/material"
+import { Box, IconButton, Typography } from "@mui/material"
 
 import Icon from "../../general/Icon"
+import LabelPaper from "../../general/LabelPaper"
 
 const AddressDisplay = ({
   elevation,
+  variant,
+  label,
   address,
   enterEdit,
   disableEdit,
@@ -12,69 +15,70 @@ const AddressDisplay = ({
   return (
     <>
       {address && (
-        <Paper
+        <LabelPaper
+          label={label}
+          variant={variant}
           elevation={elevation}
-          sx={{
-            disply: "flex",
-            flexWrap: "wrap",
-            padding: 2,
-            ...sx,
-          }}
+          sx={sx}
         >
-          <Box sx={{ width: "70%" }}>
-            <Typography
-              sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-            >
-              {address.firstName} {address.lastName}
-            </Typography>
-            <Typography
-              sx={{
-                wordWrap: "break-word",
-                whiteSpace: "normal",
-                fontWeight: "bold",
-              }}
-            >
-              {address.extra}
-            </Typography>
-            <Typography
-              sx={{
-                wordWrap: "break-word",
-                whiteSpace: "normal",
-              }}
-            >
-              {address.address}
-            </Typography>
-            <Typography
-              sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-            >
-              {address.zipCode} {address.city}
-            </Typography>
-            <Typography
-              sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-            >
-              {address.company}
-            </Typography>
-            <Typography
-              sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-            >
-              {address.phone}
-            </Typography>
-          </Box>
-          {!disableEdit && (
-            <Box
-              sx={{
-                alignSelf: "center",
-              }}
-            >
-              <IconButton
-                onClick={enterEdit}
-                sx={{ width: 48, height: 48 }}
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ flexBasis: "90%" }}>
+              <Typography
+                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
               >
-                <Icon name="EditIcon" fontSize="large" />
-              </IconButton>
+                {address.firstName} {address.lastName}
+              </Typography>
+              <Typography
+                sx={{
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                  fontWeight: "bold",
+                }}
+              >
+                {address.extra}
+              </Typography>
+              <Typography
+                sx={{
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                }}
+              >
+                {address.address}
+              </Typography>
+              <Typography
+                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+              >
+                {address.zipCode} {address.city}
+              </Typography>
+              <Typography
+                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+              >
+                {address.company}
+              </Typography>
+              <Typography
+                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+              >
+                {address.phone}
+              </Typography>
             </Box>
-          )}
-        </Paper>
+
+            {!disableEdit && (
+              <Box
+                sx={{
+                  flexBasis: "10%",
+                  alignSelf: "center",
+                }}
+              >
+                <IconButton
+                  onClick={enterEdit}
+                  sx={{ width: 48, height: 48 }}
+                >
+                  <Icon name="EditIcon" fontSize="large" />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+        </LabelPaper>
       )}
     </>
   )

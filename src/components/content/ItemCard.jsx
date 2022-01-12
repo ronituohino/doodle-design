@@ -14,7 +14,7 @@ const ItemCard = ({ item }) => {
       to={itemLink(item.category, item._id)}
       style={{ textDecoration: "none" }}
     >
-      <Paper elevation={8}>
+      <Paper elevation={4}>
         <img
           component="img"
           src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"

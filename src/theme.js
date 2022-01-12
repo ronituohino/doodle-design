@@ -2,15 +2,11 @@ import { unstable_createMuiStrictModeTheme } from "@mui/material/styles"
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
-    mode: "dark",
     primary: {
-      main: "#9CDCF0",
+      main: "#2962ff",
     },
     secondary: {
-      main: "#C586C0",
-    },
-    background: {
-      default: "#1a1a1a",
+      main: "#E67615",
     },
   },
 })
