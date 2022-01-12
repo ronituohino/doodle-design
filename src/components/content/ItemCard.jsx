@@ -10,8 +10,11 @@ const ItemCard = ({ item }) => {
   const { itemLink } = useRouting()
 
   return (
-    <Link to={itemLink(item.category, item._id)}>
-      <Paper variant="outlined">
+    <Link
+      to={itemLink(item.category, item._id)}
+      style={{ textDecoration: "none" }}
+    >
+      <Paper elevation={8}>
         <img
           component="img"
           src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
@@ -27,7 +30,6 @@ const ItemCard = ({ item }) => {
         <Box sx={{ padding: 2 }}>
           <Typography
             variant="subtitle1"
-            color="black"
             sx={{
               textAlign: "center",
               fontWeight: "bold",
@@ -38,7 +40,6 @@ const ItemCard = ({ item }) => {
 
           <Typography
             variant="subtitle1"
-            color="black"
             sx={{
               textAlign: "center",
             }}

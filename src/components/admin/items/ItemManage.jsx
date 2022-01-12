@@ -12,7 +12,7 @@ const ItemManage = () => {
     <Container
       maxWidth="md"
       sx={{
-        marginTop: 4,
+        mt: 10,
         display: "flex",
       }}
     >

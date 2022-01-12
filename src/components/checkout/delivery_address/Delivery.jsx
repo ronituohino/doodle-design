@@ -14,18 +14,12 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
   return (
     <>
       {!hidden && (
-        <Container
-          maxWidth="md"
-          sx={{
-            marginTop: 2,
-          }}
-        >
+        <Container maxWidth="md">
           <FormikRadioGroup
             formik={formik}
             field="deliveryMethod"
             label="Delivery Address"
             sx={{ marginBottom: 2 }}
-            innerSx={{ padding: 2 }}
           >
             <FormikRadioField value={constants.HOME_DELIVERY}>
               <FormikRadioAccordion
@@ -43,6 +37,7 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
               >
                 {formik.values.postiParcelAddress && (
                   <AddressDisplay
+                    elevation={12}
                     address={formik.values.postiParcelAddress}
                     enterEdit={() =>
                       formik.setFieldValue(
@@ -51,7 +46,6 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                       )
                     }
                     sx={{ marginRight: 7 }}
-                    innerSx={{ padding: 2 }}
                   />
                 )}
                 {!formik.values.postiParcelAddress && (
@@ -75,9 +69,9 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                 price="100"
               >
                 <AddressDisplay
+                  elevation={12}
                   address={formik.values.storePickupAddress}
                   disableEdit
-                  innerSx={{ padding: 2 }}
                   sx={{ marginRight: 7 }}
                 />
               </FormikRadioAccordion>

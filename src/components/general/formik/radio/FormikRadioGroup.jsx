@@ -1,15 +1,8 @@
 import * as React from "react"
 
-import FormikBox from "../FormikBox"
+import { Box } from "@mui/material"
 
-const FormikRadioGroup = ({
-  formik,
-  field,
-  label,
-  children,
-  sx,
-  innerSx,
-}) => {
+const FormikRadioGroup = ({ formik, field, children, sx }) => {
   const childrenWithProps = React.Children.map(children, (child) => {
     // Checking isValidElement is the safe way and avoids a typescript
     // error too.
@@ -19,17 +12,7 @@ const FormikRadioGroup = ({
     return child
   })
 
-  return (
-    <FormikBox
-      formik={formik}
-      field={field}
-      label={label}
-      sx={sx}
-      innerSx={innerSx}
-    >
-      {childrenWithProps}
-    </FormikBox>
-  )
+  return <Box sx={sx}>{childrenWithProps}</Box>
 }
 
 export default FormikRadioGroup

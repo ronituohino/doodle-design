@@ -6,6 +6,7 @@ import {
   Button,
   InputAdornment,
   IconButton,
+  Paper,
 } from "@mui/material"
 
 import FormikField from "../general/formik/FormikField"
@@ -16,7 +17,6 @@ import { useAccount } from "../../hooks/useAccount"
 import { useRouting } from "../../hooks/useRouting"
 
 import { useState } from "react"
-import BetterPaper from "../general/BetterPaper"
 
 const AccountRegister = () => {
   const { back } = useRouting()
@@ -56,13 +56,8 @@ const AccountRegister = () => {
   }
 
   return (
-    <Container
-      maxWidth={"xs"}
-      sx={{
-        marginTop: 4,
-      }}
-    >
-      <BetterPaper innerSx={{ padding: 2 }}>
+    <Container maxWidth={"xs"}>
+      <Paper elevation={4} sx={{ padding: 2 }}>
         <FormikField
           field="username"
           label="Username"
@@ -105,7 +100,7 @@ const AccountRegister = () => {
         >
           Register
         </Button>
-      </BetterPaper>
+      </Paper>
     </Container>
   )
 }

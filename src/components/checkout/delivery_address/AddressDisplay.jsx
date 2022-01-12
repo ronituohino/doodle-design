@@ -1,26 +1,27 @@
-import { Box, IconButton, Typography } from "@mui/material"
-import BetterPaper from "../../general/BetterPaper"
+import { Box, IconButton, Typography, Paper } from "@mui/material"
 
 import Icon from "../../general/Icon"
 
 const AddressDisplay = ({
-  label,
+  elevation,
   address,
   enterEdit,
   disableEdit,
   sx,
-  innerSx,
 }) => {
   return (
     <>
       {address && (
-        <BetterPaper
-          label={label}
-          variant="outlined"
-          sx={sx}
-          innerSx={{ ...innerSx, display: "flex" }}
+        <Paper
+          elevation={elevation}
+          sx={{
+            disply: "flex",
+            flexWrap: "wrap",
+            padding: 2,
+            ...sx,
+          }}
         >
-          <Box sx={{ width: "75%" }}>
+          <Box sx={{ width: "70%" }}>
             <Typography
               sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
             >
@@ -62,9 +63,6 @@ const AddressDisplay = ({
           {!disableEdit && (
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                width: "25%",
                 alignSelf: "center",
               }}
             >
@@ -76,7 +74,7 @@ const AddressDisplay = ({
               </IconButton>
             </Box>
           )}
-        </BetterPaper>
+        </Paper>
       )}
     </>
   )

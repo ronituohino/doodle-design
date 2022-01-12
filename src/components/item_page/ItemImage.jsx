@@ -7,7 +7,7 @@ const ItemImage = ({ index, selected, onHover }) => {
   return (
     <Box
       onMouseEnter={() => onHover(index)}
-      sx={{ border: 2, borderRadius: 2, margin: "5px" }}
+      sx={{ border: 2, borderRadius: 1 }}
     >
       <img
         component="img"

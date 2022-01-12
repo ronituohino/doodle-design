@@ -1,8 +1,7 @@
-import { Typography, List, ListItem } from "@mui/material"
+import { Typography, List, ListItem, Paper } from "@mui/material"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import { formatPrice } from "../../../utils/price"
 import { useLanguage } from "../../../hooks/useLanguage"
-import BetterPaper from "../../general/BetterPaper"
 
 const Receipt = () => {
   const { language } = useLanguage()
@@ -11,11 +10,7 @@ const Receipt = () => {
   const totalPrice = totalPriceOfItems()
 
   return (
-    <BetterPaper
-      label="Receipt"
-      sx={{ width: "100%" }}
-      variant="outlined"
-    >
+    <Paper elevation={4} sx={{ width: "100%" }}>
       <List sx={{ padding: 1, paddingRight: 0 }}>
         <ReceiptLine
           leftText="Total"
@@ -65,7 +60,7 @@ const Receipt = () => {
           }}
         />
       </List>
-    </BetterPaper>
+    </Paper>
   )
 }
 

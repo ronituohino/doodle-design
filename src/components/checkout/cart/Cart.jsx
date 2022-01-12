@@ -1,12 +1,10 @@
-import { Box, Button } from "@mui/material"
+import { Box, Button, Paper } from "@mui/material"
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartItem from "../../top_bar/shopping_cart/ShoppingCartItem"
 import Receipt from "./Receipt"
 import Coupons from "./Coupons"
-
-import BetterPaper from "../../general/BetterPaper"
 
 const Cart = ({ next, hideControls, hidden, children }) => {
   const { data, totalAmountOfItems } = useShoppingCart()
@@ -16,11 +14,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
     <>
       {!hidden && (
         <Box sx={{ display: "flex", gap: "17.5px" }}>
-          <BetterPaper
-            sx={{ width: "60%", height: "100%" }}
-            variant="outlined"
-            label="Shopping cart"
-          >
+          <Paper elevation={4} sx={{ width: "60%", height: "100%" }}>
             {total === 0 && <p>empty!</p>}
             {total > 0 &&
               data.cartItems.map((obj) => (
@@ -31,7 +25,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                   ref={null}
                 />
               ))}
-          </BetterPaper>
+          </Paper>
 
           <Box
             sx={{

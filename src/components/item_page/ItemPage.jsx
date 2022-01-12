@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material"
+import { Paper, Box, Container } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_ITEM } from "../../graphql/queries"
@@ -18,31 +18,23 @@ const ItemPage = () => {
 
   return (
     <>
-      <Container
-        maxWidth="md"
+      <Box
         sx={{
-          marginTop: 4,
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-          }}
-        >
-          <ItemPictures sx={{ width: "60%" }} />
+        <ItemPictures sx={{ width: "60%" }} />
 
-          <Box sx={{ width: "40%" }}>
-            {data ? (
-              <ItemInformation item={data.getItemById} />
-            ) : (
-              <p>loading...</p>
-            )}
-          </Box>
-        </Box>
+        {data ? (
+          <ItemInformation item={data.getItemById} />
+        ) : (
+          <p>loading...</p>
+        )}
+      </Box>
 
-        <ItemExtras />
-      </Container>
+      <ItemExtras />
     </>
   )
 }

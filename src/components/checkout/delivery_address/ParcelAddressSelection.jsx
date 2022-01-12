@@ -1,10 +1,9 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, Typography, Paper } from "@mui/material"
 import { useState } from "react"
 import { getPostalPoints } from "../../../axios/requests"
 
 import ParcelAddress from "./ParcelAddress"
 import FormikField from "../../general/formik/FormikField"
-import FormikBox from "../../general/formik/FormikBox"
 
 const ParcelAddressSelection = ({ formik, setAddress }) => {
   const [deliveryPoints, setDeliveryPoints] = useState(undefined)
@@ -48,11 +47,7 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
   }
 
   return (
-    <FormikBox
-      formik={formik}
-      field="postiParcelAddress"
-      sx={{ marginRight: 7 }}
-    >
+    <Paper elevation={12} sx={{ padding: 2, marginRight: 7 }}>
       <Box
         sx={{
           display: "flex",
@@ -87,7 +82,7 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
           No Posti points found!
         </Typography>
       )}
-    </FormikBox>
+    </Paper>
   )
 }
 

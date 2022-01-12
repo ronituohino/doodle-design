@@ -10,6 +10,8 @@ import AccountRegister from "./components/account/AccountRegister"
 import AccountLogin from "./components/account/AccountLogin"
 import Checkout from "./components/checkout/Checkout"
 
+import { Paper, Container } from "@mui/material"
+
 const App = () => {
   return (
     <>
@@ -21,39 +23,41 @@ const App = () => {
         <Route path="/">
           <TopBar />
 
-          <Switch>
-            <Route path="/:language/product/:category/:id">
-              <ItemPage />
-            </Route>
+          <Container maxWidth="lg" sx={{ mt: 2 }}>
+            <Switch>
+              <Route path="/:language/product/:category/:id">
+                <ItemPage />
+              </Route>
 
-            <Route path="/:language/product/:category">
-              <Content />
-            </Route>
+              <Route path="/:language/product/:category">
+                <Content />
+              </Route>
 
-            <Route path="/:language/account/register">
-              <AccountRegister />
-            </Route>
+              <Route path="/:language/account/register">
+                <AccountRegister />
+              </Route>
 
-            <Route path="/:language/account/login">
-              <AccountLogin />
-            </Route>
+              <Route path="/:language/account/login">
+                <AccountLogin />
+              </Route>
 
-            <Route path="/:language/account">
-              <Account />
-            </Route>
+              <Route path="/:language/account">
+                <Account />
+              </Route>
 
-            <Route path="/:language/checkout/">
-              <Checkout />
-            </Route>
+              <Route path="/:language/checkout/">
+                <Checkout />
+              </Route>
 
-            <Route path="/:language/home">
-              <Home />
-            </Route>
+              <Route path="/:language/home">
+                <Home />
+              </Route>
 
-            <Route path="/">
-              <Redirect to="/en/home" />
-            </Route>
-          </Switch>
+              <Route path="/">
+                <Redirect to="/en/home" />
+              </Route>
+            </Switch>
+          </Container>
         </Route>
       </Switch>
     </>

@@ -1,10 +1,9 @@
 import { Container, Button } from "@mui/material"
 
-import { Box } from "@mui/material"
+import { Box, Paper } from "@mui/material"
 
 import FormikField from "../../general/formik/FormikField"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
-import BetterPaper from "../../general/BetterPaper"
 
 const BillingAddress = ({ formik, next, checkout, hidden }) => {
   const nextButtonDisabled =
@@ -14,11 +13,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
     <>
       {!hidden && (
         <Container maxWidth="sm">
-          <BetterPaper
-            label="Billing Address"
-            sx={{ marginBottom: 2 }}
-            innerSx={{ padding: 3 }}
-          >
+          <Paper elevation={4} sx={{ marginBottom: 2, padding: 3 }}>
             <Box
               sx={{
                 display: "flex",
@@ -85,7 +80,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
             />
 
             <FormikAutoSave formik={formik} />
-          </BetterPaper>
+          </Paper>
 
           <Button
             fullWidth

@@ -1,18 +1,20 @@
-import { Box } from "@mui/material"
+import { Box, Paper } from "@mui/material"
 import { useState } from "react"
 import ItemImage from "./ItemImage"
 
 // eslint-disable-next-line
-const ItemPictures = ({ item, sx }) => {
+const ItemPictures = ({ item }) => {
   const [shownMainImage, setShownMainImage] = useState(0)
 
   console.log(shownMainImage)
   return (
-    <Box sx={{ display: "flex", ...sx }}>
+    <Paper elevation={4} sx={{ display: "flex", padding: 2 }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
+          gap: "5px",
+          mr: 1,
         }}
       >
         <ItemImage index={0} onHover={setShownMainImage} />
@@ -31,7 +33,7 @@ const ItemPictures = ({ item, sx }) => {
           }}
         />
       </Box>
-    </Box>
+    </Paper>
   )
 }
 

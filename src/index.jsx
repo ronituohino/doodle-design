@@ -48,7 +48,7 @@ ReactDOM.render(
           <Router>
             <Helmet
               bodyAttributes={{
-                style: `background-color: ${theme.palette.secondary.main}`,
+                style: `background-color: ${theme.palette.background.default}`,
               }}
             />
             <App />

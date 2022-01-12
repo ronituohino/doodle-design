@@ -12,12 +12,13 @@ const SearchBar = ({ placeholder, sx }) => {
     <>
       <TextField
         size="small"
+        color="secondary"
         placeholder={placeholder}
         value={searchWord}
         onChange={(e) => setSearchWord(e.target.value)}
         InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
+          startAdornment: (
+            <InputAdornment position="start">
               <IconButton sx={{ padding: 0.3 }}>
                 <Icon name="SearchIcon" />
               </IconButton>

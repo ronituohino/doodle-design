@@ -1,4 +1,4 @@
-import { Box, Container, Pagination } from "@mui/material"
+import { Box, Pagination, Paper } from "@mui/material"
 
 import { useQuery, useLazyQuery } from "@apollo/client"
 import { GET_ALL_ITEMS, GET_CATEGORIES } from "../../graphql/queries"
@@ -52,12 +52,7 @@ const Content = () => {
   }
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        marginTop: 4,
-      }}
-    >
+    <Paper elevation={4} sx={{ padding: 2 }}>
       {error && <p>something went wrong...</p>}
       {!error && (
         <>
@@ -94,7 +89,7 @@ const Content = () => {
           </Box>
         </>
       )}
-    </Container>
+    </Paper>
   )
 }
 

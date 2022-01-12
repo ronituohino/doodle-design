@@ -6,6 +6,7 @@ import {
   Button,
   InputAdornment,
   IconButton,
+  Paper,
 } from "@mui/material"
 
 import Icon from "../general/Icon"
@@ -15,7 +16,6 @@ import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
 
 import FormikField from "../general/formik/FormikField"
-import BetterPaper from "../general/BetterPaper"
 
 const AccountLogin = () => {
   const { back } = useRouting()
@@ -44,13 +44,8 @@ const AccountLogin = () => {
   }
 
   return (
-    <Container
-      maxWidth={"xs"}
-      sx={{
-        marginTop: 4,
-      }}
-    >
-      <BetterPaper innerSx={{ padding: 2 }}>
+    <Container maxWidth={"xs"}>
+      <Paper elevation={4} sx={{ padding: 2 }}>
         <FormikField
           field="email"
           label="Email"
@@ -87,7 +82,7 @@ const AccountLogin = () => {
         >
           Log in
         </Button>
-      </BetterPaper>
+      </Paper>
     </Container>
   )
 }

@@ -4,13 +4,13 @@ const theme = unstable_createMuiStrictModeTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#272727",
+      main: "#9CDCF0",
     },
     secondary: {
-      main: "#1a1a1a",
+      main: "#C586C0",
     },
-    text: {
-      primary: "fff",
+    background: {
+      default: "#1a1a1a",
     },
   },
 })

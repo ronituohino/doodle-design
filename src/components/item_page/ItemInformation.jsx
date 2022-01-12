@@ -3,6 +3,7 @@ import {
   TextField,
   MenuItem,
   Button,
+  Paper,
 } from "@mui/material"
 
 import { useLanguage } from "../../hooks/useLanguage"
@@ -71,7 +72,7 @@ const ItemInformation = ({ item }) => {
   }
 
   return (
-    <>
+    <Paper elevation={4} sx={{ width: "40%", padding: 2 }}>
       <Typography
         variant="h4"
         sx={{
@@ -131,7 +132,7 @@ const ItemInformation = ({ item }) => {
           Add to shopping cart
         </Button>
       </form>
-    </>
+    </Paper>
   )
 }
 

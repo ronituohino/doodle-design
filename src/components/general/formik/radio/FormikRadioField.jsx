@@ -1,4 +1,4 @@
-import { Radio, Box } from "@mui/material"
+import { Radio, Paper } from "@mui/material"
 import { makeStyles } from "@material-ui/core"
 import * as React from "react"
 
@@ -23,13 +23,14 @@ const FormikRadioField = ({ formik, field, children, value }) => {
   const classes = useStyles()
 
   return (
-    <Box
+    <Paper
+      elevation={8}
       onClick={() => formik.setFieldValue(field, value)}
       sx={{
         display: "flex",
         flexBasis: "100%",
-        marginLeft: 1,
-        mariginRight: 1,
+        mb: 1,
+        backgroundColor: "rgba(16.3, 16.3, 16.3, 1)",
       }}
     >
       <Radio
@@ -39,11 +40,11 @@ const FormikRadioField = ({ formik, field, children, value }) => {
         value={value}
         disableRipple
         className={classes.root}
-        sx={{ alignSelf: "flex-start", top: 12.5 }}
+        sx={{ alignSelf: "flex-start", top: 12.5, left: 7.5 }}
       />
 
       {childrenWithProps}
-    </Box>
+    </Paper>
   )
 }
 

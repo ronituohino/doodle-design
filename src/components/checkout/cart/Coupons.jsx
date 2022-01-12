@@ -1,13 +1,8 @@
-import { Box, Button, TextField } from "@mui/material"
-import BetterPaper from "../../general/BetterPaper"
+import { Box, Button, TextField, Paper } from "@mui/material"
 
 const Coupons = () => {
   return (
-    <BetterPaper
-      sx={{ width: "100%" }}
-      variant="outlined"
-      label="Coupons"
-    >
+    <Paper elevation={4} sx={{ width: "100%" }}>
       <Box sx={{ display: "flex", padding: 1, gap: "5px" }}>
         <TextField
           placeholder="ABCD-1234..."
@@ -19,7 +14,7 @@ const Coupons = () => {
           Apply
         </Button>
       </Box>
-    </BetterPaper>
+    </Paper>
   )
 }
 

@@ -15,13 +15,18 @@ const TopBar = () => {
   const { homeLink } = useRouting()
 
   return (
-    <AppBar color="primary">
-      <Toolbar>
-        <CategoryDrawer />
-        <Container
-          maxWidth="md"
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
+    <Container maxWidth="lg" sx={{ mt: 2 }}>
+      <AppBar
+        position="static"
+        color="primary"
+        enableColorOnDark
+        sx={{ borderRadius: 1 }}
+      >
+        <Toolbar sx={{ display: "flex" }}>
+          <Box sx={{ width: "33%" }}>
+            <CategoryDrawer />
+          </Box>
+
           <Box sx={{ mr: 2, alignSelf: "center" }}>
             <Link to={homeLink()}>
               <img
@@ -37,22 +42,24 @@ const TopBar = () => {
             </Link>
           </Box>
 
-          <Box sx={{ alignSelf: "center" }}>
+          <Box sx={{ width: "100%", alignSelf: "center" }}>
             <SearchBar
               placeholder="Search..."
               sx={{
-                backgroundColor: "background.default",
-                margin: "auto",
+                backgroundColor: "primary.dark",
               }}
             />
           </Box>
-        </Container>
 
-        <ShoppingCart />
-        <AccountPanel />
-        <Language />
-      </Toolbar>
-    </AppBar>
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ flexBasis: "100%" }} />
+            <ShoppingCart />
+            <AccountPanel />
+            <Language />
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Container>
   )
 }
 

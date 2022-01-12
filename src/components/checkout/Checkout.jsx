@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-import { Container, Typography } from "@mui/material"
+import { Typography, Paper } from "@mui/material"
 import Stepper from "@mui/material/Stepper"
 import Step from "@mui/material/Step"
 import StepLabel from "@mui/material/StepLabel"
@@ -117,8 +117,8 @@ const Checkout = () => {
     console.log("place order!")
   }
 
-  const regularLabel = { border: 2, padding: 1, borderColor: "red" }
-  const clickableLabel = { border: 2, padding: 1, cursor: "pointer" }
+  const regularLabel = { padding: 1 }
+  const clickableLabel = { padding: 1, cursor: "pointer" }
 
   const handleErrors = (
     billingValid,
@@ -141,12 +141,7 @@ const Checkout = () => {
   }
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        marginTop: 2,
-      }}
-    >
+    <>
       <Stepper
         nonLinear
         activeStep={activeStep}
@@ -154,24 +149,28 @@ const Checkout = () => {
       >
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
-            <StepLabel
-              onClick={() => {
-                if (previousStepsCompleted(index)) {
-                  setActiveStep(index)
-                }
-              }}
+            <Paper
+              elevation={previousStepsCompleted(index) ? 4 : 1}
               sx={
                 previousStepsCompleted(index)
                   ? clickableLabel
                   : regularLabel
               }
-              error={failed[index]}
             >
-              <Typography variant="body2">{step.label}</Typography>
-              <Typography variant="caption">
-                {step.sublabel}
-              </Typography>
-            </StepLabel>
+              <StepLabel
+                onClick={() => {
+                  if (previousStepsCompleted(index)) {
+                    setActiveStep(index)
+                  }
+                }}
+                error={failed[index]}
+              >
+                <Typography variant="body2">{step.label}</Typography>
+                <Typography variant="caption">
+                  {step.sublabel}
+                </Typography>
+              </StepLabel>
+            </Paper>
           </Step>
         ))}
       </Stepper>
@@ -205,7 +204,7 @@ const Checkout = () => {
         checkout={checkout}
         hidden={activeStep !== 4}
       />
-    </Container>
+    </>
   )
 }
 
