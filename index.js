@@ -150,7 +150,7 @@ const resolvers = {
       return item
     },
 
-    getCategories: async (root) => {
+    getCategories: async () => {
       const categories = await Category.find({})
       return categories
     },

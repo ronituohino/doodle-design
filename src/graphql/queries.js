@@ -15,7 +15,7 @@ export const GET_ALL_ITEMS = gql`
   query GetItems(
     $page: Int!
     $size: Int!
-    $category: Category
+    $category: ID
     $language: Language!
     $currency: Currency!
   ) {

@@ -70,7 +70,7 @@ const itemTypeDefs = gql`
 
   extend type Query {
     itemCount: Int!
-    getItems(category: ID!, page: Int!, size: Int!): Paginated!
+    getItems(category: ID, page: Int!, size: Int!): Paginated!
     getItemById(id: ID!): Item
   }
 
