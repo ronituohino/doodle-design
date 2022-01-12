@@ -72,6 +72,7 @@ const itemTypeDefs = gql`
     itemCount: Int!
     getItems(category: ID, page: Int!, size: Int!): Paginated!
     getItemById(id: ID!): Item
+    searchItems(searchWord: String!): [Item]!
   }
 
   extend type Mutation {

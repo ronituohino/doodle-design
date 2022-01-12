@@ -38,14 +38,23 @@ const client = new ApolloClient({
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "./theme"
 
+import { Helmet, HelmetProvider } from "react-helmet-async"
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <App />
-        </Router>
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Helmet
+              bodyAttributes={{
+                style: `background-color: ${theme.palette.secondary.main}`,
+              }}
+            />
+            <App />
+          </Router>
+        </ThemeProvider>
+      </HelmetProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -150,6 +150,14 @@ const resolvers = {
       return item
     },
 
+    searchItems: async (root, args) => {
+      const results = await Item.find({
+        name: `/${args.searchWord}/i`,
+      })
+
+      return results
+    },
+
     getCategories: async () => {
       const categories = await Category.find({})
       return categories
