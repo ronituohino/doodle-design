@@ -5,8 +5,7 @@ import {
   ListItemIcon,
 } from "@mui/material"
 
-import LoginIcon from "@mui/icons-material/Login"
-import PersonAddIcon from "@mui/icons-material/PersonAdd"
+import Icon from "../../general/Icon"
 
 import { useRouting } from "../../../hooks/useRouting"
 
@@ -23,7 +22,7 @@ const AccountPanelNotLoggedIn = ({ closeMenu }) => {
           }}
         >
           <ListItemIcon>
-            <LoginIcon />
+            <Icon name="LoginIcon" />
           </ListItemIcon>
           <ListItemText primary="Login" />
         </ListItemButton>
@@ -37,7 +36,7 @@ const AccountPanelNotLoggedIn = ({ closeMenu }) => {
           }}
         >
           <ListItemIcon>
-            <PersonAddIcon />
+            <Icon name="PersonAddIcon" />
           </ListItemIcon>
           <ListItemText primary="Register" />
         </ListItemButton>

@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { IconButton, Menu, List } from "@mui/material"
 
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import PersonIcon from "@mui/icons-material/Person"
+import Icon from "../../general/Icon"
+
 import { useAccount } from "../../../hooks/useAccount"
 
 import AccountPanelLoggedIn from "./AccountPanelLoggedIn"
@@ -23,8 +23,11 @@ const AccountPanel = () => {
   return (
     <>
       <IconButton color="inherit" onClick={openMenu}>
-        <PersonIcon />
-        <ArrowDropDownIcon sx={{ position: "absolute", top: 27.5 }} />
+        <Icon name="PersonIcon" />
+        <Icon
+          name="ArrowDropDownIcon"
+          sx={{ position: "absolute", top: 27.5 }}
+        />
       </IconButton>
 
       <Menu

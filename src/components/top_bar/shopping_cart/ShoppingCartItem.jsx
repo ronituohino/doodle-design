@@ -9,12 +9,9 @@ import {
   Button,
 } from "@mui/material"
 
+import Icon from "../../general/Icon"
+
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
-
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
-import ClearIcon from "@mui/icons-material/Clear"
-
 import { useLanguage } from "../../../hooks/useLanguage"
 
 import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
@@ -212,7 +209,7 @@ const ShoppingCartItem = forwardRef(
                 increaseAmount(cartObject.item)
               }}
             >
-              <KeyboardArrowUpIcon />
+              <Icon name="KeyboardArrowUpIcon" />
             </IconButton>
 
             <TextField
@@ -241,7 +238,7 @@ const ShoppingCartItem = forwardRef(
               }}
               onClick={() => decreaseAmount(cartObject)}
             >
-              <KeyboardArrowDownIcon />
+              <Icon name="KeyboardArrowDownIcon" />
             </IconButton>
           </Box>
         )}
@@ -281,7 +278,7 @@ const ShoppingCartItem = forwardRef(
             }}
             onClick={() => setDeleteConfirm(true)}
           >
-            <ClearIcon />
+            <Icon name="ClearIcon" />
           </IconButton>
         )}
       </MenuItem>

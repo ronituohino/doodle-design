@@ -11,8 +11,7 @@ import {
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
+import Icon from "../../general/Icon"
 
 import ShoppingCartItem from "./ShoppingCartItem"
 
@@ -62,8 +61,11 @@ const ShoppingCart = () => {
         aria-label={notificationsLabel(totalAmount)}
       >
         <Badge badgeContent={totalAmount} color="secondary">
-          <ShoppingCartIcon />
-          <ArrowDropDownIcon sx={{ position: "absolute", top: 20 }} />
+          <Icon name="ShoppingCartIcon" />
+          <Icon
+            name="ArrowDropDownIcon"
+            sx={{ position: "absolute", top: 20 }}
+          />
         </Badge>
       </IconButton>
 

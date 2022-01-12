@@ -2,18 +2,13 @@ import { useState } from "react"
 import {
   Drawer,
   IconButton,
-  Typography,
   Box,
   ClickAwayListener,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
 } from "@mui/material"
 
-import MenuIcon from "@mui/icons-material/Menu"
-import FastfoodIcon from "@mui/icons-material/Fastfood"
+import Category from "./Category"
+
+import Icon from "../../general/Icon"
 
 const CategoryDrawer = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -21,7 +16,7 @@ const CategoryDrawer = () => {
   return (
     <>
       <IconButton onClick={() => setDrawerOpen(true)}>
-        <MenuIcon />
+        <Icon name="MenuIcon" />
       </IconButton>
 
       <Drawer anchor="left" open={drawerOpen}>
@@ -32,18 +27,11 @@ const CategoryDrawer = () => {
               height: "100%",
             }}
           >
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  console.log("hello")
-                }}
-              >
-                <ListItemIcon>
-                  <FastfoodIcon />
-                </ListItemIcon>
-                <ListItemText primary="Test" />
-              </ListItemButton>
-            </ListItem>
+            <Category
+              cateogry="clothing"
+              label="Clothing"
+              icon="FastfoodIcon"
+            />
           </Box>
         </ClickAwayListener>
       </Drawer>

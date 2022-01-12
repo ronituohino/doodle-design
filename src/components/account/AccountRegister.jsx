@@ -10,8 +10,7 @@ import {
 
 import FormikField from "../general/formik/FormikField"
 
-import VisibilityIcon from "@mui/icons-material/Visibility"
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import Icon from "../general/Icon"
 
 import { useAccount } from "../../hooks/useAccount"
 import { useRouting } from "../../hooks/useRouting"
@@ -87,9 +86,9 @@ const AccountRegister = () => {
               <InputAdornment position="end">
                 <IconButton onClick={togglePasswordVisibility}>
                   {values.showPassword ? (
-                    <VisibilityOffIcon />
+                    <Icon name="visOff" />
                   ) : (
-                    <VisibilityIcon />
+                    <Icon name="visOn" />
                   )}
                 </IconButton>
               </InputAdornment>

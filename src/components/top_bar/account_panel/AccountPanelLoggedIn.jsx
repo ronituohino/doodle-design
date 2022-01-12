@@ -6,8 +6,7 @@ import {
   Divider,
 } from "@mui/material"
 
-import LogoutIcon from "@mui/icons-material/Logout"
-import ShieldIcon from "@mui/icons-material/Shield"
+import Icon from "../../general/Icon"
 
 import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
@@ -30,7 +29,7 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
           }}
         >
           <ListItemIcon>
-            <LogoutIcon />
+            <Icon name="LogoutIcon" />
           </ListItemIcon>
           <ListItemText primary="Logout" />
         </ListItemButton>
@@ -48,7 +47,7 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
               }}
             >
               <ListItemIcon>
-                <ShieldIcon />
+                <Icon name="ShieldIcon" />
               </ListItemIcon>
               <ListItemText primary="Admin Panel" />
             </ListItemButton>

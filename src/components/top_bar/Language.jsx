@@ -1,10 +1,9 @@
 import { useState } from "react"
 import { IconButton, Menu, MenuItem } from "@mui/material"
 
-import LanguageIcon from "@mui/icons-material/Language"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-
 import { useLanguage } from "../../hooks/useLanguage"
+
+import Icon from "../general/Icon"
 
 const Language = () => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -21,8 +20,11 @@ const Language = () => {
   return (
     <>
       <IconButton color="inherit" onClick={openMenu}>
-        <LanguageIcon />
-        <ArrowDropDownIcon sx={{ position: "absolute", top: 27.5 }} />
+        <Icon name="LanguageIcon" />
+        <Icon
+          name="ArrowDropDownIcon"
+          sx={{ position: "absolute", top: 27.5 }}
+        />
       </IconButton>
 
       <Menu
