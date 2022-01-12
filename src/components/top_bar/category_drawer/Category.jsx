@@ -8,7 +8,7 @@ import { useRouting } from "../../../hooks/useRouting"
 
 import Icon from "../../general/Icon"
 
-const Category = ({ category, label, icon }) => {
+const Category = ({ closeMenu, category, label, icon }) => {
   const { openLink, categoryLink } = useRouting()
 
   return (
@@ -16,6 +16,7 @@ const Category = ({ category, label, icon }) => {
       <ListItemButton
         onClick={() => {
           openLink(categoryLink(category))
+          closeMenu()
         }}
       >
         <ListItemIcon>

@@ -6,11 +6,15 @@ import {
   ClickAwayListener,
 } from "@mui/material"
 
+import { useQuery } from "@apollo/client"
+import { GET_CATEGORIES } from "../../../graphql/queries"
+
 import Category from "./Category"
 
 import Icon from "../../general/Icon"
 
 const CategoryDrawer = () => {
+  const { data } = useQuery(GET_CATEGORIES)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   return (
@@ -27,11 +31,21 @@ const CategoryDrawer = () => {
               height: "100%",
             }}
           >
-            <Category
-              cateogry="clothing"
-              label="Clothing"
-              icon="FastfoodIcon"
-            />
+            {data && data.getCategories && (
+              <>
+                {data.getCategories.map((category) => {
+                  return (
+                    <Category
+                      closeMenu={() => setDrawerOpen(false)}
+                      key={category._id}
+                      cateogry={category.name}
+                      label={category.label}
+                      icon={category.icon}
+                    />
+                  )
+                })}
+              </>
+            )}
           </Box>
         </ClickAwayListener>
       </Drawer>

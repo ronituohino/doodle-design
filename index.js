@@ -38,11 +38,6 @@ mongoose
 
 const commonTypeDefs = gql`
   type Query {
-    itemCount: Int!
-    getItems(category: Category, page: Int!, size: Int!): Paginated!
-    getFileById(id: ID!): File
-    getItemById(id: ID!): Item
-
     me: User
   }
 
@@ -100,6 +95,10 @@ const commonInputDefs = gql`
   }
 `
 
+const {
+  Category,
+  categoryTypeDefs,
+} = require("./server/schemas/Category.js")
 const { File, fileTypeDefs } = require("./server/schemas/File.js")
 const {
   Item,
@@ -149,6 +148,11 @@ const resolvers = {
     getItemById: async (root, args) => {
       const item = await Item.findById(args.id)
       return item
+    },
+
+    getCategories: async (root) => {
+      const categories = await Category.find({})
+      return categories
     },
 
     getFileById: async (root, args) => {
@@ -271,6 +275,26 @@ const resolvers = {
       )
 
       return item
+    },
+
+    createCategory: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Admin") {
+        throw new UserInputError("Not an administrator account")
+      }
+
+      const category = new Category({
+        name: args.name,
+        label: args.label,
+        icon: args.icon,
+      })
+
+      const response = category.save()
+
+      return response
     },
 
     createOrder: async (root, args, context) => {
@@ -401,6 +425,7 @@ const startApolloServer = async () => {
     typeDefs: [
       commonTypeDefs,
       commonInputDefs,
+      categoryTypeDefs,
       fileTypeDefs,
       itemTypeDefs,
       itemInputDefs,

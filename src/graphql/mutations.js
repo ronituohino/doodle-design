@@ -24,6 +24,18 @@ export const LOGIN = gql`
   }
 `
 
+// ADMIN
+
+export const CRETE_CATEGORY = gql`
+  mutation CreateCategory(
+    $name: String!
+    $label: String!
+    $icon: String!
+  ) {
+    createCategory(name: $name, label: $label, icon: $icon)
+  }
+`
+
 export const FILE_UPLOAD = gql`
   mutation FileUpload($file: Upload!) {
     singleUpload(file: $file)

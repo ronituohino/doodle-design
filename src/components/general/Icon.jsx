@@ -7,6 +7,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import BarChartIcon from "@mui/icons-material/BarChart"
 import CampaignIcon from "@mui/icons-material/Campaign"
 import CategoryIcon from "@mui/icons-material/Category"
+import CheckroomIcon from "@mui/icons-material/Checkroom"
 import ClearIcon from "@mui/icons-material/Clear"
 import CreateIcon from "@mui/icons-material/Create"
 import EditIcon from "@mui/icons-material/Edit"
@@ -15,6 +16,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore"
 import FastfoodIcon from "@mui/icons-material/Fastfood"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
+import KeyboardIcon from "@mui/icons-material/Keyboard"
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn"
 import LanguageIcon from "@mui/icons-material/Language"
 import LocalShippingIcon from "@mui/icons-material/LocalShipping"
@@ -35,6 +37,7 @@ const iconTypes = {
   BarChartIcon,
   CampaignIcon,
   CategoryIcon,
+  CheckroomIcon,
   ClearIcon,
   CreateIcon,
   EditIcon,
@@ -43,6 +46,7 @@ const iconTypes = {
   FastfoodIcon,
   KeyboardArrowDownIcon,
   KeyboardArrowUpIcon,
+  KeyboardIcon,
   KeyboardReturnIcon,
   LanguageIcon,
   LocalShippingIcon,

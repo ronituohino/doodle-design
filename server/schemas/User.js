@@ -53,9 +53,16 @@ const userTypeDefs = gql`
   }
 
   extend type Mutation {
-    createUser(username: String!, email: String!, password: String!): Token
-
-    editUser(email: String, password: String, cart: [CartItemInput]): User
+    createUser(
+      username: String!
+      email: String!
+      password: String!
+    ): Token
+    editUser(
+      email: String
+      password: String
+      cart: [CartItemInput]
+    ): User
   }
 `
 

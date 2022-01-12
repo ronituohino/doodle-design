@@ -1,5 +1,16 @@
 import { gql } from "@apollo/client"
 
+export const GET_CATEGORIES = gql`
+  query GetCategories {
+    getCategories {
+      _id
+      name
+      label
+      icon
+    }
+  }
+`
+
 export const GET_ALL_ITEMS = gql`
   query GetItems(
     $page: Int!

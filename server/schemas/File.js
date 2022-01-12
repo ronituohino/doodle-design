@@ -21,6 +21,10 @@ const fileTypeDefs = gql`
     location: String!
   }
 
+  extend type Query {
+    getFileById(id: ID!): File
+  }
+
   extend type Mutation {
     singleUpload(file: Upload!): Boolean!
   }

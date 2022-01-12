@@ -16,7 +16,11 @@ const itemSchema = new mongoose.Schema({
   availability: {
     available: { type: Boolean, required: true },
   },
-  category: { type: String, required: true },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
   visible: { type: Boolean, required: true },
   sale: {
     salePrice: { type: [Number], required: true },
@@ -43,7 +47,7 @@ const itemTypeDefs = gql`
     customization(language: Language!): [Options]!
     description(language: Language!): String!
     availability: Availability!
-    category: Category!
+    category: ID!
     visible: Boolean!
     sale: Sale
     ratings: [Rating]
@@ -51,13 +55,6 @@ const itemTypeDefs = gql`
 
   type Availability {
     available: Boolean!
-  }
-
-  enum Category {
-    fruits
-    cars
-    phones
-    beds
   }
 
   type Sale {
@@ -71,12 +68,18 @@ const itemTypeDefs = gql`
     comment: String
   }
 
+  extend type Query {
+    itemCount: Int!
+    getItems(category: ID!, page: Int!, size: Int!): Paginated!
+    getItemById(id: ID!): Item
+  }
+
   extend type Mutation {
     createItem(
       name: [String!]!
       price: [Float!]!
       description: [String!]!
-      category: String!
+      category: ID!
     ): Item
 
     editItem(
@@ -86,7 +89,7 @@ const itemTypeDefs = gql`
       customization: [OptionsInput!]
       description: [String!]
       availability: AvailabilityInput
-      category: Category
+      category: ID!
       visible: Boolean
       sale: SaleInput
       ratings: RatingInput
