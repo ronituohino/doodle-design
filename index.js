@@ -85,13 +85,22 @@ const commonTypeDefs = gql`
 
 const commonInputDefs = gql`
   input OptionsInput {
-    label: String!
-    options: [String!]!
+    label: LanguageString!
+    options: [LanguageString!]!
   }
 
   input OptionInput {
-    label: String!
-    option: String!
+    label: LanguageString!
+    option: LanguageString!
+  }
+
+  input LanguageString {
+    EN: String!
+    FI: String!
+  }
+
+  input CurrencyString {
+    EUR: String!
   }
 `
 
@@ -124,6 +133,9 @@ const {
   hashPassword,
   createToken,
   streamToBase64,
+  createLanguageList,
+  formatCustomization,
+  createCurrencyList,
 } = require("./server/utils/serverUtils.js")
 
 const resolvers = {
@@ -238,16 +250,20 @@ const resolvers = {
       }
 
       const item = new Item({
-        name: args.name,
-        price: args.price,
-        customization: args.customization,
-        description: args.description,
+        name: createLanguageList(args.name),
+        price: createCurrencyList(args.price),
+        customization: formatCustomization(args.customization),
+        description: createLanguageList(args.description),
         availability: { available: false },
+        images: args.images,
         category: args.category,
         visible: false,
         sale: { salePrice: [], saleActive: false },
         ratings: [],
       })
+
+      console.log(item.price)
+      console.log(item.customization)
 
       const result = await item.save()
       return result
@@ -372,7 +388,7 @@ const resolvers = {
         //data: streamData,
       })
 
-      await mongooseFile.save()
+      const response = await mongooseFile.save()
 
       // Then save image to public/files/... folder
       // where it can be served from
@@ -381,7 +397,7 @@ const resolvers = {
         console.log(`File ${filename} uploaded to server`)
       })
 
-      return true
+      return response
     },
   },
 

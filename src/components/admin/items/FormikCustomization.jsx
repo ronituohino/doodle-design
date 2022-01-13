@@ -126,7 +126,7 @@ const FormikCustomization = ({ formik, label, field }) => {
             })
             formik.setValues({ ...formik.values, customization: arr })
           }}
-          variant="contained"
+          variant="outlined"
         >
           Add customization
         </Button>

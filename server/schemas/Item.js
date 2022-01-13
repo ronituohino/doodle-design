@@ -77,18 +77,20 @@ const itemTypeDefs = gql`
 
   extend type Mutation {
     createItem(
-      name: [String!]!
-      price: [Float!]!
-      description: [String!]!
+      name: LanguageString!
+      price: CurrencyString!
+      images: [ID!]!
+      description: LanguageString!
+      customization: [OptionsInput]!
       category: ID!
     ): Item
 
     editItem(
       id: ID!
-      name: [String!]
-      price: [Float!]
-      customization: [OptionsInput!]
-      description: [String!]
+      name: LanguageString!
+      price: CurrencyString!
+      customization: [OptionsInput]!
+      description: LanguageString!
       availability: AvailabilityInput
       category: ID!
       visible: Boolean

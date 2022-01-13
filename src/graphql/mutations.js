@@ -36,8 +36,36 @@ export const CRETE_CATEGORY = gql`
   }
 `
 
+export const CREATE_ITEM = gql`
+  mutation CreateItem(
+    $name: LanguageString!
+    $price: CurrencyString!
+    $images: [ID!]!
+    $description: LanguageString!
+    $customization: [OptionsInput]!
+    $category: ID!
+  ) {
+    createItem(
+      name: $name
+      price: $price
+      images: $images
+      description: $description
+      customization: $customization
+      category: $category
+    ) {
+      _id
+    }
+  }
+`
+
 export const FILE_UPLOAD = gql`
   mutation FileUpload($file: Upload!) {
-    singleUpload(file: $file)
+    singleUpload(file: $file) {
+      _id
+      filename
+      mimetype
+      encoding
+      location
+    }
   }
 `
