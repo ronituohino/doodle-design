@@ -1,11 +1,11 @@
 import { useState } from "react"
 
-import { Container, Button, Box } from "@mui/material"
+import { Container, Button } from "@mui/material"
 import SearchBar from "../../top_bar/SearchBar"
 import ModifyItemDialog from "./ModifyItemDialog"
 
 const ItemManage = () => {
-  const [page, setPage] = useState(0)
+  //const [page, setPage] = useState(0)
   // eslint-disable-next-line
   const [size, setSize] = useState(6)
 

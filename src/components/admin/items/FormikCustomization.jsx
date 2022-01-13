@@ -4,18 +4,12 @@ import FormikField from "../../general/formik/FormikField"
 
 import { Button, Box, IconButton } from "@mui/material"
 import Icon from "../../general/Icon"
-import { array } from "yup"
 
 const FormikCustomization = ({ formik, label, field }) => {
   const customization = formik.values[field]
 
   return (
-    <FormikBox
-      formik={formik}
-      label={label}
-      field={field}
-      sx={{ pt: 2 }}
-    >
+    <FormikBox label={label} sx={{ pt: 2 }}>
       {customization.map((customizationObject, index) => (
         <Box key={`customization-${index}`} sx={{ mb: 2 }}>
           <FormikFieldArray
@@ -42,12 +36,7 @@ const FormikCustomization = ({ formik, label, field }) => {
             </IconButton>
           </FormikFieldArray>
 
-          <FormikBox
-            formik={formik}
-            field={field}
-            label="Options"
-            sx={{ pl: 2, pr: 2 }}
-          >
+          <FormikBox label="Options" sx={{ pl: 2, pr: 2 }}>
             {customizationObject.options.map(
               (option, optionIndex) => (
                 <Box
@@ -105,8 +94,6 @@ const FormikCustomization = ({ formik, label, field }) => {
                     EN: "",
                     FI: "",
                   })
-
-                  console.log(arr)
 
                   formik.setValues({
                     ...formik.values,

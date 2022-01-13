@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material"
 import { getInnerFieldFromObject } from "../../../utils/utils"
+import { isString } from "../../../utils/utils"
 
 const FormikField = ({
   field,
@@ -12,6 +13,8 @@ const FormikField = ({
   const value = getInnerFieldFromObject(formik.values, field)
   const error = getInnerFieldFromObject(formik.errors, field)
 
+  const string = isString(error)
+
   return (
     <TextField
       fullWidth
@@ -21,8 +24,8 @@ const FormikField = ({
       type={type ? type : "text"}
       value={value}
       onChange={formik.handleChange}
-      error={Boolean(error)}
-      helperText={error}
+      error={string && Boolean(error)}
+      helperText={string && error}
       InputLabelProps={{ shrink: true }}
       multiline={multiline}
       sx={sx}

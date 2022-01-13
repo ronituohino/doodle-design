@@ -26,27 +26,51 @@ const ModifyItemDialog = ({ open, handleClose }) => {
     },
     validationSchema: yup.object({
       name: yup
-        .array()
-        .of(yup.string().required("Provide a name"))
-        .length(2, "2 names required")
-        .required("Provide names"),
+        .object({
+          EN: yup.string().required("English name required"),
+          FI: yup.string().required("Finnish name required"),
+        })
+        .required("Name object missing, contact IT!"),
+
+      description: yup
+        .object({
+          EN: yup.string(),
+          FI: yup.string(),
+        })
+        .required("Name object missing, contact IT!"),
 
       price: yup
-        .array()
-        .of(yup.number().required("Provide a price"))
-        .length(1, "1 price required")
-        .required("Provide price"),
+        .object({
+          EUR: yup.string().required("Price in euros is required"),
+        })
+        .required("Price object missing, contact IT!"),
 
       discount: yup.number(),
 
       customization: yup.array().of(
         yup.object({
-          label: yup.string(),
+          label: yup
+            .object({
+              EN: yup.string().required("English label required"),
+              FI: yup.string().required("Finnish label required"),
+            })
+            .required("Label object missing, contact IT!"),
+
           options: yup
             .array()
-            .of(yup.string().required("Options required"))
-            .length(2, "2 options required")
-            .required("Provide options"),
+            .of(
+              yup
+                .object({
+                  EN: yup
+                    .string()
+                    .required("English option required"),
+                  FI: yup
+                    .string()
+                    .required("Finnish option required"),
+                })
+                .required("Option object missing, contact IT!")
+            )
+            .required("Options array missing, contact IT!"),
         })
       ),
     }),
@@ -101,6 +125,14 @@ const ModifyItemDialog = ({ open, handleClose }) => {
         </Box>
       </DialogContent>
       <DialogActions>
+        <Button
+          variant="contained"
+          color="error"
+          fullWidth
+          onClick={handleClose}
+        >
+          Cancel
+        </Button>
         <Button
           variant="contained"
           fullWidth

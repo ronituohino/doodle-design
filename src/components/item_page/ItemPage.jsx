@@ -1,4 +1,4 @@
-import { Paper, Box, Container } from "@mui/material"
+import { Box } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_ITEM } from "../../graphql/queries"

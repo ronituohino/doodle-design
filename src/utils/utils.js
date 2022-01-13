@@ -20,6 +20,10 @@ export const hasParentWithMatchingSelector = (
   }
 }
 
+export const isString = (any) => {
+  return typeof any === "string" || any instanceof String
+}
+
 export const getInnerFieldFromObject = (object, stringField) => {
   const subfields = stringField.split(".")
 

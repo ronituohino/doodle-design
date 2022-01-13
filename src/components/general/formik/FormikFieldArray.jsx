@@ -17,12 +17,7 @@ const FormikFieldArray = ({
 
   return (
     <>
-      <FormikBox
-        formik={formik}
-        field={field}
-        label={label}
-        sx={{ mb: 2 }}
-      >
+      <FormikBox label={label} sx={{ mb: 2 }}>
         <Box sx={sx}>
           {Object.keys(object).map((key) => (
             <FormikField
