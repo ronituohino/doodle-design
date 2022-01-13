@@ -43,7 +43,9 @@ const Admin = () => {
 
             <Divider orientation="vertical" flexItem />
 
-            <Box sx={{ width: "80%" }}>
+            <Box
+              sx={{ width: "80%", backgroundColor: "common.white" }}
+            >
               <Switch>
                 <Route path="/:language/admin/items/statistics">
                   <Typography>Stats</Typography>

@@ -2,6 +2,7 @@
 // https://stackoverflow.com/questions/56826626/create-dynamic-svg-icons-component-in-reactjs
 // Thanks!
 
+import AddIcon from "@mui/icons-material/Add"
 import AppsIcon from "@mui/icons-material/Apps"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import BarChartIcon from "@mui/icons-material/BarChart"
@@ -32,6 +33,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 
 const iconTypes = {
+  AddIcon,
   AppsIcon,
   ArrowDropDownIcon,
   BarChartIcon,

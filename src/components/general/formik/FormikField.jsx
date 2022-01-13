@@ -6,14 +6,11 @@ const FormikField = ({
   label,
   type,
   formik,
-  errorField,
+  multiline,
   sx,
 }) => {
   const value = getInnerFieldFromObject(formik.values, field)
-  const error = getInnerFieldFromObject(
-    formik.errors,
-    errorField ? errorField : field
-  )
+  const error = getInnerFieldFromObject(formik.errors, field)
 
   return (
     <TextField
@@ -27,7 +24,8 @@ const FormikField = ({
       error={Boolean(error)}
       helperText={error}
       InputLabelProps={{ shrink: true }}
-      sx={{ ...sx }}
+      multiline={multiline}
+      sx={sx}
     />
   )
 }
