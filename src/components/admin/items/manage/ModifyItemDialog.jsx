@@ -84,56 +84,37 @@ const ModifyItemDialog = ({ open, handleClose }) => {
         })
       ),
     }),
-    onSubmit: (values) => {
-      submit(values)
+    onSubmit: () => {
+      uploadFileMutation({
+        variables: { files: itemFormik.values.pictures },
+      })
     },
     validateOnChange: false,
     validateOnBlur: false,
     enableReinitialize: true,
   })
 
-  const submit = async (values) => {
-    const res = await handleUpload()
-    console.log(res)
-    const pictureIdList = res.map((r) => console.log(r))
+  const [uploadFileMutation] = useMutation(FILE_UPLOAD, {
+    onCompleted: (data) => {
+      let pictureIdList = []
+      data.fileUpload.forEach((f) => pictureIdList.push(f._id))
 
-    console.log(pictureIdList)
-    const response = await createItemMutation({
-      variables: {
-        name: values.name,
-        price: values.price,
-        description: values.description,
-        customization: values.customization,
-        images: pictureIdList,
-        category: "61debc25cb80730456ee8074",
-      },
-    })
-
-    console.log(response)
-  }
-
-  const [uploadFileMutation] = useMutation(FILE_UPLOAD)
-
-  const handleUpload = async () => {
-    const results = []
-
-    await itemFormik.values.pictures.forEach(async (f) => {
-      const result = await uploadFileMutation({
-        variables: { file: f },
+      createItemMutation({
+        variables: {
+          name: itemFormik.values.name,
+          price: itemFormik.values.price,
+          description: itemFormik.values.description,
+          customization: itemFormik.values.customization,
+          images: pictureIdList,
+          category: "61debc25cb80730456ee8074",
+        },
       })
-      results.push(result)
-    })
-
-    return results
-  }
+    },
+  })
 
   const [createItemMutation] = useMutation(CREATE_ITEM, {
-    onError: (error) => {
-      console.log(error)
-      return undefined
-    },
-    onCompleted: (res) => {
-      return res
+    onCompleted: (data) => {
+      console.log(data)
     },
   })
 

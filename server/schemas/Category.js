@@ -27,6 +27,15 @@ const categoryTypeDefs = gql`
       label: String!
       icon: String!
     ): Category!
+
+    editCategory(
+      _id: ID!
+      name: String
+      label: String
+      icon: String
+    ): Category!
+
+    deleteCategory(_id: ID!): Boolean!
   }
 `
 

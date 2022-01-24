@@ -9,6 +9,10 @@ const cache = new InMemoryCache({
             return cartItemsVar()
           },
         },
+
+        getCategories: {
+          merge: false,
+        },
       },
     },
   },

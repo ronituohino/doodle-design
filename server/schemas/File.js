@@ -26,7 +26,7 @@ const fileTypeDefs = gql`
   }
 
   extend type Mutation {
-    singleUpload(file: Upload!): File!
+    fileUpload(files: [Upload]!): [File]!
   }
 `
 

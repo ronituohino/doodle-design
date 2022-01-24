@@ -86,7 +86,7 @@ const itemTypeDefs = gql`
     ): Item
 
     editItem(
-      id: ID!
+      _id: ID!
       name: LanguageString!
       price: CurrencyString!
       customization: [OptionsInput]!

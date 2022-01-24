@@ -32,7 +32,34 @@ export const CRETE_CATEGORY = gql`
     $label: String!
     $icon: String!
   ) {
-    createCategory(name: $name, label: $label, icon: $icon)
+    createCategory(name: $name, label: $label, icon: $icon) {
+      _id
+      name
+      label
+      icon
+    }
+  }
+`
+
+export const EDIT_CATEGORY = gql`
+  mutation EditCategory(
+    $id: ID!
+    $name: String
+    $label: String
+    $icon: String
+  ) {
+    editCategory(_id: $id, name: $name, label: $label, icon: $icon) {
+      _id
+      label
+      name
+      icon
+    }
+  }
+`
+
+export const DELETE_CATEGORY = gql`
+  mutation DeleteCategory($id: ID!) {
+    deleteCategory(_id: $id)
   }
 `
 
@@ -59,8 +86,8 @@ export const CREATE_ITEM = gql`
 `
 
 export const FILE_UPLOAD = gql`
-  mutation FileUpload($file: Upload!) {
-    singleUpload(file: $file) {
+  mutation FileUpload($files: [Upload]!) {
+    fileUpload(files: $files) {
       _id
       filename
       mimetype

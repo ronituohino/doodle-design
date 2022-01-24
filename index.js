@@ -279,7 +279,7 @@ const resolvers = {
       }
 
       const item = await Item.findByIdAndUpdate(
-        args.id,
+        args._id,
         {
           ...(args.name && { name: args.name }),
           ...(args.price && { price: args.price }),
@@ -321,6 +321,42 @@ const resolvers = {
       return response
     },
 
+    editCategory: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Admin") {
+        throw new UserInputError("Not an administrator account")
+      }
+
+      const category = await Category.findByIdAndUpdate(
+        args._id,
+        {
+          ...(args.name && { name: args.name }),
+          ...(args.label && { label: args.label }),
+          ...(args.icon && { icon: args.icon }),
+        },
+        { new: true }
+      )
+
+      return category
+    },
+
+    deleteCategory: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Not logged in, token invalid")
+      }
+
+      if (context.currentUser.accountType !== "Admin") {
+        throw new UserInputError("Not an administrator account")
+      }
+
+      await Category.findByIdAndDelete(args._id)
+
+      return true
+    },
+
     createOrder: async (root, args, context) => {
       if (!context.currentUser) {
         throw new AuthenticationError("Not logged in, token invalid")
@@ -349,7 +385,7 @@ const resolvers = {
       return result
     },
 
-    singleUpload: async (root, { file }, context) => {
+    fileUpload: async (root, { files }, context) => {
       // Check auth
       if (!context.currentUser) {
         throw new AuthenticationError("Not logged in, token invalid")
@@ -359,45 +395,50 @@ const resolvers = {
         throw new UserInputError("Not an administrator account")
       }
 
-      const { createReadStream, filename, mimetype, encoding } =
-        await file
+      let results = []
+      for (let i = 0; i < files.length; i++) {
+        const { createReadStream, filename, mimetype, encoding } =
+          await files[i]
 
-      // Accept images only
-      if (mimetype.split("/")[0] !== "image") {
-        return false
+        // Accept images only
+        if (mimetype.split("/")[0] !== "image") {
+          return false
+        }
+
+        // Invoking the `createReadStream` will return a Readable Stream.
+        // See https://nodejs.org/api/stream.html#stream_readable_streams
+
+        const stream = createReadStream()
+        const streamData = await streamToBase64(stream)
+
+        const fileId = new mongoose.Types.ObjectId()
+
+        // If location has folders that don't exist, the image is not saved
+        const location = `./public/files/images/${fileId}-${filename}`
+
+        const mongooseFile = new File({
+          _id: fileId,
+          filename,
+          mimetype,
+          encoding,
+          location,
+          // Image backup disabled for now
+          //data: streamData,
+        })
+
+        const response = await mongooseFile.save()
+        results.push(response)
+
+        // Then save image to public/files/... folder
+        // where it can be served from
+        const buffer = Buffer.from(streamData, "base64")
+        fs.writeFile(location, buffer, () => {
+          console.log(`File ${filename} uploaded to server`)
+        })
       }
 
-      // Invoking the `createReadStream` will return a Readable Stream.
-      // See https://nodejs.org/api/stream.html#stream_readable_streams
-
-      const stream = createReadStream()
-      const streamData = await streamToBase64(stream)
-
-      const fileId = new mongoose.Types.ObjectId()
-
-      // If location has folders that don't exist, the image is not saved
-      const location = `./public/files/images/${fileId}-${filename}`
-
-      const mongooseFile = new File({
-        _id: fileId,
-        filename,
-        mimetype,
-        encoding,
-        location,
-        // Image backup disabled for now
-        //data: streamData,
-      })
-
-      const response = await mongooseFile.save()
-
-      // Then save image to public/files/... folder
-      // where it can be served from
-      const buffer = Buffer.from(streamData, "base64")
-      fs.writeFile(location, buffer, () => {
-        console.log(`File ${filename} uploaded to server`)
-      })
-
-      return response
+      console.log(results)
+      return results
     },
   },
 

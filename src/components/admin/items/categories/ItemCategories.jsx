@@ -7,7 +7,6 @@ import EditableCategory from "./EditableCategory"
 const ItemCategories = () => {
   const { data } = useQuery(GET_CATEGORIES)
 
-  console.log(data)
   return (
     <List>
       <ListSubheader>Categories</ListSubheader>
