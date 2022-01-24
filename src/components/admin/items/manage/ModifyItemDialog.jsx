@@ -12,15 +12,15 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 
 import { useMutation } from "@apollo/client"
-import { FILE_UPLOAD } from "../../../graphql/mutations"
-import { CREATE_ITEM } from "../../../graphql/mutations"
+import { FILE_UPLOAD } from "../../../../graphql/mutations"
+import { CREATE_ITEM } from "../../../../graphql/mutations"
 
-import FormikBox from "../../general/formik/FormikBox"
-import FormikField from "../../general/formik/FormikField"
-import FormikFieldArray from "../../general/formik/FormikFieldArray"
+import FormikBox from "../../../general/formik/FormikBox"
+import FormikField from "../../../general/formik/FormikField"
+import FormikFieldArray from "../../../general/formik/FormikFieldArray"
 import FormikCustomization from "./FormikCustomization"
 
-import DropzonePictures from "../../general/DropzonePictures"
+import DropzonePictures from "../../../general/DropzonePictures"
 
 const ModifyItemDialog = ({ open, handleClose }) => {
   const itemFormik = useFormik({

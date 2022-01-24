@@ -7,11 +7,10 @@ import {
   Divider,
   Box,
   Typography,
+  Icon,
 } from "@mui/material"
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
-
-import Icon from "../../general/Icon"
 
 import ShoppingCartItem from "./ShoppingCartItem"
 
@@ -64,11 +63,7 @@ const ShoppingCart = () => {
         aria-label={notificationsLabel(totalAmount)}
       >
         <Badge badgeContent={totalAmount} color="secondary">
-          <Icon name="ShoppingCartIcon" />
-          <Icon
-            name="ArrowDropDownIcon"
-            sx={{ position: "absolute", top: 20 }}
-          />
+          <Icon>shopping_cart</Icon>
         </Badge>
       </IconButton>
 

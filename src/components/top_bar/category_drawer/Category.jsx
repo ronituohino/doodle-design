@@ -3,10 +3,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Icon,
 } from "@mui/material"
 import { useRouting } from "../../../hooks/useRouting"
-
-import Icon from "../../general/Icon"
 
 const Category = ({ closeMenu, category, label, icon }) => {
   const { openLink, categoryLink } = useRouting()
@@ -20,7 +19,7 @@ const Category = ({ closeMenu, category, label, icon }) => {
         }}
       >
         <ListItemIcon>
-          <Icon name={icon} />
+          <Icon>{icon}</Icon>
         </ListItemIcon>
         <ListItemText primary={label} />
       </ListItemButton>

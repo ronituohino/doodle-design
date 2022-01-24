@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import { Container, Button } from "@mui/material"
-import SearchBar from "../../top_bar/SearchBar"
+import SearchBar from "../../../top_bar/SearchBar"
 import ModifyItemDialog from "./ModifyItemDialog"
 
 const ItemManage = () => {

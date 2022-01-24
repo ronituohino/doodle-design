@@ -9,7 +9,8 @@ import { Box, Typography, Divider } from "@mui/material"
 
 import AdminDrawer from "./AdminDrawer"
 
-import ItemManage from "./items/ItemManage"
+import ItemManage from "./items/manage/ItemManage"
+import ItemCategories from "./items/categories/ItemCategories"
 
 const Admin = () => {
   const { data } = useAccount()
@@ -56,7 +57,7 @@ const Admin = () => {
                 </Route>
 
                 <Route path="/:language/admin/items/categories">
-                  <Typography>Categories</Typography>
+                  <ItemCategories />
                 </Route>
 
                 <Route path="/:language/admin/items/campaigns">

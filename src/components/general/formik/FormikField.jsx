@@ -24,7 +24,7 @@ const FormikField = ({
       type={type ? type : "text"}
       value={value}
       onChange={formik.handleChange}
-      error={string && Boolean(error)}
+      error={error !== undefined}
       helperText={string && error}
       InputLabelProps={{ shrink: true }}
       multiline={multiline}

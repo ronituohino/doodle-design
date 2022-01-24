@@ -1,7 +1,10 @@
 import { useState } from "react"
-import { TextField, InputAdornment, IconButton } from "@mui/material"
-
-import Icon from "../general/Icon"
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Icon,
+} from "@mui/material"
 
 // Renders a search icon, which opens a search bar
 // Dialog?
@@ -20,7 +23,7 @@ const SearchBar = ({ placeholder, sx }) => {
           startAdornment: (
             <InputAdornment position="start">
               <IconButton sx={{ padding: 0.3 }}>
-                <Icon name="SearchIcon" />
+                <Icon>search</Icon>
               </IconButton>
             </InputAdornment>
           ),

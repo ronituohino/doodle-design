@@ -4,14 +4,13 @@ import {
   IconButton,
   Box,
   ClickAwayListener,
+  Icon,
 } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_CATEGORIES } from "../../../graphql/queries"
 
 import Category from "./Category"
-
-import Icon from "../../general/Icon"
 
 const CategoryDrawer = () => {
   const { data } = useQuery(GET_CATEGORIES)
@@ -20,7 +19,7 @@ const CategoryDrawer = () => {
   return (
     <>
       <IconButton onClick={() => setDrawerOpen(true)}>
-        <Icon sx={{ color: "white" }} name="MenuIcon" />
+        <Icon sx={{ color: "white" }}>menu</Icon>
       </IconButton>
 
       <Drawer anchor="left" open={drawerOpen}>

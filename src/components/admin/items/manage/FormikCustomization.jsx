@@ -1,9 +1,8 @@
-import FormikBox from "../../general/formik/FormikBox"
-import FormikFieldArray from "../../general/formik/FormikFieldArray"
-import FormikField from "../../general/formik/FormikField"
+import FormikBox from "../../../general/formik/FormikBox"
+import FormikFieldArray from "../../../general/formik/FormikFieldArray"
+import FormikField from "../../../general/formik/FormikField"
 
-import { Button, Box, IconButton } from "@mui/material"
-import Icon from "../../general/Icon"
+import { Button, Box, IconButton, Icon } from "@mui/material"
 
 const FormikCustomization = ({ formik, label, field }) => {
   const customization = formik.values[field]
@@ -73,7 +72,7 @@ const FormikCustomization = ({ formik, label, field }) => {
                     sx={{ alignSelf: "center" }}
                     disableRipple
                   >
-                    <Icon name="ClearIcon" />
+                    <Icon>clear</Icon>
                   </IconButton>
                 </Box>
               )
@@ -102,7 +101,7 @@ const FormikCustomization = ({ formik, label, field }) => {
                 }}
                 disableRipple
               >
-                <Icon name="AddIcon" />
+                <Icon>add</Icon>
               </IconButton>
             </Box>
           </FormikBox>

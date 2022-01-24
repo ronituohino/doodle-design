@@ -4,9 +4,8 @@ import {
   ListItemButton,
   ListItemIcon,
   Divider,
+  Icon,
 } from "@mui/material"
-
-import Icon from "../../general/Icon"
 
 import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
@@ -29,7 +28,7 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
           }}
         >
           <ListItemIcon>
-            <Icon name="LogoutIcon" />
+            <Icon>logout</Icon>
           </ListItemIcon>
           <ListItemText primary="Logout" />
         </ListItemButton>
@@ -47,7 +46,7 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
               }}
             >
               <ListItemIcon>
-                <Icon name="ShieldIcon" />
+                <Icon>admin_panel_settings</Icon>
               </ListItemIcon>
               <ListItemText primary="Admin Panel" />
             </ListItemButton>

@@ -7,9 +7,8 @@ import {
   InputAdornment,
   IconButton,
   Paper,
+  Icon,
 } from "@mui/material"
-
-import Icon from "../general/Icon"
 
 import { useState } from "react"
 import { useRouting } from "../../hooks/useRouting"
@@ -62,9 +61,9 @@ const AccountLogin = () => {
               <InputAdornment position="end">
                 <IconButton onClick={togglePasswordVisibility}>
                   {values.showPassword ? (
-                    <Icon name="visOff" />
+                    <Icon>visibility_off</Icon>
                   ) : (
-                    <Icon name="visOn" />
+                    <Icon>visibility</Icon>
                   )}
                 </IconButton>
               </InputAdornment>

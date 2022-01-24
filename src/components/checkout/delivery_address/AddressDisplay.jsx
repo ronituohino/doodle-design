@@ -1,6 +1,5 @@
-import { Box, IconButton, Typography } from "@mui/material"
+import { Box, IconButton, Typography, Icon } from "@mui/material"
 
-import Icon from "../../general/Icon"
 import LabelPaper from "../../general/LabelPaper"
 
 const AddressDisplay = ({
@@ -73,7 +72,7 @@ const AddressDisplay = ({
                   onClick={enterEdit}
                   sx={{ width: 48, height: 48 }}
                 >
-                  <Icon name="EditIcon" fontSize="large" />
+                  <Icon>edit</Icon>
                 </IconButton>
               </Box>
             )}

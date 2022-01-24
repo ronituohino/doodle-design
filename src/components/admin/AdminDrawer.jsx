@@ -8,12 +8,11 @@ import {
   Collapse,
   List,
   ListSubheader,
+  Icon,
 } from "@mui/material"
 
 import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
-
-import Icon from "../general/Icon"
 
 const AdminDrawer = () => {
   const {
@@ -46,7 +45,7 @@ const AdminDrawer = () => {
             }}
           >
             <ListItemIcon>
-              <Icon name="KeyboardReturnIcon" />
+              <Icon>keyboard_return</Icon>
             </ListItemIcon>
             <ListItemText primary="Return" />
           </ListItemButton>
@@ -60,13 +59,13 @@ const AdminDrawer = () => {
             }}
           >
             <ListItemIcon>
-              <Icon name="AppsIcon" />
+              <Icon>apps</Icon>
             </ListItemIcon>
             <ListItemText primary="Items" />
             {itemTabOpen ? (
-              <Icon name="ExpandLess" />
+              <Icon>expand_less</Icon>
             ) : (
-              <Icon name="ExpandMore" />
+              <Icon>expand_more</Icon>
             )}
           </ListItemButton>
         </ListItem>
@@ -81,7 +80,7 @@ const AdminDrawer = () => {
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>
-                  <Icon name="BarChartIcon" />
+                  <Icon>bar_chart</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Statistics" />
               </ListItemButton>
@@ -95,7 +94,7 @@ const AdminDrawer = () => {
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>
-                  <Icon name="CreateIcon" />
+                  <Icon>edit</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Manage" />
               </ListItemButton>
@@ -109,7 +108,7 @@ const AdminDrawer = () => {
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>
-                  <Icon name="CategoryIcon" />
+                  <Icon>category</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Categories" />
               </ListItemButton>
@@ -123,7 +122,7 @@ const AdminDrawer = () => {
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>
-                  <Icon name="CampaignIcon" />
+                  <Icon>campaign</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Campaigns" />
               </ListItemButton>
@@ -139,13 +138,13 @@ const AdminDrawer = () => {
             }}
           >
             <ListItemIcon>
-              <Icon name="PersonIcon" />
+              <Icon>person</Icon>
             </ListItemIcon>
             <ListItemText primary="Users" />
             {userTabOpen ? (
-              <Icon name="ExpandLess" />
+              <Icon>expand_less</Icon>
             ) : (
-              <Icon name="ExpandMore" />
+              <Icon>expand_more</Icon>
             )}
           </ListItemButton>
         </ListItem>
@@ -155,7 +154,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
                 <ListItemIcon>
-                  <Icon name="BarChartIcon" />
+                  <Icon>bar_chart</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Statistics" />
               </ListItemButton>
@@ -164,7 +163,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
                 <ListItemIcon>
-                  <Icon name="CreateIcon" />
+                  <Icon>edit</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Manage" />
               </ListItemButton>
@@ -184,9 +183,9 @@ const AdminDrawer = () => {
             </ListItemIcon>
             <ListItemText primary="Orders" />
             {orderTabOpen ? (
-              <Icon name="ExpandLess" />
+              <Icon>expand_less</Icon>
             ) : (
-              <Icon name="ExpandMore" />
+              <Icon>expand_more</Icon>
             )}
           </ListItemButton>
         </ListItem>
@@ -196,7 +195,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
                 <ListItemIcon>
-                  <Icon name="BarChartIcon" />
+                  <Icon>bar_chart</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Statistics" />
               </ListItemButton>
@@ -205,7 +204,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
                 <ListItemIcon>
-                  <Icon name="CreateIcon" />
+                  <Icon>edit</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Manage" />
               </ListItemButton>

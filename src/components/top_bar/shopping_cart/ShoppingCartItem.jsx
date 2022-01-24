@@ -7,9 +7,8 @@ import {
   TextField,
   Typography,
   Button,
+  Icon,
 } from "@mui/material"
-
-import Icon from "../../general/Icon"
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import { useLanguage } from "../../../hooks/useLanguage"
@@ -209,7 +208,7 @@ const ShoppingCartItem = forwardRef(
                 increaseAmount(cartObject.item)
               }}
             >
-              <Icon name="KeyboardArrowUpIcon" />
+              <Icon>expand_less</Icon>
             </IconButton>
 
             <TextField
@@ -238,7 +237,7 @@ const ShoppingCartItem = forwardRef(
               }}
               onClick={() => decreaseAmount(cartObject)}
             >
-              <Icon name="KeyboardArrowDownIcon" />
+              <Icon>expand_more</Icon>
             </IconButton>
           </Box>
         )}
@@ -278,7 +277,7 @@ const ShoppingCartItem = forwardRef(
             }}
             onClick={() => setDeleteConfirm(true)}
           >
-            <Icon name="ClearIcon" />
+            <Icon>clear</Icon>
           </IconButton>
         )}
       </MenuItem>
