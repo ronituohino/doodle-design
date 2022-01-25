@@ -96,7 +96,6 @@ const orderTypeDefs = gql`
   extend type Mutation {
     createOrder(
       items: [OrderItemInput!]!
-      datetime: String!
       deliveryAddress: AddressInput!
       billingAddress: AddressInput!
       paymentDetails: PaymentDetailsInput!

@@ -159,9 +159,22 @@ export const useCheckoutForms = (constants) => {
     onSubmit: () => {},
   })
 
+  const confirmationFormik = useFormik({
+    initialValues: {
+      extrainfo: "",
+    },
+
+    validationSchema: yup.object({
+      extrainfo: yup.string(),
+    }),
+
+    onSubmit: () => {},
+  })
+
   return {
     billingFormik,
     deliveryFormik,
     paymentFormik,
+    confirmationFormik,
   }
 }

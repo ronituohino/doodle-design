@@ -71,12 +71,15 @@ export const SHOPPING_CART = gql`
 `
 
 export const USER = gql`
-  query GetUserInfo {
+  query User {
     me {
+      _id
       username
       password
       email
       accountType
+      orders
+      verified
     }
   }
 `

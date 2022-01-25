@@ -362,13 +362,9 @@ const resolvers = {
         throw new AuthenticationError("Not logged in, token invalid")
       }
 
-      if (context.currentUser.accountType !== "Customer") {
-        throw new UserInputError("Not a customer account")
-      }
-
       const order = new Order({
         items: args.items,
-        datetime: args.datetime,
+        datetime: new Date(),
         deliveryAddress: args.deliveryAddress,
         billingAddress: args.billingAddress,
         paymentDetails: args.paymentDetails,

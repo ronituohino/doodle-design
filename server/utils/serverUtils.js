@@ -54,6 +54,7 @@ const formatCustomization = (inputCustomization) => {
   })
 
   console.log(newCustomization)
+  return newCustomization
 }
 
 const getPagination = (page, size) => {

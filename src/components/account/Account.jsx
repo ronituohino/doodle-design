@@ -4,6 +4,7 @@ import { Box, Divider } from "@mui/material"
 
 import AccountDrawer from "./AccountDrawer"
 import AccountSettings from "./AccountSettings"
+import AccountOrders from "./AccountOrders"
 
 const SETTINGS = "settings"
 const ORDERS = "orders"
@@ -25,7 +26,7 @@ const Account = () => {
 
       {viewedSection === SETTINGS && <AccountSettings />}
 
-      {viewedSection === ORDERS && <p>orders</p>}
+      {viewedSection === ORDERS && <AccountOrders />}
     </Box>
   )
 }

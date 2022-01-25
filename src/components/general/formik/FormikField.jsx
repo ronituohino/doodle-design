@@ -8,6 +8,7 @@ const FormikField = ({
   type,
   formik,
   multiline,
+  placeholder,
   sx,
 }) => {
   const value = getInnerFieldFromObject(formik.values, field)
@@ -28,6 +29,7 @@ const FormikField = ({
       helperText={string && error}
       InputLabelProps={{ shrink: true }}
       multiline={multiline}
+      placeholder={placeholder}
       sx={sx}
     />
   )

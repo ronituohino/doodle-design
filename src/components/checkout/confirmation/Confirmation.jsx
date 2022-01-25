@@ -3,8 +3,11 @@ import { Button } from "@mui/material"
 import Cart from "../cart/Cart"
 import AddressDisplay from "../delivery_address/AddressDisplay"
 import PaymentDisplay from "./PaymentDisplay"
+import LabelPaper from "../../general/LabelPaper"
+import FormikField from "../../general/formik/FormikField"
 
 const Confirmation = ({
+  formik,
   allValid,
   constants,
   next,
@@ -66,6 +69,20 @@ const Confirmation = ({
               constants={constants}
             />
           )}
+
+          <LabelPaper
+            label="Extra information"
+            elevation={4}
+            sx={{ width: "100%" }}
+          >
+            <FormikField
+              formik={formik}
+              field="extrainfo"
+              fullWidth
+              multiline
+              placeholder="If you have details you would like to add to your order, write them here"
+            />
+          </LabelPaper>
 
           <Button
             disabled={!allValid}

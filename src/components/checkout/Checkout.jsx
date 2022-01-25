@@ -11,6 +11,10 @@ import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
 import BillingAddress from "./billing_address/BillingAddress"
 import { useCheckoutForms } from "./useCheckoutForms"
+import { useMutation } from "@apollo/client"
+import { CREATE_ORDER } from "../../graphql/mutations"
+import { useRouting } from "../../hooks/useRouting"
+import { useShoppingCart } from "../../hooks/useShoppingCart"
 
 const steps = [
   {
@@ -49,31 +53,39 @@ const Checkout = () => {
   const [completed, setCompleted] = useState({})
   const [failed, setFailed] = useState({})
 
-  const { billingFormik, deliveryFormik, paymentFormik } =
-    useCheckoutForms(constants)
+  const {
+    billingFormik,
+    deliveryFormik,
+    paymentFormik,
+    confirmationFormik,
+  } = useCheckoutForms(constants)
 
   const allValid =
     billingFormik.isValid &&
     deliveryFormik.isValid &&
-    paymentFormik.isValid
+    paymentFormik.isValid &&
+    confirmationFormik.isValid
 
   // Used to set checkout errors
   useEffect(() => {
     handleErrors(
       billingFormik.isValid,
       deliveryFormik.isValid,
-      paymentFormik.isValid
+      paymentFormik.isValid,
+      confirmationFormik.isValid
     )
   }, [
     billingFormik.isValid,
     deliveryFormik.isValid,
     paymentFormik.isValid,
+    confirmationFormik.isValid,
   ])
 
   const checkout = {
     billingDetails: billingFormik.values,
     deliveryDetails: deliveryFormik.values,
     paymentDetails: paymentFormik.values,
+    confirmationDetails: confirmationFormik.values,
   }
 
   const handleComplete = () => {
@@ -111,10 +123,26 @@ const Checkout = () => {
     return completedSteps() === totalSteps()
   }
 
+  const { openLink, homeLink } = useRouting()
+  const { data } = useShoppingCart()
+
+  console.log(data)
+
+  const [createOrderMutation] = useMutation(CREATE_ORDER, {
+    onCompleted: (response) => {
+      console.log(response)
+
+      // Replace with success screen
+      openLink(homeLink())
+    },
+  })
+
   // This is called when all forms are filled,
   // and the purchase button is pressed
   const purchase = () => {
-    console.log("place order!")
+    //createOrderMutation({ variables: {
+    //  items:
+    //}})
   }
 
   const regularLabel = { padding: 1 }
@@ -196,6 +224,7 @@ const Checkout = () => {
         hidden={activeStep !== 3}
       />
       <Confirmation
+        formik={confirmationFormik}
         allValid={allValid}
         constants={constants}
         next={purchase}

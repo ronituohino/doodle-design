@@ -24,6 +24,44 @@ export const LOGIN = gql`
   }
 `
 
+export const EDIT_USER = gql`
+  mutation EditUser(
+    $email: String
+    $password: String
+    $cart: [CartItemInput]
+  ) {
+    editUser(email: $email, password: $password, cart: $cart) {
+      _id
+      orders
+      accountType
+      email
+      password
+      username
+      verified
+    }
+  }
+`
+
+export const CREATE_ORDER = gql`
+  mutation CreateOrder(
+    $items: [OrderItemInput!]!
+    $deliveryAddress: AddressInput!
+    $billingAddress: AddressInput!
+    $paymentDetails: PaymentDetailsInput!
+    $extrainfo: String
+  ) {
+    createOrder(
+      items: $items
+      deliveryAddress: $deliveryAddress
+      billingAddress: $billingAddress
+      paymentDetails: $paymentDetails
+      extrainfo: $extrainfo
+    ) {
+      _id
+    }
+  }
+`
+
 // ADMIN
 
 export const CRETE_CATEGORY = gql`
