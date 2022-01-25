@@ -3,41 +3,40 @@ import {
   ListItemText,
   ListItemButton,
   ListItemIcon,
-  Divider,
   Icon,
+  ListSubheader,
 } from "@mui/material"
 
 import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
 
 const AccountPanelLoggedIn = ({ closeMenu }) => {
-  const { openLink, adminLink } = useRouting()
+  const { openLink, adminLink, accountLink } = useRouting()
   const { logOut, data } = useAccount()
 
   return (
     <>
-      <ListItem>
-        <ListItemText primary={`Logged in: ${data.me.username}`} />
-      </ListItem>
+      <ListSubheader>
+        {`Logged in: ${data.me.username}`}
+      </ListSubheader>
 
       <ListItem disablePadding>
         <ListItemButton
           onClick={() => {
-            logOut()
+            openLink(accountLink())
             closeMenu()
           }}
         >
           <ListItemIcon>
-            <Icon>logout</Icon>
+            <Icon>manage_accounts</Icon>
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText primary="Settings" />
         </ListItemButton>
       </ListItem>
 
       {(data.me.accountType === "Admin" ||
         data.me.accountType === "Support") && (
         <>
-          <Divider />
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
@@ -53,6 +52,20 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
           </ListItem>
         </>
       )}
+
+      <ListItem disablePadding>
+        <ListItemButton
+          onClick={() => {
+            logOut()
+            closeMenu()
+          }}
+        >
+          <ListItemIcon>
+            <Icon>logout</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItemButton>
+      </ListItem>
     </>
   )
 }

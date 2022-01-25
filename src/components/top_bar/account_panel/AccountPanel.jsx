@@ -39,7 +39,7 @@ const AccountPanel = () => {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        <List>
+        <List disablePadding>
           {data && data.me && (
             <AccountPanelLoggedIn closeMenu={closeMenu} />
           )}

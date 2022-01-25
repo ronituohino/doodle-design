@@ -74,6 +74,8 @@ export const USER = gql`
   query GetUserInfo {
     me {
       username
+      password
+      email
       accountType
     }
   }

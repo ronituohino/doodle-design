@@ -1,0 +1,100 @@
+import { Box, Typography, Button } from "@mui/material"
+
+import { useFormik } from "formik"
+import { useEffect } from "react"
+import * as yup from "yup"
+import { useAccount } from "../../hooks/useAccount"
+
+import FormikField from "../general/formik/FormikField"
+
+const AccountSettings = () => {
+  const { data } = useAccount()
+
+  const emailFormik = useFormik({
+    initialValues: {
+      email: "",
+    },
+
+    validationSchema: yup.object({
+      email: yup.string().email("Not a valid email"),
+    }),
+  })
+
+  const passwordFormik = useFormik({
+    initialValues: {
+      password: "",
+      passwordConfirm: "",
+    },
+
+    validationSchema: yup.object({
+      password: yup
+        .string()
+        .min(6, "Password must be atleast 6 characters long"),
+      passwordConfirm: yup
+        .string()
+        .oneOf([yup.ref("password")], "Passwords do not match"),
+    }),
+  })
+
+  useEffect(() => {
+    emailFormik.setFieldValue("email", data.me.email)
+  }, [data])
+
+  return (
+    <>
+      <Box sx={{ padding: 2, width: "60%" }}>
+        <Typography color="primary">Account Settings</Typography>
+
+        <Box sx={{ mt: 2 }}>
+          <Box sx={{ display: "flex", gap: "10px" }}>
+            <FormikField
+              formik={emailFormik}
+              field="email"
+              label="Email"
+            />
+            <Button
+              disabled={
+                !emailFormik.isValid ||
+                data.me.email === emailFormik.values.email ||
+                emailFormik.values.email.length === 0
+              }
+              variant="contained"
+              sx={{ maxWidth: "50px", maxHeight: "56px" }}
+            >
+              Update
+            </Button>
+          </Box>
+
+          <Box sx={{ display: "flex", gap: "10px", mt: 2 }}>
+            <FormikField
+              formik={passwordFormik}
+              field="password"
+              label="Password"
+              type="password"
+            />
+
+            <FormikField
+              formik={passwordFormik}
+              field="passwordConfirm"
+              label="Password Again"
+              type="password"
+            />
+
+            <Button
+              disabled={
+                !passwordFormik.isValid ||
+                passwordFormik.values.password.length === 0
+              }
+              variant="contained"
+              sx={{ maxWidth: "50px", maxHeight: "56px" }}
+            >
+              Update
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  )
+}
+
+export default AccountSettings
