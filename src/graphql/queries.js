@@ -11,19 +11,18 @@ export const GET_CATEGORIES = gql`
   }
 `
 
-export const GET_ALL_ITEMS = gql`
-  query GetItems(
-    $page: Int!
-    $size: Int!
-    $category: ID
-    $language: Language!
-    $currency: Currency!
-  ) {
-    getItems(page: $page, size: $size, category: $category) {
+export const GET_PRODUCTS = gql`
+  query GetProducts($page: Int!, $size: Int!, $category: ID) {
+    getProducts(page: $page, size: $size, category: $category) {
       docs {
         _id
-        name(language: $language)
-        price(currency: $currency)
+        name {
+          en
+          fi
+        }
+        price {
+          EUR
+        }
         category
       }
       totalPages
@@ -31,28 +30,41 @@ export const GET_ALL_ITEMS = gql`
   }
 `
 
-export const GET_ITEM = gql`
-  query GetItemById(
-    $id: ID!
-    $language: Language!
-    $currency: Currency!
-  ) {
-    getItemById(id: $id) {
+export const GET_PRODUCT = gql`
+  query GetProductById($id: ID!) {
+    getProductById(id: $id) {
       _id
-      name(language: $language)
-      price(currency: $currency)
-      customization(language: $language) {
-        label
-        options
+      name {
+        en
+        fi
       }
-      description(language: $language)
+      price {
+        EUR
+      }
+      images
+      customization {
+        label {
+          fi
+          en
+        }
+        options {
+          en
+          fi
+        }
+      }
+      description {
+        en
+        fi
+      }
       availability {
         available
       }
       category
       visible
       sale {
-        salePrice(currency: $currency)
+        salePrice {
+          EUR
+        }
         saleActive
       }
       ratings {

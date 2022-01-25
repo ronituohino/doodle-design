@@ -9,9 +9,9 @@ const userSchema = new mongoose.Schema({
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   cart: [
     {
-      referenceToItemId: {
+      referenceToProductId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Item",
+        ref: "Product",
         required: true,
       },
       customization: [
@@ -36,13 +36,13 @@ const userTypeDefs = gql`
     email: String!
     accountType: AccountType!
     orders: [ID]!
-    cart: [CartItem]!
+    cart: [CartProduct]!
     verified: Boolean!
   }
 
-  type CartItem {
-    referenceToItemId: ID!
-    customization(language: Language!): [Options]!
+  type CartProduct {
+    referenceToProductId: ID!
+    customization: [Options]!
     amount: Int!
   }
 
@@ -61,14 +61,14 @@ const userTypeDefs = gql`
     editUser(
       email: String
       password: String
-      cart: [CartItemInput]
+      cart: [CartProductInput]
     ): User
   }
 `
 
 const userInputDefs = gql`
-  input CartItemInput {
-    referenceToItemId: ID!
+  input CartProductInput {
+    referenceToProductId: ID!
     customization: [OptionInput]
     amount: Int!
   }

@@ -1,4 +1,8 @@
 const mongoose = require("mongoose")
+
+const LanguageString = require("../types/LanguageString.js")
+const CurrencyFloat = require("../types/CurrencyFloat.js")
+
 const { gql } = require("apollo-server-express")
 
 const addressDetails = {
@@ -12,18 +16,18 @@ const addressDetails = {
 }
 
 const orderSchema = new mongoose.Schema({
-  items: [
+  products: [
     {
-      referenceToItemId: {
+      referenceToProductId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Item",
+        ref: "Product",
         required: true,
       },
-      price: [{ type: Number, required: true }],
+      price: { type: CurrencyFloat, required: true },
       customization: [
         {
-          label: { type: String, required: true },
-          option: { type: String, required: true },
+          label: { type: LanguageString, required: true },
+          option: { type: LanguageString, required: true },
         },
       ],
       amount: { type: Number, required: true },
@@ -50,7 +54,7 @@ const Order = mongoose.model("Order", orderSchema)
 const orderTypeDefs = gql`
   type Order {
     _id: ID!
-    items: [OrderItem!]!
+    products: [OrderProduct!]!
     datetime: String!
     deliveryAddress: Address!
     billingAddress: Address!
@@ -59,10 +63,10 @@ const orderTypeDefs = gql`
     extrainfo: String
   }
 
-  type OrderItem {
-    referenceToItemId: ID!
-    price(currency: Currency!): Float!
-    customization(language: Language!): [Option]!
+  type OrderProduct {
+    referenceToProductId: ID!
+    price: CurrencyFloat!
+    customization: [Option]!
     amount: Int!
   }
 
@@ -82,8 +86,13 @@ const orderTypeDefs = gql`
   }
 
   type PaymentDetails {
-    giftCard: String
-    details: String!
+    coupon: String
+    method: PaymentMethod!
+  }
+
+  type PaymentMethod {
+    method: String!
+    provider: String
   }
 
   enum OrderStatus {
@@ -95,7 +104,7 @@ const orderTypeDefs = gql`
 
   extend type Mutation {
     createOrder(
-      items: [OrderItemInput!]!
+      products: [OrderProductInput!]!
       deliveryAddress: AddressInput!
       billingAddress: AddressInput!
       paymentDetails: PaymentDetailsInput!
@@ -105,9 +114,9 @@ const orderTypeDefs = gql`
 `
 
 const orderInputDefs = gql`
-  input OrderItemInput {
-    referenceToItemId: ID!
-    price: Float!
+  input OrderProductInput {
+    referenceToProductId: ID!
+    price: CurrencyFloatInput!
     customization: [OptionInput!]
     amount: Int!
   }
@@ -128,8 +137,13 @@ const orderInputDefs = gql`
   }
 
   input PaymentDetailsInput {
-    giftCard: String
-    details: String!
+    coupon: String
+    method: PaymentMethodInput!
+  }
+
+  input PaymentMethodInput {
+    method: String!
+    provider: String
   }
 `
 module.exports = { Order, orderTypeDefs, orderInputDefs }

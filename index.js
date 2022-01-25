@@ -1,7 +1,6 @@
 const {
   ApolloServer,
   gql,
-  UserInputError,
   AuthenticationError,
 } = require("apollo-server-express")
 const {
@@ -10,7 +9,7 @@ const {
 
 const {
   GraphQLUpload,
-  graphqlUploadExpress, // A Koa implementation is also exported.
+  graphqlUploadExpress,
 } = require("graphql-upload")
 
 const fs = require("fs")
@@ -46,7 +45,7 @@ const commonTypeDefs = gql`
   }
 
   type Paginated {
-    docs: [Item]!
+    docs: [Product]!
     totalDocs: Int!
     offset: Int!
     limit: Int!
@@ -73,34 +72,43 @@ const commonTypeDefs = gql`
   }
 
   type Options {
-    label: String!
-    options: [String!]!
+    label: LanguageString!
+    options: [LanguageString!]!
   }
 
   type Option {
-    label: String!
-    option: String!
+    label: LanguageString!
+    option: LanguageString!
+  }
+
+  type LanguageString {
+    en: String!
+    fi: String!
+  }
+
+  type CurrencyFloat {
+    EUR: Float!
   }
 `
 
 const commonInputDefs = gql`
   input OptionsInput {
-    label: LanguageString!
-    options: [LanguageString!]!
+    label: LanguageStringInput!
+    options: [LanguageStringInput!]!
   }
 
   input OptionInput {
-    label: LanguageString!
-    option: LanguageString!
+    label: LanguageStringInput!
+    option: LanguageStringInput!
   }
 
-  input LanguageString {
-    EN: String!
-    FI: String!
+  input LanguageStringInput {
+    en: String!
+    fi: String!
   }
 
-  input CurrencyString {
-    EUR: String!
+  input CurrencyFloatInput {
+    EUR: Float!
   }
 `
 
@@ -110,10 +118,10 @@ const {
 } = require("./server/schemas/Category.js")
 const { File, fileTypeDefs } = require("./server/schemas/File.js")
 const {
-  Item,
-  itemTypeDefs,
-  itemInputDefs,
-} = require("./server/schemas/Item.js")
+  productResolvers,
+  productTypeDefs,
+  productInputDefs,
+} = require("./server/schemas/Product.js")
 const {
   Order,
   orderTypeDefs,
@@ -127,48 +135,19 @@ const {
 } = require("./server/schemas/User.js")
 
 const {
-  languageToIndex,
-  currencyToIndex,
-  getPagination,
   hashPassword,
   createToken,
   streamToBase64,
-  createLanguageList,
-  formatCustomization,
-  createCurrencyList,
 } = require("./server/utils/serverUtils.js")
+
+const {
+  requireLogin,
+  requireAdmin,
+} = require("./server/utils/authentication.js")
 
 const resolvers = {
   Query: {
-    itemCount: async () => {
-      const items = await Item.find({})
-      return items.length
-    },
-    getItems: async (root, args, context) => {
-      const hideInvisible = context.currentUser === "Customer"
-      const items = await Item.paginate(
-        {
-          ...(args.category && { category: args.category }),
-          ...(hideInvisible && { visible: true }),
-        },
-        getPagination(args.page, args.size)
-      )
-
-      return items
-    },
-
-    getItemById: async (root, args) => {
-      const item = await Item.findById(args.id)
-      return item
-    },
-
-    searchItems: async (root, args) => {
-      const results = await Item.find({
-        name: `/${args.searchWord}/i`,
-      })
-
-      return results
-    },
+    ...productResolvers.Query,
 
     getCategories: async () => {
       const categories = await Category.find({})
@@ -219,9 +198,7 @@ const resolvers = {
     },
 
     editUser: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
+      requireLogin(context)
 
       const user = await User.findByIdAndUpdate(
         context.currentUser._id,
@@ -240,75 +217,10 @@ const resolvers = {
       return user
     },
 
-    createItem: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
-
-      if (context.currentUser.accountType !== "Admin") {
-        throw new UserInputError("Not an administrator account")
-      }
-
-      const item = new Item({
-        name: createLanguageList(args.name),
-        price: createCurrencyList(args.price),
-        customization: formatCustomization(args.customization),
-        description: createLanguageList(args.description),
-        availability: { available: false },
-        images: args.images,
-        category: args.category,
-        visible: false,
-        sale: { salePrice: [], saleActive: false },
-        ratings: [],
-      })
-
-      console.log(item.price)
-      console.log(item.customization)
-
-      const result = await item.save()
-      return result
-    },
-
-    editItem: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
-
-      if (context.currentUser.accountType !== "Admin") {
-        throw new UserInputError("Not an administrator account")
-      }
-
-      const item = await Item.findByIdAndUpdate(
-        args._id,
-        {
-          ...(args.name && { name: args.name }),
-          ...(args.price && { price: args.price }),
-          ...(args.customization && {
-            cateogory: args.customization,
-          }),
-          ...(args.description && { description: args.description }),
-          ...(args.availability && {
-            availability: args.availability,
-          }),
-          ...(args.category && { cateogory: args.category }),
-          ...(args.visible && { visible: args.visible }),
-          ...(args.sale && { sale: args.sale }),
-          ...(args.ratings && { ratings: args.ratings }),
-        },
-        { new: true }
-      )
-
-      return item
-    },
+    ...productResolvers.Mutation,
 
     createCategory: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
-
-      if (context.currentUser.accountType !== "Admin") {
-        throw new UserInputError("Not an administrator account")
-      }
+      requireAdmin(context)
 
       const category = new Category({
         name: args.name,
@@ -322,13 +234,7 @@ const resolvers = {
     },
 
     editCategory: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
-
-      if (context.currentUser.accountType !== "Admin") {
-        throw new UserInputError("Not an administrator account")
-      }
+      requireAdmin(context)
 
       const category = await Category.findByIdAndUpdate(
         args._id,
@@ -344,13 +250,7 @@ const resolvers = {
     },
 
     deleteCategory: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
-
-      if (context.currentUser.accountType !== "Admin") {
-        throw new UserInputError("Not an administrator account")
-      }
+      requireAdmin(context)
 
       await Category.findByIdAndDelete(args._id)
 
@@ -358,9 +258,7 @@ const resolvers = {
     },
 
     createOrder: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
+      requireLogin(context)
 
       const order = new Order({
         items: args.items,
@@ -382,14 +280,7 @@ const resolvers = {
     },
 
     fileUpload: async (root, { files }, context) => {
-      // Check auth
-      if (!context.currentUser) {
-        throw new AuthenticationError("Not logged in, token invalid")
-      }
-
-      if (context.currentUser.accountType !== "Admin") {
-        throw new UserInputError("Not an administrator account")
-      }
+      requireAdmin(context)
 
       let results = []
       for (let i = 0; i < files.length; i++) {
@@ -438,38 +329,6 @@ const resolvers = {
     },
   },
 
-  Item: {
-    name: (root, args) => {
-      return root.name[languageToIndex(args.language)]
-    },
-    price: (root, args) => {
-      return root.price[currencyToIndex(args.currency)]
-    },
-    customization: (root, args) => {
-      if (root.customization) {
-        let arr = []
-        root.customization.forEach((c) => {
-          arr.push({
-            label: c.label[languageToIndex(args.language)],
-            options: c.options[languageToIndex(args.language)],
-          })
-        })
-        return arr
-      } else {
-        return []
-      }
-    },
-    description: (root, args) => {
-      return root.description[languageToIndex(args.language)]
-    },
-  },
-
-  Sale: {
-    salePrice: (root, args) => {
-      return root.salePrice[currencyToIndex(args.currency)]
-    },
-  },
-
   Upload: GraphQLUpload,
 }
 
@@ -478,7 +337,7 @@ const startApolloServer = async () => {
   app.use(express.static("build"))
   app.use(cors())
   app.use(
-    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 })
+    graphqlUploadExpress({ maxFileSize: 16000000, maxFiles: 10 })
   )
 
   const httpServer = http.createServer(app)
@@ -488,8 +347,8 @@ const startApolloServer = async () => {
       commonInputDefs,
       categoryTypeDefs,
       fileTypeDefs,
-      itemTypeDefs,
-      itemInputDefs,
+      productTypeDefs,
+      productInputDefs,
       orderTypeDefs,
       orderInputDefs,
       userTypeDefs,

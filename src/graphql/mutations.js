@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client"
 
-export const REGISTER = gql`
-  mutation Register(
+export const CREATE_USER = gql`
+  mutation CreateUser(
     $username: String!
     $email: String!
     $password: String!
@@ -44,14 +44,14 @@ export const EDIT_USER = gql`
 
 export const CREATE_ORDER = gql`
   mutation CreateOrder(
-    $items: [OrderItemInput!]!
+    $products: [OrderProductInput!]!
     $deliveryAddress: AddressInput!
     $billingAddress: AddressInput!
     $paymentDetails: PaymentDetailsInput!
     $extrainfo: String
   ) {
     createOrder(
-      items: $items
+      products: $products
       deliveryAddress: $deliveryAddress
       billingAddress: $billingAddress
       paymentDetails: $paymentDetails
@@ -101,16 +101,16 @@ export const DELETE_CATEGORY = gql`
   }
 `
 
-export const CREATE_ITEM = gql`
-  mutation CreateItem(
-    $name: LanguageString!
-    $price: CurrencyString!
+export const CREATE_PRODUCT = gql`
+  mutation CreateProduct(
+    $name: LanguageStringInput!
+    $price: CurrencyFloatInput!
     $images: [ID!]!
-    $description: LanguageString!
+    $description: LanguageStringInput!
     $customization: [OptionsInput]!
     $category: ID!
   ) {
-    createItem(
+    createProduct(
       name: $name
       price: $price
       images: $images
