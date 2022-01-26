@@ -12,7 +12,6 @@ export const useCheckoutForms = (constants) => {
       zipCode: "05001",
       country: "FI",
       company: "",
-      phone: "0504802233",
     },
     validationSchema: yup.object({
       firstName: yup.string().required("First name is required"),
@@ -27,11 +26,6 @@ export const useCheckoutForms = (constants) => {
         .required("Postal code is required"),
       country: yup.string().required("Country is required"),
       company: yup.string(),
-      phone: yup
-        .string()
-        .matches(/^[0-9]+$/, "Must be digits only")
-        .min(10, "Must be 10 digits")
-        .max(10, "Must be 10 digits"),
     }),
     onSubmit: () => {},
     validateOnChange: false,
@@ -41,6 +35,7 @@ export const useCheckoutForms = (constants) => {
   const deliveryFormik = useFormik({
     initialValues: {
       deliveryMethod: "",
+      phone: "",
 
       // HOME_DELIVERY
       useExplicitDeliveryAddress: false,
@@ -51,7 +46,6 @@ export const useCheckoutForms = (constants) => {
         city: "",
         zipCode: "",
         country: "FI",
-        phone: "",
       },
 
       // POSTI_PARCEL
@@ -71,6 +65,12 @@ export const useCheckoutForms = (constants) => {
       deliveryMethod: yup
         .string()
         .required("Delivery method is required"),
+
+      phone: yup
+        .string()
+        .matches(/^[0-9]+$/, "Must be digits only")
+        .min(10, "Must be 10 digits")
+        .max(10, "Must be 10 digits"),
 
       // HOME_DELIVERY
       useExplicitDeliveryAddress: yup.boolean(),

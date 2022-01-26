@@ -272,7 +272,7 @@ const resolvers = {
       requireLogin(context)
 
       const order = new Order({
-        items: args.items,
+        products: args.products,
         datetime: new Date(),
         deliveryAddress: args.deliveryAddress,
         billingAddress: args.billingAddress,

@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material"
+import { Button, Container, Box } from "@mui/material"
 import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
@@ -6,6 +6,7 @@ import ParcelAddressSelection from "./ParcelAddressSelection"
 import HomeDeliveryAddress from "./HomeDeliveryAddress"
 import AddressDisplay from "./AddressDisplay"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
+import FormikField from "../../general/formik/FormikField"
 
 const Delivery = ({ formik, next, checkout, constants, hidden }) => {
   const nextButtonDisabled =
@@ -78,17 +79,32 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
             </FormikRadioField>
           </FormikRadioGroup>
 
-          <FormikAutoSave formik={formik} />
+          <Box sx={{ display: "flex" }}>
+            <FormikField
+              formik={formik}
+              field="phone"
+              label="Phone number (package tracking)"
+              sx={{ maxWidth: "50%", mt: 1, mb: 2 }}
+            />
 
-          <Button
-            color="primary"
-            variant="contained"
-            disabled={nextButtonDisabled}
-            fullWidth
-            onClick={next}
-          >
-            Next
-          </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              disabled={nextButtonDisabled}
+              fullWidth
+              onClick={next}
+              sx={{
+                ml: 2,
+                alignSelf: "center",
+                height: "56px",
+                mb: 1,
+              }}
+            >
+              Next
+            </Button>
+          </Box>
+
+          <FormikAutoSave formik={formik} />
         </Container>
       )}
     </>

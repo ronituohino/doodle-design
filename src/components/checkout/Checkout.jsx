@@ -124,11 +124,11 @@ const Checkout = () => {
   }
 
   const { openLink, homeLink } = useRouting()
-  const { data } = useShoppingCart()
+  const { data, emptyCart } = useShoppingCart()
 
   const [createOrderMutation] = useMutation(CREATE_ORDER, {
     onCompleted: (response) => {
-      console.log(response)
+      emptyCart()
 
       // Replace with success screen
       openLink(homeLink())
@@ -151,7 +151,7 @@ const Checkout = () => {
       products.push(product)
     })
 
-    const { phone, ...billingAddress } = checkout.billingDetails
+    const billingAddress = checkout.billingDetails
     let deliveryAddress = {}
 
     switch (checkout.deliveryDetails.deliveryMethod) {
@@ -184,7 +184,7 @@ const Checkout = () => {
           ...checkout.deliveryDetails.storePickupAddress,
         }
     }
-    deliveryAddress.phone = phone
+    deliveryAddress.phone = checkout.deliveryDetails.phone
 
     const paymentDetails = { coupons: [] }
 

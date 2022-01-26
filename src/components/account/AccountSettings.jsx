@@ -100,7 +100,7 @@ const AccountSettings = () => {
               <FormikField
                 formik={passwordFormik}
                 field="passwordConfirm"
-                label="Password Again"
+                label="Password again"
                 type="password"
               />
 

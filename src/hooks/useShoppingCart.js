@@ -113,6 +113,10 @@ export const useShoppingCart = () => {
     cartProductsVar([...newArr])
   }
 
+  const emptyCart = () => {
+    cartProductsVar([])
+  }
+
   const totalAmountOfProducts = () => {
     const products = cartProductsVar()
     if (products) {
@@ -139,6 +143,7 @@ export const useShoppingCart = () => {
     setAmount,
     increaseAmount,
     decreaseAmount,
+    emptyCart,
     totalAmountOfProducts,
     totalPriceOfProducts,
   }

@@ -48,7 +48,7 @@ const HomeDeliveryAddress = ({ formik }) => {
             sx={{ marginBottom: 2 }}
           />
 
-          <Box sx={{ display: "flex", gap: "15px", marginBottom: 2 }}>
+          <Box sx={{ display: "flex", gap: "15px" }}>
             <FormikField
               formik={formik}
               field="homeDeliveryAddress.zipCode"
@@ -62,12 +62,6 @@ const HomeDeliveryAddress = ({ formik }) => {
               sx={{ width: "60%" }}
             />
           </Box>
-
-          <FormikField
-            formik={formik}
-            field="homeDeliveryAddress.phone"
-            label="Phone Number (for package tracking)"
-          />
         </>
       )}
     </Paper>

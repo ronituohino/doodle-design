@@ -70,13 +70,6 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
               formik={formik}
               field="company"
               label="Company"
-              sx={{ marginBottom: 2 }}
-            />
-
-            <FormikField
-              formik={formik}
-              field="phone"
-              label="Phone Number (for package tracking)"
             />
 
             <FormikAutoSave formik={formik} />
