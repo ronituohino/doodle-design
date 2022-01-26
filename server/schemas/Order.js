@@ -3,14 +3,12 @@ const mongoose = require("mongoose")
 const LanguageString = require("../types/LanguageString.js")
 const CurrencyFloat = require("../types/CurrencyFloat.js")
 
-const { gql } = require("apollo-server-express")
-
 const addressDetails = {
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   address: { type: String, required: true },
   city: { type: String, required: true },
-  postalcode: { type: String, required: true },
+  zipCode: { type: String, required: true },
   country: { type: String, required: true },
   company: String,
 }
@@ -35,15 +33,20 @@ const orderSchema = new mongoose.Schema({
   ],
   datetime: { type: Date, required: true },
   deliveryAddress: {
-    addressDetails,
+    method: { type: String, required: true },
+    ...addressDetails,
     phone: String,
+    extra: String,
   },
   billingAddress: {
-    addressDetails,
+    ...addressDetails,
   },
   paymentDetails: {
-    giftCard: String,
-    details: { type: String, required: true },
+    coupons: { type: [String], required: true },
+    details: {
+      method: { type: String, required: true },
+      provider: String,
+    },
   },
   status: { type: String, required: true },
   extrainfo: String,
@@ -51,13 +54,23 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema)
 
-const orderTypeDefs = gql`
+const orderAddressFields = `
+  firstName: String!
+  lastName: String!
+  address: String!
+  city: String!
+  zipCode: String!
+  country: String!
+  company: String
+`
+
+const orderTypeDefs = `
   type Order {
     _id: ID!
     products: [OrderProduct!]!
     datetime: String!
-    deliveryAddress: Address!
-    billingAddress: Address!
+    billingAddress: BillingAddress!
+    deliveryAddress: DeliveryAddress!
     paymentDetails: PaymentDetails!
     status: OrderStatus!
     extrainfo: String
@@ -70,24 +83,20 @@ const orderTypeDefs = gql`
     amount: Int!
   }
 
-  type Address {
-    addressDetails: AddressDetails!
+  type BillingAddress {
+    ${orderAddressFields}
+  }
+
+  type DeliveryAddress {
+    method: String!
+    ${orderAddressFields}
+    extra: String
     phone: String
   }
 
-  type AddressDetails {
-    firstName: String!
-    lastName: String!
-    address: String!
-    city: String!
-    postalcode: String!
-    country: String!
-    company: String
-  }
-
   type PaymentDetails {
-    coupon: String
-    method: PaymentMethod!
+    coupons: [String]!
+    details: PaymentMethod!
   }
 
   type PaymentMethod {
@@ -105,15 +114,15 @@ const orderTypeDefs = gql`
   extend type Mutation {
     createOrder(
       products: [OrderProductInput!]!
-      deliveryAddress: AddressInput!
-      billingAddress: AddressInput!
+      deliveryAddress: DeliveryAddressInput!
+      billingAddress: BillingAddressInput!
       paymentDetails: PaymentDetailsInput!
       extrainfo: String
     ): Order
   }
 `
 
-const orderInputDefs = gql`
+const orderInputDefs = `
   input OrderProductInput {
     referenceToProductId: ID!
     price: CurrencyFloatInput!
@@ -121,24 +130,20 @@ const orderInputDefs = gql`
     amount: Int!
   }
 
-  input AddressInput {
-    addressDetails: AddressDetailsInput!
+  input BillingAddressInput {
+    ${orderAddressFields}
+  }
+
+  input DeliveryAddressInput {
+    method: String!
+    ${orderAddressFields}
+    extra: String
     phone: String
   }
 
-  input AddressDetailsInput {
-    firstName: String!
-    lastName: String!
-    address: String!
-    city: String!
-    postalcode: String!
-    country: String!
-    company: String
-  }
-
   input PaymentDetailsInput {
-    coupon: String
-    method: PaymentMethodInput!
+    coupons: [String]!
+    details: PaymentMethodInput!
   }
 
   input PaymentMethodInput {

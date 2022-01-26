@@ -4,7 +4,6 @@ const LanguageString = require("../types/LanguageString.js")
 const CurrencyFloat = require("../types/CurrencyFloat.js")
 
 const mongoosePaginate = require("mongoose-paginate-v2")
-const { gql } = require("apollo-server-express")
 
 const productSchema = new mongoose.Schema({
   name: { type: LanguageString, required: true },
@@ -63,7 +62,6 @@ const productResolvers = {
         getPagination(args.page, args.size)
       )
 
-      console.log(items)
       return items
     },
 
@@ -130,7 +128,7 @@ const productResolvers = {
   },
 }
 
-const productTypeDefs = gql`
+const productTypeDefs = `
   type Product {
     _id: ID!
     name: LanguageString!
@@ -192,7 +190,7 @@ const productTypeDefs = gql`
   }
 `
 
-const productInputDefs = gql`
+const productInputDefs = `
   input AvailabilityInput {
     available: Boolean!
   }

@@ -12,10 +12,11 @@ const FormikProductCustomization = ({
 }) => {
   return (
     <>
-      {product.customization.map((c) => {
+      {[...Array(product.customization.length)].map((x, i) => {
+        const c = product.customization[i]
         const labelText = c.label[language]
 
-        const value = formik.values[0]
+        const value = formik.values[i]
         const valueText = value.option ? value.option[language] : ""
 
         return (

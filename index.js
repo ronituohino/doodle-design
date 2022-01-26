@@ -5,6 +5,7 @@ const {
 } = require("apollo-server-express")
 const {
   ApolloServerPluginDrainHttpServer,
+  UserInputError,
 } = require("apollo-server-core")
 
 const {
@@ -167,13 +168,18 @@ const resolvers = {
   Mutation: {
     login: async (root, args) => {
       const user = await Account.findOne({ email: args.email })
+
+      if (!user) {
+        throw new UserInputError("Invalid credentials")
+      }
+
       const validPassword = await bcrypt.compare(
         args.password,
         user.password
       )
 
       if (!validPassword) {
-        throw new AuthenticationError("Invalid credentials")
+        throw new UserInputError("Invalid credentials")
       }
 
       return createToken(user._id)
@@ -192,9 +198,14 @@ const resolvers = {
         verified: false,
       })
 
-      const result = await user.save()
-
-      return createToken(result._id)
+      try {
+        const result = await user.save()
+        return createToken(result._id)
+      } catch (e) {
+        throw new UserInputError(
+          "Account with given email already exists"
+        )
+      }
     },
 
     editAccount: async (root, args, context) => {

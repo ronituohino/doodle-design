@@ -3,7 +3,7 @@ import { useAccount } from "../../hooks/useAccount"
 
 const AccountOrders = () => {
   const { data } = useAccount()
-  console.log(data)
+
   return (
     <>
       {data && data.me && (

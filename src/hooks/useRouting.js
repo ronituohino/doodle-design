@@ -30,8 +30,8 @@ export const useRouting = () => {
     return `/${language}/product/${category}`
   }
 
-  const itemLink = (category, itemId) => {
-    return `/${language}/product/${category.toLowerCase()}/${itemId}`
+  const productLink = (category, productId) => {
+    return `/${language}/product/${category.toLowerCase()}/${productId}`
   }
 
   const checkoutLink = () => {
@@ -51,20 +51,20 @@ export const useRouting = () => {
     return `/${language}/admin`
   }
 
-  const itemStatisticsLink = () => {
-    return `/${language}/admin/items/statistics`
+  const productStatisticsLink = () => {
+    return `/${language}/admin/products/statistics`
   }
 
-  const itemManageLink = () => {
-    return `/${language}/admin/items/manage`
+  const productManageLink = () => {
+    return `/${language}/admin/products/manage`
   }
 
-  const itemCategoriesLink = () => {
-    return `/${language}/admin/items/categories`
+  const productCategoriesLink = () => {
+    return `/${language}/admin/products/categories`
   }
 
-  const itemCampaignsLink = () => {
-    return `/${language}/admin/items/campaigns`
+  const productCampaignsLink = () => {
+    return `/${language}/admin/products/campaigns`
   }
 
   return {
@@ -75,15 +75,15 @@ export const useRouting = () => {
     homeLink,
     accountLink,
     categoryLink,
-    itemLink,
+    productLink,
     checkoutLink,
     loginLink,
     registerLink,
 
     adminLink,
-    itemStatisticsLink,
-    itemManageLink,
-    itemCategoriesLink,
-    itemCampaignsLink,
+    productStatisticsLink,
+    productManageLink,
+    productCategoriesLink,
+    productCampaignsLink,
   }
 }

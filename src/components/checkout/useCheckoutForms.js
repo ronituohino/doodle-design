@@ -45,7 +45,7 @@ export const useCheckoutForms = (constants) => {
       // HOME_DELIVERY
       useExplicitDeliveryAddress: false,
       homeDeliveryAddress: {
-        firstName: "lol",
+        firstName: "",
         lastName: "",
         address: "",
         city: "",
@@ -60,7 +60,7 @@ export const useCheckoutForms = (constants) => {
 
       // STORE_PICKUP
       storePickupAddress: {
-        extra: "Fred's Computers!",
+        company: "Fred's Computers!",
         address: "Joukolankatu 12",
         city: "HELSINKI",
         zipCode: "00510",

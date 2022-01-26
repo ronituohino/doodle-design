@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { gql } = require("apollo-server-express")
 
 const fileSchema = new mongoose.Schema({
   filename: { type: String, required: true },
@@ -10,7 +9,7 @@ const fileSchema = new mongoose.Schema({
 
 const File = mongoose.model("File", fileSchema)
 
-const fileTypeDefs = gql`
+const fileTypeDefs = `
   scalar Upload
 
   type File {

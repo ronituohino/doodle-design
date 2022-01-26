@@ -36,7 +36,6 @@ const ProductInformation = ({ product }) => {
       })
     ),
     onSubmit: (values) => {
-      console.log("submit!")
       // Add a hash: products with same _id might appear in lists
       const selectedItem = {
         ...product,

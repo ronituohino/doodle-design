@@ -25,7 +25,7 @@ const Admin = () => {
           data.me.accountType === "Support"
         )
       ) {
-        console.log("Not an admin account")
+        console.error("Not an admin account")
         openLink(homeLink())
       } else {
         setIsAdmin(true)

@@ -12,7 +12,7 @@ import {
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
-import ShoppingCartItem from "./ShoppingCartItem"
+import ShoppingCartProduct from "./ShoppingCartProduct"
 
 import { formatPrice } from "../../../utils/formatting.js"
 import { useLanguage } from "../../../hooks/useLanguage.js"
@@ -23,10 +23,10 @@ const ShoppingCart = () => {
   const { openLink, checkoutLink, inCheckout } = useRouting()
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const { data, totalAmountOfItems, totalPriceOfItems } =
+  const { data, totalAmountOfProducts, totalPriceOfProducts } =
     useShoppingCart()
-  const totalAmount = totalAmountOfItems()
-  const totalPrice = totalPriceOfItems()
+  const totalAmount = totalAmountOfProducts()
+  const totalPrice = totalPriceOfProducts()
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -87,9 +87,9 @@ const ShoppingCart = () => {
         <Box sx={{ width: 420 }}>
           {totalAmount === 0 && <p>empty!</p>}
           {totalAmount > 0 &&
-            data.cartItems.map((obj) => (
-              <ShoppingCartItem
-                key={obj.item.hash}
+            data.cartProducts.map((obj) => (
+              <ShoppingCartProduct
+                key={obj.product.hash}
                 cartObject={obj}
                 ref={childRef}
               />

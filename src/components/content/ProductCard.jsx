@@ -9,12 +9,11 @@ import { Link } from "react-router-dom"
 
 const ProductCard = ({ product }) => {
   const { language } = useLanguage()
-  const { itemLink } = useRouting()
-  console.log(product)
+  const { productLink } = useRouting()
 
   return (
     <Link
-      to={itemLink(product.category, product._id)}
+      to={productLink(product.category, product._id)}
       style={{ textDecoration: "none" }}
     >
       <Paper elevation={4}>

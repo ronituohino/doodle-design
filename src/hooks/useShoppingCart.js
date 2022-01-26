@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useQuery } from "@apollo/client"
 import { SHOPPING_CART } from "../graphql/queries"
 
-import { cartItemsVar } from "../cache"
+import { cartProductsVar } from "../cache"
 import { useLanguage } from "./useLanguage"
 
 // Hook to handle cached shoppingCart
@@ -26,101 +26,109 @@ export const useShoppingCart = () => {
     }
   }, [language])
 
-  const match = (item) => {
-    return cartItemsVar().findIndex((c) => {
-      return c.item._id === item._id && c.item.hash === item.hash
+  const match = (product) => {
+    return cartProductsVar().findIndex((c) => {
+      return (
+        c.product._id === product._id &&
+        c.product.hash === product.hash
+      )
     })
   }
 
-  const addItemToCart = (item) => {
-    const matchIndex = match(item)
+  const addItemToCart = (product) => {
+    const matchIndex = match(product)
 
     if (matchIndex === -1) {
-      cartItemsVar([...cartItemsVar(), { item, amount: 1 }])
+      cartProductsVar([...cartProductsVar(), { product, amount: 1 }])
     } else {
-      increaseAmount(item, matchIndex)
+      increaseAmount(product, matchIndex)
     }
   }
 
-  const removeItemFromCart = (item, matchIndex = -1) => {
+  const removeItemFromCart = (product, matchIndex = -1) => {
     if (matchIndex === -1) {
-      matchIndex = match(item)
+      matchIndex = match(product)
     }
 
-    let newArr = cartItemsVar()
+    let newArr = cartProductsVar()
     newArr.splice(matchIndex, 1)
 
     // Reference needs to changed for Apollo to call updates
-    cartItemsVar([...newArr])
+    cartProductsVar([...newArr])
   }
 
-  const setAmount = (item, amount, matchIndex = -1) => {
+  const setAmount = (product, amount, matchIndex = -1) => {
     if (amount === 0) {
-      removeItemFromCart(item)
+      removeItemFromCart(product)
       return
     }
 
     if (matchIndex === -1) {
-      matchIndex = match(item)
+      matchIndex = match(product)
     }
 
-    let newArr = cartItemsVar()
-    newArr[matchIndex] = { item, amount }
+    let newArr = cartProductsVar()
+    newArr[matchIndex] = { product, amount }
 
     // Reference needs to changed for Apollo to call updates
-    cartItemsVar([...newArr])
+    cartProductsVar([...newArr])
   }
 
-  const increaseAmount = (item, matchIndex = -1) => {
+  const increaseAmount = (product, matchIndex = -1) => {
     if (matchIndex === -1) {
-      matchIndex = match(item)
+      matchIndex = match(product)
     }
 
-    let newArr = cartItemsVar()
+    let newArr = cartProductsVar()
     const prevItem = newArr[matchIndex]
 
-    newArr[matchIndex] = { item: item, amount: prevItem.amount + 1 }
+    newArr[matchIndex] = {
+      product: product,
+      amount: prevItem.amount + 1,
+    }
 
     // Reference needs to changed for Apollo to call updates
-    cartItemsVar([...newArr])
+    cartProductsVar([...newArr])
   }
 
   const decreaseAmount = (cartObject, matchIndex = -1) => {
     if (cartObject.amount === 1) {
-      removeItemFromCart(cartObject.item)
+      removeItemFromCart(cartObject.product)
       return
     }
 
     if (matchIndex === -1) {
-      matchIndex = match(cartObject.item)
+      matchIndex = match(cartObject.product)
     }
 
-    let newArr = cartItemsVar()
+    let newArr = cartProductsVar()
     const prevItem = newArr[matchIndex]
 
     newArr[matchIndex] = {
-      item: cartObject.item,
+      product: cartObject.product,
       amount: prevItem.amount - 1,
     }
 
     // Reference needs to changed for Apollo to call updates
-    cartItemsVar([...newArr])
+    cartProductsVar([...newArr])
   }
 
-  const totalAmountOfItems = () => {
-    const items = cartItemsVar()
-    if (items) {
+  const totalAmountOfProducts = () => {
+    const products = cartProductsVar()
+    if (products) {
       let sum = 0
-      items.forEach((e) => (sum += e.amount))
+      products.forEach((e) => (sum += e.amount))
       return sum
     } else {
       return 0
     }
   }
 
-  const totalPriceOfItems = () => {
+  const totalPriceOfProducts = () => {
     let sum = 0
-    data.cartItems.forEach((e) => (sum += e.amount * e.item.price))
+    data.cartProducts.forEach(
+      (e) => (sum += e.amount * e.product.price.EUR)
+    )
     return sum
   }
 
@@ -131,7 +139,7 @@ export const useShoppingCart = () => {
     setAmount,
     increaseAmount,
     decreaseAmount,
-    totalAmountOfItems,
-    totalPriceOfItems,
+    totalAmountOfProducts,
+    totalPriceOfProducts,
   }
 }

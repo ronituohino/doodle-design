@@ -5,9 +5,11 @@ import { useAccount } from "../../../hooks/useAccount"
 
 import AccountPanelLoggedIn from "./AccountPanelLoggedIn"
 import AccountPanelNotLoggedIn from "./AccountPanelNotLoggedIn"
+import { useRouting } from "../../../hooks/useRouting"
 
 const AccountPanel = () => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const { inCheckout } = useRouting()
   const { data } = useAccount()
 
   const openMenu = (event) => {
@@ -18,9 +20,15 @@ const AccountPanel = () => {
     setAnchorEl(null)
   }
 
+  const disableAccountButton = inCheckout()
+
   return (
     <>
-      <IconButton color="inherit" onClick={openMenu}>
+      <IconButton
+        disabled={disableAccountButton}
+        color="inherit"
+        onClick={openMenu}
+      >
         <Icon>person</Icon>
       </IconButton>
 

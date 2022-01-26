@@ -1,14 +1,21 @@
 import { Box, Button, Paper } from "@mui/material"
 
+import { useRouting } from "../../../hooks/useRouting"
+import { useAccount } from "../../../hooks/useAccount"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
-import ShoppingCartItem from "../../top_bar/shopping_cart/ShoppingCartItem"
-import Receipt from "./Receipt"
+import ShoppingCartProduct from "../../top_bar/shopping_cart/ShoppingCartProduct"
+import Receipt from "./receipt/Receipt"
 import Coupons from "./Coupons"
 
 const Cart = ({ next, hideControls, hidden, children }) => {
-  const { data, totalAmountOfItems } = useShoppingCart()
-  const total = totalAmountOfItems()
+  const { openLink, loginLink } = useRouting()
+
+  const account = useAccount()
+  const loggedIn = account.loggedIn()
+
+  const cart = useShoppingCart()
+  const total = cart.totalAmountOfProducts()
 
   return (
     <>
@@ -17,9 +24,9 @@ const Cart = ({ next, hideControls, hidden, children }) => {
           <Paper elevation={4} sx={{ width: "60%", height: "100%" }}>
             {total === 0 && <p>empty!</p>}
             {total > 0 &&
-              data.cartItems.map((obj) => (
-                <ShoppingCartItem
-                  key={obj.item.hash}
+              cart.data.cartProducts.map((obj) => (
+                <ShoppingCartProduct
+                  key={obj.product.hash}
                   cartObject={obj}
                   hideControls={hideControls}
                   ref={null}
@@ -40,14 +47,24 @@ const Cart = ({ next, hideControls, hidden, children }) => {
             {!hideControls && (
               <>
                 <Coupons />
-                <Button
-                  disabled={total <= 0}
-                  fullWidth
-                  variant="contained"
-                  onClick={next}
-                >
-                  Next
-                </Button>
+                {loggedIn ? (
+                  <Button
+                    disabled={total <= 0}
+                    fullWidth
+                    variant="contained"
+                    onClick={next}
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    onClick={() => openLink(loginLink())}
+                  >
+                    Login
+                  </Button>
+                )}
               </>
             )}
 

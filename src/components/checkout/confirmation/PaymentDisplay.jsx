@@ -24,7 +24,9 @@ const PaymentDisplay = ({ checkout, constants }) => {
       sx={{ width: "100%" }}
     >
       <Typography>Method: {paymentMethodText}</Typography>
-      <Typography>Provider: {paymentProviderText}</Typography>
+      {paymentProviderText !== "" && (
+        <Typography>Provider: {paymentProviderText}</Typography>
+      )}
     </LabelPaper>
   )
 }

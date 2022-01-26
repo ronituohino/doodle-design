@@ -7,6 +7,7 @@ import {
   InputAdornment,
   IconButton,
   Paper,
+  Typography,
   Icon,
 } from "@mui/material"
 
@@ -15,9 +16,10 @@ import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
 
 import FormikField from "../general/formik/FormikField"
+import { Link } from "react-router-dom"
 
 const AccountLogin = () => {
-  const { back } = useRouting()
+  const { registerLink } = useRouting()
   const { logIn } = useAccount()
 
   const formik = useFormik({
@@ -30,7 +32,7 @@ const AccountLogin = () => {
       password: yup.string().required("Password is required"),
     }),
     onSubmit: (values) => {
-      logIn(values.email, values.password, back)
+      logIn(values.email, values.password)
     },
   })
 
@@ -74,6 +76,9 @@ const AccountLogin = () => {
         />
 
         <Button
+          disabled={
+            !formik.isValid || formik.values === formik.initialValues
+          }
           color="primary"
           variant="contained"
           fullWidth
@@ -81,6 +86,15 @@ const AccountLogin = () => {
         >
           Log in
         </Button>
+
+        <Link to={registerLink()} style={{ textDecoration: "none" }}>
+          <Typography
+            color="primary"
+            sx={{ textAlign: "center", mt: 1 }}
+          >
+            New here?
+          </Typography>
+        </Link>
       </Paper>
     </Container>
   )

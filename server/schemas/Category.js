@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { gql } = require("apollo-server-express")
 
 const categorySchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -9,7 +8,7 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model("Category", categorySchema)
 
-const categoryTypeDefs = gql`
+const categoryTypeDefs = `
   type Category {
     _id: ID!
     name: String!

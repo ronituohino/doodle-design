@@ -77,13 +77,13 @@ export const GET_PRODUCT = gql`
 `
 
 export const SHOPPING_CART = gql`
-  query GetShoppingCartItems {
-    cartItems @client
+  query CartProducts {
+    cartProducts @client
   }
 `
 
-export const USER = gql`
-  query User {
+export const ACCOUNT = gql`
+  query Account {
     me {
       _id
       username

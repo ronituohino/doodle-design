@@ -45,8 +45,8 @@ export const EDIT_USER = gql`
 export const CREATE_ORDER = gql`
   mutation CreateOrder(
     $products: [OrderProductInput!]!
-    $deliveryAddress: AddressInput!
-    $billingAddress: AddressInput!
+    $deliveryAddress: DeliveryAddressInput!
+    $billingAddress: BillingAddressInput!
     $paymentDetails: PaymentDetailsInput!
     $extrainfo: String
   ) {

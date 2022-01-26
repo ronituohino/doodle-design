@@ -34,6 +34,15 @@ const AddressDisplay = ({
                   fontWeight: "bold",
                 }}
               >
+                {address.company}
+              </Typography>
+              <Typography
+                sx={{
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                  fontWeight: "bold",
+                }}
+              >
                 {address.extra}
               </Typography>
               <Typography
@@ -48,11 +57,6 @@ const AddressDisplay = ({
                 sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
               >
                 {address.zipCode} {address.city}
-              </Typography>
-              <Typography
-                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-              >
-                {address.company}
               </Typography>
               <Typography
                 sx={{ wordWrap: "break-word", whiteSpace: "normal" }}

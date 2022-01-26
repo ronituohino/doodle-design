@@ -1,8 +1,8 @@
-import { useFormik } from "formik"
-import * as yup from "yup"
+import { useState } from "react"
 
 import {
   Container,
+  Typography,
   Button,
   InputAdornment,
   IconButton,
@@ -10,15 +10,18 @@ import {
   Icon,
 } from "@mui/material"
 
+import { useFormik } from "formik"
+import * as yup from "yup"
+
 import FormikField from "../general/formik/FormikField"
 
 import { useAccount } from "../../hooks/useAccount"
 import { useRouting } from "../../hooks/useRouting"
 
-import { useState } from "react"
+import { Link } from "react-router-dom"
 
 const AccountRegister = () => {
-  const { back } = useRouting()
+  const { loginLink } = useRouting()
   const { register } = useAccount()
 
   const formik = useFormik({
@@ -42,7 +45,7 @@ const AccountRegister = () => {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      register(values.username, values.email, values.password, back)
+      register(values.username, values.email, values.password)
     },
   })
 
@@ -92,6 +95,9 @@ const AccountRegister = () => {
           sx={{ marginBottom: 2 }}
         />
         <Button
+          disabled={
+            !formik.isValid || formik.values === formik.initialValues
+          }
           color="primary"
           variant="contained"
           fullWidth
@@ -99,6 +105,15 @@ const AccountRegister = () => {
         >
           Register
         </Button>
+
+        <Link to={loginLink()} style={{ textDecoration: "none" }}>
+          <Typography
+            color="primary"
+            sx={{ textAlign: "center", mt: 1 }}
+          >
+            Already have an account?
+          </Typography>
+        </Link>
       </Paper>
     </Container>
   )

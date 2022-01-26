@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { gql } = require("apollo-server-express")
 
 const accountSchema = new mongoose.Schema({
   username: { type: String, required: true },
@@ -28,7 +27,7 @@ const accountSchema = new mongoose.Schema({
 
 const Account = mongoose.model("Account", accountSchema)
 
-const userTypeDefs = gql`
+const userTypeDefs = `
   type Account {
     _id: ID!
     username: String!
@@ -66,7 +65,7 @@ const userTypeDefs = gql`
   }
 `
 
-const userInputDefs = gql`
+const userInputDefs = `
   input CartProductInput {
     referenceToProductId: ID!
     customization: [OptionInput]

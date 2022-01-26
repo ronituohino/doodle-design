@@ -126,8 +126,6 @@ const Checkout = () => {
   const { openLink, homeLink } = useRouting()
   const { data } = useShoppingCart()
 
-  console.log(data)
-
   const [createOrderMutation] = useMutation(CREATE_ORDER, {
     onCompleted: (response) => {
       console.log(response)
@@ -140,9 +138,85 @@ const Checkout = () => {
   // This is called when all forms are filled,
   // and the purchase button is pressed
   const purchase = () => {
-    //createOrderMutation({ variables: {
-    //  items:
-    //}})
+    const products = []
+
+    data.cartProducts.forEach((cartObject) => {
+      const product = {}
+
+      product.referenceToProductId = cartObject.product._id
+      product.price = cartObject.product.price
+      product.customization = cartObject.product.customization
+      product.amount = cartObject.amount
+
+      products.push(product)
+    })
+
+    const { phone, ...billingAddress } = checkout.billingDetails
+    let deliveryAddress = {}
+
+    switch (checkout.deliveryDetails.deliveryMethod) {
+      case constants.HOME_DELIVERY:
+        if (checkout.deliveryDetails.useExplicitDeliveryAddress) {
+          deliveryAddress = {
+            method: constants.HOME_DELIVERY,
+            ...checkout.deliveryDetails.homeDeliveryAddress,
+          }
+        } else {
+          deliveryAddress = {
+            method: constants.HOME_DELIVERY,
+            ...billingAddress,
+          }
+        }
+        break
+      case constants.POSTI_PARCEL:
+        deliveryAddress = {
+          method: constants.POSTI_PARCEL,
+          firstName: billingAddress.firstName,
+          lastName: billingAddress.lastName,
+          ...checkout.deliveryDetails.postiParcelAddress,
+        }
+        break
+      case constants.STORE_PICKUP:
+        deliveryAddress = {
+          method: constants.STORE_PICKUP,
+          firstName: billingAddress.firstName,
+          lastName: billingAddress.lastName,
+          ...checkout.deliveryDetails.storePickupAddress,
+        }
+    }
+    deliveryAddress.phone = phone
+
+    const paymentDetails = { coupons: [] }
+
+    switch (checkout.paymentDetails.paymentMethod) {
+      case constants.PREPAYMENT:
+        paymentDetails.details = {
+          method: constants.PREPAYMENT,
+          provider: checkout.paymentDetails.prePayment,
+        }
+        break
+      case constants.INSTALLMENT:
+        paymentDetails.details = {
+          method: constants.INSTALLMENT,
+          provider: checkout.paymentDetails.installment,
+        }
+        break
+      case constants.LOCAL_PAYMENT:
+        paymentDetails.details = {
+          method: constants.LOCAL_PAYMENT,
+          provider: "",
+        }
+    }
+
+    createOrderMutation({
+      variables: {
+        products,
+        billingAddress,
+        deliveryAddress,
+        paymentDetails,
+        extrainfo: checkout.confirmationDetails.extrainfo,
+      },
+    })
   }
 
   const regularLabel = { padding: 1 }

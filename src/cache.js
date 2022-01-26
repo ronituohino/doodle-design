@@ -4,9 +4,9 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        cartItems: {
+        cartProducts: {
           read() {
-            return cartItemsVar()
+            return cartProductsVar()
           },
         },
 
@@ -16,6 +16,7 @@ const cache = new InMemoryCache({
       },
     },
   },
+  addTypename: false,
 })
 
 // If you call a reactive variable function with zero arguments
@@ -26,6 +27,6 @@ const cache = new InMemoryCache({
 // (e.g., isLoggedInVar(false)),
 // it replaces the variable's current value with the provided value.
 
-export const cartItemsVar = makeVar([])
+export const cartProductsVar = makeVar([])
 
 export default cache

@@ -43,6 +43,7 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
       city: point.address.fi.municipality,
       zipCode: point.address.fi.postalCode,
       extra: point.labelName.fi,
+      country: "FI",
     })
   }
 
