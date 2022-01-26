@@ -5,7 +5,7 @@ import Admin from "./components/admin/Admin"
 
 import { Switch, Route, Redirect } from "react-router-dom"
 import Account from "./components/account/Account"
-import ItemPage from "./components/item_page/ItemPage"
+import ProductPage from "./components/product_page/ProductPage"
 import AccountRegister from "./components/account/AccountRegister"
 import AccountLogin from "./components/account/AccountLogin"
 import Checkout from "./components/checkout/Checkout"
@@ -35,7 +35,7 @@ const App = () => {
               <Box sx={{ p: 2, height: "100%" }}>
                 <Switch>
                   <Route path="/:language/product/:category/:id">
-                    <ItemPage />
+                    <ProductPage />
                   </Route>
 
                   <Route path="/:language/product/:category">

@@ -37,7 +37,7 @@ mongoose
 
 const commonTypeDefs = gql`
   type Query {
-    me: User
+    me: Account
   }
 
   type Mutation {
@@ -129,10 +129,10 @@ const {
 } = require("./server/schemas/Order.js")
 
 const {
-  User,
+  Account,
   userTypeDefs,
   userInputDefs,
-} = require("./server/schemas/User.js")
+} = require("./server/schemas/Account.js")
 
 const {
   hashPassword,
@@ -160,13 +160,13 @@ const resolvers = {
     },
 
     me: (root, args, context) => {
-      return context.currentUser
+      return context.currentAccount
     },
   },
 
   Mutation: {
     login: async (root, args) => {
-      const user = await User.findOne({ email: args.email })
+      const user = await Account.findOne({ email: args.email })
       const validPassword = await bcrypt.compare(
         args.password,
         user.password
@@ -179,10 +179,10 @@ const resolvers = {
       return createToken(user._id)
     },
 
-    createUser: async (root, args) => {
+    createAccount: async (root, args) => {
       const passwordHash = await hashPassword(args.password)
 
-      const user = new User({
+      const user = new Account({
         username: args.username,
         password: passwordHash,
         email: args.email,
@@ -197,11 +197,11 @@ const resolvers = {
       return createToken(result._id)
     },
 
-    editUser: async (root, args, context) => {
+    editAccount: async (root, args, context) => {
       requireLogin(context)
 
-      const user = await User.findByIdAndUpdate(
-        context.currentUser._id,
+      const user = await Account.findByIdAndUpdate(
+        context.currentAccount._id,
         {
           ...(args.email && { email: args.email }),
           ...(args.password && {
@@ -272,7 +272,7 @@ const resolvers = {
 
       const result = await order.save()
 
-      await User.findByIdAndUpdate(context.currentUser._id, {
+      await Account.findByIdAndUpdate(context.currentAccount._id, {
         $push: { orders: result._id },
       })
 
@@ -364,8 +364,10 @@ const startApolloServer = async () => {
             process.env.JWT_SECRET
           )
 
-          const currentUser = await User.findById(decodedToken._id)
-          return { currentUser }
+          const currentAccount = await Account.findById(
+            decodedToken._id
+          )
+          return { currentAccount }
         } catch (error) {
           throw new AuthenticationError("Invalid token")
         }

@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client"
 import { GET_CATEGORIES } from "../../../../graphql/queries"
 import EditableCategory from "./EditableCategory"
 
-const ItemCategories = () => {
+const ProductCategories = () => {
   const { data } = useQuery(GET_CATEGORIES)
 
   return (
@@ -27,4 +27,4 @@ const ItemCategories = () => {
   )
 }
 
-export default ItemCategories
+export default ProductCategories

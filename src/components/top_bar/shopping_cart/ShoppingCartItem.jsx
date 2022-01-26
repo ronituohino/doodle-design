@@ -15,7 +15,7 @@ import { useLanguage } from "../../../hooks/useLanguage"
 
 import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
 
-import { formatPrice } from "../../../utils/price"
+import { formatPrice } from "../../../utils/formatting"
 import { useRouting } from "../../../hooks/useRouting"
 import { forwardRef } from "react"
 

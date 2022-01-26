@@ -2,7 +2,7 @@ import { Typography } from "@mui/material"
 
 // Description, ratings, etc
 // eslint-disable-next-line
-const ItemExtras = ({ item }) => {
+const ProductExtras = ({ product }) => {
   return (
     <>
       <Typography>Desc</Typography>
@@ -10,4 +10,4 @@ const ItemExtras = ({ item }) => {
   )
 }
 
-export default ItemExtras
+export default ProductExtras

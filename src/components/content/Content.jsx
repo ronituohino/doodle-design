@@ -1,12 +1,12 @@
 import { Box, Pagination } from "@mui/material"
 
 import { useQuery, useLazyQuery } from "@apollo/client"
-import { GET_ALL_ITEMS, GET_CATEGORIES } from "../../graphql/queries"
+import { GET_PRODUCTS, GET_CATEGORIES } from "../../graphql/queries"
 
 import { useLanguage } from "../../hooks/useLanguage"
 import { matchPath } from "react-router"
 
-import ItemCard from "./ItemCard"
+import ProductCard from "./ProductCard"
 import { useState } from "react"
 import { useEffect } from "react"
 
@@ -24,7 +24,7 @@ const Content = () => {
   // eslint-disable-next-line
   const [size, setSize] = useState(6)
 
-  const [getAllItems, { data, error }] = useLazyQuery(GET_ALL_ITEMS)
+  const [getProducts, { data, error }] = useLazyQuery(GET_PRODUCTS)
 
   // this is called whenever category is changed
   useEffect(() => {
@@ -33,7 +33,7 @@ const Content = () => {
         (c) => c.name === urlCategoryName
       )
 
-      getAllItems({
+      getProducts({
         variables: {
           language,
           category: category._id,
@@ -67,8 +67,8 @@ const Content = () => {
           >
             {!data && <p>loading...</p>}
             {data &&
-              data.getItems.docs.map((i) => (
-                <ItemCard key={i._id} item={i} />
+              data.getProducts.docs.map((p) => (
+                <ProductCard key={p._id} product={p} />
               ))}
           </Box>
 
@@ -81,7 +81,7 @@ const Content = () => {
           >
             {data && (
               <Pagination
-                count={data.getItems.totalPages}
+                count={data.getProducts.totalPages}
                 page={page + 1} // backend pagination starts from 0
                 onChange={changePage}
               />

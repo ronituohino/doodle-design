@@ -9,8 +9,8 @@ import { Box, Typography, Divider } from "@mui/material"
 
 import AdminDrawer from "./AdminDrawer"
 
-import ItemManage from "./items/manage/ItemManage"
-import ItemCategories from "./items/categories/ItemCategories"
+import ProductManage from "./products/manage/ProductManage"
+import ProductCategories from "./products/categories/ProductCategories"
 
 const Admin = () => {
   const { data } = useAccount()
@@ -48,19 +48,19 @@ const Admin = () => {
               sx={{ width: "80%", backgroundColor: "common.white" }}
             >
               <Switch>
-                <Route path="/:language/admin/items/statistics">
+                <Route path="/:language/admin/products/statistics">
                   <Typography>Stats</Typography>
                 </Route>
 
-                <Route path="/:language/admin/items/manage">
-                  <ItemManage />
+                <Route path="/:language/admin/products/manage">
+                  <ProductManage />
                 </Route>
 
-                <Route path="/:language/admin/items/categories">
-                  <ItemCategories />
+                <Route path="/:language/admin/products/categories">
+                  <ProductCategories />
                 </Route>
 
-                <Route path="/:language/admin/items/campaigns">
+                <Route path="/:language/admin/products/campaigns">
                   <Typography>Campaigns</Typography>
                 </Route>
               </Switch>

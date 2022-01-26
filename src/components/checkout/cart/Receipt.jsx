@@ -1,6 +1,6 @@
 import { Typography, List, ListItem, Paper } from "@mui/material"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
-import { formatPrice } from "../../../utils/price"
+import { formatPrice } from "../../../utils/formatting"
 import { useLanguage } from "../../../hooks/useLanguage"
 
 const Receipt = () => {

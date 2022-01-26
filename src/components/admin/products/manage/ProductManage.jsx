@@ -2,9 +2,9 @@ import { useState } from "react"
 
 import { Container, Button } from "@mui/material"
 import SearchBar from "../../../top_bar/SearchBar"
-import ModifyItemDialog from "./ModifyItemDialog"
+import ModifyProductDialog from "./ModifyProductDialog"
 
-const ItemManage = () => {
+const ProductManage = () => {
   //const [page, setPage] = useState(0)
   // eslint-disable-next-line
   const [size, setSize] = useState(6)
@@ -20,7 +20,7 @@ const ItemManage = () => {
         gap: "10px",
       }}
     >
-      <ModifyItemDialog
+      <ModifyProductDialog
         open={modifyDialogOpen}
         handleClose={() => setModifyDialogOpen(false)}
       />
@@ -36,4 +36,4 @@ const ItemManage = () => {
   )
 }
 
-export default ItemManage
+export default ProductManage

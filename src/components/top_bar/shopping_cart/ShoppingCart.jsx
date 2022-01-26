@@ -14,7 +14,7 @@ import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartItem from "./ShoppingCartItem"
 
-import { formatPrice } from "../../../utils/price.js"
+import { formatPrice } from "../../../utils/formatting.js"
 import { useLanguage } from "../../../hooks/useLanguage.js"
 import { useRouting } from "../../../hooks/useRouting.js"
 

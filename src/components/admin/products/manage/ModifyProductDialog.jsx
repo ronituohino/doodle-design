@@ -13,7 +13,7 @@ import * as yup from "yup"
 
 import { useMutation } from "@apollo/client"
 import { FILE_UPLOAD } from "../../../../graphql/mutations"
-import { CREATE_ITEM } from "../../../../graphql/mutations"
+import { CREATE_PRODUCT } from "../../../../graphql/mutations"
 
 import FormikBox from "../../../general/formik/FormikBox"
 import FormikField from "../../../general/formik/FormikField"
@@ -22,8 +22,8 @@ import FormikCustomization from "./FormikCustomization"
 
 import DropzonePictures from "../../../general/DropzonePictures"
 
-const ModifyItemDialog = ({ open, handleClose }) => {
-  const itemFormik = useFormik({
+const ModifyProductDialog = ({ open, handleClose }) => {
+  const formik = useFormik({
     initialValues: {
       pictures: [],
       name: { EN: "", FI: "" },
@@ -86,7 +86,7 @@ const ModifyItemDialog = ({ open, handleClose }) => {
     }),
     onSubmit: () => {
       uploadFileMutation({
-        variables: { files: itemFormik.values.pictures },
+        variables: { files: formik.values.pictures },
       })
     },
     validateOnChange: false,
@@ -99,12 +99,12 @@ const ModifyItemDialog = ({ open, handleClose }) => {
       let pictureIdList = []
       data.fileUpload.forEach((f) => pictureIdList.push(f._id))
 
-      createItemMutation({
+      createProductMutation({
         variables: {
-          name: itemFormik.values.name,
-          price: itemFormik.values.price,
-          description: itemFormik.values.description,
-          customization: itemFormik.values.customization,
+          name: formik.values.name,
+          price: formik.values.price,
+          description: formik.values.description,
+          customization: formik.values.customization,
           images: pictureIdList,
           category: "61debc25cb80730456ee8074",
         },
@@ -112,7 +112,7 @@ const ModifyItemDialog = ({ open, handleClose }) => {
     },
   })
 
-  const [createItemMutation] = useMutation(CREATE_ITEM, {
+  const [createProductMutation] = useMutation(CREATE_PRODUCT, {
     onCompleted: (data) => {
       console.log(data)
     },
@@ -134,7 +134,7 @@ const ModifyItemDialog = ({ open, handleClose }) => {
             Add Item
           </Typography>
           <Box sx={{ flexBasis: "100%" }} />
-          <Button variant="contained" onClick={itemFormik.resetForm}>
+          <Button variant="contained" onClick={formik.resetForm}>
             Clear
           </Button>
         </Box>
@@ -142,15 +142,15 @@ const ModifyItemDialog = ({ open, handleClose }) => {
       <DialogContent>
         <Box sx={{ mt: 1 }}>
           <FormikBox
-            formik={itemFormik}
+            formik={formik}
             field="pictures"
             label="Pictures"
             sx={{ mb: 2 }}
           >
             <DropzonePictures
-              files={itemFormik.values.pictures}
+              files={formik.values.pictures}
               setFiles={(files) => {
-                itemFormik.setFieldValue("pictures", files)
+                formik.setFieldValue("pictures", files)
               }}
               text="Drag and drop, or click here to add pictures"
               subtext="(select multiple pictures to upload them all)"
@@ -158,7 +158,7 @@ const ModifyItemDialog = ({ open, handleClose }) => {
 
             <Button
               onClick={() => {
-                itemFormik.setFieldValue("pictures", [])
+                formik.setFieldValue("pictures", [])
               }}
               fullWidth
               variant="outlined"
@@ -169,32 +169,32 @@ const ModifyItemDialog = ({ open, handleClose }) => {
           </FormikBox>
 
           <FormikFieldArray
-            formik={itemFormik}
+            formik={formik}
             field="name"
             label="Name"
           />
 
           <FormikFieldArray
-            formik={itemFormik}
+            formik={formik}
             field="description"
             label="Description"
             multiline
           />
 
           <FormikFieldArray
-            formik={itemFormik}
+            formik={formik}
             field="price"
             label="Price"
           />
 
           <FormikField
-            formik={itemFormik}
+            formik={formik}
             field="discount"
             label="Discount %"
           />
 
           <FormikCustomization
-            formik={itemFormik}
+            formik={formik}
             field="customization"
             label="Customization Options"
           />
@@ -212,7 +212,7 @@ const ModifyItemDialog = ({ open, handleClose }) => {
         <Button
           variant="contained"
           fullWidth
-          onClick={itemFormik.handleSubmit}
+          onClick={formik.handleSubmit}
         >
           Save
         </Button>
@@ -221,4 +221,4 @@ const ModifyItemDialog = ({ open, handleClose }) => {
   )
 }
 
-export default ModifyItemDialog
+export default ModifyProductDialog
