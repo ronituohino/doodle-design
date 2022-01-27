@@ -18,10 +18,18 @@ import FormikField from "../general/formik/FormikField"
 import { Link } from "react-router-dom"
 
 import LoadingButton from "../general/LoadingButton"
+import { useSnackbar } from "notistack"
 
 const AccountLogin = () => {
-  const { registerLink } = useRouting()
-  const { logIn, loginData } = useAccount()
+  const { openLink, homeLink, registerLink } = useRouting()
+  const { enqueueSnackbar } = useSnackbar()
+
+  const { logIn, loginData } = useAccount(() => {
+    enqueueSnackbar("Logged in!", {
+      variant: "success",
+    })
+    openLink(homeLink())
+  })
 
   const formik = useFormik({
     initialValues: {

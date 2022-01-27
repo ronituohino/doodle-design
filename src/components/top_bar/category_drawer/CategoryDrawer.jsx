@@ -5,6 +5,7 @@ import {
   Box,
   ClickAwayListener,
   Icon,
+  ListSubheader,
 } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
@@ -15,7 +16,6 @@ import Category from "./Category"
 const CategoryDrawer = () => {
   const { data } = useQuery(GET_CATEGORIES)
   const [drawerOpen, setDrawerOpen] = useState(false)
-
   return (
     <>
       <IconButton onClick={() => setDrawerOpen(true)}>
@@ -32,17 +32,23 @@ const CategoryDrawer = () => {
           >
             {data && data.getCategories && (
               <>
-                {data.getCategories.map((category) => {
-                  return (
-                    <Category
-                      closeMenu={() => setDrawerOpen(false)}
-                      key={category._id}
-                      category={category.name}
-                      label={category.label}
-                      icon={category.icon}
-                    />
-                  )
-                })}
+                {data.getCategories.length > 0 ? (
+                  <>
+                    {data.getCategories.map((category) => {
+                      return (
+                        <Category
+                          closeMenu={() => setDrawerOpen(false)}
+                          key={category._id}
+                          category={category.name}
+                          label={category.label}
+                          icon={category.icon}
+                        />
+                      )
+                    })}
+                  </>
+                ) : (
+                  <ListSubheader>No categories defined</ListSubheader>
+                )}
               </>
             )}
           </Box>

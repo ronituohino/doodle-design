@@ -37,7 +37,7 @@ const ModifyProductDialog = ({ open, handleClose }) => {
       customization: [],
     },
     validationSchema: yup.object({
-      pictures: yup.array().min(1, "Atleast 1 picture is required"),
+      pictures: yup.array().min(1, "At least 1 picture is required"),
 
       category: yup.string().required("Category required"),
 
@@ -105,6 +105,7 @@ const ModifyProductDialog = ({ open, handleClose }) => {
 
   const [uploadFileMutation] = useMutation(FILE_UPLOAD, {
     onCompleted: (response) => {
+      console.log(response)
       let pictureIdList = []
       response.fileUpload.forEach((f) => pictureIdList.push(f._id))
 

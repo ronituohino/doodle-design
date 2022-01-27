@@ -38,6 +38,9 @@ const client = new ApolloClient({
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "./theme"
 
+import { SnackbarProvider } from "notistack"
+import { Collapse } from "@mui/material"
+
 import { Helmet, HelmetProvider } from "react-helmet-async"
 
 ReactDOM.render(
@@ -52,7 +55,12 @@ ReactDOM.render(
                   "background: linear-gradient(160deg, #0093E9 0%, #0093E9 0%, #80D0C7 60%) fixed",
               }}
             />
-            <App />
+            <SnackbarProvider
+              maxSnack={3}
+              TransitionComponent={Collapse}
+            >
+              <App />
+            </SnackbarProvider>
           </Router>
         </ThemeProvider>
       </HelmetProvider>

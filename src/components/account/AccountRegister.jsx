@@ -21,10 +21,18 @@ import { useRouting } from "../../hooks/useRouting"
 import { Link } from "react-router-dom"
 
 import LoadingButton from "../general/LoadingButton"
+import { useSnackbar } from "notistack"
 
 const AccountRegister = () => {
-  const { loginLink } = useRouting()
-  const { register, registerData } = useAccount()
+  const { openLink, homeLink, loginLink } = useRouting()
+  const { enqueueSnackbar } = useSnackbar()
+
+  const { register, registerData } = useAccount(() => {
+    enqueueSnackbar("Account created, welcome!", {
+      variant: "success",
+    })
+    openLink(homeLink())
+  })
 
   const formik = useFormik({
     initialValues: {

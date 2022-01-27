@@ -20,17 +20,19 @@ const FormikFieldArray = ({
     <>
       <FormikBox label={label} sx={{ mb: 2 }}>
         <Box sx={sx}>
-          {Object.keys(object).map((key) => (
-            <FormikField
-              key={key}
-              label={key}
-              formik={formik}
-              field={`${field}.${key}`}
-              multiline={multiline}
-              sx={{ mb: 2 }}
-              {...props}
-            />
-          ))}
+          {Object.keys(object).map((key) => {
+            return (
+              <FormikField
+                key={key}
+                formik={formik}
+                field={`${field}.${key}`}
+                label={key}
+                multiline={multiline}
+                sx={{ mb: 2 }}
+                {...props}
+              />
+            )
+          })}
 
           {children}
         </Box>

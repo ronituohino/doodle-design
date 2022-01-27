@@ -335,7 +335,6 @@ const resolvers = {
         })
       }
 
-      console.log(results)
       return results
     },
   },
