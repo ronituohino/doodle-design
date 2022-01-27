@@ -9,6 +9,68 @@ const fileSchema = new mongoose.Schema({
 
 const File = mongoose.model("File", fileSchema)
 
+const fs = require("fs")
+const { streamToBase64 } = require("../utils/serverUtils")
+const { requireAdmin } = require("../utils/authentication")
+
+const fileResolvers = {
+  Query: {
+    getFileById: async (root, args) => {
+      const file = await File.findById(args.id)
+      return file
+    },
+  },
+  Mutation: {
+    fileUpload: async (root, { files }, context) => {
+      requireAdmin(context)
+
+      let results = []
+      for (let i = 0; i < files.length; i++) {
+        const { createReadStream, filename, mimetype, encoding } =
+          await files[i]
+
+        // Accept images only
+        if (mimetype.split("/")[0] !== "image") {
+          return false
+        }
+
+        // Invoking the `createReadStream` will return a Readable Stream.
+        // See https://nodejs.org/api/stream.html#stream_readable_streams
+
+        const stream = createReadStream()
+        const streamData = await streamToBase64(stream)
+
+        const fileId = new mongoose.Types.ObjectId()
+
+        // If location has folders that don't exist, the image is not saved
+        const location = `./public/files/images/${fileId}-${filename}`
+
+        const mongooseFile = new File({
+          _id: fileId,
+          filename,
+          mimetype,
+          encoding,
+          location,
+          // Image backup disabled for now
+          //data: streamData,
+        })
+
+        const response = await mongooseFile.save()
+        results.push(response)
+
+        // Then save image to public/files/... folder
+        // where it can be served from
+        const buffer = Buffer.from(streamData, "base64")
+        fs.writeFile(location, buffer, () => {
+          console.log(`File ${filename} uploaded to server`)
+        })
+      }
+
+      return results
+    },
+  },
+}
+
 const fileTypeDefs = `
   scalar Upload
 
@@ -29,4 +91,4 @@ const fileTypeDefs = `
   }
 `
 
-module.exports = { File, fileTypeDefs }
+module.exports = { File, fileResolvers, fileTypeDefs }

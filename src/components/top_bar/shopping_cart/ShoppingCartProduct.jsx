@@ -13,7 +13,7 @@ import {
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import { useLanguage } from "../../../hooks/useLanguage"
 
-import { hasParentWithMatchingSelector } from "../../../utils/utils.js"
+import { hasParentWithMatchingSelector } from "../../../utils/utils"
 
 import { formatPrice } from "../../../utils/formatting"
 import { useRouting } from "../../../hooks/useRouting"

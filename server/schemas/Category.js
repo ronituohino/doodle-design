@@ -8,6 +8,56 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model("Category", categorySchema)
 
+const { requireAdmin } = require("../utils/authentication")
+
+const categoryResolvers = {
+  Query: {
+    getCategories: async () => {
+      const categories = await Category.find({})
+      return categories
+    },
+  },
+  Mutation: {
+    createCategory: async (root, args, context) => {
+      requireAdmin(context)
+
+      const category = new Category({
+        name: args.name,
+        label: args.label,
+        icon: args.icon,
+      })
+
+      const response = category.save()
+
+      return response
+    },
+
+    editCategory: async (root, args, context) => {
+      requireAdmin(context)
+
+      const category = await Category.findByIdAndUpdate(
+        args._id,
+        {
+          ...(args.name && { name: args.name }),
+          ...(args.label && { label: args.label }),
+          ...(args.icon && { icon: args.icon }),
+        },
+        { new: true }
+      )
+
+      return category
+    },
+
+    deleteCategory: async (root, args, context) => {
+      requireAdmin(context)
+
+      await Category.findByIdAndDelete(args._id)
+
+      return true
+    },
+  },
+}
+
 const categoryTypeDefs = `
   type Category {
     _id: ID!
@@ -38,4 +88,4 @@ const categoryTypeDefs = `
   }
 `
 
-module.exports = { Category, categoryTypeDefs }
+module.exports = { Category, categoryResolvers, categoryTypeDefs }

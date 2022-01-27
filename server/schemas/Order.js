@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
-const LanguageString = require("../types/LanguageString.js")
-const CurrencyFloat = require("../types/CurrencyFloat.js")
+const LanguageString = require("../types/LanguageString")
+const CurrencyFloat = require("../types/CurrencyFloat")
 
 const addressDetails = {
   firstName: { type: String, required: true },
@@ -53,6 +53,36 @@ const orderSchema = new mongoose.Schema({
 })
 
 const Order = mongoose.model("Order", orderSchema)
+
+const { Account } = require("../schemas/Account")
+const { requireLogin } = require("../utils/authentication")
+
+const orderResolvers = {
+  Query: {},
+  Mutation: {
+    createOrder: async (root, args, context) => {
+      requireLogin(context)
+
+      const order = new Order({
+        products: args.products,
+        datetime: new Date(),
+        deliveryAddress: args.deliveryAddress,
+        billingAddress: args.billingAddress,
+        paymentDetails: args.paymentDetails,
+        status: "Pending",
+        extrainfo: args.extrainfo,
+      })
+
+      const result = await order.save()
+
+      await Account.findByIdAndUpdate(context.currentAccount._id, {
+        $push: { orders: result._id },
+      })
+
+      return result
+    },
+  },
+}
 
 const orderAddressFields = `
   firstName: String!
@@ -120,9 +150,9 @@ const orderTypeDefs = `
       extrainfo: String
     ): Order
   }
-`
 
-const orderInputDefs = `
+
+  
   input OrderProductInput {
     referenceToProductId: ID!
     price: CurrencyFloatInput!
@@ -151,4 +181,9 @@ const orderInputDefs = `
     provider: String
   }
 `
-module.exports = { Order, orderTypeDefs, orderInputDefs }
+
+module.exports = {
+  Order,
+  orderResolvers,
+  orderTypeDefs,
+}

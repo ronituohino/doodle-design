@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
-const LanguageString = require("../types/LanguageString.js")
-const CurrencyFloat = require("../types/CurrencyFloat.js")
+const LanguageString = require("../types/LanguageString")
+const CurrencyFloat = require("../types/CurrencyFloat")
 
 const mongoosePaginate = require("mongoose-paginate-v2")
 
@@ -41,10 +41,8 @@ productSchema.plugin(mongoosePaginate)
 
 const Product = mongoose.model("Product", productSchema)
 
-const { getPagination } = require("../../server/utils/serverUtils.js")
-const {
-  requireAdmin,
-} = require("../../server/utils/authentication.js")
+const { getPagination } = require("../../server/utils/serverUtils")
+const { requireAdmin } = require("../../server/utils/authentication")
 
 const productResolvers = {
   Query: {
@@ -188,9 +186,9 @@ const productTypeDefs = `
       ratings: RatingInput
     ): Product
   }
-`
 
-const productInputDefs = `
+
+
   input AvailabilityInput {
     available: Boolean!
   }
@@ -211,5 +209,4 @@ module.exports = {
   Product,
   productResolvers,
   productTypeDefs,
-  productInputDefs,
 }

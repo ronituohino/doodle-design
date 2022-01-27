@@ -14,9 +14,9 @@ import { useShoppingCart } from "../../../hooks/useShoppingCart"
 
 import ShoppingCartProduct from "./ShoppingCartProduct"
 
-import { formatPrice } from "../../../utils/formatting.js"
-import { useLanguage } from "../../../hooks/useLanguage.js"
-import { useRouting } from "../../../hooks/useRouting.js"
+import { formatPrice } from "../../../utils/formatting"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { useRouting } from "../../../hooks/useRouting"
 
 const ShoppingCart = () => {
   const { language } = useLanguage()
