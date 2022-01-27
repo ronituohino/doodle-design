@@ -12,6 +12,7 @@ const FormikFieldArray = ({
   multiline,
   children,
   sx,
+  ...props
 }) => {
   const object = getInnerFieldFromObject(formik.values, field)
 
@@ -27,6 +28,7 @@ const FormikFieldArray = ({
               field={`${field}.${key}`}
               multiline={multiline}
               sx={{ mb: 2 }}
+              {...props}
             />
           ))}
 

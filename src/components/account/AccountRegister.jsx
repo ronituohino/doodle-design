@@ -20,9 +20,11 @@ import { useRouting } from "../../hooks/useRouting"
 
 import { Link } from "react-router-dom"
 
+import LoadingButton from "../general/LoadingButton"
+
 const AccountRegister = () => {
   const { loginLink } = useRouting()
-  const { register } = useAccount()
+  const { register, registerData } = useAccount()
 
   const formik = useFormik({
     initialValues: {
@@ -94,7 +96,8 @@ const AccountRegister = () => {
           formik={formik}
           sx={{ marginBottom: 2 }}
         />
-        <Button
+        <LoadingButton
+          loading={registerData ? registerData.loading : false}
           disabled={
             !formik.isValid || formik.values === formik.initialValues
           }
@@ -102,9 +105,8 @@ const AccountRegister = () => {
           variant="contained"
           fullWidth
           onClick={formik.handleSubmit}
-        >
-          Register
-        </Button>
+          text="Register"
+        />
 
         <Link to={loginLink()} style={{ textDecoration: "none" }}>
           <Typography

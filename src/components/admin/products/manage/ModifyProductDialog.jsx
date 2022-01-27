@@ -6,12 +6,14 @@ import {
   Button,
   Box,
   Typography,
+  MenuItem,
 } from "@mui/material/"
 
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-import { useMutation } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
+import { GET_CATEGORIES } from "../../../../graphql/queries"
 import { FILE_UPLOAD } from "../../../../graphql/mutations"
 import { CREATE_PRODUCT } from "../../../../graphql/mutations"
 
@@ -21,37 +23,44 @@ import FormikFieldArray from "../../../general/formik/FormikFieldArray"
 import FormikCustomization from "./FormikCustomization"
 
 import DropzonePictures from "../../../general/DropzonePictures"
+import FormikSelect from "../../../general/formik/FormikSelect"
 
 const ModifyProductDialog = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       pictures: [],
-      name: { EN: "", FI: "" },
-      description: { EN: "", FI: "" },
-      price: { EUR: "" },
+      category: "",
+      name: { en: "", fi: "" },
+      description: { en: "", fi: "" },
+      price: { EUR: 0 },
       discount: "",
       customization: [],
     },
     validationSchema: yup.object({
       pictures: yup.array().min(1, "Atleast 1 picture is required"),
 
+      category: yup.string().required("Category required"),
+
       name: yup
         .object({
-          EN: yup.string().required("English name required"),
-          FI: yup.string().required("Finnish name required"),
+          en: yup.string().required("English name required"),
+          fi: yup.string().required("Finnish name required"),
         })
         .required("Name object missing, contact IT!"),
 
       description: yup
         .object({
-          EN: yup.string(),
-          FI: yup.string(),
+          en: yup.string(),
+          fi: yup.string(),
         })
         .required("Name object missing, contact IT!"),
 
       price: yup
         .object({
-          EUR: yup.string().required("Price in euros is required"),
+          EUR: yup
+            .number()
+            .required("Price in euros is required")
+            .moreThan(0, "Price must be greater than 0"),
         })
         .required("Price object missing, contact IT!"),
 
@@ -61,8 +70,8 @@ const ModifyProductDialog = ({ open, handleClose }) => {
         yup.object({
           label: yup
             .object({
-              EN: yup.string().required("English label required"),
-              FI: yup.string().required("Finnish label required"),
+              en: yup.string().required("English label required"),
+              fi: yup.string().required("Finnish label required"),
             })
             .required("Label object missing, contact IT!"),
 
@@ -71,10 +80,10 @@ const ModifyProductDialog = ({ open, handleClose }) => {
             .of(
               yup
                 .object({
-                  EN: yup
+                  en: yup
                     .string()
                     .required("English option required"),
-                  FI: yup
+                  fi: yup
                     .string()
                     .required("Finnish option required"),
                 })
@@ -95,9 +104,9 @@ const ModifyProductDialog = ({ open, handleClose }) => {
   })
 
   const [uploadFileMutation] = useMutation(FILE_UPLOAD, {
-    onCompleted: (data) => {
+    onCompleted: (response) => {
       let pictureIdList = []
-      data.fileUpload.forEach((f) => pictureIdList.push(f._id))
+      response.fileUpload.forEach((f) => pictureIdList.push(f._id))
 
       createProductMutation({
         variables: {
@@ -113,10 +122,12 @@ const ModifyProductDialog = ({ open, handleClose }) => {
   })
 
   const [createProductMutation] = useMutation(CREATE_PRODUCT, {
-    onCompleted: (data) => {
-      console.log(data)
+    onCompleted: (response) => {
+      console.log(response)
     },
   })
+
+  const { data } = useQuery(GET_CATEGORIES)
 
   return (
     <Dialog
@@ -168,6 +179,21 @@ const ModifyProductDialog = ({ open, handleClose }) => {
             </Button>
           </FormikBox>
 
+          <FormikSelect
+            formik={formik}
+            field="category"
+            label="Category"
+            sx={{ width: "100%", mb: 2 }}
+          >
+            {data &&
+              data.getCategories &&
+              data.getCategories.map((category) => (
+                <MenuItem key={category._id} value={category._id}>
+                  {category.label}
+                </MenuItem>
+              ))}
+          </FormikSelect>
+
           <FormikFieldArray
             formik={formik}
             field="name"
@@ -185,6 +211,7 @@ const ModifyProductDialog = ({ open, handleClose }) => {
             formik={formik}
             field="price"
             label="Price"
+            type="number"
           />
 
           <FormikField

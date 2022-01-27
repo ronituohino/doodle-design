@@ -11,7 +11,7 @@ export const useAccount = (callback) => {
   const { data } = useQuery(ACCOUNT)
   const client = useApolloClient()
 
-  const [registerMutation] = useMutation(REGISTER, {
+  const [registerMutation, registerData] = useMutation(REGISTER, {
     onError: (error) => {
       console.log(error)
       return undefined
@@ -29,13 +29,12 @@ export const useAccount = (callback) => {
     },
   })
 
-  const [loginMutation] = useMutation(LOGIN, {
+  const [loginMutation, loginData] = useMutation(LOGIN, {
     onError: (error) => {
       console.log(error)
       return undefined
     },
     onCompleted: (response) => {
-      console.log(response)
       setToken(response.login.token)
 
       client.refetchQueries({
@@ -87,5 +86,13 @@ export const useAccount = (callback) => {
     return false
   }
 
-  return { register, logIn, logOut, data, loggedIn }
+  return {
+    register,
+    registerData,
+    logIn,
+    loginData,
+    logOut,
+    data,
+    loggedIn,
+  }
 }

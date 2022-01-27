@@ -3,7 +3,6 @@ import * as yup from "yup"
 
 import {
   Container,
-  Button,
   InputAdornment,
   IconButton,
   Paper,
@@ -18,9 +17,11 @@ import { useAccount } from "../../hooks/useAccount"
 import FormikField from "../general/formik/FormikField"
 import { Link } from "react-router-dom"
 
+import LoadingButton from "../general/LoadingButton"
+
 const AccountLogin = () => {
   const { registerLink } = useRouting()
-  const { logIn } = useAccount()
+  const { logIn, loginData } = useAccount()
 
   const formik = useFormik({
     initialValues: {
@@ -75,7 +76,8 @@ const AccountLogin = () => {
           sx={{ marginBottom: 2 }}
         />
 
-        <Button
+        <LoadingButton
+          loading={loginData ? loginData.loading : false}
           disabled={
             !formik.isValid || formik.values === formik.initialValues
           }
@@ -83,9 +85,8 @@ const AccountLogin = () => {
           variant="contained"
           fullWidth
           onClick={formik.handleSubmit}
-        >
-          Log in
-        </Button>
+          text="Log in"
+        />
 
         <Link to={registerLink()} style={{ textDecoration: "none" }}>
           <Typography

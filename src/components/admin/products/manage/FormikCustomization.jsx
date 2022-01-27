@@ -90,8 +90,8 @@ const FormikCustomization = ({ formik, label, field }) => {
                 onClick={() => {
                   const arr = [...formik.values.customization]
                   arr[index].options.push({
-                    EN: "",
-                    FI: "",
+                    en: "",
+                    fi: "",
                   })
 
                   formik.setValues({
@@ -120,8 +120,8 @@ const FormikCustomization = ({ formik, label, field }) => {
           onClick={() => {
             const arr = [...formik.values.customization]
             arr.push({
-              label: { EN: "", FI: "" },
-              options: [{ EN: "", FI: "" }],
+              label: { en: "", fi: "" },
+              options: [{ en: "", fi: "" }],
             })
             formik.setValues({ ...formik.values, customization: arr })
           }}

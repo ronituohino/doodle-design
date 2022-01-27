@@ -1,9 +1,5 @@
-import { TextField, MenuItem } from "@mui/material"
-
-const selectStyle = {
-  marginBottom: 2,
-  minWidth: "200px",
-}
+import { MenuItem } from "@mui/material"
+import FormikSelect from "../general/formik/FormikSelect"
 
 const FormikProductCustomization = ({
   formik,
@@ -20,10 +16,10 @@ const FormikProductCustomization = ({
         const valueText = value.option ? value.option[language] : ""
 
         return (
-          <TextField
-            select
-            id={labelText}
+          <FormikSelect
+            formik={formik}
             key={labelText}
+            field={labelText}
             label={labelText}
             value={valueText}
             onChange={(e) => {
@@ -33,14 +29,10 @@ const FormikProductCustomization = ({
 
               formik.setValues([{ label: c.label, option }])
             }}
-            error={
-              formik.touched[labelText] &&
-              Boolean(formik.errors[labelText])
-            }
-            helperText={
-              formik.touched[labelText] && formik.errors[labelText]
-            }
-            sx={selectStyle}
+            sx={{
+              marginBottom: 2,
+              minWidth: "200px",
+            }}
           >
             {c.options.map((o) => {
               const text = o[language]
@@ -50,7 +42,7 @@ const FormikProductCustomization = ({
                 </MenuItem>
               )
             })}
-          </TextField>
+          </FormikSelect>
         )
       })}
     </>

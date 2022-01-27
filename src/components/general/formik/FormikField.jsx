@@ -10,6 +10,7 @@ const FormikField = ({
   multiline,
   placeholder,
   sx,
+  ...props
 }) => {
   const value = getInnerFieldFromObject(formik.values, field)
   const error = getInnerFieldFromObject(formik.errors, field)
@@ -31,6 +32,7 @@ const FormikField = ({
       multiline={multiline}
       placeholder={placeholder}
       sx={sx}
+      {...props}
     />
   )
 }

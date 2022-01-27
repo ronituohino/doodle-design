@@ -18,14 +18,14 @@ const AdminDrawer = () => {
   const {
     openLink,
     homeLink,
-    itemStatisticsLink,
-    itemManageLink,
-    itemCategoriesLink,
-    itemCampaignsLink,
+    productStatisticsLink,
+    productManageLink,
+    productCategoriesLink,
+    productCampaignsLink,
   } = useRouting()
   const { data } = useAccount()
 
-  const [itemTabOpen, setItemTabOpen] = useState(false)
+  const [productTabOpen, setItemTabOpen] = useState(false)
   const [userTabOpen, setUserTabOpen] = useState(false)
   const [orderTabOpen, setOrderTabOpen] = useState(false)
 
@@ -54,15 +54,15 @@ const AdminDrawer = () => {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              const newOpen = !itemTabOpen
+              const newOpen = !productTabOpen
               setItemTabOpen(newOpen)
             }}
           >
             <ListItemIcon>
               <Icon>apps</Icon>
             </ListItemIcon>
-            <ListItemText primary="Items" />
-            {itemTabOpen ? (
+            <ListItemText primary="Products" />
+            {productTabOpen ? (
               <Icon>expand_less</Icon>
             ) : (
               <Icon>expand_more</Icon>
@@ -70,12 +70,12 @@ const AdminDrawer = () => {
           </ListItemButton>
         </ListItem>
 
-        <Collapse in={itemTabOpen}>
+        <Collapse in={productTabOpen}>
           <List>
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  openLink(itemStatisticsLink())
+                  openLink(productStatisticsLink())
                 }}
                 sx={{ pl: 4 }}
               >
@@ -89,7 +89,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  openLink(itemManageLink())
+                  openLink(productManageLink())
                 }}
                 sx={{ pl: 4 }}
               >
@@ -103,7 +103,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  openLink(itemCategoriesLink())
+                  openLink(productCategoriesLink())
                 }}
                 sx={{ pl: 4 }}
               >
@@ -117,7 +117,7 @@ const AdminDrawer = () => {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  openLink(itemCampaignsLink())
+                  openLink(productCampaignsLink())
                 }}
                 sx={{ pl: 4 }}
               >
