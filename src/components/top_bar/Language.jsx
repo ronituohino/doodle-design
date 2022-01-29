@@ -22,7 +22,6 @@ const Language = () => {
       </IconButton>
 
       <Menu
-        sx={{ marginTop: 2 }}
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: "bottom",

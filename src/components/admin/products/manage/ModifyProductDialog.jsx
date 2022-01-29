@@ -105,6 +105,8 @@ const ModifyProductDialog = ({ open, handleClose }) => {
     enableReinitialize: true,
   })
 
+  const { data } = useQuery(GET_CATEGORIES)
+
   const [uploadFileMutation] = useMutation(FILE_UPLOAD, {
     onCompleted: (response) => {
       let pictureIdList = []
@@ -117,7 +119,7 @@ const ModifyProductDialog = ({ open, handleClose }) => {
           description: formik.values.description,
           customization: formik.values.customization,
           images: pictureIdList,
-          category: "61debc25cb80730456ee8074",
+          category: formik.values.category,
         },
       })
     },
@@ -133,8 +135,6 @@ const ModifyProductDialog = ({ open, handleClose }) => {
       })
     },
   })
-
-  const { data } = useQuery(GET_CATEGORIES)
 
   return (
     <Dialog

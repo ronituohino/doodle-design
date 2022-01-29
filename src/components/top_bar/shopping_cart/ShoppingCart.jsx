@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import {
   Badge,
   IconButton,
@@ -32,12 +32,8 @@ const ShoppingCart = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  const childRef = useRef()
   const closeMenu = () => {
     setAnchorEl(null)
-    if (childRef.current) {
-      childRef.current.onClose()
-    }
   }
 
   const notificationsLabel = (itemCount) => {
@@ -68,9 +64,6 @@ const ShoppingCart = () => {
       </IconButton>
 
       <Menu
-        sx={{
-          marginTop: 2,
-        }}
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: "bottom",
@@ -83,46 +76,85 @@ const ShoppingCart = () => {
         }}
         open={Boolean(anchorEl)}
         onClose={closeMenu}
+        sx={{ width: 400 }}
       >
-        <Box sx={{ width: 420 }}>
-          {totalAmount === 0 && <p>empty!</p>}
-          {totalAmount > 0 &&
-            data.cartProducts.map((obj) => (
-              <ShoppingCartProduct
-                key={obj.product.hash}
-                cartObject={obj}
-                ref={childRef}
-              />
-            ))}
-        </Box>
+        {totalAmount === 0 && (
+          <Box sx={{ p: 2 }}>
+            <Typography
+              color="grey.700"
+              sx={{ textAlign: "center", mb: 1 }}
+            >
+              Shopping cart empty, go add something!
+            </Typography>
+            <Button
+              fullWidth
+              variant="contained"
+              color="error"
+              onClick={() => {
+                closeMenu()
+              }}
+            >
+              Close Cart
+            </Button>
+          </Box>
+        )}
+        {totalAmount > 0 && (
+          <Box>
+            {data.cartProducts.map((obj) => {
+              return (
+                <ShoppingCartProduct
+                  key={obj.product.hash}
+                  cartObject={obj}
+                  closeMenu={closeMenu}
+                />
+              )
+            })}
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: 1,
-          }}
-        >
-          <Typography
-            sx={{
-              marginLeft: 1,
-              marginBottom: 1,
-              fontWeight: "bold",
-            }}
-          >
-            {`Total: ${formatPrice(totalPrice, language, "EUR")}`}
-          </Typography>
-        </Box>
-        <Divider />
-        <Button
-          color="primary"
-          onClick={() => {
-            openLink(checkoutLink())
-            closeMenu()
-          }}
-        >
-          Checkout
-        </Button>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 1,
+              }}
+            >
+              <Typography
+                sx={{
+                  marginLeft: 1,
+                  marginBottom: 1,
+                  fontWeight: "bold",
+                }}
+              >
+                {`Total: ${formatPrice(totalPrice, language, "EUR")}`}
+              </Typography>
+            </Box>
+            <Divider />
+
+            <Box sx={{ display: "flex", gap: "10px", p: 1 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  closeMenu()
+                }}
+              >
+                Close Cart
+              </Button>
+
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  openLink(checkoutLink())
+                  closeMenu()
+                }}
+              >
+                Open Checkout
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Menu>
     </>
   )

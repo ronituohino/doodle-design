@@ -3,7 +3,7 @@ import { List } from "@mui/material"
 import { useQuery } from "@apollo/client"
 import { GET_CATEGORIES } from "../../../../graphql/queries"
 import EditableCategory from "./EditableCategory"
-import CategorySubtitle from "../../CategorySubtitle"
+import CategorySubtitle from "../../../general/CategorySubtitle"
 
 const ProductCategories = () => {
   const { data } = useQuery(GET_CATEGORIES)

@@ -13,7 +13,8 @@ const FormikProductCustomization = ({
         const labelText = c.label[language]
 
         const value = formik.values[i]
-        const valueText = value.option ? value.option[language] : ""
+        const valueText =
+          value.option !== null ? value.option[language] : ""
 
         return (
           <FormikSelect
@@ -21,13 +22,16 @@ const FormikProductCustomization = ({
             key={labelText}
             field={labelText}
             label={labelText}
-            value={valueText}
+            overrideValue={valueText}
             onChange={(e) => {
               const option = c.options.find(
                 (o) => o[language] === e.target.value
               )
 
-              formik.setValues([{ label: c.label, option }])
+              const formikVals = formik.values
+              formikVals[i] = { label: c.label, option }
+
+              formik.setValues(formikVals)
             }}
             sx={{
               marginBottom: 2,

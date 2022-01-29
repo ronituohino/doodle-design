@@ -1,11 +1,25 @@
 const accountTypes = require("../constants/accountTypes")
 const { AuthenticationError } = require("apollo-server-express")
 
+const isLoggedIn = (context) => {
+  return (
+    context &&
+    context.currentAccount &&
+    context.currentAccount.accountType
+  )
+}
+
 const isAccountType = (context) => {
+  const isLogged = isLoggedIn(context)
+
   return {
-    admin: context.currentAccount.accountType === accountTypes.ADMIN,
-    customer:
-      context.currentAccount.accountType === accountTypes.CUSTOMER,
+    admin: isLogged
+      ? context.currentAccount.accountType === accountTypes.ADMIN
+      : false,
+    customer: isLogged
+      ? context.currentAccount.accountType === accountTypes.CUSTOMER
+      : false,
+    none: !isLogged,
   }
 }
 

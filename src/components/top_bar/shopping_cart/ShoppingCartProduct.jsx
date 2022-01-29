@@ -1,4 +1,4 @@
-import { useState, useEffect, useImperativeHandle } from "react"
+import { useState, useEffect } from "react"
 
 import {
   IconButton,
@@ -17,137 +17,138 @@ import { hasParentWithMatchingSelector } from "../../../utils/utils"
 
 import { formatPrice } from "../../../utils/formatting"
 import { useRouting } from "../../../hooks/useRouting"
-import { forwardRef } from "react"
 
 // eslint-disable-next-line react/display-name
-const ShoppingCartProduct = forwardRef(
-  ({ cartObject, hideControls }, ref) => {
-    // Call onClose from parent component
-    useImperativeHandle(ref, () => ({
-      onClose: () => {
-        setDeleteConfirm(false)
-      },
-    }))
+const ShoppingCartProduct = ({
+  cartObject,
+  hideControls,
+  closeMenu,
+}) => {
+  const {
+    setAmount,
+    increaseAmount,
+    decreaseAmount,
+    removeItemFromCart,
+  } = useShoppingCart()
+  const { language } = useLanguage()
+  const { openLink, productLink } = useRouting()
 
-    const {
-      setAmount,
-      increaseAmount,
-      decreaseAmount,
-      removeItemFromCart,
-    } = useShoppingCart()
-    const { language } = useLanguage()
-    const { openLink, productLink } = useRouting()
+  const [productAmount, setProductAmount] = useState(
+    cartObject.amount
+  )
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
 
-    const [productAmount, setProductAmount] = useState(
-      cartObject.amount
-    )
-    const [deleteConfirm, setDeleteConfirm] = useState(false)
+  // Updates productAmount when amount is modified outside
+  useEffect(() => {
+    setProductAmount(cartObject.amount)
+  }, [cartObject.amount])
 
-    // Updates productAmount when amount is modified outside
-    useEffect(() => {
-      setProductAmount(cartObject.amount)
-    }, [cartObject.amount])
+  // Strict input filtering
+  const filterInt = (value) => {
+    if (/^[-+]?(\d+|Infinity)$/.test(value)) {
+      return Number(value)
+    } else {
+      return NaN
+    }
+  }
 
-    // Strict input filtering
-    const filterInt = (value) => {
-      if (/^[-+]?(\d+|Infinity)$/.test(value)) {
-        return Number(value)
-      } else {
-        return NaN
-      }
+  // Called when user manually enters numbers,
+  // all numbers and "" allowed
+
+  // Also push changes to cache
+  const handleValueChange = (e) => {
+    if (e.target.value === "") {
+      setProductAmount("")
+      return
     }
 
-    // Called when user manually enters numbers,
-    // all numbers and "" allowed
-
-    // Also push changes to cache
-    const handleValueChange = (e) => {
-      if (e.target.value === "") {
-        setProductAmount("")
-        return
-      }
-
-      const number = filterInt(e.target.value)
-      if (!isNaN(number) && number < 100) {
-        if (number <= 0) {
-          setDeleteConfirm(true)
-          setProductAmount(cartObject.amount)
-        } else {
-          setProductAmount(e.target.value)
-          setAmount(cartObject.product, number)
-        }
-      }
-    }
-
-    // If the cart is closed while input is empty, set amount to 1
-    const handleBlur = (e) => {
-      if (e.target.value === "") {
+    const number = filterInt(e.target.value)
+    if (!isNaN(number) && number < 100) {
+      if (number <= 0) {
+        setDeleteConfirm(true)
         setProductAmount(cartObject.amount)
+      } else {
+        setProductAmount(e.target.value)
+        setAmount(cartObject.product, number)
       }
     }
+  }
 
-    const checkLinkClick = (e) => {
-      if (
-        !hasParentWithMatchingSelector(
-          e.target,
-          "#product-controls",
-          true
-        )
-      ) {
-        openLink(
-          productLink(
-            cartObject.product.category,
-            cartObject.product._id
-          )
-        )
-      }
+  // If the cart is closed while input is empty, set amount to 1
+  const handleBlur = (e) => {
+    if (e.target.value === "") {
+      setProductAmount(cartObject.amount)
     }
+  }
 
-    return (
-      <MenuItem
-        divider
-        disableTouchRipple={true}
-        onClick={(e) => checkLinkClick(e)}
+  const checkLinkClick = (e) => {
+    if (
+      !hasParentWithMatchingSelector(
+        e.target,
+        "#product-controls",
+        true
+      )
+    ) {
+      openLink(
+        productLink(
+          cartObject.product.category,
+          cartObject.product._id
+        )
+      )
+      setDeleteConfirm(false)
+      closeMenu()
+    }
+  }
+
+  return (
+    <MenuItem
+      divider
+      disableTouchRipple={true}
+      onClick={(e) => checkLinkClick(e)}
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "5px",
+        paddingRight: 2,
+      }}
+    >
+      <img
+        component="img"
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+        alt="name"
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: 4,
+        }}
+      />
+
+      <Box
         sx={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "5px",
+          alignSelf: "center",
+          minWidth: "35%",
+          flexGrow: 2,
         }}
       >
-        <img
-          component="img"
-          src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-          alt="name"
+        <Typography
+          variant="body1"
           style={{
-            width: 60,
-            height: 60,
-            borderRadius: 4,
-          }}
-        />
-
-        <Box
-          sx={{
-            alignSelf: "center",
-            minWidth: "35%",
-            flexGrow: 2,
+            fontWeight: "bold",
+            whiteSpace: "normal",
+            wordWrap: "break-word",
           }}
         >
-          <Typography
-            variant="body1"
-            style={{
-              fontWeight: "bold",
-              whiteSpace: "normal",
-              wordWrap: "break-word",
-            }}
-          >
-            {cartObject.product.name[language]}
-          </Typography>
+          {cartObject.product.name[language]}
+        </Typography>
 
-          {cartObject.product.customization &&
-            cartObject.product.customization.map((c) => {
-              return (
+        {cartObject.product.customization &&
+          cartObject.product.customization.map((c) => {
+            return (
+              <Box
+                key={`${cartObject.product.hash}-${c.label[language]}-${c.option[language]}`}
+                sx={{ marginTop: -1 }}
+              >
                 <Typography
-                  key={`${cartObject.product.hash}-${c.label[language]}-${c.option[language]}`}
                   variant="caption"
                   sx={{
                     color: "text.secondary",
@@ -155,74 +156,79 @@ const ShoppingCartProduct = forwardRef(
                 >
                   {c.label[language]}: {c.option[language]}
                 </Typography>
-              )
-            })}
-        </Box>
+              </Box>
+            )
+          })}
+      </Box>
 
-        <Box sx={{ minWidth: "24%" }}>
-          <Typography
-            noWrap
-            sx={{
-              fontWeight: "bold",
-            }}
-          >
-            {formatPrice(
-              cartObject.product.price.EUR * cartObject.amount,
-              language,
-              "EUR"
-            )}
-          </Typography>
+      <Box sx={{ minWidth: "24%" }}>
+        <Typography
+          noWrap
+          sx={{
+            fontWeight: "bold",
+          }}
+        >
+          {formatPrice(
+            cartObject.product.price.EUR * cartObject.amount,
+            language,
+            "EUR"
+          )}
+        </Typography>
 
-          <Typography
-            noWrap
-            variant="caption"
-            sx={{
-              color: "text.secondary",
-            }}
-          >
-            {`(${formatPrice(
-              cartObject.product.price.EUR,
-              language,
-              "EUR"
-            )} x${cartObject.amount})`}
-          </Typography>
-        </Box>
+        <Typography
+          noWrap
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
+          {`(${formatPrice(
+            cartObject.product.price.EUR,
+            language,
+            "EUR"
+          )} x${cartObject.amount})`}
+        </Typography>
+      </Box>
 
-        {!deleteConfirm && !hideControls && (
+      {!deleteConfirm && !hideControls && (
+        <Box sx={{ display: "flex" }}>
           <Box
             id="product-controls"
             sx={{
               display: "flex",
               flexDirection: "column",
-              paddingRight: 1,
-              paddingLeft: 1,
-              width: 46,
-              height: 80,
+              width: 60,
             }}
           >
-            <IconButton
-              disabled={cartObject.amount < 99 ? false : true}
-              disableRipple
+            <Box
               sx={{
-                width: 16,
-                height: 16,
+                width: 20,
+                height: 20,
                 alignSelf: "center",
-                paddingBottom: 1.5,
-              }}
-              onClick={() => {
-                increaseAmount(cartObject.product)
+                pb: 0.5,
               }}
             >
-              <Icon>expand_less</Icon>
-            </IconButton>
+              <IconButton
+                disabled={cartObject.amount < 99 ? false : true}
+                onClick={() => {
+                  increaseAmount(cartObject.product)
+                }}
+                sx={{
+                  width: 20,
+                  height: 20,
+                }}
+              >
+                <Icon>expand_less</Icon>
+              </IconButton>
+            </Box>
 
             <TextField
+              hiddenLabel
               value={productAmount}
               onChange={handleValueChange}
               onBlur={handleBlur}
               size="small"
               sx={{
-                textAlign: "center",
                 alignSelf: "center",
                 width: 46,
               }}
@@ -231,63 +237,60 @@ const ShoppingCartProduct = forwardRef(
               }}
             />
 
-            <IconButton
-              disabled={cartObject.amount <= 1 ? true : false}
-              disableRipple
+            <Box
               sx={{
-                width: 16,
-                height: 16,
+                width: 20,
+                height: 20,
                 alignSelf: "center",
-                paddingTop: 1.5,
               }}
-              onClick={() => decreaseAmount(cartObject)}
             >
-              <Icon>expand_more</Icon>
+              <IconButton
+                disabled={cartObject.amount <= 1 ? true : false}
+                sx={{
+                  width: 20,
+                  height: 20,
+                }}
+                onClick={() => decreaseAmount(cartObject)}
+              >
+                <Icon>expand_more</Icon>
+              </IconButton>
+            </Box>
+          </Box>
+
+          <Box sx={{ alignSelf: "center" }}>
+            <IconButton
+              id="product-controls"
+              onClick={() => setDeleteConfirm(true)}
+            >
+              <Icon>delete</Icon>
             </IconButton>
           </Box>
-        )}
-        {deleteConfirm && !hideControls && (
-          <Box
-            id="product-controls"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              paddingRight: 1,
-              paddingLeft: 1,
-              width: 46,
-              height: 80,
-            }}
+        </Box>
+      )}
+      {deleteConfirm && !hideControls && (
+        <Box
+          id="product-controls"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            paddingRight: 1,
+            paddingLeft: 1,
+            width: 60,
+            height: 80,
+          }}
+        >
+          <Button onClick={() => setDeleteConfirm(false)}>
+            Cancel
+          </Button>
+          <Button
+            onClick={() => removeItemFromCart(cartObject.product)}
           >
-            <Button onClick={() => setDeleteConfirm(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={() => removeItemFromCart(cartObject.product)}
-            >
-              Delete
-            </Button>
-          </Box>
-        )}
-
-        {!deleteConfirm && !hideControls && (
-          <IconButton
-            id="product-controls"
-            disableRipple
-            sx={{
-              width: 16,
-              height: 16,
-              position: "absolute",
-              top: "5px",
-              right: "20px",
-            }}
-            onClick={() => setDeleteConfirm(true)}
-          >
-            <Icon>clear</Icon>
-          </IconButton>
-        )}
-      </MenuItem>
-    )
-  }
-)
+            Delete
+          </Button>
+        </Box>
+      )}
+    </MenuItem>
+  )
+}
 
 export default ShoppingCartProduct

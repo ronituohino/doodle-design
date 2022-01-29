@@ -12,25 +12,24 @@ const SearchBar = ({ placeholder, sx }) => {
   const [searchWord, setSearchWord] = useState("")
 
   return (
-    <>
-      <TextField
-        size="small"
-        color="secondary"
-        placeholder={placeholder}
-        value={searchWord}
-        onChange={(e) => setSearchWord(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <IconButton sx={{ padding: 0.3 }}>
-                <Icon>search</Icon>
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        sx={sx}
-      ></TextField>
-    </>
+    <TextField
+      fullWidth
+      size="small"
+      color="secondary"
+      placeholder={placeholder}
+      value={searchWord}
+      onChange={(e) => setSearchWord(e.target.value)}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <IconButton sx={{ padding: 0.3 }}>
+              <Icon>search</Icon>
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+      sx={sx}
+    ></TextField>
   )
 }
 

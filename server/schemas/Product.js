@@ -50,12 +50,14 @@ const {
 const productResolvers = {
   Query: {
     productCount: async () => {
-      const items = await Product.find({})
-      return items.length
+      const products = await Product.find({})
+      return products.length
     },
     getProducts: async (root, args, context) => {
-      const hideInvisible = isAccountType(context).customer
-      const items = await Product.paginate(
+      const type = isAccountType(context)
+      const hideInvisible = type.customer || type.none
+
+      const products = await Product.paginate(
         {
           ...(args.category && { category: args.category }),
           ...(hideInvisible && { visible: true }),
@@ -63,12 +65,12 @@ const productResolvers = {
         getPagination(args.page, args.size)
       )
 
-      return items
+      return products
     },
 
     getProductById: async (root, args) => {
-      const item = await Product.findById(args.id)
-      return item
+      const product = await Product.findById(args.id)
+      return product
     },
 
     searchProducts: async (root, args) => {
@@ -84,7 +86,7 @@ const productResolvers = {
     createProduct: async (root, args, context) => {
       requireAdmin(context)
 
-      const item = new Product({
+      const product = new Product({
         name: args.name,
         price: args.price,
         customization: args.customization,
@@ -97,14 +99,14 @@ const productResolvers = {
         ratings: [],
       })
 
-      const result = await item.save()
+      const result = await product.save()
       return result
     },
 
     editProduct: async (root, args, context) => {
       requireAdmin(context)
 
-      const item = await Product.findByIdAndUpdate(
+      const product = await Product.findByIdAndUpdate(
         args._id,
         {
           ...(args.name && { name: args.name }),
@@ -124,7 +126,7 @@ const productResolvers = {
         { new: true }
       )
 
-      return item
+      return product
     },
   },
 }

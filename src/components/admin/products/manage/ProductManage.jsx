@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Box, Button } from "@mui/material"
 import SearchBar from "../../../top_bar/SearchBar"
 import ModifyProductDialog from "./ModifyProductDialog"
-import CategorySubtitle from "../../CategorySubtitle"
+import CategorySubtitle from "../../../general/CategorySubtitle"
 import ProductList from "../../../products/ProductList"
 
 const ProductManage = () => {

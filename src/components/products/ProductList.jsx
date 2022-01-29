@@ -5,6 +5,7 @@ import { GET_PRODUCTS } from "../../graphql/queries"
 
 import { useLanguage } from "../../hooks/useLanguage"
 
+import Loading from "../general/Loading"
 import ProductCard from "./ProductCard"
 import { useState } from "react"
 import { useEffect } from "react"
@@ -18,6 +19,7 @@ const ProductList = ({ category }) => {
 
   const [getProducts, { data, error }] = useLazyQuery(GET_PRODUCTS)
 
+  console.log(data)
   // this is called whenever category is changed
   useEffect(() => {
     console.log(category)
@@ -52,7 +54,7 @@ const ProductList = ({ category }) => {
               gap: "30px",
             }}
           >
-            {!data && <p>loading...</p>}
+            {!data && <Loading size={16} />}
             {data &&
               data.getProducts.docs.map((p) => (
                 <ProductCard key={p._id} product={p} />

@@ -39,7 +39,7 @@ const ProductInformation = ({ product }) => {
       // Add a hash: products with same _id might appear in lists
       const selectedItem = {
         ...product,
-        customization: values,
+        customization: [...values],
       }
 
       selectedItem.hash = hash(selectedItem)

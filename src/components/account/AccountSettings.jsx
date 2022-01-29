@@ -10,6 +10,7 @@ import { ACCOUNT } from "../../graphql/queries"
 import { useAccount } from "../../hooks/useAccount"
 
 import FormikField from "../general/formik/FormikField"
+import CategorySubtitle from "../general/CategorySubtitle"
 
 const AccountSettings = () => {
   const { data } = useAccount()
@@ -60,7 +61,7 @@ const AccountSettings = () => {
     <>
       {data && data.me && (
         <Box sx={{ padding: 2, width: "60%" }}>
-          <Typography color="primary">Account Settings</Typography>
+          <CategorySubtitle text="Account Settings" />
 
           <Box sx={{ mt: 2 }}>
             <Box sx={{ display: "flex", gap: "10px" }}>

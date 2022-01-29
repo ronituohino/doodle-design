@@ -29,7 +29,6 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                   key={obj.product.hash}
                   cartObject={obj}
                   hideControls={hideControls}
-                  ref={null}
                 />
               ))}
           </Paper>

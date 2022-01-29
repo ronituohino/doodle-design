@@ -13,11 +13,12 @@ const FormikSelect = ({
   sx,
   children,
 }) => {
-  const value = overrideValue
-    ? overrideValue
-    : getInnerFieldFromObject(formik.values, field)
-  const error = getInnerFieldFromObject(formik.errors, field)
+  const value =
+    overrideValue || overrideValue === ""
+      ? overrideValue
+      : getInnerFieldFromObject(formik.values, field)
 
+  const error = getInnerFieldFromObject(formik.errors, field)
   const string = isString(error)
 
   return (

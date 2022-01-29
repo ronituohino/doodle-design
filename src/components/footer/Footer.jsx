@@ -1,7 +1,11 @@
-import { Typography } from "@mui/material"
+import { Typography, Box } from "@mui/material"
 
 const Footer = () => {
-  return <Typography>Footer</Typography>
+  return (
+    <Box sx={{ position: "absolute", bottom: 0 }}>
+      <Typography>Footer</Typography>
+    </Box>
+  )
 }
 
 export default Footer

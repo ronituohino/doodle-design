@@ -38,14 +38,15 @@ const Admin = () => {
       {isAdmin && (
         <>
           <Box sx={{ display: "flex" }}>
-            <Box sx={{ width: "20%" }}>
-              <AdminDrawer />
-            </Box>
+            <AdminDrawer />
 
             <Divider orientation="vertical" flexItem />
 
             <Box
-              sx={{ width: "80%", backgroundColor: "common.white" }}
+              sx={{
+                width: "100%",
+                backgroundColor: "common.white",
+              }}
             >
               <Switch>
                 <Route path="/:language/admin/products/statistics">
