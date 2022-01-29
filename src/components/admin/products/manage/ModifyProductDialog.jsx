@@ -25,6 +25,8 @@ import FormikCustomization from "./FormikCustomization"
 import DropzonePictures from "../../../general/DropzonePictures"
 import FormikSelect from "../../../general/formik/FormikSelect"
 
+import { useSnackbar } from "notistack"
+
 const ModifyProductDialog = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
@@ -105,7 +107,6 @@ const ModifyProductDialog = ({ open, handleClose }) => {
 
   const [uploadFileMutation] = useMutation(FILE_UPLOAD, {
     onCompleted: (response) => {
-      console.log(response)
       let pictureIdList = []
       response.fileUpload.forEach((f) => pictureIdList.push(f._id))
 
@@ -122,9 +123,14 @@ const ModifyProductDialog = ({ open, handleClose }) => {
     },
   })
 
+  const { enqueueSnackbar } = useSnackbar()
+
   const [createProductMutation] = useMutation(CREATE_PRODUCT, {
-    onCompleted: (response) => {
-      console.log(response)
+    onCompleted: () => {
+      handleClose()
+      enqueueSnackbar("Product created!", {
+        variant: "success",
+      })
     },
   })
 

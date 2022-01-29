@@ -1,8 +1,10 @@
 import { useState } from "react"
 
-import { Container, Button } from "@mui/material"
+import { Box, Button } from "@mui/material"
 import SearchBar from "../../../top_bar/SearchBar"
 import ModifyProductDialog from "./ModifyProductDialog"
+import CategorySubtitle from "../../CategorySubtitle"
+import ProductList from "../../../products/ProductList"
 
 const ProductManage = () => {
   //const [page, setPage] = useState(0)
@@ -12,27 +14,27 @@ const ProductManage = () => {
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false)
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        mt: 10,
-        display: "flex",
-        gap: "10px",
-      }}
-    >
+    <>
+      <CategorySubtitle text="Manage" />
       <ModifyProductDialog
         open={modifyDialogOpen}
         handleClose={() => setModifyDialogOpen(false)}
       />
 
-      <SearchBar placeholder="Search" />
-      <Button
-        variant="contained"
-        onClick={() => setModifyDialogOpen(true)}
-      >
-        Add item
-      </Button>
-    </Container>
+      <Box sx={{ padding: 2, display: "flex", gap: "10px" }}>
+        <SearchBar placeholder="Search" />
+        <Button
+          variant="contained"
+          onClick={() => setModifyDialogOpen(true)}
+        >
+          Add item
+        </Button>
+      </Box>
+
+      <Box>
+        <ProductList />
+      </Box>
+    </>
   )
 }
 

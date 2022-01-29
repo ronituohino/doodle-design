@@ -1,5 +1,5 @@
-import { CircularProgress } from "@mui/material"
 import { LoadingButton as LB } from "@mui/lab"
+import Loading from "./Loading"
 
 const LoadingButton = ({
   text,
@@ -14,9 +14,7 @@ const LoadingButton = ({
   return (
     <LB
       loading={loading}
-      loadingIndicator={
-        <CircularProgress color="inherit" size={16} />
-      }
+      loadingIndicator={<Loading size={16} />}
       disabled={disabled}
       color={color}
       variant={variant}

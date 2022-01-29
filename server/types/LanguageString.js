@@ -1,6 +1,2 @@
-const LanguageString = {
-  en: String,
-  fi: String,
-}
-
-module.exports = LanguageString
+const language = require("../constants/language")
+module.exports = language.getMongoose()

@@ -1,29 +1,32 @@
-import { List, ListSubheader } from "@mui/material"
+import { List } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_CATEGORIES } from "../../../../graphql/queries"
 import EditableCategory from "./EditableCategory"
+import CategorySubtitle from "../../CategorySubtitle"
 
 const ProductCategories = () => {
   const { data } = useQuery(GET_CATEGORIES)
 
   return (
-    <List>
-      <ListSubheader>Categories</ListSubheader>
+    <>
+      <CategorySubtitle text="Categories" />
 
-      {data &&
-        data.getCategories &&
-        data.getCategories.map((category) => {
-          return (
-            <EditableCategory
-              key={category._id}
-              category={category}
-            />
-          )
-        })}
+      <List>
+        {data &&
+          data.getCategories &&
+          data.getCategories.map((category) => {
+            return (
+              <EditableCategory
+                key={category._id}
+                category={category}
+              />
+            )
+          })}
 
-      <EditableCategory add />
-    </List>
+        <EditableCategory add />
+      </List>
+    </>
   )
 }
 

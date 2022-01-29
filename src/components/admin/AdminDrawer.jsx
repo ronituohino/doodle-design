@@ -179,7 +179,7 @@ const AdminDrawer = () => {
             }}
           >
             <ListItemIcon>
-              <Icon name="LocalShippingIcon" />
+              <Icon>local_shipping</Icon>
             </ListItemIcon>
             <ListItemText primary="Orders" />
             {orderTabOpen ? (

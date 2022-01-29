@@ -19,6 +19,9 @@ const {
   productTypeDefs,
 } = require("./schemas/Product")
 
+const language = require("./constants/language")
+const currency = require("./constants/currency")
+
 const commonTypeDefs = `
   type Query {
     me: Account
@@ -42,15 +45,6 @@ const commonTypeDefs = `
     nextPage: Int!
   }
 
-  enum Language {
-    fi
-    en
-  }
-
-  enum Currency {
-    EUR
-  }
-
   type Token {
     token: String!
   }
@@ -65,14 +59,8 @@ const commonTypeDefs = `
     option: LanguageString!
   }
 
-  type LanguageString {
-    en: String!
-    fi: String!
-  }
-
-  type CurrencyFloat {
-    EUR: Float!
-  }
+  type LanguageString ${language.getGql()}
+  type CurrencyFloat ${currency.getGql()}
 
   input OptionsInput {
     label: LanguageStringInput!
@@ -84,14 +72,8 @@ const commonTypeDefs = `
     option: LanguageStringInput!
   }
 
-  input LanguageStringInput {
-    en: String!
-    fi: String!
-  }
-
-  input CurrencyFloatInput {
-    EUR: Float!
-  }
+  input LanguageStringInput ${language.getGql()}
+  input CurrencyFloatInput ${currency.getGql()}
 `
 const typeDefs = [
   commonTypeDefs,

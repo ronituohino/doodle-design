@@ -42,7 +42,10 @@ productSchema.plugin(mongoosePaginate)
 const Product = mongoose.model("Product", productSchema)
 
 const { getPagination } = require("../../server/utils/serverUtils")
-const { requireAdmin } = require("../../server/utils/authentication")
+const {
+  isAccountType,
+  requireAdmin,
+} = require("../../server/utils/authentication")
 
 const productResolvers = {
   Query: {
@@ -51,7 +54,7 @@ const productResolvers = {
       return items.length
     },
     getProducts: async (root, args, context) => {
-      const hideInvisible = context.currentUser === "Customer"
+      const hideInvisible = isAccountType(context).customer
       const items = await Product.paginate(
         {
           ...(args.category && { category: args.category }),

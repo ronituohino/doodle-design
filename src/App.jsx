@@ -1,5 +1,5 @@
 import Home from "./components/home/Home"
-import Content from "./components/content/Content"
+import Products from "./components/products/Products"
 import TopBar from "./components/top_bar/TopBar"
 import Admin from "./components/admin/Admin"
 
@@ -39,7 +39,7 @@ const App = () => {
                   </Route>
 
                   <Route path="/:language/product/:category">
-                    <Content />
+                    <Products />
                   </Route>
 
                   <Route path="/:language/account/register">

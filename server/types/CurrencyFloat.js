@@ -1,5 +1,2 @@
-const CurrencyFloat = {
-  EUR: Number,
-}
-
-module.exports = CurrencyFloat
+const currency = require("../constants/currency")
+module.exports = currency.getMongoose()

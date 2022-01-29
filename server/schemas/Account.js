@@ -33,7 +33,10 @@ const bcrypt = require("bcrypt")
 
 const { hashPassword, createToken } = require("../utils/serverUtils")
 
-const { requireLogin } = require("../utils/authentication")
+const {
+  requireLogin,
+  accountTypes,
+} = require("../utils/authentication")
 
 const accountResolvers = {
   Query: {
@@ -68,7 +71,7 @@ const accountResolvers = {
         username: args.username,
         password: passwordHash,
         email: args.email,
-        accountType: "Customer",
+        accountType: accountTypes.CUSTOMER,
         orders: [],
         cart: [],
         verified: false,
@@ -125,9 +128,8 @@ const accountTypeDefs = `
   }
 
   enum AccountType {
-    Customer
-    Support
-    Admin
+    ${accountTypes.ADMIN}
+    ${accountTypes.CUSTOMER}
   }
 
   extend type Mutation {
