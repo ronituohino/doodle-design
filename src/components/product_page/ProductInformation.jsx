@@ -9,6 +9,7 @@ import { formatPrice } from "../../utils/formatting"
 import FormikProductCustomization from "./FormikProductCustomization"
 
 import hash from "object-hash"
+import { useEffect } from "react"
 
 const ProductInformation = ({ product }) => {
   const { language } = useLanguage()
@@ -35,17 +36,9 @@ const ProductInformation = ({ product }) => {
         option: yup.object().required(""),
       })
     ),
-    onSubmit: (values) => {
-      // Add a hash: products with same _id might appear in lists
-      const selectedItem = {
-        ...product,
-        customization: [...values],
-      }
-
-      selectedItem.hash = hash(selectedItem)
-      addItemToCart(selectedItem)
-    },
   })
+
+  useEffect(() => formik.validateForm(), [])
 
   return (
     <Paper elevation={4} sx={{ width: "40%", padding: 2 }}>
@@ -68,22 +61,30 @@ const ProductInformation = ({ product }) => {
         {formatPrice(product.price.EUR, language, "EUR")}
       </Typography>
 
-      <form onSubmit={formik.handleSubmit}>
-        <FormikProductCustomization
-          formik={formik}
-          product={product}
-          language={language}
-        />
+      <FormikProductCustomization
+        formik={formik}
+        product={product}
+        language={language}
+      />
 
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Add to shopping cart
-        </Button>
-      </form>
+      <Button
+        disabled={!formik.isValid}
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={() => {
+          // Add a hash: products with same _id might appear in lists
+          const selectedProduct = {
+            ...product,
+            customization: [...formik.values],
+          }
+
+          selectedProduct.hash = hash(selectedProduct)
+          addItemToCart(selectedProduct)
+        }}
+      >
+        Add to shopping cart
+      </Button>
     </Paper>
   )
 }

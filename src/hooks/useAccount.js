@@ -7,13 +7,18 @@ import { ACCOUNT } from "../graphql/queries"
 import { LOGIN } from "../graphql/mutations"
 import { REGISTER } from "../graphql/mutations"
 
+import { useSnackbar } from "notistack"
+
 export const useAccount = (callback) => {
+  const { enqueueSnackbar } = useSnackbar()
   const { data } = useQuery(ACCOUNT)
   const client = useApolloClient()
 
   const [registerMutation, registerData] = useMutation(REGISTER, {
     onError: (error) => {
-      console.log(error)
+      enqueueSnackbar(`${error.message}`, {
+        variant: "error",
+      })
       return undefined
     },
     onCompleted: (response) => {
@@ -27,11 +32,14 @@ export const useAccount = (callback) => {
         callback()
       }
     },
+    notifyOnNetworkStatusChange: true,
   })
 
   const [loginMutation, loginData] = useMutation(LOGIN, {
     onError: (error) => {
-      console.log(error)
+      enqueueSnackbar(`${error.message}`, {
+        variant: "error",
+      })
       return undefined
     },
     onCompleted: (response) => {
@@ -45,6 +53,7 @@ export const useAccount = (callback) => {
         callback()
       }
     },
+    notifyOnNetworkStatusChange: true,
   })
 
   const register = (username, email, password) => {

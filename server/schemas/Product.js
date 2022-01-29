@@ -69,7 +69,9 @@ const productResolvers = {
     },
 
     getProductById: async (root, args) => {
-      const product = await Product.findById(args.id)
+      const product = await Product.findById(args.id).populate(
+        "category"
+      )
       return product
     },
 
@@ -140,7 +142,7 @@ const productTypeDefs = `
     customization: [Options]!
     description: LanguageString!
     availability: Availability!
-    category: ID!
+    category: Category!
     visible: Boolean!
     sale: Sale
     ratings: [Rating]

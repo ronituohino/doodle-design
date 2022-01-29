@@ -91,12 +91,12 @@ const ShoppingCartProduct = ({
     ) {
       openLink(
         productLink(
-          cartObject.product.category,
+          cartObject.product.category.name,
           cartObject.product._id
         )
       )
       setDeleteConfirm(false)
-      closeMenu()
+      closeMenu ? closeMenu() : null
     }
   }
 
@@ -108,8 +108,7 @@ const ShoppingCartProduct = ({
       sx={{
         display: "flex",
         flexDirection: "row",
-        gap: "5px",
-        paddingRight: 2,
+        gap: "10px",
       }}
     >
       <img
@@ -117,8 +116,8 @@ const ShoppingCartProduct = ({
         src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
         alt="name"
         style={{
-          width: 60,
-          height: 60,
+          width: 80,
+          height: 80,
           borderRadius: 4,
         }}
       />
@@ -126,7 +125,7 @@ const ShoppingCartProduct = ({
       <Box
         sx={{
           alignSelf: "center",
-          minWidth: "35%",
+          width: "35%",
           flexGrow: 2,
         }}
       >
@@ -161,7 +160,7 @@ const ShoppingCartProduct = ({
           })}
       </Box>
 
-      <Box sx={{ minWidth: "24%" }}>
+      <Box sx={{ width: "25%" }}>
         <Typography
           noWrap
           sx={{
@@ -191,13 +190,25 @@ const ShoppingCartProduct = ({
       </Box>
 
       {!deleteConfirm && !hideControls && (
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", gap: "5px" }}>
+          <Box sx={{ width: 30, height: 30, alignSelf: "center" }}>
+            <IconButton
+              id="product-controls"
+              onClick={() => setDeleteConfirm(true)}
+              sx={{
+                width: 30,
+                height: 30,
+              }}
+            >
+              <Icon>delete</Icon>
+            </IconButton>
+          </Box>
+
           <Box
             id="product-controls"
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: 60,
             }}
           >
             <Box
@@ -256,15 +267,6 @@ const ShoppingCartProduct = ({
               </IconButton>
             </Box>
           </Box>
-
-          <Box sx={{ alignSelf: "center" }}>
-            <IconButton
-              id="product-controls"
-              onClick={() => setDeleteConfirm(true)}
-            >
-              <Icon>delete</Icon>
-            </IconButton>
-          </Box>
         </Box>
       )}
       {deleteConfirm && !hideControls && (
@@ -272,10 +274,11 @@ const ShoppingCartProduct = ({
           id="product-controls"
           sx={{
             display: "flex",
+            justifyContent: "center",
             flexDirection: "column",
             paddingRight: 1,
             paddingLeft: 1,
-            width: 60,
+            width: 81,
             height: 80,
           }}
         >

@@ -19,10 +19,8 @@ const ProductList = ({ category }) => {
 
   const [getProducts, { data, error }] = useLazyQuery(GET_PRODUCTS)
 
-  console.log(data)
   // this is called whenever category is changed
   useEffect(() => {
-    console.log(category)
     getProducts({
       variables: {
         language,

@@ -23,7 +23,12 @@ export const GET_PRODUCTS = gql`
         price {
           EUR
         }
-        category
+        category {
+          _id
+          name
+          icon
+          label
+        }
       }
       totalPages
     }
@@ -59,7 +64,12 @@ export const GET_PRODUCT = gql`
       availability {
         available
       }
-      category
+      category {
+        _id
+        name
+        icon
+        label
+      }
       visible
       sale {
         salePrice {

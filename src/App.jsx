@@ -11,7 +11,7 @@ import AccountLogin from "./components/account/AccountLogin"
 import Checkout from "./components/checkout/Checkout"
 import Footer from "./components/footer/Footer"
 
-import { Container, Box } from "@mui/material"
+import { Container } from "@mui/material"
 
 const App = () => {
   return (
@@ -22,43 +22,43 @@ const App = () => {
 
       <Route path="/">
         <TopBar />
-        <Container maxWidth="md" sx={{ height: "100%" }}>
-          <Box sx={{ p: 2, height: "100%", backgroundColor: "blue" }}>
-            <Switch>
-              <Route path="/:language/product/:category/:id">
-                <ProductPage />
-              </Route>
 
-              <Route path="/:language/product/:category">
-                <Products />
-              </Route>
+        <Container sx={{ mt: 12 }}>
+          <Switch>
+            <Route path="/:language/product/:category/:id">
+              <ProductPage />
+            </Route>
 
-              <Route path="/:language/account/register">
-                <AccountRegister />
-              </Route>
+            <Route path="/:language/product/:category">
+              <Products />
+            </Route>
 
-              <Route path="/:language/account/login">
-                <AccountLogin />
-              </Route>
+            <Route path="/:language/account/register">
+              <AccountRegister />
+            </Route>
 
-              <Route path="/:language/account">
-                <Account />
-              </Route>
+            <Route path="/:language/account/login">
+              <AccountLogin />
+            </Route>
 
-              <Route path="/:language/checkout/">
-                <Checkout />
-              </Route>
+            <Route path="/:language/account">
+              <Account />
+            </Route>
 
-              <Route path="/:language/home">
-                <Home />
-              </Route>
+            <Route path="/:language/checkout/">
+              <Checkout />
+            </Route>
 
-              <Route path="/">
-                <Redirect to="/en/home" />
-              </Route>
-            </Switch>
-          </Box>
+            <Route path="/:language/home">
+              <Home />
+            </Route>
+
+            <Route path="/">
+              <Redirect to="/en/home" />
+            </Route>
+          </Switch>
         </Container>
+
         <Footer />
       </Route>
     </Switch>

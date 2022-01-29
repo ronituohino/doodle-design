@@ -15,11 +15,7 @@ const TopBar = () => {
   const { homeLink } = useRouting()
 
   return (
-    <AppBar
-      position="static"
-      color="primary"
-      sx={{ mt: -1, marginRight: 2 }}
-    >
+    <AppBar position="fixed" color="primary">
       <Toolbar disableGutters>
         <Container sx={{ display: "flex" }}>
           <Box sx={{ display: "flex", gap: "10px" }}>
@@ -49,9 +45,10 @@ const TopBar = () => {
             <SearchBar
               placeholder="Search..."
               sx={{
-                width: "50%",
+                width: "75%",
                 backgroundColor: "common.white",
                 borderRadius: 1,
+                alignSelf: "center",
               }}
             />
           </Box>

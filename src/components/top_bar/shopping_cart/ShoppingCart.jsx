@@ -76,13 +76,12 @@ const ShoppingCart = () => {
         }}
         open={Boolean(anchorEl)}
         onClose={closeMenu}
-        sx={{ width: 400 }}
       >
         {totalAmount === 0 && (
           <Box sx={{ p: 2 }}>
             <Typography
               color="grey.700"
-              sx={{ textAlign: "center", mb: 1 }}
+              sx={{ textAlign: "center", mb: 2 }}
             >
               Shopping cart empty, go add something!
             </Typography>

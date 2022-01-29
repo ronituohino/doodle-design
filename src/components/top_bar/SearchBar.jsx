@@ -13,7 +13,6 @@ const SearchBar = ({ placeholder, sx }) => {
 
   return (
     <TextField
-      fullWidth
       size="small"
       color="secondary"
       placeholder={placeholder}

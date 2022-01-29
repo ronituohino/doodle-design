@@ -9,6 +9,8 @@ import ProductPictures from "./ProductPictures"
 import ProductInformation from "./ProductInformation"
 import ProductExtras from "./ProductExtras"
 
+import Loading from "../general/Loading"
+
 const ProductPage = () => {
   const { id } = useParams()
   const { language } = useLanguage()
@@ -27,10 +29,10 @@ const ProductPage = () => {
       >
         <ProductPictures sx={{ width: "60%" }} />
 
-        {data ? (
+        {data && data.getProductById ? (
           <ProductInformation product={data.getProductById} />
         ) : (
-          <p>loading...</p>
+          <Loading size={16} />
         )}
       </Box>
 

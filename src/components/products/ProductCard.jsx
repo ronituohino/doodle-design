@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link
-      to={productLink(product.category, product._id)}
+      to={productLink(product.category.name, product._id)}
       style={{ textDecoration: "none" }}
     >
       <Paper elevation={4}>

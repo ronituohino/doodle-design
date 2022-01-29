@@ -127,7 +127,7 @@ const Checkout = () => {
   const { data, emptyCart } = useShoppingCart()
 
   const [createOrderMutation] = useMutation(CREATE_ORDER, {
-    onCompleted: (response) => {
+    onCompleted: () => {
       emptyCart()
 
       // Replace with success screen
