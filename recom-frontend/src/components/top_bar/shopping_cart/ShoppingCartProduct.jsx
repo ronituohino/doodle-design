@@ -96,7 +96,9 @@ const ShoppingCartProduct = ({
         )
       )
       setDeleteConfirm(false)
-      closeMenu ? closeMenu() : null
+      if (closeMenu) {
+        closeMenu()
+      }
     }
   }
 

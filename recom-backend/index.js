@@ -8,11 +8,8 @@ const {
 
 const { graphqlUploadExpress } = require("graphql-upload")
 
-const dotenv = require("dotenv")
-dotenv.config()
-
 // Check that environment variables are set
-const check = require("./server/utils/envValidation")
+const check = require("./utils/envValidation")
 check()
 
 const mongoose = require("mongoose")
@@ -23,8 +20,8 @@ const cors = require("cors")
 
 const jwt = require("jsonwebtoken")
 
-const { typeDefs, resolvers } = require("./server/Collective")
-const { Account } = require("./server/schemas/Account")
+const { typeDefs, resolvers } = require("./Collective")
+const { Account } = require("./schemas/Account")
 
 mongoose
   .connect(process.env.DB_URI)

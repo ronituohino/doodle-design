@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-import { Switch, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 
 import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
@@ -31,6 +31,7 @@ const Admin = () => {
         setIsAdmin(true)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   return (
@@ -48,23 +49,24 @@ const Admin = () => {
                 backgroundColor: "common.white",
               }}
             >
-              <Switch>
-                <Route path="/:language/admin/products/statistics">
-                  <Typography>Stats</Typography>
-                </Route>
-
-                <Route path="/:language/admin/products/manage">
-                  <ProductManage />
-                </Route>
-
-                <Route path="/:language/admin/products/categories">
-                  <ProductCategories />
-                </Route>
-
-                <Route path="/:language/admin/products/campaigns">
-                  <Typography>Campaigns</Typography>
-                </Route>
-              </Switch>
+              <Routes>
+                <Route
+                  path="/:language/admin/products/statistics"
+                  element={<Typography>Stats</Typography>}
+                />
+                <Route
+                  path="/:language/admin/products/manage"
+                  element={<ProductManage />}
+                />
+                <Route
+                  path="/:language/admin/products/categories"
+                  element={<ProductCategories />}
+                />
+                <Route
+                  path="/:language/admin/products/campaigns"
+                  element={<Typography>Campaigns</Typography>}
+                />
+              </Routes>
             </Box>
           </Box>
         </>

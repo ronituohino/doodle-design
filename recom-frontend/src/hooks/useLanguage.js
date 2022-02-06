@@ -2,14 +2,14 @@ import {
   useParams,
   matchPath,
   useLocation,
-  useHistory,
+  useNavigate,
 } from "react-router"
 
 export const useLanguage = () => {
   let language = "en"
 
   const params = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
 
   if (params.language !== undefined) {
@@ -29,7 +29,7 @@ export const useLanguage = () => {
   }
 
   const setLanguage = (language) => {
-    history.push(`/${language}${location.pathname.substring(3)}`)
+    navigate(`/${language}${location.pathname.substring(3)}`)
   }
 
   return { language, setLanguage }

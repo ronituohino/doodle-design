@@ -29,7 +29,7 @@ const accountSchema = new mongoose.Schema({
 
 const Account = mongoose.model("Account", accountSchema)
 
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 
 const { hashPassword, createToken } = require("../utils/serverUtils")
 

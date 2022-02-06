@@ -3,6 +3,14 @@ import ReactDOM from "react-dom"
 import App from "./App"
 import { BrowserRouter as Router } from "react-router-dom"
 
+import { ThemeProvider } from "@mui/material/styles"
+import theme from "./theme"
+
+import { SnackbarProvider } from "notistack"
+import { Collapse } from "@mui/material"
+
+import { Helmet, HelmetProvider } from "react-helmet-async"
+
 import {
   ApolloClient,
   ApolloLink,
@@ -34,14 +42,6 @@ const client = new ApolloClient({
   cache,
   link: authLink.concat(uploadLink),
 })
-
-import { ThemeProvider } from "@mui/material/styles"
-import theme from "./theme"
-
-import { SnackbarProvider } from "notistack"
-import { Collapse } from "@mui/material"
-
-import { Helmet, HelmetProvider } from "react-helmet-async"
 
 ReactDOM.render(
   <React.StrictMode>

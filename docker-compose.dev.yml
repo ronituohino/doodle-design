@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    logging:
+      driver: none
+
+  frontend:
+    image: recom-frontend
+    build:
+      context: ./recom-frontend # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+     - ./recom-frontend:/usr/src/recom-frontend # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+    ports:
+     - 3000:3000
+    container_name: recom-frontend # This will name the container recom-frontend
+
+  backend:
+    image: recom-backend
+    build:
+      context: ./recom-backend
+      dockerfile: dev.Dockerfile
+    volumes:
+     - ./recom-backend:/usr/src/recom-backend
+    ports:
+     - 4000:4000
+    environment: 
+      - BACKEND_PORT=${BACKEND_PORT}
+      - DB_URI=mongodb://the_username:the_password@mongo-container:27017/store
+      - JWT_SECRET=${JWT_SECRET}
+    container_name: recom-backend
+
+  mongo:
+    image: mongo
+    ports:
+     - 27017:27017
+    environment:
+     - MONGO_INITDB_ROOT_USERNAME=root
+     - MONGO_INITDB_ROOT_PASSWORD=example
+     - MONGO_INITDB_DATABASE=store
+    volumes:
+     - ./recom-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+     - ./recom-backend/mongo_data:/data/db
+    logging:
+      driver: none
+    container_name: "mongo-container"
+
+  

@@ -41,11 +41,11 @@ productSchema.plugin(mongoosePaginate)
 
 const Product = mongoose.model("Product", productSchema)
 
-const { getPagination } = require("../../server/utils/serverUtils")
+const { getPagination } = require("../utils/serverUtils")
 const {
   isAccountType,
   requireAdmin,
-} = require("../../server/utils/authentication")
+} = require("../utils/authentication")
 
 const productResolvers = {
   Query: {

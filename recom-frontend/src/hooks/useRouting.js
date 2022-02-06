@@ -1,17 +1,17 @@
-import { useHistory, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useLanguage } from "./useLanguage"
 
 export const useRouting = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { language } = useLanguage()
   const location = useLocation()
 
   const openLink = (link) => {
-    history.push(link)
+    navigate(link)
   }
 
   const back = () => {
-    history.goBack()
+    navigate(-1)
   }
 
   const inCheckout = () => {
