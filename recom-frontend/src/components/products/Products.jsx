@@ -10,11 +10,14 @@ import Loading from "../general/Loading"
 const Products = () => {
   const { data, loading } = useQuery(GET_CATEGORIES)
   const location = useLocation()
-  const urlCategoryName = matchPath(location.pathname, {
-    path: "/:language/product/:category",
-    exact: false,
-    strict: false,
-  }).params.category
+  const urlCategoryName = matchPath(
+    {
+      path: "/:language/product/:category",
+      exact: false,
+      strict: false,
+    },
+    location.pathname
+  ).params.category
 
   const category =
     data && data.getCategories

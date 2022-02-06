@@ -15,11 +15,14 @@ export const useLanguage = () => {
   if (params.language !== undefined) {
     language = params.language
   } else {
-    const match = matchPath(location.pathname, {
-      path: "/:language",
-      exact: false,
-      strict: false,
-    })
+    const match = matchPath(
+      {
+        path: "/:language",
+        exact: false,
+        strict: false,
+      },
+      location.pathname
+    )
 
     if (match) {
       language = match.params.language

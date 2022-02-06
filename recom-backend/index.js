@@ -68,9 +68,7 @@ const startApolloServer = async () => {
   await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
-  console.log(
-    `Server ready at http://localhost:${port}${server.graphqlPath}`
-  )
+  console.log("Server ready at http://localhost:8080/api/graphql")
 }
 
 startApolloServer()

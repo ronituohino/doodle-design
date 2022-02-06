@@ -1,6 +1,5 @@
 import Home from "./components/home/Home"
 import Products from "./components/products/Products"
-import TopBar from "./components/top_bar/TopBar"
 import Admin from "./components/admin/Admin"
 
 import { Routes, Route, Navigate } from "react-router-dom"
@@ -9,17 +8,15 @@ import ProductPage from "./components/product_page/ProductPage"
 import AccountRegister from "./components/account/AccountRegister"
 import AccountLogin from "./components/account/AccountLogin"
 import Checkout from "./components/checkout/Checkout"
-import Footer from "./components/footer/Footer"
 
-import { Container } from "@mui/material"
+import Layout from "./Layout"
 
 const App = () => {
   return (
     <Routes>
       <Route path="/:language/admin" element={<Admin />} />
 
-      <Route element={<TopBar />} />
-      <Route path="/" element={<Container sx={{ mt: 12 }} />}>
+      <Route path="/" element={<Layout />}>
         <Route
           path=":language/product/:category/:id"
           element={<ProductPage />}
@@ -42,7 +39,6 @@ const App = () => {
 
         <Route index element={<Navigate to="/en/home" />} />
       </Route>
-      <Route element={<Footer />} />
     </Routes>
   )
 }

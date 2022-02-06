@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 services:
   nginx:
     image: nginx:1.20.1
@@ -15,6 +15,8 @@ services:
     build:
       context: ./recom-frontend # The context will pick this directory as the "build context"
       dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    environment:
+      - CHOKIDAR_USEPOLLING=true # fixes hot reloading on windows
     volumes:
      - ./recom-frontend:/usr/src/recom-frontend # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
     ports:
@@ -31,6 +33,7 @@ services:
     ports:
      - 4000:4000
     environment: 
+      - CHOKIDAR_USEPOLLING=true
       - BACKEND_PORT=${BACKEND_PORT}
       - DB_URI=mongodb://the_username:the_password@mongo-container:27017/store
       - JWT_SECRET=${JWT_SECRET}

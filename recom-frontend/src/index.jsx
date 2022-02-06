@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import App from "./App"
-import { BrowserRouter as Router } from "react-router-dom"
+import { BrowserRouter } from "react-router-dom"
 
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "./theme"
@@ -20,10 +20,8 @@ import { createUploadLink } from "apollo-upload-client"
 
 import cache from "./cache"
 
-const port = process.env.BACKEND_PORT || 4000
-
 const uploadLink = createUploadLink({
-  uri: `http://localhost:${port}/graphql`,
+  uri: `http://localhost:8080/api/graphql`,
 })
 
 const authLink = new ApolloLink((operation, forward) => {
@@ -48,7 +46,7 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <HelmetProvider>
         <ThemeProvider theme={theme}>
-          <Router>
+          <BrowserRouter>
             <Helmet
               bodyAttributes={{
                 style:
@@ -61,7 +59,7 @@ ReactDOM.render(
             >
               <App />
             </SnackbarProvider>
-          </Router>
+          </BrowserRouter>
         </ThemeProvider>
       </HelmetProvider>
     </ApolloProvider>
