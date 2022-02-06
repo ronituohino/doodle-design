@@ -1,17 +1,17 @@
 version: '3'
 services:
-  nginx:
+  nginx-dev:
     image: nginx:1.20.1
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 8080:80
-    container_name: reverse-proxy
+    container_name: reverse-proxy-dev
     logging:
       driver: none
 
-  frontend:
-    image: recom-frontend
+  frontend-dev:
+    image: recom-frontend-dev
     build:
       context: ./recom-frontend # The context will pick this directory as the "build context"
       dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
@@ -21,10 +21,10 @@ services:
      - ./recom-frontend:/usr/src/recom-frontend # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
     ports:
      - 3000:3000
-    container_name: recom-frontend # This will name the container recom-frontend
+    container_name: recom-frontend-dev # This will name the container recom-frontend
 
-  backend:
-    image: recom-backend
+  backend-dev:
+    image: recom-backend-dev
     build:
       context: ./recom-backend
       dockerfile: dev.Dockerfile
@@ -35,11 +35,11 @@ services:
     environment: 
       - CHOKIDAR_USEPOLLING=true
       - BACKEND_PORT=${BACKEND_PORT}
-      - DB_URI=mongodb://the_username:the_password@mongo-container:27017/store
+      - DB_URI=${DB_URI_DEV}
       - JWT_SECRET=${JWT_SECRET}
-    container_name: recom-backend
+    container_name: recom-backend-dev
 
-  mongo:
+  mongo-dev:
     image: mongo
     ports:
      - 27017:27017
