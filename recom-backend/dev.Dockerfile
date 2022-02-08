@@ -1,6 +1,8 @@
 FROM node:16
 
-WORKDIR /usr/src/recom-backend
+ENV NODE_ENV=development
+
+WORKDIR /recom-backend
 
 COPY --chown=node:node . .
 

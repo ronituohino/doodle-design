@@ -1,10 +1,11 @@
 FROM node:16
 
-WORKDIR /usr/src/recom-frontend
+ENV NODE_ENV=development
+ENV REACT_APP_BACKEND_URL=http://localhost/api
+
+WORKDIR /recom-frontend
 
 COPY . .
-
-ENV REACT_APP_BACKEND_URL=http://api.localhost/
 
 RUN npm install
 

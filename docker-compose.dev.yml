@@ -1,20 +1,12 @@
-version: '3.8'
+version: '3'
 
 services:
   reverse-proxy-dev:
-    image: traefik:v2.6
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web-secure.address=:443"
+    image: nginx:1.20.1
     ports:
       - 80:80
-      - 8080:8080
-      - 443:443
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
     container_name: reverse-proxy-dev
     logging:
       driver: none
@@ -25,14 +17,11 @@ services:
       context: ./recom-frontend # The context will pick this directory as the "build context"
       dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
     volumes:
-     - ./recom-frontend:/usr/src/recom-frontend # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+     - ./recom-frontend:/recom-frontend # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
     ports:
      - 3000:3000
-    labels:
-      - traefik.enable=true
-      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto = https
-      - traefik.http.routers.frontend.rule=Host(`localhost`)
-      - traefik.http.routers.frontend.entrypoints=web
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
     container_name: recom-frontend-dev # This will name the container recom-frontend
 
   backend-dev:
@@ -41,7 +30,7 @@ services:
       context: ./recom-backend
       dockerfile: dev.Dockerfile
     volumes:
-     - ./recom-backend:/usr/src/recom-backend
+     - ./recom-backend:/recom-backend
     ports:
      - 4000:4000
     environment: 
@@ -49,10 +38,6 @@ services:
       - BACKEND_PORT=${BACKEND_PORT}
       - DB_URI=${DB_URI_DEV}
       - JWT_SECRET=${JWT_SECRET}
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`api.localhost`)
-      - traefik.http.routers.backend.entrypoints=web
     container_name: recom-backend-dev
 
   mongo-dev:
