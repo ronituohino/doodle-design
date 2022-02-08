@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM mhart/alpine-node
 
 ENV NODE_ENV=development
 # fixes hot reload problems on W10

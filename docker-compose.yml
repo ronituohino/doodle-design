@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   prod-nginx-proxy:
-    image: nginx
+    image: nginx:alpine
     ports:
       - 80:80
     volumes:
@@ -10,7 +10,6 @@ services:
     container_name: prod-nginx-proxy
 
   prod-recom-frontend:
-    image: recom-frontend
     build:
       context: ./recom-frontend # The context will pick this directory as the "build context"
       dockerfile: Dockerfile # This will simply tell which dockerfile to read
@@ -19,7 +18,6 @@ services:
     container_name: prod-recom-frontend # This will name the container recom-frontend
 
   prod-recom-backend:
-    image: recom-backend
     build:
       context: ./recom-backend
       dockerfile: Dockerfile

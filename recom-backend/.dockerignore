@@ -1,4 +1,5 @@
 .dockerignore
 node_modules/
+mongo_data/
 dev.Dockerfile
 Dockerfile
