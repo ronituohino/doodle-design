@@ -1,22 +1,10 @@
-const {
-  ApolloServer,
-  AuthenticationError,
-} = require("apollo-server-express")
-const {
-  ApolloServerPluginDrainHttpServer,
-} = require("apollo-server-core")
-
-const { graphqlUploadExpress } = require("graphql-upload")
+const { ApolloServer, AuthenticationError } = require("apollo-server")
 
 // Check that environment variables are set
 const check = require("./utils/envValidation")
 check()
 
 const mongoose = require("mongoose")
-
-const express = require("express")
-const http = require("http")
-const cors = require("cors")
 
 const jwt = require("jsonwebtoken")
 
@@ -29,15 +17,8 @@ mongoose
   .catch((e) => console.log(`Error connecting to database: ${e}`))
 
 const startApolloServer = async () => {
-  const app = express()
-  app.use(express.static("build"))
-  app.use(cors())
-  app.use(
-    graphqlUploadExpress({ maxFileSize: 16000000, maxFiles: 10 })
-  )
-
-  const httpServer = http.createServer(app)
   const server = new ApolloServer({
+    cors: true,
     typeDefs,
     resolvers,
     context: async ({ req }) => {
@@ -58,17 +39,13 @@ const startApolloServer = async () => {
         }
       }
     },
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   })
 
-  await server.start()
-  server.applyMiddleware({ app })
-
   const port = process.env.BACKEND_PORT || 4000
-  await new Promise((resolve) => httpServer.listen({ port }, resolve))
+  await server.listen({ port })
 
   //eslint-disable-next-line
-  console.log("Server ready at http://localhost:8080/api/graphql")
+  console.log("Server ready at http://localhost:4000/graphql")
 }
 
 startApolloServer()
