@@ -11,11 +11,6 @@ const checkEnvironmentVariables = () => {
       "Missing .env variable JWT_SECRET, set to a secret key (String) that is used to encrypt/decrypt tokens\n"
     )
   }
-  if (!process.env.BACKEND_PORT) {
-    errors.push(
-      "Missing .env variable BACKEND_PORT, set to a port number (Int) that users connect to\n"
-    )
-  }
 
   if (errors.length > 0) {
     throw new Error(errors)

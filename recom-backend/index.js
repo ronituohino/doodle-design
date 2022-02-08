@@ -41,11 +41,11 @@ const startApolloServer = async () => {
     },
   })
 
-  const port = process.env.BACKEND_PORT || 4000
+  const port = 4000
   await server.listen({ port })
 
   //eslint-disable-next-line
-  console.log("Server ready at http://localhost:4000/graphql")
+  console.log(`Backend ready!`)
 }
 
 startApolloServer()

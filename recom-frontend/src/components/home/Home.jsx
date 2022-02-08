@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 
 const Home = () => {
-  return <Typography>react change plssss</Typography>
+  return <Typography>Home!</Typography>
 }
 
 export default Home
