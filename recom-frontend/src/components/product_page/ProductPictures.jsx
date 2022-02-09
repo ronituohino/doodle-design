@@ -23,6 +23,7 @@ const ProductPictures = ({ product }) => {
 
       <Box>
         <img
+          alt="big preview"
           component="img"
           src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
           style={{

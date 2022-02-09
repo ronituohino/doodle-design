@@ -8,6 +8,7 @@ const ProductImage = ({ index, selected, onHover }) => {
       sx={{ border: 2, borderRadius: 1 }}
     >
       <img
+        alt="small selectable for preview"
         component="img"
         src="https://upload.wikimedia.org/wikipedia/commons/7/76/Mozilla_Firefox_logo_2013.svg"
         style={{

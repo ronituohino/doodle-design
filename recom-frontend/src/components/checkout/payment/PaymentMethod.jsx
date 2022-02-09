@@ -19,6 +19,7 @@ const PaymentMethod = ({ name, imgSrc, selected, selectThis }) => {
         sx={{ cursor: "pointer", border: 2, borderRadius: 2, ...sx }}
       >
         <img
+          alt={name}
           src={imgSrc}
           style={{
             borderRadius: 8,

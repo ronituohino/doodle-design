@@ -38,6 +38,7 @@ const ProductInformation = ({ product }) => {
     ),
   })
 
+  // eslint-disable-next-line
   useEffect(() => formik.validateForm(), [])
 
   return (

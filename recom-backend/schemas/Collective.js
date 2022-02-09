@@ -1,26 +1,17 @@
 const { GraphQLUpload } = require("graphql-upload")
 
-const {
-  accountResolvers,
-  accountTypeDefs,
-} = require("./schemas/Account")
+const { accountResolvers, accountTypeDefs } = require("./Account")
 
-const {
-  categoryResolvers,
-  categoryTypeDefs,
-} = require("./schemas/Category")
+const { categoryResolvers, categoryTypeDefs } = require("./Category")
 
-const { fileResolvers, fileTypeDefs } = require("./schemas/File")
+const { fileResolvers, fileTypeDefs } = require("./File")
 
-const { orderResolvers, orderTypeDefs } = require("./schemas/Order")
+const { orderResolvers, orderTypeDefs } = require("./Order")
 
-const {
-  productResolvers,
-  productTypeDefs,
-} = require("./schemas/Product")
+const { productResolvers, productTypeDefs } = require("./Product")
 
-const language = require("./constants/language")
-const currency = require("./constants/currency")
+const language = require("../constants/language")
+const currency = require("../constants/currency")
 
 const commonTypeDefs = `
   type Query {
@@ -29,20 +20,6 @@ const commonTypeDefs = `
 
   type Mutation {
     login(email: String!, password: String!): Token
-  }
-
-  type Paginated {
-    docs: [Product]!
-    totalDocs: Int!
-    offset: Int!
-    limit: Int!
-    totalPages: Int!
-    page: Int!
-    pagingCounter: Int!
-    hasPrevPage: Boolean!
-    hasNextPage: Boolean!
-    prevPage: Int!
-    nextPage: Int!
   }
 
   type Token {

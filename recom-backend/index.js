@@ -8,7 +8,7 @@ const mongoose = require("mongoose")
 
 const jwt = require("jsonwebtoken")
 
-const { typeDefs, resolvers } = require("./Collective")
+const { typeDefs, resolvers } = require("./schemas/Collective")
 const { Account } = require("./schemas/Account")
 
 mongoose
@@ -35,7 +35,7 @@ const startApolloServer = async () => {
           )
           return { currentAccount }
         } catch (error) {
-          throw new AuthenticationError("Invalid token")
+          return
         }
       }
     },

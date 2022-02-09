@@ -3,13 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "keywords": [
-    "recom",
-    "react",
-    "e-commerce",
-    "store",
-    "shop"
-  ],
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"

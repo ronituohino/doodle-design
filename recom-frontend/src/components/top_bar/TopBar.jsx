@@ -23,6 +23,7 @@ const TopBar = () => {
 
             <Link to={homeLink()} sx={{ alignSelf: "center" }}>
               <img
+                alt="shop logo, link to home page"
                 style={{
                   height: 40,
                   width: 80,

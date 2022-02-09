@@ -55,6 +55,8 @@ const AccountSettings = () => {
     if (data && data.me) {
       emailFormik.setFieldValue("email", data.me.email)
     }
+
+    // eslint-disable-next-line
   }, [data])
 
   return (

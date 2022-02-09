@@ -48,6 +48,13 @@ const {
 } = require("../utils/authentication")
 
 const productResolvers = {
+  Product: {
+    category: (root) => {
+      root.category
+      console.log(root)
+    },
+  },
+
   Query: {
     productCount: async () => {
       const products = await Product.find({})
@@ -56,6 +63,7 @@ const productResolvers = {
     getProducts: async (root, args, context) => {
       const type = isAccountType(context)
       const hideInvisible = type.customer || type.none
+      console.log(hideInvisible)
 
       const products = await Product.paginate(
         {
@@ -69,9 +77,7 @@ const productResolvers = {
     },
 
     getProductById: async (root, args) => {
-      const product = await Product.findById(args.id).populate(
-        "category"
-      )
+      const product = await Product.findById(args.id)
       return product
     },
 
@@ -138,7 +144,7 @@ const productTypeDefs = `
     _id: ID!
     name: LanguageString!
     price: CurrencyFloat!
-    images: [ID!]!
+    images: [File!]!
     customization: [Options]!
     description: LanguageString!
     availability: Availability!
@@ -146,6 +152,20 @@ const productTypeDefs = `
     visible: Boolean!
     sale: Sale
     ratings: [Rating]
+  }
+
+  type Paginated {
+    docs: [Product]!
+    totalDocs: Int!
+    offset: Int!
+    limit: Int!
+    totalPages: Int!
+    page: Int!
+    pagingCounter: Int!
+    hasPrevPage: Boolean!
+    hasNextPage: Boolean!
+    prevPage: Int!
+    nextPage: Int!
   }
 
   type Availability {

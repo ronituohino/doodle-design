@@ -4,6 +4,7 @@ import { Typography } from "@mui/material"
 const PaymentDisplay = ({ checkout, constants }) => {
   let paymentMethodText = ""
   let paymentProviderText = ""
+
   switch (checkout.paymentDetails.paymentMethod) {
     case constants.PREPAYMENT:
       paymentMethodText = "Prepayment"
@@ -15,6 +16,9 @@ const PaymentDisplay = ({ checkout, constants }) => {
       break
     case constants.LOCAL_PAYMENT:
       paymentMethodText = "Pay at the store"
+      break
+    default:
+      console.error("Payment method not supported!")
       break
   }
   return (

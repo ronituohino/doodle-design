@@ -33,6 +33,9 @@ const Confirmation = ({
       isStorePickup = true
       deliveryAddress = checkout.deliveryDetails.storePickupAddress
       break
+    default:
+      console.error("Delivery method not supported!")
+      break
   }
 
   return (

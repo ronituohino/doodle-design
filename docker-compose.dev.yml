@@ -1,39 +1,14 @@
 version: '3.8'
 
+# development Docker services
 services:
-  dev-nginx-proxy:
-    image: nginx:alpine
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
-    container_name: dev-proxy
-  
-  dev-recom-frontend:
-    build:
-      context: ./recom-frontend # The context will pick this directory as the "build context"
-      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
-    volumes:
-     - ./recom-frontend:/recom-frontend # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
-    ports:
-     - 3000:3000
-    container_name: dev-recom-frontend # This will name the container recom-frontend
-
-  dev-recom-backend:
-    build:
-      context: ./recom-backend
-      dockerfile: dev.Dockerfile
-    volumes:
-     - ./recom-backend:/recom-backend
-    ports:
-     - 4000:4000
-    environment: 
-      - DB_URI=mongodb://the_username:the_password@dev-mongo-database:27017/store
-      - JWT_SECRET=${JWT_SECRET}
-    container_name: dev-recom-backend
-
-  dev-mongo-database:
+  # local mongo database with initial values
+  # defined in mongo/mongo-init.js
+  mongo:
     image: mongo
+    command:
+      - --logpath
+      - /var/log/mongodb/mongod.log
     ports:
      - 27017:27017
     environment:
@@ -41,8 +16,6 @@ services:
      - MONGO_INITDB_ROOT_PASSWORD=example
      - MONGO_INITDB_DATABASE=store
     volumes:
-     - ./recom-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
-     - ./recom-backend/mongo_data:/data/db
-    container_name: dev-mongo-database
-
-  
+     - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+     - ./mongo/mongo_data:/data/db
+    container_name: mongo

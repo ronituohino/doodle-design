@@ -24,6 +24,7 @@ export const useShoppingCart = () => {
 
       // to do ...
     }
+    // eslint-disable-next-line
   }, [language])
 
   const match = (product) => {

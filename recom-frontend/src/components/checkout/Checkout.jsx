@@ -74,6 +74,7 @@ const Checkout = () => {
       paymentFormik.isValid,
       confirmationFormik.isValid
     )
+    // eslint-disable-next-line
   }, [
     billingFormik.isValid,
     deliveryFormik.isValid,
@@ -183,6 +184,10 @@ const Checkout = () => {
           lastName: billingAddress.lastName,
           ...checkout.deliveryDetails.storePickupAddress,
         }
+        break
+      default:
+        console.error("Delivery method not supported!")
+        break
     }
     deliveryAddress.phone = checkout.deliveryDetails.phone
 
@@ -206,6 +211,10 @@ const Checkout = () => {
           method: constants.LOCAL_PAYMENT,
           provider: "",
         }
+        break
+      default:
+        console.error("Payment method not supported!")
+        break
     }
 
     createOrderMutation({

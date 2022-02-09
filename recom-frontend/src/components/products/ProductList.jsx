@@ -31,6 +31,7 @@ const ProductList = ({ category }) => {
       },
     })
     setPage(0)
+    // eslint-disable-next-line
   }, [category])
 
   // callback from bottom pagination component
