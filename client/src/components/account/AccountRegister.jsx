@@ -25,6 +25,7 @@ import { useSnackbar } from "notistack"
 const AccountRegister = () => {
   const { openLink, homeLink, loginLink } = useRouting()
   const { enqueueSnackbar } = useSnackbar()
+  const [waiting, setWaiting] = useState(false)
 
   const { register, registerData } = useAccount(() => {
     enqueueSnackbar("Account created, welcome!", {
@@ -54,7 +55,10 @@ const AccountRegister = () => {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      register(values.username, values.email, values.password)
+      setWaiting(true)
+      setTimeout(() => {
+        register(values.username, values.email, values.password)
+      }, 4000)
     },
   })
 
@@ -104,7 +108,9 @@ const AccountRegister = () => {
           sx={{ marginBottom: 2 }}
         />
         <LoadingButton
-          loading={registerData ? registerData.loading : false}
+          loading={
+            waiting || (registerData ? registerData.loading : false)
+          }
           disabled={
             !formik.isValid || formik.values === formik.initialValues
           }

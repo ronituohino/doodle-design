@@ -10,6 +10,7 @@ import { Link } from "react-router-dom"
 const ProductCard = ({ product }) => {
   const { language } = useLanguage()
   const { productLink } = useRouting()
+  console.log(product)
 
   return (
     <Link
@@ -19,7 +20,7 @@ const ProductCard = ({ product }) => {
       <Paper elevation={4}>
         <img
           component="img"
-          src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+          src="/files/images/61f51b243c71ee71cd527114-test.png"
           alt="name"
           style={{
             width: "200px",

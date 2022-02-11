@@ -18,8 +18,17 @@ db.accounts.insert({
   username: "roni",
   email: "roni@gmail.com",
   password:
-    "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i",
+    "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
   accountType: "Admin",
+  verified: false,
+})
+
+db.accounts.insert({
+  username: "jare",
+  email: "jare@gmail.com",
+  password:
+    "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
+  accountType: "Customer",
   verified: false,
 })
 

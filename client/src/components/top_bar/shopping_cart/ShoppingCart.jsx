@@ -52,16 +52,18 @@ const ShoppingCart = () => {
 
   return (
     <>
-      <IconButton
-        disabled={disableCartButton}
-        color="inherit"
-        onClick={openMenu}
-        aria-label={notificationsLabel(totalAmount)}
-      >
-        <Badge badgeContent={totalAmount} color="secondary">
-          <Icon>shopping_cart</Icon>
-        </Badge>
-      </IconButton>
+      <Box sx={{ alignSelf: "center" }}>
+        <IconButton
+          disabled={disableCartButton}
+          color="inherit"
+          onClick={openMenu}
+          aria-label={notificationsLabel(totalAmount)}
+        >
+          <Badge badgeContent={totalAmount} color="secondary">
+            <Icon>shopping_cart</Icon>
+          </Badge>
+        </IconButton>
+      </Box>
 
       <Menu
         anchorEl={anchorEl}
@@ -78,23 +80,13 @@ const ShoppingCart = () => {
         onClose={closeMenu}
       >
         {totalAmount === 0 && (
-          <Box sx={{ p: 2 }}>
+          <Box sx={{ p: 2, pb: 0 }}>
             <Typography
               color="grey.700"
               sx={{ textAlign: "center", mb: 2 }}
             >
               Shopping cart empty, go add something!
             </Typography>
-            <Button
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => {
-                closeMenu()
-              }}
-            >
-              Close Cart
-            </Button>
           </Box>
         )}
         {totalAmount > 0 && (
@@ -128,18 +120,7 @@ const ShoppingCart = () => {
             </Box>
             <Divider />
 
-            <Box sx={{ display: "flex", gap: "10px", p: 1 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="error"
-                onClick={() => {
-                  closeMenu()
-                }}
-              >
-                Close Cart
-              </Button>
-
+            <Box sx={{ display: "flex", gap: "10px", p: 1, pb: 0 }}>
               <Button
                 fullWidth
                 variant="contained"

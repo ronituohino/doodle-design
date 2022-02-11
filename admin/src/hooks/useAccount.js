@@ -26,10 +26,6 @@ export const useAccount = (callback) => {
       client.refetchQueries({
         include: [ACCOUNT],
       })
-
-      if (callback) {
-        callback()
-      }
     },
     notifyOnNetworkStatusChange: true,
   })

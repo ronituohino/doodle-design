@@ -1,6 +1,6 @@
 import { Box, Button, Typography, Paper } from "@mui/material"
 import { useState } from "react"
-import { getPostalPoints } from "../../../axios/requests"
+import { getPostalPoints } from "../../../utils/requests"
 
 import ParcelAddress from "./ParcelAddress"
 import FormikField from "../../general/formik/FormikField"

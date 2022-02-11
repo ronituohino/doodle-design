@@ -11,7 +11,7 @@ import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
 
 const AccountPanelLoggedIn = ({ closeMenu }) => {
-  const { openLink, adminLink, accountLink } = useRouting()
+  const { openLink, accountLink } = useRouting()
   const { logOut, data } = useAccount()
 
   return (
@@ -33,25 +33,6 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
           <ListItemText primary="Settings" />
         </ListItemButton>
       </ListItem>
-
-      {(data.me.accountType === "Admin" ||
-        data.me.accountType === "Support") && (
-        <>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => {
-                openLink(adminLink())
-                closeMenu()
-              }}
-            >
-              <ListItemIcon>
-                <Icon>admin_panel_settings</Icon>
-              </ListItemIcon>
-              <ListItemText primary="Admin Panel" />
-            </ListItemButton>
-          </ListItem>
-        </>
-      )}
 
       <ListItem disablePadding>
         <ListItemButton

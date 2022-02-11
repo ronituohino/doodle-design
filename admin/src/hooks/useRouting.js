@@ -14,23 +14,23 @@ export const useRouting = () => {
   }
 
   const adminLink = () => {
-    return `/${language}/admin`
+    return `/${language}/`
   }
 
   const productStatisticsLink = () => {
-    return `/${language}/admin/products/statistics`
+    return `/${language}/products/statistics`
   }
 
   const productManageLink = () => {
-    return `/${language}/admin/products/manage`
+    return `/${language}/products/manage`
   }
 
   const productCategoriesLink = () => {
-    return `/${language}/admin/products/categories`
+    return `/${language}/products/categories`
   }
 
   const productCampaignsLink = () => {
-    return `/${language}/admin/products/campaigns`
+    return `/${language}/products/campaigns`
   }
 
   return {

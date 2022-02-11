@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react"
 import { useAccount } from "../../hooks/useAccount"
 
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate, Outlet } from "react-router-dom"
 
 import Layout from "./Layout"
 import { Typography } from "@mui/material"
 
 import ProductManage from "../products/manage/ProductManage"
 import ProductCategories from "../products/categories/ProductCategories"
+import { useRouting } from "../../hooks/useRouting"
 
 const App = () => {
   const { data } = useAccount()
+  const { adminLink } = useRouting()
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
@@ -25,23 +27,27 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout isAdmin={isAdmin} />}>
-        <Route
-          path="/:language/products/statistics"
-          element={<Typography>Stats</Typography>}
-        />
-        <Route
-          path="/:language/products/manage"
-          element={<ProductManage />}
-        />
-        <Route
-          path="/:language/products/categories"
-          element={<ProductCategories />}
-        />
-        <Route
-          path="/:language/products/campaigns"
-          element={<Typography>Campaigns</Typography>}
-        />
+        <Route path="/:language" element={<Outlet />}>
+          <Route
+            path="/:language/products/statistics"
+            element={<Typography>Stats</Typography>}
+          />
+          <Route
+            path="/:language/products/manage"
+            element={<ProductManage />}
+          />
+          <Route
+            path="/:language/products/categories"
+            element={<ProductCategories />}
+          />
+          <Route
+            path="/:language/products/campaigns"
+            element={<Typography>Campaigns</Typography>}
+          />
+        </Route>
       </Route>
+
+      <Route index element={<Navigate to={adminLink()} />} />
     </Routes>
   )
 }

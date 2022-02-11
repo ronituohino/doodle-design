@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { IconButton, Menu, MenuItem, Icon } from "@mui/material"
+import { Box, IconButton, Menu, MenuItem, Icon } from "@mui/material"
 
 import { useLanguage } from "../../hooks/useLanguage"
 
@@ -17,9 +17,11 @@ const Language = () => {
 
   return (
     <>
-      <IconButton color="inherit" onClick={openMenu}>
-        <Icon>language</Icon>
-      </IconButton>
+      <Box sx={{ alignSelf: "center" }}>
+        <IconButton color="inherit" onClick={openMenu}>
+          <Icon>language</Icon>
+        </IconButton>
+      </Box>
 
       <Menu
         anchorEl={anchorEl}

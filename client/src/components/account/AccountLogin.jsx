@@ -23,6 +23,7 @@ import { useSnackbar } from "notistack"
 const AccountLogin = () => {
   const { openLink, homeLink, registerLink } = useRouting()
   const { enqueueSnackbar } = useSnackbar()
+  const [waiting, setWaiting] = useState(false)
 
   const { logIn, loginData } = useAccount(() => {
     enqueueSnackbar("Logged in!", {
@@ -41,7 +42,11 @@ const AccountLogin = () => {
       password: yup.string().required("Password is required"),
     }),
     onSubmit: (values) => {
-      logIn(values.email, values.password)
+      setWaiting(true)
+      setTimeout(() => {
+        setWaiting(false)
+        logIn(values.email, values.password)
+      }, 2000)
     },
   })
 
@@ -85,7 +90,7 @@ const AccountLogin = () => {
         />
 
         <LoadingButton
-          loading={loginData ? loginData.loading : false}
+          loading={waiting || (loginData ? loginData.loading : false)}
           disabled={
             !formik.isValid || formik.values === formik.initialValues
           }

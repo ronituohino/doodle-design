@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { IconButton, Menu, List, Icon } from "@mui/material"
+import { Box, IconButton, Menu, List, Icon } from "@mui/material"
 
 import { useAccount } from "../../../hooks/useAccount"
 
@@ -24,13 +24,15 @@ const AccountPanel = () => {
 
   return (
     <>
-      <IconButton
-        disabled={disableAccountButton}
-        color="inherit"
-        onClick={openMenu}
-      >
-        <Icon>person</Icon>
-      </IconButton>
+      <Box sx={{ alignSelf: "center" }}>
+        <IconButton
+          disabled={disableAccountButton}
+          color="inherit"
+          onClick={openMenu}
+        >
+          <Icon>person</Icon>
+        </IconButton>
+      </Box>
 
       <Menu
         anchorEl={anchorEl}
