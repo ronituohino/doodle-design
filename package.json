@@ -13,12 +13,12 @@
   "scripts": {
     "docker-up": "docker-compose -f docker-compose.yml up",
     "docker-build": "docker-compose -f docker-compose.yml build",
-    
-    "deps": "npm install && (cd ./backend && npm install) && cd .. && (cd ./frontend && npm install)",
-    "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\" \" npm run mongo\"",
+    "ins": "npm install && (cd ./server && npm install) && cd .. && (cd ./client && npm install) && cd .. && (cd ./admin && npm install)",
+    "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\" \" npm run admin-dev \" \" npm run mongo\"",
     "mongo": "docker-compose -f docker-compose.dev.yml up",
-    "client-dev": "cd ./frontend && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none npm start",
-    "server-dev": "cd ./backend && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev"
+    "admin-dev": "cd ./admin && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none PORT=3050 npm start",
+    "client-dev": "cd ./client && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none npm start",
+    "server-dev": "cd ./server && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev"
   },
   "repository": {
     "type": "git",
