@@ -14,10 +14,11 @@ const Confirmation = ({
   checkout,
   hidden,
 }) => {
+  let deliveryAddress = undefined
+
   const explicitDeliveryAddress =
     checkout.deliveryDetails.useExplicitDeliveryAddress
-
-  let deliveryAddress = undefined
+  let postiParcel = false
   let isStorePickup = false
 
   switch (checkout.deliveryDetails.deliveryMethod) {
@@ -27,6 +28,7 @@ const Confirmation = ({
         : checkout.billingDetails
       break
     case constants.POSTI_PARCEL:
+      postiParcel = true
       deliveryAddress = checkout.deliveryDetails.postiParcelAddress
       break
     case constants.STORE_PICKUP:
@@ -34,7 +36,6 @@ const Confirmation = ({
       deliveryAddress = checkout.deliveryDetails.storePickupAddress
       break
     default:
-      console.error("Delivery method not supported!")
       break
   }
 
@@ -47,7 +48,9 @@ const Confirmation = ({
               elevation={4}
               address={checkout.billingDetails}
               label={
-                !explicitDeliveryAddress
+                !explicitDeliveryAddress &&
+                !isStorePickup &&
+                !postiParcel
                   ? "Your details & delivered to"
                   : "Your details"
               }
@@ -56,15 +59,20 @@ const Confirmation = ({
             />
           )}
 
-          {checkout.deliveryDetails && explicitDeliveryAddress && (
-            <AddressDisplay
-              elevation={4}
-              address={deliveryAddress}
-              label={isStorePickup ? "Pick up from" : "Delivered to"}
-              disableEdit
-              sx={{ width: "100%" }}
-            />
-          )}
+          {checkout.deliveryDetails &&
+            (explicitDeliveryAddress ||
+              isStorePickup ||
+              postiParcel) && (
+              <AddressDisplay
+                elevation={4}
+                address={deliveryAddress}
+                label={
+                  isStorePickup ? "Pick up from" : "Delivered to"
+                }
+                disableEdit
+                sx={{ width: "100%" }}
+              />
+            )}
 
           {checkout.paymentDetails && (
             <PaymentDisplay

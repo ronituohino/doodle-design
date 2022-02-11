@@ -24,10 +24,10 @@ export const GET_PRODUCTS = gql`
           EUR
         }
         category {
-          _id
           name
-          icon
-          label
+        }
+        images {
+          location
         }
       }
       totalPages
@@ -46,7 +46,6 @@ export const GET_PRODUCT = gql`
       price {
         EUR
       }
-      images
       customization {
         label {
           fi
@@ -70,18 +69,10 @@ export const GET_PRODUCT = gql`
         icon
         label
       }
+      images {
+        location
+      }
       visible
-      sale {
-        salePrice {
-          EUR
-        }
-        saleActive
-      }
-      ratings {
-        user
-        rating
-        comment
-      }
     }
   }
 `

@@ -25,17 +25,6 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   visible: { type: Boolean, required: true },
-  sale: {
-    salePrice: { type: CurrencyFloat, required: true },
-    saleActive: { type: Boolean, required: true },
-  },
-  ratings: [
-    {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      rating: { type: Number, required: true },
-      comment: String,
-    },
-  ],
 })
 productSchema.plugin(mongoosePaginate)
 
@@ -49,9 +38,13 @@ const {
 
 const productResolvers = {
   Product: {
-    category: (root) => {
-      root.category
-      console.log(root)
+    category: async (root) => {
+      const populated = await root.populate("category")
+      return populated.category
+    },
+    images: async (root) => {
+      const populated = await root.populate("images")
+      return populated.images
     },
   },
 
@@ -63,7 +56,6 @@ const productResolvers = {
     getProducts: async (root, args, context) => {
       const type = isAccountType(context)
       const hideInvisible = type.customer || type.none
-      console.log(hideInvisible)
 
       const products = await Product.paginate(
         {
@@ -99,12 +91,10 @@ const productResolvers = {
         price: args.price,
         customization: args.customization,
         description: args.description,
-        availability: { available: false },
+        availability: { available: true },
         images: args.images,
         category: args.category,
         visible: false,
-        sale: { salePrice: { EUR: 0 }, saleActive: false },
-        ratings: [],
       })
 
       const result = await product.save()
@@ -128,8 +118,6 @@ const productResolvers = {
           }),
           ...(args.category && { cateogory: args.category }),
           ...(args.visible && { visible: args.visible }),
-          ...(args.sale && { sale: args.sale }),
-          ...(args.ratings && { ratings: args.ratings }),
         },
         { new: true }
       )
@@ -150,8 +138,6 @@ const productTypeDefs = `
     availability: Availability!
     category: Category!
     visible: Boolean!
-    sale: Sale
-    ratings: [Rating]
   }
 
   type Paginated {
@@ -170,17 +156,6 @@ const productTypeDefs = `
 
   type Availability {
     available: Boolean!
-  }
-
-  type Sale {
-    salePrice: CurrencyFloat
-    saleActive: Boolean!
-  }
-
-  type Rating {
-    user: ID!
-    rating: Int!
-    comment: String
   }
 
   extend type Query {
@@ -209,26 +184,11 @@ const productTypeDefs = `
       availability: AvailabilityInput
       category: ID!
       visible: Boolean
-      sale: SaleInput
-      ratings: RatingInput
     ): Product
   }
 
-
-
   input AvailabilityInput {
     available: Boolean!
-  }
-
-  input SaleInput {
-    salePrice: Int!
-    saleActive: Boolean!
-  }
-
-  input RatingInput {
-    user: ID!
-    rating: Int!
-    comment: String
   }
 `
 

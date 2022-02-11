@@ -78,6 +78,10 @@ const resolvers = {
     ...productResolvers.Mutation,
   },
 
+  Product: {
+    ...productResolvers.Product,
+  },
+
   Upload: GraphQLUpload,
 }
 

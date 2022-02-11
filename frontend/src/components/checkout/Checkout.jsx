@@ -15,6 +15,7 @@ import { useMutation } from "@apollo/client"
 import { CREATE_ORDER } from "../../graphql/mutations"
 import { useRouting } from "../../hooks/useRouting"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
+import { useSnackbar } from "notistack"
 
 const steps = [
   {
@@ -46,6 +47,8 @@ const constants = {
 }
 
 const Checkout = () => {
+  const { enqueueSnackbar } = useSnackbar()
+
   // Stepper state variables
   const [activeStep, setActiveStep] = useState(0)
 
@@ -129,9 +132,13 @@ const Checkout = () => {
 
   const [createOrderMutation] = useMutation(CREATE_ORDER, {
     onCompleted: () => {
+      enqueueSnackbar("Order received!", {
+        variant: "success",
+      })
+
       emptyCart()
 
-      // Replace with success screen
+      // Replace with success screen?
       openLink(homeLink())
     },
   })
@@ -186,7 +193,6 @@ const Checkout = () => {
         }
         break
       default:
-        console.error("Delivery method not supported!")
         break
     }
     deliveryAddress.phone = checkout.deliveryDetails.phone
@@ -213,7 +219,6 @@ const Checkout = () => {
         }
         break
       default:
-        console.error("Payment method not supported!")
         break
     }
 

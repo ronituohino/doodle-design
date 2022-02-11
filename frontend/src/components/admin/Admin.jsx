@@ -49,24 +49,22 @@ const Admin = () => {
                 backgroundColor: "common.white",
               }}
             >
-              <Routes>
-                <Route
-                  path="/:language/admin/products/statistics"
-                  element={<Typography>Stats</Typography>}
-                />
-                <Route
-                  path="/:language/admin/products/manage"
-                  element={<ProductManage />}
-                />
-                <Route
-                  path="/:language/admin/products/categories"
-                  element={<ProductCategories />}
-                />
-                <Route
-                  path="/:language/admin/products/campaigns"
-                  element={<Typography>Campaigns</Typography>}
-                />
-              </Routes>
+              <Route
+                path="/products/statistics"
+                element={<Typography>Stats</Typography>}
+              />
+              <Route
+                path="/products/manage"
+                element={<ProductManage />}
+              />
+              <Route
+                path="/products/categories"
+                element={<ProductCategories />}
+              />
+              <Route
+                path="/products/campaigns"
+                element={<Typography>Campaigns</Typography>}
+              />
             </Box>
           </Box>
         </>

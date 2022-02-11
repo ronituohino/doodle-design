@@ -24,14 +24,14 @@ db.accounts.insert({
 })
 
 db.categories.insert({
-  _id: "61f519593c71ee71cd5270fd",
+  _id: ObjectId("61f519593c71ee71cd5270fd"),
   name: "pictures",
   label: "Pictures",
   icon: "image",
 })
 
 db.files.insert({
-  _id: "61f51b243c71ee71cd527114",
+  _id: ObjectId("61f51b243c71ee71cd527114"),
   filename: "test.png",
   mimetype: "image/png",
   encoding: "7bit",
@@ -46,7 +46,7 @@ db.products.insert({
   price: {
     EUR: 4,
   },
-  images: ["61f51b243c71ee71cd527114"],
+  images: [ObjectId("61f51b243c71ee71cd527114")],
   customization: [
     {
       label: {
@@ -74,15 +74,8 @@ db.products.insert({
     fi: "Kaunis valkoinen kukka",
   },
   availability: {
-    available: false,
+    available: true,
   },
-  category: "61f519593c71ee71cd5270fd",
+  category: ObjectId("61f519593c71ee71cd5270fd"),
   visible: true,
-  sale: {
-    salePrice: {
-      EUR: 0,
-    },
-    saleActive: false,
-  },
-  ratings: [],
 })

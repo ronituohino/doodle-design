@@ -3,16 +3,12 @@ import { Box, Pagination } from "@mui/material"
 import { useLazyQuery } from "@apollo/client"
 import { GET_PRODUCTS } from "../../graphql/queries"
 
-import { useLanguage } from "../../hooks/useLanguage"
-
 import Loading from "../general/Loading"
 import ProductCard from "./ProductCard"
 import { useState } from "react"
 import { useEffect } from "react"
 
 const ProductList = ({ category }) => {
-  const { language } = useLanguage()
-
   const [page, setPage] = useState(0)
   // eslint-disable-next-line
   const [size, setSize] = useState(6)
@@ -23,9 +19,7 @@ const ProductList = ({ category }) => {
   useEffect(() => {
     getProducts({
       variables: {
-        language,
-        category: category ? category._id : "",
-        currency: "EUR",
+        category: category ? category._id : null,
         page,
         size,
       },

@@ -18,7 +18,6 @@ const PaymentDisplay = ({ checkout, constants }) => {
       paymentMethodText = "Pay at the store"
       break
     default:
-      console.error("Payment method not supported!")
       break
   }
   return (
