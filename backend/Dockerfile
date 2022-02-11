@@ -2,7 +2,7 @@ FROM mhart/alpine-node
 
 ENV NODE_ENV=production
 
-WORKDIR /recom-backend
+WORKDIR /backend
 
 COPY --chown=node:node . .
 

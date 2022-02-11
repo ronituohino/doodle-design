@@ -3,7 +3,7 @@ FROM mhart/alpine-node AS build-stage
 ENV NODE_ENV=production
 ENV REACT_APP_BACKEND_URL=http://localhost/api
 
-WORKDIR /recom-frontend
+WORKDIR /frontend
 
 COPY . .
 
@@ -13,7 +13,7 @@ RUN npm ci && \
 
 FROM mhart/alpine-node
 
-COPY --from=build-stage /recom-frontend/build/ /build
+COPY --from=build-stage /frontend/build/ /build
 
 RUN npm install -g serve
 CMD serve -p 3000 -s build

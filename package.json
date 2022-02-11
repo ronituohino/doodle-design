@@ -1,5 +1,5 @@
 {
-  "name": "react-online-store",
+  "name": "recom",
   "version": "1.0.0",
   "description": "A template for an e-commerce application/website, made with React!",
   "main": "index.js",
@@ -11,15 +11,14 @@
     "shop"
   ],
   "scripts": {
+    "docker-up": "docker-compose -f docker-compose.yml up",
     "docker-build": "docker-compose -f docker-compose.yml build",
-    "docker-start": "docker-compose -f docker-compose.yml up",
-    "install": "npm install && npm run i-client && npm run i-server && npm run i-db",
-    "i-server": "cd ./recom-backend && npm install && cd ..",
-    "i-client": "cd ./recom-frontend && npm install && cd ..",
+    
+    "deps": "npm install && (cd ./backend && npm install) && cd .. && (cd ./frontend && npm install)",
     "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\" \" npm run mongo\"",
     "mongo": "docker-compose -f docker-compose.dev.yml up",
-    "client-dev": "cd ./recom-frontend && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none npm start",
-    "server-dev": "cd ./recom-backend && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev"
+    "client-dev": "cd ./frontend && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none npm start",
+    "server-dev": "cd ./backend && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev"
   },
   "repository": {
     "type": "git",

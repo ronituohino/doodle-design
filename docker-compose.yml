@@ -1,31 +1,31 @@
 version: '3.8'
 
 services:
-  nginx-proxy:
+  recom-nginx-proxy:
     image: nginx:alpine
     ports:
       - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    container_name: nginx-proxy
+    container_name: recom-nginx-proxy
 
   recom-frontend:
     image: recom-frontend
     build:
-      context: ./recom-frontend # The context will pick this directory as the "build context"
+      context: ./frontend # The context will pick this directory as the "build context"
       dockerfile: Dockerfile # This will simply tell which dockerfile to read
     ports:
      - 3000:3000
-    container_name: prod-recom-frontend # This will name the container recom-frontend
+    container_name: recom-frontend # This will name the container recom-frontend
 
   recom-backend:
     image: recom-backend
     build:
-      context: ./recom-backend
+      context: ./backend
       dockerfile: Dockerfile
     ports:
      - 4000:4000
     environment: 
-      - DB_URI=${DB_URI_PROD}
+      - DB_URI=${DB_URI}
       - JWT_SECRET=${JWT_SECRET}
     container_name: recom-backend
