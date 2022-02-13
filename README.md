@@ -6,19 +6,17 @@ Disclaimer:
 This repo is only a personal project of mine, and it is not meant to be deployed irl.  
 However, this project, and all of the code is under an MIT licence if someone wishes to use it.
 
-Showcase:  
+Showcase:
 **_pics_**
 
 Features:
+
 - Client application  
   - Users can browse products in different categories and search for products with keywords
   - Products can be added to the shopping cart with customization options
   - Users can place orders on products
   - The process of placing an order is very user-friendly
-  - Orders support different delivery methods:
-    - Home delivery
-    - Postal services
-    - Store pickup
+  - Orders support different delivery methods
   - **Different payment providers can be selected, but they have not been implemented**
   - Users can create an account on the site
   - Users can change their account settings, and view previous orders  
