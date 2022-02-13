@@ -9,7 +9,7 @@ However, this project, and all of the code is under an MIT licence if someone wi
 Showcase:  
 **_pics_**
 
-Features:  
+Features:
 - Client application  
   - Users can browse products in different categories and search for products with keywords
   - Products can be added to the shopping cart with customization options
