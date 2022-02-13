@@ -48,7 +48,7 @@ Start up by cloning this project on your machine!
 
 ### .env file
 
-Open the project folder and create a new file in the root directory and name it .env
+Open the project folder and create a new file in the root directory and name it .env 
 Add the following keys to the file:
 
 - JWT_SECRET=\[value\]
@@ -103,10 +103,10 @@ Setting up the development environment is very simple:
     - Open ./server in your terminal and run `npm install`
 - Start the development environment by running `npm run dev` in the project root directory
 
-After this, to connect to the client application, open a browser and connect to `localhost:3000`
-To connect to the admin application, open a browser and connect to `localhost:3050`
+After this, to connect to the client application, open a browser and connect to `localhost:3000` 
+To connect to the admin application, open a browser and connect to `localhost:3050` 
 To connect to the GraphQL Explorer, open a browser and connect to `localhost:4000`
-
+  
 ### Production
 
 Setting up the production environment is also very easy:
@@ -119,6 +119,6 @@ Setting up the production environment is also very easy:
 
 In case you need to rebuild the docker images, run `npm run docker-build`
 
-When the production environment is up & running you can connect to the client application by opening a browser and connecting to `localhost`
-You can also connect to the admin application by opening a browser and connecting to `admin.localhost`
+When the production environment is up & running you can connect to the client application by opening a browser and connecting to `localhost` 
+You can also connect to the admin application by opening a browser and connecting to `admin.localhost` 
 You can also connect to GraphQL Explorer by opening a browser and connecting to `api.localhost`
