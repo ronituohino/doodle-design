@@ -4,7 +4,6 @@ const fileSchema = new mongoose.Schema({
   filename: { type: String, required: true },
   mimetype: { type: String, required: true },
   encoding: { type: String, required: true },
-  location: { type: String, required: true },
 })
 
 const File = mongoose.model("File", fileSchema)
@@ -42,21 +41,20 @@ const fileResolvers = {
 
         const fileId = new mongoose.Types.ObjectId()
 
-        // If location has folders that don't exist, the image is not saved
-        const location = `./public/files/images/${fileId}-${filename}`
-
         const mongooseFile = new File({
           _id: fileId,
           filename,
           mimetype,
           encoding,
-          location,
-          // Image backup disabled for now
+          // Image backup is possible...
           //data: streamData,
         })
 
         const response = await mongooseFile.save()
         results.push(response)
+
+        // If location has folders that don't exist, the image is not saved
+        const location = `./public/images/${fileId}-${filename}`
 
         // Then save image to public/files/... folder
         // where it can be served from
@@ -79,7 +77,6 @@ const fileTypeDefs = `
     filename: String!
     mimetype: String!
     encoding: String!
-    location: String!
   }
 
   extend type Query {

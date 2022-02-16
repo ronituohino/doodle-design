@@ -67,6 +67,32 @@ export const CREATE_PRODUCT = gql`
   }
 `
 
+export const EDIT_PRODUCT = gql`
+  mutation EditProduct(
+    $id: ID!
+    $name: LanguageStringInput
+    $price: CurrencyFloatInput
+    $customization: [OptionsInput]
+    $description: LanguageStringInput
+    $category: ID
+    $availability: AvailabilityInput
+    $visible: Boolean
+  ) {
+    editProduct(
+      _id: $id
+      name: $name
+      price: $price
+      customization: $customization
+      description: $description
+      category: $category
+      availability: $availability
+      visible: $visible
+    ) {
+      _id
+    }
+  }
+`
+
 export const FILE_UPLOAD = gql`
   mutation FileUpload($files: [Upload]!) {
     fileUpload(files: $files) {
@@ -74,7 +100,6 @@ export const FILE_UPLOAD = gql`
       filename
       mimetype
       encoding
-      location
     }
   }
 `

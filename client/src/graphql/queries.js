@@ -27,7 +27,8 @@ export const GET_PRODUCTS = gql`
           name
         }
         images {
-          location
+          _id
+          filename
         }
       }
       totalPages
@@ -70,7 +71,8 @@ export const GET_PRODUCT = gql`
         label
       }
       images {
-        location
+        _id
+        filename
       }
       visible
     }

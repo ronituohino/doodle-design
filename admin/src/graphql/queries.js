@@ -32,15 +32,36 @@ export const GET_PRODUCTS = gql`
           en
           fi
         }
+        description {
+          en
+          fi
+        }
         price {
           EUR
         }
         category {
           name
+          label
+          icon
         }
         images {
-          location
+          _id
+          filename
         }
+        customization {
+          label {
+            en
+            fi
+          }
+          options {
+            en
+            fi
+          }
+        }
+        availability {
+          available
+        }
+        visible
       }
       totalPages
     }

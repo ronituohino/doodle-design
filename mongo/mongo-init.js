@@ -44,7 +44,6 @@ db.files.insert({
   filename: "test.png",
   mimetype: "image/png",
   encoding: "7bit",
-  location: "./public/files/images/61f51b243c71ee71cd527114-test.png",
 })
 
 db.products.insert({

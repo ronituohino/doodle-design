@@ -177,12 +177,12 @@ const productTypeDefs = `
 
     editProduct(
       _id: ID!
-      name: LanguageStringInput!
-      price: CurrencyFloatInput!
-      customization: [OptionsInput]!
-      description: LanguageStringInput!
+      name: LanguageStringInput
+      price: CurrencyFloatInput
+      customization: [OptionsInput]
+      description: LanguageStringInput
       availability: AvailabilityInput
-      category: ID!
+      category: ID
       visible: Boolean
     ): Product
   }

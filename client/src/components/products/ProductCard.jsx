@@ -6,6 +6,7 @@ import { formatPrice } from "../../utils/formatting"
 
 import { useRouting } from "../../hooks/useRouting"
 import { Link } from "react-router-dom"
+import getFile from "../../utils/getFile"
 
 const ProductCard = ({ product }) => {
   const { language } = useLanguage()
@@ -20,8 +21,11 @@ const ProductCard = ({ product }) => {
       <Paper elevation={4}>
         <img
           component="img"
-          src="/files/images/61f51b243c71ee71cd527114-test.png"
-          alt="name"
+          src={getFile(
+            product.images[0]._id,
+            product.images[0].filename
+          )}
+          alt={product.name[language]}
           style={{
             width: "200px",
             height: "200px",

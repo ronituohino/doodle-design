@@ -26,8 +26,14 @@ import DropzonePictures from "../../general/DropzonePictures"
 import FormikSelect from "../../general/formik/FormikSelect"
 
 import { useSnackbar } from "notistack"
+import { useEffect } from "react"
 
-const ModifyProductDialog = ({ open, handleClose }) => {
+const ModifyProductDialog = ({
+  open,
+  handleClose,
+  overrideValues,
+  overrideSubmit,
+}) => {
   const formik = useFormik({
     initialValues: {
       pictures: [],
@@ -96,14 +102,25 @@ const ModifyProductDialog = ({ open, handleClose }) => {
       ),
     }),
     onSubmit: () => {
-      uploadFileMutation({
-        variables: { files: formik.values.pictures },
-      })
+      if (overrideSubmit) {
+        overrideSubmit(formik.values)
+      } else {
+        uploadFileMutation({
+          variables: { files: formik.values.pictures },
+        })
+      }
     },
     validateOnChange: false,
     validateOnBlur: false,
     enableReinitialize: true,
   })
+
+  useEffect(() => {
+    if (overrideValues) {
+      formik.setValues(overrideValues)
+    }
+    // eslint-disable-next-line
+  }, [overrideValues])
 
   const { data } = useQuery(GET_CATEGORIES)
 

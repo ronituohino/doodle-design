@@ -105,7 +105,10 @@ Setting up the development environment is very simple:
 
 After this, to connect to the client application, open a browser and connect to `localhost:3000`  
 To connect to the admin application, connect to `localhost:3050`  
-To connect to the GraphQL Explorer, connect to `localhost:4000`
+To connect to the GraphQL Explorer, connect to `localhost:4000/graphql`
+
+The local mongo database is preserved after the environment is shut down.  
+To force reinitialization, delete mongo_data folder from ./mongo and restart the environment.
 
 ## Production
 
