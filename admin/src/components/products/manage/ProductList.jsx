@@ -1,14 +1,16 @@
-import { Box, Pagination } from "@mui/material"
+import { List, Box, Pagination, Divider } from "@mui/material"
 
 import { useLazyQuery } from "@apollo/client"
 import { GET_PRODUCTS } from "../../../graphql/queries"
 
 import Loading from "../../general/Loading"
-import ProductCard from "./ProductCard"
+import ProductLine from "./ProductLine"
 import { useState } from "react"
 import { useEffect } from "react"
+import { useLanguage } from "../../../hooks/useLanguage"
 
 const ProductList = ({ category }) => {
+  const { language } = useLanguage()
   const [page, setPage] = useState(0)
   // eslint-disable-next-line
   const [size, setSize] = useState(6)
@@ -38,21 +40,18 @@ const ProductList = ({ category }) => {
       {error && <p>something went wrong...</p>}
       {!error && (
         <>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "30px",
-            }}
-          >
+          <List>
             {!data && <Loading size={16} />}
             {data &&
               data.getProducts.docs.map((p) => (
-                <ProductCard key={p._id} product={p} />
+                <ProductLine
+                  key={p._id}
+                  product={p}
+                  language={language}
+                />
               ))}
-          </Box>
+            <Divider variant="middle" />
+          </List>
 
           <Box
             sx={{

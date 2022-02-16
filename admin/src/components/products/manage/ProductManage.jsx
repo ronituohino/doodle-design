@@ -21,7 +21,13 @@ const ProductManage = () => {
         handleClose={() => setModifyDialogOpen(false)}
       />
 
-      <Box sx={{ padding: 2, display: "flex", gap: "10px" }}>
+      <Box
+        sx={{
+          padding: 2,
+          display: "flex",
+          gap: "10px",
+        }}
+      >
         <SearchBar placeholder="Search" />
         <Button
           variant="contained"

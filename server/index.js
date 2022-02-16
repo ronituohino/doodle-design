@@ -12,7 +12,7 @@ const { typeDefs, resolvers } = require("./schemas/Collective")
 const { Account } = require("./schemas/Account")
 
 mongoose
-  .connect(process.env.DB_URI)
+  .connect(process.env.DB_URI, { serverSelectionTimeoutMS: 60000 }) // Attempt for 1 minute until timeout
   .then(() => console.log("Connected to database"))
   .catch((e) => console.log(`Error connecting to database: ${e}`))
 

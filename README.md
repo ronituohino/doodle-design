@@ -11,7 +11,7 @@ Showcase:
 
 Features:
 
-- Client application  
+- Client application
   - Users can browse products in different categories and search for products with keywords
   - Products can be added to the shopping cart with customization options
   - Users can place orders on products
@@ -19,14 +19,14 @@ Features:
   - Orders support different delivery methods
   - **Different payment providers can be selected, but they have not been implemented**
   - Users can create an account on the site
-  - Users can change their account settings, and view previous orders  
-- Admin application  
+  - Users can change their account settings, and view previous orders
+- Admin application
   - Admins can add/remove/modify products
   - Products are put up for sale with pictures, language-specific names, descriptions, customization options, multiple different currencies, and also specific a category
   - By default the application supports English and Finnish, more languages can be added, but the client has to be modified some to support more
   - Also, by default the application supports Euro, but more can be added, however the frontend requires some tinkering
-  - Admins can add/remove/modify categories  
-- GraphQL server  
+  - Admins can add/remove/modify categories
+- GraphQL server
   - Both of these applications talk with a GraphQL server, which handles saving/fetching data to/from a Mongo database.
 
 The database solution is Mongo. During development a local [Docker Mongo container](https://hub.docker.com/_/mongo) is booted up with initial values.  
@@ -49,11 +49,11 @@ Start up by cloning this project on your machine!
 Open the project folder and create a new file in the root directory and name it .env  
 Add the following keys to the file:
 
-- JWT_SECRET=\[value\]  
+- JWT_SECRET=\[value\]
   - This is the key used to encrypt/decrypt account tokens on the GraphQl server
   - Make sure this value is kept secret
   - It should be a lengthy string, like a good password, to make it more secure
-- DB_URI=\[value\]  
+- DB_URI=\[value\]
   - This key points to the MongoDB server in production
     - Which means that this field is not needed in development mode
   - **Setting up MongoDB**
@@ -76,6 +76,7 @@ Add the following keys to the file:
   - After modifying the connection string, replace <value> in the .env file with the new string
 
 The file should look something like this after setup:
+
 ```
 JWT_SECRET=supergoodandsecretkey
 DB_URI=mongodb+srv://myUser:myUserPassword@database.ishgo.mongodb.net/recom?retryWrites=true&w=majority
@@ -89,9 +90,10 @@ Setting up the development environment is very simple:
 - Make sure you have node.js installed
   - You can test this by opening a terminal and running `node -v`
   - This should print the node.js version, otherwise find out how to install node.js on your operating system
-- Make sure you have Docker installed
+- Make sure you have Docker installed **and running**
   - You can test this by opening a terminal and running `docker -v`
   - This should print the Docker version, otherwise find out how to install Docker on your operating system
+  - Note: when starting the development environment for the first time, the mongo container might not launch fast enough and the backend application will throw a timeout exception (1 minute). Just Ctrl+C and then start the development environment again.
 - Open the project root directory with a terminal and run `npm run ins`
   - This should run `npm install` on all of the projects applications
   - However, if you encounter problems with `npm run ins`, you can install dependencies manually:
@@ -103,14 +105,14 @@ Setting up the development environment is very simple:
 
 After this, to connect to the client application, open a browser and connect to `localhost:3000`  
 To connect to the admin application, connect to `localhost:3050`  
-To connect to the GraphQL Explorer, connect to `localhost:4000`  
-  
+To connect to the GraphQL Explorer, connect to `localhost:4000`
+
 ## Production
 
 Setting up the production environment is also very easy:
 
 - Make sure your .env file and MongoDB are configured correctly
-- Make sure you have Docker installed
+- Make sure you have Docker installed **and running**
   - You can test this by opening a terminal and running `docker -v`
   - This should print the Docker version, otherwise find out how to install Docker on your operating system
 - Open the project root directory with a terminal and run `npm run docker-up`
@@ -119,4 +121,4 @@ In case you need to rebuild the docker images, run `npm run docker-build`
 
 Now you can connect to the client application by opening a browser and connecting to `localhost`  
 You can also connect to the admin application by connecting to `admin.localhost`  
-You can also connect to GraphQL Explorer by connecting to `api.localhost`  
+You can also connect to GraphQL Explorer by connecting to `api.localhost/graphql`

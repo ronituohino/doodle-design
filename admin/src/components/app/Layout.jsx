@@ -11,7 +11,11 @@ const Layout = ({ isAdmin }) => {
         <Box sx={{ display: "flex" }}>
           <AdminDrawer />
           <Divider orientation="vertical" flexItem />
-          <Outlet />
+          <Box
+            sx={{ backgroundColor: "common.white", width: "100%" }}
+          >
+            <Outlet />
+          </Box>
         </Box>
       )}
     </>
