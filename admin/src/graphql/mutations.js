@@ -75,8 +75,8 @@ export const EDIT_PRODUCT = gql`
     $customization: [OptionsInput]
     $description: LanguageStringInput
     $category: ID
-    $availability: AvailabilityInput
     $visible: Boolean
+    $images: [ID!]
   ) {
     editProduct(
       _id: $id
@@ -85,8 +85,8 @@ export const EDIT_PRODUCT = gql`
       customization: $customization
       description: $description
       category: $category
-      availability: $availability
       visible: $visible
+      images: $images
     ) {
       _id
     }

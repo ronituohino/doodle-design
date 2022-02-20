@@ -60,7 +60,12 @@ const rejectStyle = {
   borderColor: "#ff1744",
 }
 
-const DropzonePictures = ({ files, setFiles, text, subtext }) => {
+const DropzonePictures = ({
+  files,
+  setFilesCallback,
+  text,
+  subtext,
+}) => {
   const {
     getRootProps,
     getInputProps,
@@ -70,7 +75,7 @@ const DropzonePictures = ({ files, setFiles, text, subtext }) => {
   } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
-      setFiles(
+      setFilesCallback(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),

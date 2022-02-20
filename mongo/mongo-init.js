@@ -81,9 +81,6 @@ db.products.insert({
     en: "A beautiful picture of a white flower",
     fi: "Kaunis valkoinen kukka",
   },
-  availability: {
-    available: true,
-  },
   category: ObjectId("61f519593c71ee71cd5270fd"),
   visible: true,
 })

@@ -8,7 +8,7 @@ const FormikCustomization = ({ formik, label, field }) => {
   const customization = formik.values[field]
 
   return (
-    <FormikBox label={label} sx={{ pt: 2 }}>
+    <FormikBox label={label}>
       {customization.map((customizationObject, index) => (
         <Box key={`customization-${index}`} sx={{ mb: 2 }}>
           <FormikFieldArray
@@ -19,19 +19,16 @@ const FormikCustomization = ({ formik, label, field }) => {
           >
             <IconButton
               onClick={() => {
-                const arr = [...formik.values.customization]
+                const custArr = formik.values.customization.filter(
+                  (c, i) => i !== index
+                )
 
-                arr.splice(index, 1)
-
-                formik.setValues({
-                  ...formik.values,
-                  customization: arr,
-                })
+                formik.setFieldValue("customization", custArr)
               }}
               sx={{ alignSelf: "center", pb: 3 }}
               disableRipple
             >
-              <Icon name="ClearIcon" />
+              <Icon>clear</Icon>
             </IconButton>
           </FormikFieldArray>
 
@@ -58,16 +55,22 @@ const FormikCustomization = ({ formik, label, field }) => {
 
                   <IconButton
                     onClick={() => {
-                      const arr = [
-                        ...formik.values.customization[index].options,
-                      ]
+                      const custArr = formik.values.customization.map(
+                        (c, i) => {
+                          if (i === index) {
+                            return {
+                              label: c.label,
+                              options: c.options.filter((o, i) => {
+                                return i !== optionIndex
+                              }),
+                            }
+                          } else {
+                            return c
+                          }
+                        }
+                      )
 
-                      arr.splice(optionIndex, 1)
-
-                      const newValues = { ...formik.values }
-                      newValues.customization[index].options = arr
-
-                      formik.setValues(newValues)
+                      formik.setFieldValue("customization", custArr)
                     }}
                     sx={{ alignSelf: "center" }}
                     disableRipple

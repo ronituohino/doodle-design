@@ -18,7 +18,6 @@ import { FILE_UPLOAD } from "../../../graphql/mutations"
 import { CREATE_PRODUCT } from "../../../graphql/mutations"
 
 import FormikBox from "../../general/formik/FormikBox"
-import FormikField from "../../general/formik/FormikField"
 import FormikFieldArray from "../../general/formik/FormikFieldArray"
 import FormikCustomization from "./FormikCustomization"
 
@@ -27,6 +26,8 @@ import FormikSelect from "../../general/formik/FormikSelect"
 
 import { useSnackbar } from "notistack"
 import { useEffect } from "react"
+
+import { getFileAsJSFile } from "../../../utils/getFile"
 
 const ModifyProductDialog = ({
   open,
@@ -41,7 +42,6 @@ const ModifyProductDialog = ({
       name: { en: "", fi: "" },
       description: { en: "", fi: "" },
       price: { EUR: 0 },
-      discount: "",
       customization: [],
     },
     validationSchema: yup.object({
@@ -72,8 +72,6 @@ const ModifyProductDialog = ({
         })
         .required("Price object missing, contact IT!"),
 
-      discount: yup.number(),
-
       customization: yup.array().of(
         yup.object({
           label: yup
@@ -102,13 +100,9 @@ const ModifyProductDialog = ({
       ),
     }),
     onSubmit: () => {
-      if (overrideSubmit) {
-        overrideSubmit(formik.values)
-      } else {
-        uploadFileMutation({
-          variables: { files: formik.values.pictures },
-        })
-      }
+      uploadFileMutation({
+        variables: { files: formik.values.pictures },
+      })
     },
     validateOnChange: false,
     validateOnBlur: false,
@@ -116,11 +110,25 @@ const ModifyProductDialog = ({
   })
 
   useEffect(() => {
-    if (overrideValues) {
-      formik.setValues(overrideValues)
+    if (open && overrideValues) {
+      const pics = []
+
+      overrideValues.pictures.forEach((i) => {
+        getFileAsJSFile(i._id, i.filename).then((f) => {
+          const dropzonifiedFile = Object.assign(f, {
+            preview: URL.createObjectURL(f),
+          })
+          pics.push(dropzonifiedFile)
+        })
+      })
+
+      formik.setValues({
+        ...overrideValues,
+        pictures: pics,
+      })
     }
     // eslint-disable-next-line
-  }, [overrideValues])
+  }, [open, overrideValues])
 
   const { data } = useQuery(GET_CATEGORIES)
 
@@ -129,16 +137,21 @@ const ModifyProductDialog = ({
       let pictureIdList = []
       response.fileUpload.forEach((f) => pictureIdList.push(f._id))
 
-      createProductMutation({
-        variables: {
-          name: formik.values.name,
-          price: formik.values.price,
-          description: formik.values.description,
-          customization: formik.values.customization,
-          images: pictureIdList,
-          category: formik.values.category,
-        },
-      })
+      if (overrideSubmit) {
+        overrideSubmit({ ...formik.values, pictureIdList })
+        handleClose()
+      } else {
+        createProductMutation({
+          variables: {
+            name: formik.values.name,
+            price: formik.values.price,
+            description: formik.values.description,
+            customization: formik.values.customization,
+            images: pictureIdList,
+            category: formik.values.category,
+          },
+        })
+      }
     },
   })
 
@@ -146,10 +159,10 @@ const ModifyProductDialog = ({
 
   const [createProductMutation] = useMutation(CREATE_PRODUCT, {
     onCompleted: () => {
-      handleClose()
       enqueueSnackbar("Product created!", {
         variant: "success",
       })
+      handleClose()
     },
   })
 
@@ -166,7 +179,7 @@ const ModifyProductDialog = ({
             variant="h5"
             sx={{ width: "50%", alignSelf: "center" }}
           >
-            Add Item
+            {overrideValues ? "Modify item" : "Add item"}
           </Typography>
           <Box sx={{ flexBasis: "100%" }} />
           <Button variant="contained" onClick={formik.resetForm}>
@@ -184,7 +197,7 @@ const ModifyProductDialog = ({
           >
             <DropzonePictures
               files={formik.values.pictures}
-              setFiles={(files) => {
+              setFilesCallback={(files) => {
                 formik.setFieldValue("pictures", files)
               }}
               text="Drag and drop, or click here to add pictures"
@@ -238,12 +251,6 @@ const ModifyProductDialog = ({
             type="number"
           />
 
-          <FormikField
-            formik={formik}
-            field="discount"
-            label="Discount %"
-          />
-
           <FormikCustomization
             formik={formik}
             field="customization"
@@ -265,7 +272,7 @@ const ModifyProductDialog = ({
           fullWidth
           onClick={formik.handleSubmit}
         >
-          Save
+          {overrideValues ? "Save" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>

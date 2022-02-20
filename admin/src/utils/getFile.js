@@ -1,8 +1,18 @@
 // Used in an img src tag to get an image from
 // backend server with location information
 
-const getFile = (fileid, filename) => {
+export const getFile = (fileid, filename) => {
   return `${process.env.REACT_APP_BACKEND_URL}/images/${fileid}-${filename}`
 }
 
-export default getFile
+export const getFileAsJSFile = async (fileid, filename) => {
+  const file = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/images/${fileid}-${filename}`
+  )
+    .then((r) => r.blob())
+    .then(
+      (blobFile) =>
+        new File([blobFile], filename, { type: "image/png" })
+    )
+  return file
+}

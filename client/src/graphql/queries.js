@@ -61,9 +61,6 @@ export const GET_PRODUCT = gql`
         en
         fi
       }
-      availability {
-        available
-      }
       category {
         _id
         name

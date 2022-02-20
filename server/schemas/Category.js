@@ -38,9 +38,9 @@ const categoryResolvers = {
       const category = await Category.findByIdAndUpdate(
         args._id,
         {
-          ...(args.name && { name: args.name }),
-          ...(args.label && { label: args.label }),
-          ...(args.icon && { icon: args.icon }),
+          ...(args.name != null && { name: args.name }),
+          ...(args.label != null && { label: args.label }),
+          ...(args.icon != null && { icon: args.icon }),
         },
         { new: true }
       )

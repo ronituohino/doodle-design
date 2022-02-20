@@ -60,7 +60,7 @@ const fileResolvers = {
         // where it can be served from
         const buffer = Buffer.from(streamData, "base64")
         fs.writeFile(location, buffer, () => {
-          console.log(`File ${filename} uploaded to server`)
+          console.log(`File ${fileId}-${filename} uploaded to server`)
         })
       }
 

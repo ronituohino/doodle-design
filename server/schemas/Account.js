@@ -93,11 +93,11 @@ const accountResolvers = {
       const user = await Account.findByIdAndUpdate(
         context.currentAccount._id,
         {
-          ...(args.email && { email: args.email }),
-          ...(args.password && {
+          ...(args.email != null && { email: args.email }),
+          ...(args.password != null && {
             password: await hashPassword(args.password),
           }),
-          ...(args.cart && {
+          ...(args.cart != null && {
             cart: args.cart,
           }),
         },

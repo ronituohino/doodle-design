@@ -40,6 +40,7 @@ export const GET_PRODUCTS = gql`
           EUR
         }
         category {
+          _id
           name
           label
           icon
@@ -57,9 +58,6 @@ export const GET_PRODUCTS = gql`
             en
             fi
           }
-        }
-        availability {
-          available
         }
         visible
       }

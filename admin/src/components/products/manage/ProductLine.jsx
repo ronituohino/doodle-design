@@ -12,7 +12,7 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material"
-import getFile from "../../../utils/getFile"
+import { getFile } from "../../../utils/getFile"
 import { useMutation } from "@apollo/client"
 import { EDIT_PRODUCT } from "../../../graphql/mutations"
 import { useSnackbar } from "notistack"
@@ -32,7 +32,6 @@ const ProductLine = ({ product, language }) => {
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
-  console.log(product)
   return (
     <>
       <ConfirmDialog
@@ -48,18 +47,38 @@ const ProductLine = ({ product, language }) => {
         acceptText={`${
           product.visible ? "Make hidden" : "Make visible"
         }`}
-        acceptCallback={() =>
+        acceptCallback={() => {
           editProductMutation({
             variables: { id: product._id, visible: !product.visible },
           })
-        }
+        }}
       />
 
       <ModifyProductDialog
         open={modifyDialogOpen}
         handleClose={() => setModifyDialogOpen(false)}
-        overrideValues={product}
-        overrideSubmit={(values) => console.log(values)}
+        overrideValues={{
+          pictures: product.images,
+          category: product.category._id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          customization: product.customization,
+        }}
+        overrideSubmit={(values) => {
+          console.log(values)
+          editProductMutation({
+            variables: {
+              id: product._id,
+              category: values.category,
+              customization: values.customization,
+              name: values.name,
+              images: values.pictureIdList,
+              description: values.description,
+              price: values.price,
+            },
+          })
+        }}
       />
 
       <Divider variant="middle" />

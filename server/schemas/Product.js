@@ -16,9 +16,6 @@ const productSchema = new mongoose.Schema({
     },
   ],
   description: { type: LanguageString, required: true },
-  availability: {
-    available: { type: Boolean, required: true },
-  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
@@ -29,6 +26,8 @@ const productSchema = new mongoose.Schema({
 productSchema.plugin(mongoosePaginate)
 
 const Product = mongoose.model("Product", productSchema)
+
+const fs = require("fs")
 
 const { getPagination } = require("../utils/serverUtils")
 const {
@@ -59,7 +58,7 @@ const productResolvers = {
 
       const products = await Product.paginate(
         {
-          ...(args.category && { category: args.category }),
+          ...(args.category != null && { category: args.category }),
           ...(hideInvisible && { visible: true }),
         },
         getPagination(args.page, args.size)
@@ -91,7 +90,6 @@ const productResolvers = {
         price: args.price,
         customization: args.customization,
         description: args.description,
-        availability: { available: true },
         images: args.images,
         category: args.category,
         visible: false,
@@ -104,20 +102,41 @@ const productResolvers = {
     editProduct: async (root, args, context) => {
       requireAdmin(context)
 
+      // Remove previous images
+
+      if (args.images) {
+        const previousProduct = await Product.findById(
+          args._id
+        ).populate("images")
+        previousProduct.images.forEach((i) => {
+          const path = `./public/images/${i._id}-${i.filename}`
+          fs.unlink(path, (error) => {
+            if (error) {
+              console.log(error)
+            } else {
+              console.log(
+                `File ${i._id}-${i.filename} deleted from server`
+              )
+            }
+          })
+        })
+      }
+
+      // variable != null, will catch both null and undefined
       const product = await Product.findByIdAndUpdate(
         args._id,
         {
-          ...(args.name && { name: args.name }),
-          ...(args.price && { price: args.price }),
-          ...(args.customization && {
-            cateogory: args.customization,
+          ...(args.name != null && { name: args.name }),
+          ...(args.price != null && { price: args.price }),
+          ...(args.customization != null && {
+            customization: args.customization,
           }),
-          ...(args.description && { description: args.description }),
-          ...(args.availability && {
-            availability: args.availability,
+          ...(args.description != null && {
+            description: args.description,
           }),
-          ...(args.category && { cateogory: args.category }),
-          ...(args.visible && { visible: args.visible }),
+          ...(args.category != null && { cateogory: args.category }),
+          ...(args.visible != null && { visible: args.visible }),
+          ...(args.images != null && { images: args.images }),
         },
         { new: true }
       )
@@ -135,7 +154,6 @@ const productTypeDefs = `
     images: [File!]!
     customization: [Options]!
     description: LanguageString!
-    availability: Availability!
     category: Category!
     visible: Boolean!
   }
@@ -152,10 +170,6 @@ const productTypeDefs = `
     hasNextPage: Boolean!
     prevPage: Int!
     nextPage: Int!
-  }
-
-  type Availability {
-    available: Boolean!
   }
 
   extend type Query {
@@ -178,17 +192,13 @@ const productTypeDefs = `
     editProduct(
       _id: ID!
       name: LanguageStringInput
+      images: [ID!]
       price: CurrencyFloatInput
       customization: [OptionsInput]
       description: LanguageStringInput
-      availability: AvailabilityInput
       category: ID
       visible: Boolean
     ): Product
-  }
-
-  input AvailabilityInput {
-    available: Boolean!
   }
 `
 

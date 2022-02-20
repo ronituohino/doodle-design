@@ -6,7 +6,7 @@ import { formatPrice } from "../../utils/formatting"
 
 import { useRouting } from "../../hooks/useRouting"
 import { Link } from "react-router-dom"
-import getFile from "../../utils/getFile"
+import { getFile } from "../../utils/getFile"
 
 const ProductCard = ({ product }) => {
   const { language } = useLanguage()
