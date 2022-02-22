@@ -20,23 +20,23 @@ import {
 import {
   GET_CATEGORIES,
   GET_PRODUCTS,
-} from "../../../graphql/queries"
-import { FILE_UPLOAD } from "../../../graphql/mutations"
-import { CREATE_PRODUCT } from "../../../graphql/mutations"
+} from "../../../../graphql/queries"
+import { FILE_UPLOAD } from "../../../../graphql/mutations"
+import { CREATE_PRODUCT } from "../../../../graphql/mutations"
 
-import FormikBox from "../../general/formik/FormikBox"
-import FormikFieldArray from "../../general/formik/FormikFieldArray"
+import FormikBox from "../../../general/formik/FormikBox"
+import FormikFieldArray from "../../../general/formik/FormikFieldArray"
 import FormikCustomization from "./FormikCustomization"
 
-import DropzonePictures from "../../general/DropzonePictures"
-import FormikSelect from "../../general/formik/FormikSelect"
+import DropzonePictures from "../../../general/DropzonePictures"
+import FormikSelect from "../../../general/formik/FormikSelect"
 
 import { useSnackbar } from "notistack"
 import { useEffect } from "react"
 
-import { getFileAsJSFile } from "../../../utils/getFile"
+import { getFileAsJSFile } from "../../../../utils/getFile"
 
-const ModifyProductDialog = ({
+const ProductDialog = ({
   open,
   handleClose,
   overrideValues,
@@ -295,4 +295,4 @@ const ModifyProductDialog = ({
   )
 }
 
-export default ModifyProductDialog
+export default ProductDialog

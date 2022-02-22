@@ -6,8 +6,8 @@ import { Routes, Route, Navigate, Outlet } from "react-router-dom"
 import Layout from "./Layout"
 import { Typography } from "@mui/material"
 
-import ProductManage from "../products/manage/ProductManage"
-import ProductCategories from "../products/categories/ProductCategories"
+import Manage from "../products/manage/Manage"
+import Categories from "../products/categories/Categories"
 import { useRouting } from "../../hooks/useRouting"
 
 const App = () => {
@@ -34,11 +34,11 @@ const App = () => {
           />
           <Route
             path="/:language/products/manage"
-            element={<ProductManage />}
+            element={<Manage />}
           />
           <Route
             path="/:language/products/categories"
-            element={<ProductCategories />}
+            element={<Categories />}
           />
           <Route
             path="/:language/products/campaigns"

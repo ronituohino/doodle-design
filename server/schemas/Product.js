@@ -27,7 +27,7 @@ productSchema.plugin(mongoosePaginate)
 
 const Product = mongoose.model("Product", productSchema)
 
-const fs = require("fs")
+const { deleteProductFiles } = require("../utils/files")
 
 const { getPagination } = require("../utils/serverUtils")
 const {
@@ -107,21 +107,7 @@ const productResolvers = {
 
       // Remove previous images
       if (args.images) {
-        const previousProduct = await Product.findById(
-          args._id
-        ).populate("images")
-        previousProduct.images.forEach((i) => {
-          const path = `./public/images/${i._id}-${i.filename}`
-          fs.unlink(path, (error) => {
-            if (error) {
-              console.log(error)
-            } else {
-              console.log(
-                `File ${i._id}-${i.filename} deleted from server`
-              )
-            }
-          })
-        })
+        await deleteProductFiles(args._id)
       }
 
       // variable != null, will catch both null and undefined
@@ -148,6 +134,8 @@ const productResolvers = {
 
     deleteProduct: async (root, args, context) => {
       requireAdmin(context)
+
+      await deleteProductFiles(args._id)
 
       const result = await Product.deleteOne({ _id: args._id })
       return result.deletedCount === 1

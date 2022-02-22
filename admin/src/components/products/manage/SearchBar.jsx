@@ -1,4 +1,3 @@
-import { useState } from "react"
 import {
   TextField,
   InputAdornment,
@@ -8,9 +7,12 @@ import {
 
 // Renders a search icon, which opens a search bar
 // Dialog?
-const SearchBar = ({ placeholder, sx }) => {
-  const [searchWord, setSearchWord] = useState("")
-
+const SearchBar = ({
+  searchWord,
+  setSearchWord,
+  placeholder,
+  sx,
+}) => {
   return (
     <TextField
       size="small"

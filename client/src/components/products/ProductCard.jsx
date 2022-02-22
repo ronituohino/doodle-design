@@ -11,7 +11,6 @@ import { getFile } from "../../utils/getFile"
 const ProductCard = ({ product }) => {
   const { language } = useLanguage()
   const { productLink } = useRouting()
-  console.log(product)
 
   return (
     <Link
