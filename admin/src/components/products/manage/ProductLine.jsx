@@ -14,7 +14,10 @@ import {
 } from "@mui/material"
 import { getFile } from "../../../utils/getFile"
 import { useMutation } from "@apollo/client"
-import { EDIT_PRODUCT } from "../../../graphql/mutations"
+import {
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+} from "../../../graphql/mutations"
 import { useSnackbar } from "notistack"
 
 const ProductLine = ({ product, language }) => {
@@ -26,12 +29,20 @@ const ProductLine = ({ product, language }) => {
       })
     },
   })
+  const [deleteProductMutation] = useMutation(DELETE_PRODUCT, {
+    onCompleted: () => {
+      enqueueSnackbar("Product deleted!", {
+        variant: "success",
+      })
+    },
+  })
 
   const [visibilityDialogOpen, setVisibilityDialogOpen] =
     useState(false)
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
+  console.log(product)
   return (
     <>
       <ConfirmDialog
@@ -81,6 +92,20 @@ const ProductLine = ({ product, language }) => {
         }}
       />
 
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        closeCallback={() => setDeleteDialogOpen(false)}
+        title={`Delete product ${product.name[language]}?`}
+        text="This action will delete the product from the store along with the product page -> any orders made cannot display more information on this product"
+        cancelText="Cancel"
+        acceptText="Delete"
+        acceptCallback={() => {
+          deleteProductMutation({
+            variables: { id: product._id },
+          })
+        }}
+      />
+
       <Divider variant="middle" />
       <ListItem>
         <img
@@ -89,7 +114,7 @@ const ProductLine = ({ product, language }) => {
             product.images[0]._id,
             product.images[0].filename
           )}
-          alt={product.name[`${language}`]}
+          alt={product.name[language]}
           style={{
             width: "50px",
             height: "50px",
@@ -97,7 +122,7 @@ const ProductLine = ({ product, language }) => {
           }}
         />
         <ListItemText sx={{ paddingLeft: 1 }}>
-          {product.name[`${language}`]}
+          {product.name[language]}
         </ListItemText>
 
         <Box sx={{ display: "flex", gap: "10px" }}>

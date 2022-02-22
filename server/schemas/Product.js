@@ -103,7 +103,6 @@ const productResolvers = {
       requireAdmin(context)
 
       // Remove previous images
-
       if (args.images) {
         const previousProduct = await Product.findById(
           args._id
@@ -142,6 +141,13 @@ const productResolvers = {
       )
 
       return product
+    },
+
+    deleteProduct: async (root, args, context) => {
+      requireAdmin(context)
+
+      const result = await Product.deleteOne({ _id: args._id })
+      return result.deletedCount === 1
     },
   },
 }
@@ -199,6 +205,10 @@ const productTypeDefs = `
       category: ID
       visible: Boolean
     ): Product
+
+    deleteProduct(
+      _id: ID!
+    ): Boolean
   }
 `
 

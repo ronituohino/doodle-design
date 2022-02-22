@@ -93,6 +93,12 @@ export const EDIT_PRODUCT = gql`
   }
 `
 
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($id: ID!) {
+    deleteProduct(_id: $id)
+  }
+`
+
 export const FILE_UPLOAD = gql`
   mutation FileUpload($files: [Upload]!) {
     fileUpload(files: $files) {
