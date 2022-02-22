@@ -13,19 +13,26 @@ import {
   Divider,
 } from "@mui/material"
 import { getFile } from "../../../utils/getFile"
-import { useMutation } from "@apollo/client"
+import { useApolloClient, useMutation } from "@apollo/client"
 import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
 } from "../../../graphql/mutations"
 import { useSnackbar } from "notistack"
+import { GET_PRODUCTS } from "../../../graphql/queries"
 
 const ProductLine = ({ product, language }) => {
+  const client = useApolloClient()
   const { enqueueSnackbar } = useSnackbar()
   const [editProductMutation] = useMutation(EDIT_PRODUCT, {
     onCompleted: () => {
       enqueueSnackbar("Product updated!", {
         variant: "success",
+      })
+
+      // Refetch GET_PRODUCTS query
+      client.refetchQueries({
+        include: [GET_PRODUCTS],
       })
     },
   })
@@ -33,6 +40,11 @@ const ProductLine = ({ product, language }) => {
     onCompleted: () => {
       enqueueSnackbar("Product deleted!", {
         variant: "success",
+      })
+
+      // Refetch GET_PRODUCTS query
+      client.refetchQueries({
+        include: [GET_PRODUCTS],
       })
     },
   })

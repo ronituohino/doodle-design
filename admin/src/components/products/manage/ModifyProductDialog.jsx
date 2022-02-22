@@ -12,8 +12,15 @@ import {
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-import { useQuery, useMutation } from "@apollo/client"
-import { GET_CATEGORIES } from "../../../graphql/queries"
+import {
+  useQuery,
+  useMutation,
+  useApolloClient,
+} from "@apollo/client"
+import {
+  GET_CATEGORIES,
+  GET_PRODUCTS,
+} from "../../../graphql/queries"
 import { FILE_UPLOAD } from "../../../graphql/mutations"
 import { CREATE_PRODUCT } from "../../../graphql/mutations"
 
@@ -35,6 +42,7 @@ const ModifyProductDialog = ({
   overrideValues,
   overrideSubmit,
 }) => {
+  const client = useApolloClient()
   const formik = useFormik({
     initialValues: {
       pictures: [],
@@ -100,6 +108,7 @@ const ModifyProductDialog = ({
       ),
     }),
     onSubmit: () => {
+      // First upload pictures in the dropzone, then call other mutations
       uploadFileMutation({
         variables: { files: formik.values.pictures },
       })
@@ -137,6 +146,8 @@ const ModifyProductDialog = ({
       let pictureIdList = []
       response.fileUpload.forEach((f) => pictureIdList.push(f._id))
 
+      // Check if submit is overridden (modify),
+      //otherwise create new product
       if (overrideSubmit) {
         overrideSubmit({ ...formik.values, pictureIdList })
         handleClose()
@@ -158,11 +169,16 @@ const ModifyProductDialog = ({
   const { enqueueSnackbar } = useSnackbar()
 
   const [createProductMutation] = useMutation(CREATE_PRODUCT, {
-    onCompleted: () => {
+    onCompleted: (response) => {
       enqueueSnackbar("Product created!", {
         variant: "success",
       })
       handleClose()
+
+      // Refetch GET_PRODUCTS query
+      client.refetchQueries({
+        include: [GET_PRODUCTS],
+      })
     },
   })
 
