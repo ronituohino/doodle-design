@@ -22,6 +22,5 @@ const getGql = () => {
   const regex = /"/gi
   return `${JSON.stringify(obj).replace(regex, "")}`
 }
-getGql()
 
 module.exports = { currency, getMongoose, getGql }

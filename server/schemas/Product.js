@@ -56,10 +56,21 @@ const productResolvers = {
       const type = isAccountType(context)
       const hideInvisible = type.customer || type.none
 
+      const searchObject = {}
+      if (args.search) {
+        const searchKey = `name.${args.search.searchLanguage}`
+        const searchParams = {
+          $regex: `${args.search.searchWord}`,
+          $options: "i",
+        }
+        searchObject[searchKey] = searchParams
+      }
+
       const products = await Product.paginate(
         {
           ...(args.category != null && { category: args.category }),
           ...(hideInvisible && { visible: true }),
+          ...(args.search != null && searchObject),
         },
         getPagination(args.page, args.size)
       )
@@ -70,14 +81,6 @@ const productResolvers = {
     getProductById: async (root, args) => {
       const product = await Product.findById(args.id)
       return product
-    },
-
-    searchProducts: async (root, args) => {
-      const results = await Product.find({
-        name: `/${args.searchWord}/i`,
-      })
-
-      return results
     },
   },
 
@@ -180,9 +183,13 @@ const productTypeDefs = `
 
   extend type Query {
     productCount: Int!
-    getProducts(category: ID, page: Int!, size: Int!): Paginated!
+    getProducts(
+      category: ID, 
+      search: SearchParams, 
+      page: Int!, 
+      size: Int!
+    ): Paginated!
     getProductById(id: ID!): Product
-    searchProducts(searchWord: String!): [Product]!
   }
 
   extend type Mutation {
@@ -209,6 +216,13 @@ const productTypeDefs = `
     deleteProduct(
       _id: ID!
     ): Boolean
+  }
+
+
+
+  input SearchParams {
+    searchWord: String!
+    searchLanguage: String!
   }
 `
 

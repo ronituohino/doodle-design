@@ -28,7 +28,7 @@ const ProductManage = () => {
           gap: "10px",
         }}
       >
-        <SearchBar placeholder="Search" />
+        <SearchBar placeholder="Filter" />
         <Button
           variant="contained"
           onClick={() => setModifyDialogOpen(true)}
