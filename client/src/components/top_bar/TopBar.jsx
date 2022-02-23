@@ -1,6 +1,6 @@
 import { AppBar, Box, Toolbar, Container } from "@mui/material"
 
-import SearchBar from "./SearchBar"
+import SearchBar from "./search_bar/SearchBar"
 
 import { Link } from "react-router-dom"
 
@@ -18,18 +18,21 @@ const TopBar = () => {
     <AppBar position="fixed" color="primary">
       <Toolbar disableGutters>
         <Container sx={{ display: "flex" }}>
-          <Box sx={{ display: "flex", gap: "10px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "10px",
+              width: "20%",
+            }}
+          >
             <CategoryDrawer />
 
-            <Link to={homeLink()} sx={{ alignSelf: "center" }}>
+            <Link to={homeLink()}>
               <img
                 alt="shop logo, link to home page"
                 style={{
                   height: 40,
                   width: 80,
-                  maxHeight: { xs: 233, md: 167 },
-                  maxWidth: { xs: 350, md: 250 },
-                  margin: 4,
                 }}
                 src={logo}
               />
@@ -46,7 +49,7 @@ const TopBar = () => {
             <SearchBar
               placeholder="Search..."
               sx={{
-                width: "75%",
+                width: "80%",
                 backgroundColor: "common.white",
                 borderRadius: 1,
                 alignSelf: "center",
@@ -54,7 +57,7 @@ const TopBar = () => {
             />
           </Box>
 
-          <Box sx={{ display: "flex", gap: "5px" }}>
+          <Box sx={{ display: "flex", gap: "5px", width: "20%" }}>
             <ShoppingCart />
             <AccountPanel />
             <Language />

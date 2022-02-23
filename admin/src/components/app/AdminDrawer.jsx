@@ -17,13 +17,12 @@ import { useAccount } from "../../hooks/useAccount"
 const AdminDrawer = () => {
   const {
     openLink,
-    homeLink,
     productStatisticsLink,
     productManageLink,
     productCategoriesLink,
     productCampaignsLink,
   } = useRouting()
-  const { data } = useAccount()
+  const { data, logOut } = useAccount()
 
   const [productTabOpen, setItemTabOpen] = useState(false)
   const [userTabOpen, setUserTabOpen] = useState(false)
@@ -39,15 +38,11 @@ const AdminDrawer = () => {
         )}
 
         <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              openLink(homeLink())
-            }}
-          >
+          <ListItemButton onClick={logOut}>
             <ListItemIcon>
-              <Icon>keyboard_return</Icon>
+              <Icon>logout</Icon>
             </ListItemIcon>
-            <ListItemText primary="Return" />
+            <ListItemText primary="Logout" />
           </ListItemButton>
         </ListItem>
 

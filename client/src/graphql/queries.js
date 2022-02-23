@@ -12,8 +12,18 @@ export const GET_CATEGORIES = gql`
 `
 
 export const GET_PRODUCTS = gql`
-  query GetProducts($page: Int!, $size: Int!, $category: ID) {
-    getProducts(page: $page, size: $size, category: $category) {
+  query GetProducts(
+    $page: Int!
+    $size: Int!
+    $category: ID
+    $search: SearchParams
+  ) {
+    getProducts(
+      page: $page
+      size: $size
+      category: $category
+      search: $search
+    ) {
       docs {
         _id
         name {

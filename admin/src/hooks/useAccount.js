@@ -8,7 +8,7 @@ import { LOGIN } from "../graphql/mutations"
 
 import { useSnackbar } from "notistack"
 
-export const useAccount = (callback) => {
+export const useAccount = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { data } = useQuery(ACCOUNT)
   const client = useApolloClient()
@@ -46,10 +46,6 @@ export const useAccount = (callback) => {
   const logOut = async (callback) => {
     localStorage.removeItem("token")
     await client.resetStore()
-
-    if (callback) {
-      callback()
-    }
   }
 
   const loggedIn = () => {

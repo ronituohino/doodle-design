@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 import { useAccount } from "../../hooks/useAccount"
 
 import { Routes, Route, Navigate, Outlet } from "react-router-dom"
@@ -13,20 +12,19 @@ import { useRouting } from "../../hooks/useRouting"
 const App = () => {
   const { data } = useAccount()
   const { adminLink } = useRouting()
-  const [isAdmin, setIsAdmin] = useState(false)
-
-  useEffect(() => {
-    if (data && data.me) {
-      if (data.me.accountType === "Admin") {
-        setIsAdmin(true)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
 
   return (
     <Routes>
-      <Route path="/" element={<Layout isAdmin={isAdmin} />}>
+      <Route
+        path="/"
+        element={
+          <Layout
+            isAdmin={
+              data && data.me && data.me.accountType === "Admin"
+            }
+          />
+        }
+      >
         <Route path="/:language" element={<Outlet />}>
           <Route
             path="/:language/products/statistics"
