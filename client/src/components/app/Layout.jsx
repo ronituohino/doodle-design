@@ -1,7 +1,7 @@
 import { Container } from "@mui/material"
 
-import TopBar from "./components/top_bar/TopBar"
-import Footer from "./components/footer/Footer"
+import TopBar from "../top_bar/TopBar"
+import Footer from "../footer/Footer"
 import { Outlet } from "react-router-dom"
 
 const Layout = () => {

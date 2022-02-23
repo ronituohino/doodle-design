@@ -1,9 +1,9 @@
 import { Box, Paper } from "@mui/material"
 import { useState } from "react"
-import ProductImage from "./ProductImage"
+import ProductPicture from "./ProductPicture"
 
 // eslint-disable-next-line
-const ProductPictures = ({ product }) => {
+const Pictures = ({ product }) => {
   const [shownMainImage, setShownMainImage] = useState(0)
 
   return (
@@ -16,9 +16,9 @@ const ProductPictures = ({ product }) => {
           mr: 1,
         }}
       >
-        <ProductImage index={0} onHover={setShownMainImage} />
-        <ProductImage index={1} onHover={setShownMainImage} />
-        <ProductImage index={2} onHover={setShownMainImage} />
+        <ProductPicture index={0} onHover={setShownMainImage} />
+        <ProductPicture index={1} onHover={setShownMainImage} />
+        <ProductPicture index={2} onHover={setShownMainImage} />
       </Box>
 
       <Box>
@@ -37,4 +37,4 @@ const ProductPictures = ({ product }) => {
   )
 }
 
-export default ProductPictures
+export default Pictures

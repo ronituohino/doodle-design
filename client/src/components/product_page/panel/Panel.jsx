@@ -1,17 +1,17 @@
 import { Typography, Button, Paper } from "@mui/material"
 
-import { useLanguage } from "../../hooks/useLanguage"
-import { useShoppingCart } from "../../hooks/useShoppingCart"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import * as yup from "yup"
 import { useFormik } from "formik"
-import { formatPrice } from "../../utils/formatting"
+import { formatPrice } from "../../../utils/formatting"
 
 import FormikProductCustomization from "./FormikProductCustomization"
 
 import hash from "object-hash"
 import { useEffect } from "react"
 
-const ProductInformation = ({ product }) => {
+const Panel = ({ product }) => {
   const { language } = useLanguage()
   const { addItemToCart } = useShoppingCart()
 
@@ -90,4 +90,4 @@ const ProductInformation = ({ product }) => {
   )
 }
 
-export default ProductInformation
+export default Panel

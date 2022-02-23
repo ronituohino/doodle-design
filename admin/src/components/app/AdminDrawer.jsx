@@ -30,7 +30,7 @@ const AdminDrawer = () => {
 
   return (
     <>
-      <List sx={{ backgroundColor: "common.white" }}>
+      <List sx={{ backgroundColor: "common.white", height: "100%" }}>
         {data && data.me && (
           <ListSubheader>
             {data.me.username} ({data.me.accountType})
@@ -69,6 +69,7 @@ const AdminDrawer = () => {
           <List>
             <ListItem disablePadding>
               <ListItemButton
+                disabled
                 onClick={() => {
                   openLink(productStatisticsLink())
                 }}
@@ -111,6 +112,7 @@ const AdminDrawer = () => {
 
             <ListItem disablePadding>
               <ListItemButton
+                disabled
                 onClick={() => {
                   openLink(productCampaignsLink())
                 }}
@@ -147,7 +149,11 @@ const AdminDrawer = () => {
         <Collapse in={userTabOpen}>
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
+              <ListItemButton
+                disabled
+                onClick={() => {}}
+                sx={{ pl: 4 }}
+              >
                 <ListItemIcon>
                   <Icon>bar_chart</Icon>
                 </ListItemIcon>
@@ -156,7 +162,11 @@ const AdminDrawer = () => {
             </ListItem>
 
             <ListItem disablePadding>
-              <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
+              <ListItemButton
+                disabled
+                onClick={() => {}}
+                sx={{ pl: 4 }}
+              >
                 <ListItemIcon>
                   <Icon>edit</Icon>
                 </ListItemIcon>
@@ -188,7 +198,11 @@ const AdminDrawer = () => {
         <Collapse in={orderTabOpen}>
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
+              <ListItemButton
+                disabled
+                onClick={() => {}}
+                sx={{ pl: 4 }}
+              >
                 <ListItemIcon>
                   <Icon>bar_chart</Icon>
                 </ListItemIcon>
@@ -197,7 +211,11 @@ const AdminDrawer = () => {
             </ListItem>
 
             <ListItem disablePadding>
-              <ListItemButton onClick={() => {}} sx={{ pl: 4 }}>
+              <ListItemButton
+                disabled
+                onClick={() => {}}
+                sx={{ pl: 4 }}
+              >
                 <ListItemIcon>
                   <Icon>edit</Icon>
                 </ListItemIcon>

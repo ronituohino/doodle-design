@@ -12,7 +12,11 @@ const Layout = ({ isAdmin }) => {
           <AdminDrawer />
           <Divider orientation="vertical" flexItem />
           <Box
-            sx={{ backgroundColor: "common.white", width: "100%" }}
+            sx={{
+              backgroundColor: "common.white",
+              width: "100%",
+              height: "100%",
+            }}
           >
             <Outlet />
           </Box>

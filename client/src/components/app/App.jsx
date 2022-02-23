@@ -1,12 +1,12 @@
-import Home from "./components/home/Home"
-import Products from "./components/products/Products"
+import Home from "../home/Home"
+import Products from "../products/Products"
 
 import { Routes, Route, Navigate } from "react-router-dom"
-import Account from "./components/account/Account"
-import ProductPage from "./components/product_page/ProductPage"
-import AccountRegister from "./components/account/AccountRegister"
-import AccountLogin from "./components/account/AccountLogin"
-import Checkout from "./components/checkout/Checkout"
+import Account from "../account/Account"
+import ProductPage from "../product_page/ProductPage"
+import AccountRegister from "../account/AccountRegister"
+import AccountLogin from "../account/AccountLogin"
+import Checkout from "../checkout/Checkout"
 
 import Layout from "./Layout"
 

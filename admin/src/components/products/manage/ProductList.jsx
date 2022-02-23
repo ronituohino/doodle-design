@@ -193,7 +193,8 @@ const ProductList = ({ productSearchFilter }) => {
 
           <Box
             sx={{
-              marginTop: 4,
+              mt: 4,
+              mb: 4,
               display: "flex",
               justifyContent: "center",
             }}

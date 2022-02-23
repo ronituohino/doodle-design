@@ -1,5 +1,5 @@
 import { MenuItem } from "@mui/material"
-import FormikSelect from "../general/formik/FormikSelect"
+import FormikSelect from "../../general/formik/FormikSelect"
 
 const FormikProductCustomization = ({
   formik,

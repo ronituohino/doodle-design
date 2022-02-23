@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-const ProductImage = ({ index, selected, onHover }) => {
+const ProductPicture = ({ index, selected, onHover }) => {
   const thisSelected = selected === index
   return (
     <Box
@@ -21,4 +21,4 @@ const ProductImage = ({ index, selected, onHover }) => {
   )
 }
 
-export default ProductImage
+export default ProductPicture

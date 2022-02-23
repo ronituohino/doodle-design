@@ -3,7 +3,6 @@ import { useAccount } from "../../hooks/useAccount"
 import { Routes, Route, Navigate, Outlet } from "react-router-dom"
 
 import Layout from "./Layout"
-import { Typography } from "@mui/material"
 
 import Manage from "../products/manage/Manage"
 import Categories from "../products/categories/Categories"
@@ -28,7 +27,7 @@ const App = () => {
         <Route path="/:language" element={<Outlet />}>
           <Route
             path="/:language/products/statistics"
-            element={<Typography>Stats</Typography>}
+            element={<></>}
           />
           <Route
             path="/:language/products/manage"
@@ -40,7 +39,7 @@ const App = () => {
           />
           <Route
             path="/:language/products/campaigns"
-            element={<Typography>Campaigns</Typography>}
+            element={<></>}
           />
         </Route>
       </Route>
