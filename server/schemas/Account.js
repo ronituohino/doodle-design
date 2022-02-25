@@ -7,7 +7,6 @@ const accountSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   accountType: { type: String, required: true },
-  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   cart: [
     {
       referenceToProductId: {
@@ -24,7 +23,6 @@ const accountSchema = new mongoose.Schema({
       amount: { type: Number, required: true },
     },
   ],
-  verified: { type: Boolean, required: true },
 })
 
 const Account = mongoose.model("Account", accountSchema)
@@ -72,7 +70,6 @@ const accountResolvers = {
         password: passwordHash,
         email: args.email,
         accountType: accountTypes.CUSTOMER,
-        orders: [],
         cart: [],
         verified: false,
       })
@@ -116,9 +113,7 @@ const accountTypeDefs = `
     password: String!
     email: String!
     accountType: AccountType!
-    orders: [ID]!
     cart: [CartProduct]!
-    verified: Boolean!
   }
 
   type CartProduct {

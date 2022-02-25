@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 
 const LanguageString = require("../types/LanguageString")
 const CurrencyFloat = require("../types/CurrencyFloat")
+const DateObject = require("../types/DateObject")
 
 const addressDetails = {
   firstName: { type: String, required: true },
@@ -14,6 +15,11 @@ const addressDetails = {
 }
 
 const orderSchema = new mongoose.Schema({
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Acccount",
+    required: true,
+  },
   products: [
     {
       referenceToProductId: {
@@ -31,7 +37,7 @@ const orderSchema = new mongoose.Schema({
       amount: { type: Number, required: true },
     },
   ],
-  datetime: { type: Date, required: true },
+  datetime: { type: DateObject, required: true },
   deliveryAddress: {
     method: { type: String, required: true },
     ...addressDetails,
@@ -58,14 +64,35 @@ const { Account } = require("../schemas/Account")
 const { requireLogin } = require("../utils/authentication")
 
 const orderResolvers = {
-  Query: {},
+  Query: {
+    getOrders: async (root, args, context) => {
+      requireLogin(context)
+
+      const result = await Order.find({
+        account: context.currentAccount._id,
+      })
+      console.log(result)
+      return result
+    },
+  },
   Mutation: {
     createOrder: async (root, args, context) => {
       requireLogin(context)
+      const date = new Date()
 
+      // Disassembling date to separate parts so that date parsing
+      // doesn't screw up on some browsers
       const order = new Order({
+        account: context.currentAccount._id,
         products: args.products,
-        datetime: new Date(),
+        datetime: {
+          year: date.getUTCFullYear(),
+          month: date.getUTCMonth() + 1, // +1 because getUTCMonth() returns 0-11
+          day: date.getUTCDate(),
+          hours: date.getUTCHours(),
+          minutes: date.getUTCMinutes(),
+          seconds: date.getUTCSeconds(),
+        },
         deliveryAddress: args.deliveryAddress,
         billingAddress: args.billingAddress,
         paymentDetails: args.paymentDetails,
@@ -74,11 +101,6 @@ const orderResolvers = {
       })
 
       const result = await order.save()
-
-      await Account.findByIdAndUpdate(context.currentAccount._id, {
-        $push: { orders: result._id },
-      })
-
       return result
     },
   },
@@ -97,8 +119,9 @@ const orderAddressFields = `
 const orderTypeDefs = `
   type Order {
     _id: ID!
+    account: ID!
     products: [OrderProduct!]!
-    datetime: String!
+    datetime: DateObject!
     billingAddress: BillingAddress!
     deliveryAddress: DeliveryAddress!
     paymentDetails: PaymentDetails!
@@ -139,6 +162,10 @@ const orderTypeDefs = `
     Received_Order
     In_Delivery
     Delivered
+  }
+
+  extend type Query {
+    getOrders: [Order]!
   }
 
   extend type Mutation {

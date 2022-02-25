@@ -32,12 +32,10 @@ export const EDIT_USER = gql`
   ) {
     editUser(email: $email, password: $password, cart: $cart) {
       _id
-      orders
       accountType
       email
       password
       username
-      verified
     }
   }
 `

@@ -12,6 +12,7 @@ const { productResolvers, productTypeDefs } = require("./Product")
 
 const language = require("../constants/language")
 const currency = require("../constants/currency")
+const datetime = require("../constants/datetime")
 
 const commonTypeDefs = `
   type Query {
@@ -38,6 +39,7 @@ const commonTypeDefs = `
 
   type LanguageString ${language.getGql()}
   type CurrencyFloat ${currency.getGql()}
+  type DateObject ${datetime.getGql()}
 
   input OptionsInput {
     label: LanguageStringInput!

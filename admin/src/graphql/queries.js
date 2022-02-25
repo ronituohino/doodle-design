@@ -8,8 +8,6 @@ export const ACCOUNT = gql`
       password
       email
       accountType
-      orders
-      verified
     }
   }
 `

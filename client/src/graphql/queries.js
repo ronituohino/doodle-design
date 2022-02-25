@@ -86,6 +86,69 @@ export const GET_PRODUCT = gql`
   }
 `
 
+export const GET_ORDERS = gql`
+  query GetOrders {
+    getOrders {
+      _id
+      datetime {
+        year
+        month
+        day
+        hours
+        minutes
+        seconds
+      }
+      products {
+        referenceToProductId
+        price {
+          EUR
+        }
+        customization {
+          label {
+            en
+            fi
+          }
+          option {
+            en
+            fi
+          }
+        }
+        amount
+      }
+      status
+      extrainfo
+      billingAddress {
+        firstName
+        lastName
+        address
+        zipCode
+        city
+        country
+        company
+      }
+      deliveryAddress {
+        method
+        firstName
+        lastName
+        address
+        city
+        zipCode
+        country
+        company
+        extra
+        phone
+      }
+      paymentDetails {
+        coupons
+        details {
+          method
+          provider
+        }
+      }
+    }
+  }
+`
+
 export const SHOPPING_CART = gql`
   query CartProducts {
     cartProducts @client
@@ -100,8 +163,6 @@ export const ACCOUNT = gql`
       password
       email
       accountType
-      orders
-      verified
     }
   }
 `

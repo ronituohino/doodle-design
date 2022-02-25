@@ -1,5 +1,6 @@
 import { useApolloClient, useMutation } from "@apollo/client"
 import { Box, Button } from "@mui/material"
+import PageSubtitle from "./PageSubtitle"
 
 import { useFormik } from "formik"
 import { useEffect } from "react"
@@ -10,7 +11,6 @@ import { ACCOUNT } from "../../graphql/queries"
 import { useAccount } from "../../hooks/useAccount"
 
 import FormikField from "../general/formik/FormikField"
-import CategorySubtitle from "../general/CategorySubtitle"
 
 const AccountSettings = () => {
   const { data } = useAccount()
@@ -63,7 +63,7 @@ const AccountSettings = () => {
     <>
       {data && data.me && (
         <Box sx={{ padding: 2, width: "60%" }}>
-          <CategorySubtitle text="Account Settings" />
+          <PageSubtitle text="Account settings" />
 
           <Box sx={{ mt: 2 }}>
             <Box sx={{ display: "flex", gap: "10px" }}>

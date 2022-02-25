@@ -20,7 +20,6 @@ db.accounts.insert({
   password:
     "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
   accountType: "Admin",
-  verified: false,
 })
 
 db.accounts.insert({
@@ -29,7 +28,6 @@ db.accounts.insert({
   password:
     "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
   accountType: "Customer",
-  verified: false,
 })
 
 db.categories.insert({
