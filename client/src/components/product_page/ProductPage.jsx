@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Container, Box } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_PRODUCT } from "../../graphql/queries"
@@ -20,38 +20,41 @@ const ProductPage = () => {
 
   return (
     <>
-      {data && data.getProductById ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-          }}
-        >
+      <Container maxWidth="md">
+        {data && data.getProductById ? (
           <Box
             sx={{
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
               gap: "20px",
             }}
           >
-            <Pictures sx={{ width: "60%" }} />
-            <Panel product={data.getProductById} />
-          </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "20px",
+                width: "100%",
+              }}
+            >
+              <Pictures product={data.getProductById} />
+              <Panel product={data.getProductById} />
+            </Box>
 
-          <Extras />
-        </Box>
-      ) : (
-        <Loading
-          size={32}
-          sx={{
-            position: "absolute",
-            left: "50%",
-            top: "25%",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-      )}
+            <Extras />
+          </Box>
+        ) : (
+          <Loading
+            size={32}
+            sx={{
+              position: "absolute",
+              left: "50%",
+              top: "25%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        )}
+      </Container>
     </>
   )
 }

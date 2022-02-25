@@ -1,4 +1,4 @@
-import { Typography, Button, Paper } from "@mui/material"
+import { Box, Typography, Button, Paper } from "@mui/material"
 
 import { useLanguage } from "../../../hooks/useLanguage"
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
@@ -42,50 +42,66 @@ const Panel = ({ product }) => {
   useEffect(() => formik.validateForm(), [])
 
   return (
-    <Paper elevation={4} sx={{ width: "40%", padding: 2 }}>
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: "bold",
-          letterSpacing: 0.5,
-        }}
-      >
-        {product.name[language]}
-      </Typography>
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: "bold",
-          letterSpacing: 0.5,
-        }}
-      >
-        {formatPrice(product.price.EUR, language, "EUR")}
-      </Typography>
+    <Paper
+      elevation={4}
+      sx={{
+        padding: 2,
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Box>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: "bold",
+            letterSpacing: 0.5,
+          }}
+        >
+          {product.name[language]}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "bold",
+            letterSpacing: 0.5,
+          }}
+        >
+          {formatPrice(product.price.EUR, language, "EUR")}
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          {product.description[language]}
+        </Typography>
+      </Box>
 
-      <FormikProductCustomization
-        formik={formik}
-        product={product}
-        language={language}
-      />
+      <Box sx={{ flexBasis: "100%" }} />
 
-      <Button
-        disabled={!formik.isValid}
-        color="primary"
-        variant="contained"
-        fullWidth
-        onClick={() => {
-          // Add a hash: products with same _id might appear in lists
-          const selectedProduct = {
-            ...product,
-            customization: [...formik.values],
-          }
+      <Box sx={{ mt: 2 }}>
+        <FormikProductCustomization
+          formik={formik}
+          product={product}
+          language={language}
+        />
+        <Button
+          disabled={!formik.isValid}
+          color="primary"
+          variant="contained"
+          fullWidth
+          onClick={() => {
+            // Add a hash: products with same _id might appear in lists
+            const selectedProduct = {
+              ...product,
+              customization: [...formik.values],
+            }
 
-          selectedProduct.hash = hash(selectedProduct)
-          addItemToCart(selectedProduct)
-        }}
-      >
-        Add to shopping cart
-      </Button>
+            selectedProduct.hash = hash(selectedProduct)
+            addItemToCart(selectedProduct)
+          }}
+        >
+          Add to shopping cart
+        </Button>
+      </Box>
     </Paper>
   )
 }

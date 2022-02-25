@@ -35,7 +35,7 @@ const FormikProductCustomization = ({
             }}
             sx={{
               marginBottom: 2,
-              minWidth: "200px",
+              width: "100%",
             }}
           >
             {c.options.map((o) => {
