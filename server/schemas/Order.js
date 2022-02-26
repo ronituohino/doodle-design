@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
   },
   products: [
     {
-      referenceToProductId: {
+      product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: true,
@@ -70,8 +70,9 @@ const orderResolvers = {
 
       const result = await Order.find({
         account: context.currentAccount._id,
-      })
+      }).populate("products.product")
       console.log(result)
+      console.log(result.products)
       return result
     },
   },
@@ -120,7 +121,7 @@ const orderTypeDefs = `
   type Order {
     _id: ID!
     account: ID!
-    products: [OrderProduct!]!
+    products: [OrderProduct]!
     datetime: DateObject!
     billingAddress: BillingAddress!
     deliveryAddress: DeliveryAddress!
@@ -130,7 +131,7 @@ const orderTypeDefs = `
   }
 
   type OrderProduct {
-    referenceToProductId: ID!
+    product: Product!
     price: CurrencyFloat!
     customization: [Option]!
     amount: Int!
@@ -181,7 +182,7 @@ const orderTypeDefs = `
 
   
   input OrderProductInput {
-    referenceToProductId: ID!
+    product: ID!
     price: CurrencyFloatInput!
     customization: [OptionInput!]
     amount: Int!

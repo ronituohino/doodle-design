@@ -12,6 +12,7 @@ import {
 
 import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import { useLanguage } from "../../../hooks/useLanguage"
+import { getFile } from "../../../utils/getFile"
 
 import { hasParentWithMatchingSelector } from "../../../utils/utils"
 
@@ -115,7 +116,10 @@ const ShoppingCartProduct = ({
     >
       <img
         component="img"
-        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+        src={getFile(
+          cartObject.product.images[0]._id,
+          cartObject.product.images[0].filename
+        )}
         alt="name"
         style={{
           width: 80,

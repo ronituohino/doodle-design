@@ -151,7 +151,7 @@ const Checkout = () => {
     data.cartProducts.forEach((cartObject) => {
       const product = {}
 
-      product.referenceToProductId = cartObject.product._id
+      product.product = cartObject.product._id
       product.price = cartObject.product.price
       product.customization = cartObject.product.customization
       product.amount = cartObject.amount

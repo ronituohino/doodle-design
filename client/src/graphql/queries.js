@@ -90,16 +90,7 @@ export const GET_ORDERS = gql`
   query GetOrders {
     getOrders {
       _id
-      datetime {
-        year
-        month
-        day
-        hours
-        minutes
-        seconds
-      }
       products {
-        referenceToProductId
         price {
           EUR
         }
@@ -114,6 +105,23 @@ export const GET_ORDERS = gql`
           }
         }
         amount
+        product {
+          _id
+          name {
+            en
+            fi
+          }
+          price {
+            EUR
+          }
+          images {
+            filename
+            _id
+          }
+          category {
+            name
+          }
+        }
       }
       status
       extrainfo
@@ -144,6 +152,14 @@ export const GET_ORDERS = gql`
           method
           provider
         }
+      }
+      datetime {
+        month
+        day
+        hours
+        minutes
+        seconds
+        year
       }
     }
   }
