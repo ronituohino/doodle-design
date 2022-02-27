@@ -1,16 +1,16 @@
 import { useApolloClient, useMutation } from "@apollo/client"
 import { Box, Button } from "@mui/material"
-import PageSubtitle from "./PageSubtitle"
+import PageSubtitle from "../PageSubtitle"
 
 import { useFormik } from "formik"
 import { useEffect } from "react"
 import * as yup from "yup"
 
-import { EDIT_USER } from "../../graphql/mutations"
-import { ACCOUNT } from "../../graphql/queries"
-import { useAccount } from "../../hooks/useAccount"
+import { EDIT_USER } from "../../../graphql/mutations"
+import { ACCOUNT } from "../../../graphql/queries"
+import { useAccount } from "../../../hooks/useAccount"
 
-import FormikField from "../general/formik/FormikField"
+import FormikField from "../../general/formik/FormikField"
 
 const AccountSettings = () => {
   const { data } = useAccount()

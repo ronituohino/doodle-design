@@ -4,7 +4,7 @@ import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
 import ParcelAddressSelection from "./ParcelAddressSelection"
 import HomeDeliveryAddress from "./HomeDeliveryAddress"
-import AddressDisplay from "./AddressDisplay"
+import AddressDisplay from "../../general/AddressDisplay"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 import FormikField from "../../general/formik/FormikField"
 

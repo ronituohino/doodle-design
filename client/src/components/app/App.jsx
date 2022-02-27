@@ -6,9 +6,12 @@ import Account from "../account/Account"
 import ProductPage from "../product_page/ProductPage"
 import AccountRegister from "../account/AccountRegister"
 import AccountLogin from "../account/AccountLogin"
+import AccountSettings from "../account/settings/AccountSettings"
+import AccountOrders from "../account/orders/AccountOrders"
 import Checkout from "../checkout/Checkout"
 
 import Layout from "./Layout"
+import AccountOverview from "../account/overview/AccountOverview"
 
 const App = () => {
   return (
@@ -30,7 +33,11 @@ const App = () => {
           path=":language/account/login"
           element={<AccountLogin />}
         />
-        <Route path=":language/account" element={<Account />} />
+        <Route path=":language/account" element={<Account />}>
+          <Route index element={<AccountOverview />} />
+          <Route path="settings" element={<AccountSettings />} />
+          <Route path="orders" element={<AccountOrders />} />
+        </Route>
         <Route path=":language/checkout/" element={<Checkout />} />
         <Route path=":language/home" element={<Home />} />
 

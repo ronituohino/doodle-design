@@ -9,9 +9,16 @@ import {
 } from "@mui/material"
 
 import { useAccount } from "../../hooks/useAccount"
+import { useRouting } from "../../hooks/useRouting"
 
-const AccountDrawer = ({ set, SETTINGS, ORDERS }) => {
+const AccountDrawer = () => {
   const { data } = useAccount()
+  const {
+    openLink,
+    accountLink,
+    accountSettingsLink,
+    accountOrdersLink,
+  } = useRouting()
 
   return (
     <>
@@ -23,7 +30,18 @@ const AccountDrawer = ({ set, SETTINGS, ORDERS }) => {
         )}
 
         <ListItem disablePadding>
-          <ListItemButton onClick={() => set(SETTINGS)}>
+          <ListItemButton onClick={() => openLink(accountLink())}>
+            <ListItemIcon>
+              <Icon>account_circle</Icon>
+            </ListItemIcon>
+            <ListItemText primary="Overview" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => openLink(accountSettingsLink())}
+          >
             <ListItemIcon>
               <Icon>manage_accounts</Icon>
             </ListItemIcon>
@@ -32,7 +50,9 @@ const AccountDrawer = ({ set, SETTINGS, ORDERS }) => {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton onClick={() => set(ORDERS)}>
+          <ListItemButton
+            onClick={() => openLink(accountOrdersLink())}
+          >
             <ListItemIcon>
               <Icon>local_shipping</Icon>
             </ListItemIcon>

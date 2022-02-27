@@ -1,9 +1,9 @@
 import { Box, List } from "@mui/material"
-import { useAccount } from "../../hooks/useAccount"
-import { useLanguage } from "../../hooks/useLanguage"
+import { useAccount } from "../../../hooks/useAccount"
+import { useLanguage } from "../../../hooks/useLanguage"
 import { useQuery } from "@apollo/client"
-import PageSubtitle from "./PageSubtitle"
-import { GET_ORDERS } from "../../graphql/queries"
+import PageSubtitle from "../PageSubtitle"
+import { GET_ORDERS } from "../../../graphql/queries"
 import Order from "./Order"
 
 const AccountOrders = () => {
@@ -20,7 +20,7 @@ const AccountOrders = () => {
           </Box>
 
           {orders.data && orders.data.getOrders && (
-            <List>
+            <Box sx={{ ml: 2 }}>
               {orders.data.getOrders.map((order) => (
                 <Order
                   key={order._id}
@@ -28,7 +28,7 @@ const AccountOrders = () => {
                   language={language}
                 />
               ))}
-            </List>
+            </Box>
           )}
         </Box>
       )}

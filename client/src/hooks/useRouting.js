@@ -26,6 +26,14 @@ export const useRouting = () => {
     return `/${language}/account`
   }
 
+  const accountSettingsLink = () => {
+    return `/${language}/account/settings`
+  }
+
+  const accountOrdersLink = () => {
+    return `/${language}/account/orders`
+  }
+
   const categoryLink = (category) => {
     return `/${language}/product/${category}`
   }
@@ -53,6 +61,8 @@ export const useRouting = () => {
 
     homeLink,
     accountLink,
+    accountSettingsLink,
+    accountOrdersLink,
     categoryLink,
     productLink,
     checkoutLink,

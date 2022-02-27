@@ -1,6 +1,6 @@
 import { Box, IconButton, Typography, Icon } from "@mui/material"
 
-import LabelPaper from "../../general/LabelPaper"
+import LabelPaper from "./LabelPaper"
 
 const AddressDisplay = ({
   elevation,

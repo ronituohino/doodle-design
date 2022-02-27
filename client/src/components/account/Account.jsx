@@ -1,33 +1,31 @@
-import { useState } from "react"
-
 import { Box, Divider } from "@mui/material"
 
 import AccountDrawer from "./AccountDrawer"
-import AccountSettings from "./AccountSettings"
-import AccountOrders from "./AccountOrders"
 
-const SETTINGS = "settings"
-const ORDERS = "orders"
+import { Outlet, Navigate } from "react-router-dom"
+import { useAccount } from "../../hooks/useAccount"
+import { useRouting } from "../../hooks/useRouting"
 
 const Account = () => {
-  const [viewedSection, setViewedSection] = useState(SETTINGS)
+  const { loggedIn } = useAccount()
+  const { homeLink } = useRouting()
+  const isLoggedIn = loggedIn()
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Box>
-        <AccountDrawer
-          set={setViewedSection}
-          SETTINGS={SETTINGS}
-          ORDERS={ORDERS}
-        />
-      </Box>
+    <>
+      {isLoggedIn && (
+        <Box sx={{ display: "flex" }}>
+          <Box>
+            <AccountDrawer />
+          </Box>
 
-      <Divider orientation="vertical" flexItem />
+          <Divider orientation="vertical" flexItem />
 
-      {viewedSection === SETTINGS && <AccountSettings />}
-
-      {viewedSection === ORDERS && <AccountOrders />}
-    </Box>
+          <Outlet />
+        </Box>
+      )}
+      {!isLoggedIn && <Navigate to={homeLink()} />}
+    </>
   )
 }
 

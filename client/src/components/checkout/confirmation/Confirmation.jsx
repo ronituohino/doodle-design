@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 
 import Cart from "../cart/Cart"
-import AddressDisplay from "../delivery_address/AddressDisplay"
+import AddressDisplay from "../../general/AddressDisplay"
 import PaymentDisplay from "./PaymentDisplay"
 import LabelPaper from "../../general/LabelPaper"
 import FormikField from "../../general/formik/FormikField"
