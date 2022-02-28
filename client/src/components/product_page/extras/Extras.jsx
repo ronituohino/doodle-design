@@ -1,6 +1,6 @@
-import { Typography, Paper, Tabs, Tab } from "@mui/material"
+import { Paper, Tabs, Tab } from "@mui/material"
 import { useState } from "react"
-import Details from "./Details"
+import Ratings from "./Ratings"
 
 // Details, ratings, etc
 // eslint-disable-next-line
@@ -14,11 +14,10 @@ const Extras = ({ product }) => {
         value={tab}
         onChange={(event, newValue) => setTab(newValue)}
       >
-        <Tab label="Details" />
         <Tab label="Ratings" disabled />
       </Tabs>
 
-      <Details tab={tab} index={0} />
+      <Ratings tab={tab} index={0} />
     </Paper>
   )
 }

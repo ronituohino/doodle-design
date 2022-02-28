@@ -11,11 +11,14 @@ import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
 import BillingAddress from "./billing_address/BillingAddress"
 import { useCheckoutForms } from "./useCheckoutForms"
-import { useMutation } from "@apollo/client"
+import { useApolloClient, useMutation } from "@apollo/client"
 import { CREATE_ORDER } from "../../graphql/mutations"
 import { useRouting } from "../../hooks/useRouting"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { useSnackbar } from "notistack"
+
+import { orderConstants } from "../../utils/constants"
+import { GET_ORDERS } from "../../graphql/queries"
 
 const steps = [
   {
@@ -36,17 +39,8 @@ const steps = [
   },
 ]
 
-const constants = {
-  HOME_DELIVERY: "home-delivery",
-  POSTI_PARCEL: "posti-parcel",
-  STORE_PICKUP: "store-pickup",
-
-  PREPAYMENT: "prepayment",
-  INSTALLMENT: "installment",
-  LOCAL_PAYMENT: "local-payment",
-}
-
 const Checkout = () => {
+  const client = useApolloClient()
   const { enqueueSnackbar } = useSnackbar()
 
   // Stepper state variables
@@ -61,7 +55,7 @@ const Checkout = () => {
     deliveryFormik,
     paymentFormik,
     confirmationFormik,
-  } = useCheckoutForms(constants)
+  } = useCheckoutForms(orderConstants)
 
   const allValid =
     billingFormik.isValid &&
@@ -138,6 +132,11 @@ const Checkout = () => {
 
       emptyCart()
 
+      // Refetch GET_ORDERS query
+      client.refetchQueries({
+        include: [GET_ORDERS],
+      })
+
       // Replace with success screen?
       openLink(homeLink())
     },
@@ -163,30 +162,30 @@ const Checkout = () => {
     let deliveryAddress = {}
 
     switch (checkout.deliveryDetails.deliveryMethod) {
-      case constants.HOME_DELIVERY:
+      case orderConstants.HOME_DELIVERY:
         if (checkout.deliveryDetails.useExplicitDeliveryAddress) {
           deliveryAddress = {
-            method: constants.HOME_DELIVERY,
+            method: orderConstants.HOME_DELIVERY,
             ...checkout.deliveryDetails.homeDeliveryAddress,
           }
         } else {
           deliveryAddress = {
-            method: constants.HOME_DELIVERY,
+            method: orderConstants.HOME_DELIVERY,
             ...billingAddress,
           }
         }
         break
-      case constants.POSTI_PARCEL:
+      case orderConstants.POSTI_PARCEL:
         deliveryAddress = {
-          method: constants.POSTI_PARCEL,
+          method: orderConstants.POSTI_PARCEL,
           firstName: billingAddress.firstName,
           lastName: billingAddress.lastName,
           ...checkout.deliveryDetails.postiParcelAddress,
         }
         break
-      case constants.STORE_PICKUP:
+      case orderConstants.STORE_PICKUP:
         deliveryAddress = {
-          method: constants.STORE_PICKUP,
+          method: orderConstants.STORE_PICKUP,
           firstName: billingAddress.firstName,
           lastName: billingAddress.lastName,
           ...checkout.deliveryDetails.storePickupAddress,
@@ -200,21 +199,21 @@ const Checkout = () => {
     const paymentDetails = { coupons: [] }
 
     switch (checkout.paymentDetails.paymentMethod) {
-      case constants.PREPAYMENT:
+      case orderConstants.PREPAYMENT:
         paymentDetails.details = {
-          method: constants.PREPAYMENT,
+          method: orderConstants.PREPAYMENT,
           provider: checkout.paymentDetails.prePayment,
         }
         break
-      case constants.INSTALLMENT:
+      case orderConstants.INSTALLMENT:
         paymentDetails.details = {
-          method: constants.INSTALLMENT,
+          method: orderConstants.INSTALLMENT,
           provider: checkout.paymentDetails.installment,
         }
         break
-      case constants.LOCAL_PAYMENT:
+      case orderConstants.LOCAL_PAYMENT:
         paymentDetails.details = {
-          method: constants.LOCAL_PAYMENT,
+          method: orderConstants.LOCAL_PAYMENT,
           provider: "",
         }
         break
@@ -299,14 +298,14 @@ const Checkout = () => {
       />
       <Delivery
         formik={deliveryFormik}
-        constants={constants}
+        constants={orderConstants}
         next={handleComplete}
         checkout={checkout}
         hidden={activeStep !== 2}
       />
       <Payment
         formik={paymentFormik}
-        constants={constants}
+        constants={orderConstants}
         next={handleComplete}
         checkout={checkout}
         hidden={activeStep !== 3}
@@ -314,7 +313,7 @@ const Checkout = () => {
       <Confirmation
         formik={confirmationFormik}
         allValid={allValid}
-        constants={constants}
+        constants={orderConstants}
         next={purchase}
         checkout={checkout}
         hidden={activeStep !== 4}

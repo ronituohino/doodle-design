@@ -8,9 +8,6 @@ import { FixedSizeList } from "react-window"
 const Pictures = ({ product }) => {
   const [shownMainImage, setShownMainImage] = useState(0)
   const [imageModalOpen, setImageModalOpen] = useState(false)
-
-  console.log(product)
-
   return (
     <Paper elevation={4} sx={{ display: "flex", padding: 2 }}>
       <Box sx={{ mr: 1 }}>

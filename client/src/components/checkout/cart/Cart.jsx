@@ -1,4 +1,4 @@
-import { Box, Button, Paper } from "@mui/material"
+import { Box, Button, Paper, Typography } from "@mui/material"
 
 import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
@@ -22,7 +22,16 @@ const Cart = ({ next, hideControls, hidden, children }) => {
       {!hidden && (
         <Box sx={{ display: "flex", gap: "17.5px" }}>
           <Paper elevation={4} sx={{ width: "60%", height: "100%" }}>
-            {total === 0 && <p>empty!</p>}
+            {total === 0 && (
+              <Box sx={{ p: 2, pb: 0 }}>
+                <Typography
+                  color="grey.700"
+                  sx={{ textAlign: "center", mb: 2 }}
+                >
+                  Shopping cart empty, go add something!
+                </Typography>
+              </Box>
+            )}
             {total > 0 &&
               cart.data.cartProducts.map((obj) => (
                 <ShoppingCartProduct

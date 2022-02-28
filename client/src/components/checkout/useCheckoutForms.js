@@ -5,11 +5,11 @@ export const useCheckoutForms = (constants) => {
   // The main checkout states
   const billingFormik = useFormik({
     initialValues: {
-      firstName: "Jeremy",
-      lastName: "Jenking",
-      address: "Tampereenkatu 12",
-      city: "TAMPERE",
-      zipCode: "05001",
+      firstName: "",
+      lastName: "",
+      address: "",
+      city: "",
+      zipCode: "",
       country: "FI",
       company: "",
     },

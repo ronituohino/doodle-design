@@ -71,9 +71,9 @@ const orderResolvers = {
       const result = await Order.find({
         account: context.currentAccount._id,
       }).populate("products.product")
-      console.log(result)
-      console.log(result.products)
-      return result
+
+      // Reverse results, so that newest order is first
+      return result.reverse()
     },
   },
   Mutation: {

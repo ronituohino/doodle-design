@@ -8,6 +8,7 @@ import {
   List,
   MenuItem,
   Divider,
+  Chip,
 } from "@mui/material"
 import { useRouting } from "../../../hooks/useRouting"
 
@@ -22,6 +23,8 @@ import AddressDisplay from "../../general/AddressDisplay"
 
 import { getFile } from "../../../utils/getFile"
 
+import { orderConstants } from "../../../utils/constants"
+
 const Order = ({ order, language }) => {
   const { openLink, productLink } = useRouting()
   const totalPrice = () => {
@@ -29,26 +32,44 @@ const Order = ({ order, language }) => {
     order.products.forEach((orderProduct) => {
       total += orderProduct.price.EUR * orderProduct.amount
     })
-
     return total
+  }
+
+  let paymentMethodText = ""
+  switch (order.paymentDetails.details.method) {
+    case orderConstants.PREPAYMENT:
+      paymentMethodText = "Prepayment"
+      break
+    case orderConstants.INSTALLMENT:
+      paymentMethodText = "Installment"
+      break
+    case orderConstants.LOCAL_PAYMENT:
+      paymentMethodText = "Pay at the store"
+      break
+    default:
+      break
   }
 
   return (
     <Accordion>
       <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-          }}
-        >
-          {`${order.datetime.day}. ${formatMonth(
-            order.datetime.month,
-            language
-          )} ${order.datetime.year} - ${formatTime(
-            order.datetime.hours,
-            order.datetime.minutes
-          )}`}
-        </Typography>
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              alignSelf: "center",
+            }}
+          >
+            {`${order.datetime.day}. ${formatMonth(
+              order.datetime.month,
+              language
+            )} ${order.datetime.year} - ${formatTime(
+              order.datetime.hours,
+              order.datetime.minutes
+            )}`}
+          </Typography>
+          <Chip sx={{ alignSelf: "center" }} label={order.status} />
+        </Box>
       </AccordionSummary>
       <AccordionDetails>
         <Box>
@@ -175,11 +196,35 @@ const Order = ({ order, language }) => {
             disableEdit
           />
           <AddressDisplay
-            label="Delivery address"
+            label={
+              order.deliveryAddress.method ===
+              orderConstants.STORE_PICKUP
+                ? "Pick-up address"
+                : "Delivery address"
+            }
             variant="outlined"
             address={order.deliveryAddress}
             disableEdit
           />
+          <LabelPaper
+            label="Payment details"
+            variant="outlined"
+            elevation={4}
+            sx={{ width: "100%" }}
+          >
+            <Typography>Method: {paymentMethodText}</Typography>
+            {order.paymentDetails.details.method !==
+              orderConstants.LOCAL_PAYMENT && (
+              <Typography>
+                Provider: {order.paymentDetails.details.provider}
+              </Typography>
+            )}
+          </LabelPaper>
+          {order.extrainfo && (
+            <LabelPaper variant="outlined" label="Extra information">
+              <Typography>{order.extrainfo}</Typography>
+            </LabelPaper>
+          )}
         </Box>
       </AccordionDetails>
     </Accordion>

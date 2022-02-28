@@ -22,7 +22,7 @@ const {
 
 mongoose
   .connect(process.env.DB_URI, { serverSelectionTimeoutMS: 60000 }) // Attempt for 1 minute until timeout
-  .then(() => console.log("Connected to database"))
+  .then(() => console.log("Server connected to database"))
   .catch((e) => console.log(`Error connecting to database: ${e}`))
 
 const startApolloServer = async () => {
@@ -68,7 +68,7 @@ const startApolloServer = async () => {
   await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
-  console.log(`Backend ready!`)
+  console.log(`Server running`)
 }
 
 startApolloServer()
