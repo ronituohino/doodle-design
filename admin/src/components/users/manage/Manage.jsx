@@ -5,7 +5,7 @@ import CategorySubtitle from "../../general/CategorySubtitle"
 import SearchBar from "../../general/SearchBar"
 
 import { useDebounce } from "use-debounce"
-import UserList from "./UserList"
+import AccountList from "./AccountList"
 
 const Manage = () => {
   const [searchWord, setSearchWord] = useState("")
@@ -30,7 +30,7 @@ const Manage = () => {
       </Box>
 
       <Box>
-        <UserList />
+        <AccountList userSearchFilter={debouncedSearchWord} />
       </Box>
     </>
   )

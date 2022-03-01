@@ -7,10 +7,11 @@ import { useState } from "react"
 import { DELETE_ACCOUNT } from "../../../graphql/mutations"
 import { ACCOUNT, GET_ACCOUNTS } from "../../../graphql/queries"
 import ConfirmDialog from "../../general/ConfirmDialog"
-import User from "./User"
+import Account from "./Account"
 import { useSnackbar } from "notistack"
+import EditAccountDialog from "./EditUserDialog"
 
-const UserList = ({ userSearchFilter }) => {
+const AccountList = ({ userSearchFilter }) => {
   const client = useApolloClient()
   const { enqueueSnackbar } = useSnackbar()
   const { data } = useQuery(GET_ACCOUNTS, {
@@ -52,7 +53,7 @@ const UserList = ({ userSearchFilter }) => {
       {data && data.getAccounts && (
         <>
           {data.getAccounts.map((account) => (
-            <User
+            <Account
               key={account._id}
               account={account}
               openModifyDialog={openModifyDialog}
@@ -79,8 +80,15 @@ const UserList = ({ userSearchFilter }) => {
           })
         }}
       />
+
+      <EditAccountDialog
+        open={modifyDialogOpen}
+        handleClose={() => setModifyDialogOpen(false)}
+        userId={modifyDialogAccount ? modifyDialogAccount._id : null}
+        values={modifyDialogAccount}
+      />
     </>
   )
 }
 
-export default UserList
+export default AccountList

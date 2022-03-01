@@ -7,8 +7,7 @@ import {
   ListItemText,
 } from "@mui/material"
 
-const User = ({ account, openModifyDialog, openDeleteDialog }) => {
-  console.log(account)
+const Account = ({ account, openModifyDialog, openDeleteDialog }) => {
   return (
     <>
       <Divider variant="middle" />
@@ -41,4 +40,4 @@ const User = ({ account, openModifyDialog, openDeleteDialog }) => {
   )
 }
 
-export default User
+export default Account

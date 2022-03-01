@@ -46,10 +46,18 @@ const accountResolvers = {
       requireAdmin(context)
 
       const results = await Account.find({
-        ...(args.email != null && { email: args.email }),
+        ...(args.email != null && {
+          email: {
+            $regex: `${args.email}`,
+            $options: "i",
+          },
+        }),
       })
 
       return results
+    },
+    getAccountTypes: () => {
+      return types
     },
   },
   Mutation: {
@@ -94,11 +102,12 @@ const accountResolvers = {
       }
     },
 
+    // Modifies anyone's account
     editAccountAdmin: async (root, args, context) => {
       requireAdmin(context)
 
       const user = await Account.findByIdAndUpdate(
-        context.currentAccount._id,
+        args._id,
         {
           ...(args.username != null && { username: args.username }),
           ...(args.email != null && { email: args.email }),
@@ -119,6 +128,7 @@ const accountResolvers = {
       return user
     },
 
+    // Modifies only own account
     editAccountClient: async (root, args, context) => {
       requireLogin(context)
 
@@ -179,10 +189,17 @@ const accountTypeDefs = `
     ${types.CUSTOMER}
   }
 
+  type AccountTypeObject {
+    ADMIN: String!
+    CUSTOMER: String!
+  }
+
   extend type Query {
     getAccounts(
       email: String
     ): [SafeAccount]!
+
+    getAccountTypes: AccountTypeObject!
   }
 
   extend type Mutation {
@@ -193,6 +210,7 @@ const accountTypeDefs = `
     ): Token
 
     editAccountAdmin(
+      _id: ID!
       username: String
       email: String
       password: String

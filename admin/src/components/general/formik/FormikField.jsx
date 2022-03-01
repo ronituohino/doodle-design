@@ -9,6 +9,7 @@ const FormikField = ({
   formik,
   multiline,
   placeholder,
+  onChange,
   sx,
   ...props
 }) => {
@@ -25,7 +26,12 @@ const FormikField = ({
       label={label}
       type={type ? type : "text"}
       value={value}
-      onChange={formik.handleChange}
+      onChange={(event) => {
+        formik.handleChange(event)
+        if (onChange) {
+          onChange(event)
+        }
+      }}
       error={error !== undefined && error !== null}
       helperText={string && error}
       InputLabelProps={{ shrink: true }}

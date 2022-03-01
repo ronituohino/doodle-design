@@ -100,19 +100,19 @@ export const DELETE_PRODUCT = gql`
 `
 
 export const EDIT_ACCOUNT = gql`
-  mutation EditAccountAdmin(
+  mutation Mutation(
+    $id: ID!
     $username: String
     $email: String
     $password: String
     $accountType: String
-    $cart: [CartProductInput]
   ) {
     editAccountAdmin(
+      _id: $id
       username: $username
       email: $email
       password: $password
       accountType: $accountType
-      cart: $cart
     ) {
       _id
     }

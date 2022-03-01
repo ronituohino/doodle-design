@@ -195,7 +195,7 @@ const ProductDialog = ({
             variant="h5"
             sx={{ width: "50%", alignSelf: "center" }}
           >
-            {overrideValues ? "Modify item" : "Add item"}
+            {overrideValues ? "Modify product" : "Add product"}
           </Typography>
           <Box sx={{ flexBasis: "100%" }} />
           <Button variant="contained" onClick={formik.resetForm}>

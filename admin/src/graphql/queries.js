@@ -22,6 +22,15 @@ export const GET_ACCOUNTS = gql`
   }
 `
 
+export const GET_ACCOUNT_TYPES = gql`
+  query Query {
+    getAccountTypes {
+      ADMIN
+      CUSTOMER
+    }
+  }
+`
+
 export const GET_CATEGORIES = gql`
   query GetCategories {
     getCategories {
