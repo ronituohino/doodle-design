@@ -176,7 +176,6 @@ export const ACCOUNT = gql`
     me {
       _id
       username
-      password
       email
       accountType
     }

@@ -24,13 +24,17 @@ export const LOGIN = gql`
   }
 `
 
-export const EDIT_USER = gql`
-  mutation EditUser(
+export const EDIT_ACCOUNT = gql`
+  mutation EditAccountClient(
     $email: String
     $password: String
-    $cart: [CartItemInput]
+    $cart: [CartProductInput]
   ) {
-    editUser(email: $email, password: $password, cart: $cart) {
+    editAccountClient(
+      email: $email
+      password: $password
+      cart: $cart
+    ) {
       _id
       accountType
       email

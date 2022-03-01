@@ -21,6 +21,7 @@ const AdminDrawer = () => {
     productManageLink,
     productCategoriesLink,
     productCampaignsLink,
+    userManageLink,
   } = useRouting()
   const { data, logOut } = useAccount()
 
@@ -163,8 +164,9 @@ const AdminDrawer = () => {
 
             <ListItem disablePadding>
               <ListItemButton
-                disabled
-                onClick={() => {}}
+                onClick={() => {
+                  openLink(userManageLink())
+                }}
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>

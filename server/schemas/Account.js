@@ -33,13 +33,23 @@ const { hashPassword, createToken } = require("../utils/serverUtils")
 
 const {
   requireLogin,
-  accountTypes,
+  requireAdmin,
 } = require("../utils/authentication")
+const { isAccountType, types } = require("../constants/accountTypes")
 
 const accountResolvers = {
   Query: {
     me: (root, args, context) => {
       return context.currentAccount
+    },
+    getAccounts: async (root, args, context) => {
+      requireAdmin(context)
+
+      const results = await Account.find({
+        ...(args.email != null && { email: args.email }),
+      })
+
+      return results
     },
   },
   Mutation: {
@@ -84,7 +94,32 @@ const accountResolvers = {
       }
     },
 
-    editAccount: async (root, args, context) => {
+    editAccountAdmin: async (root, args, context) => {
+      requireAdmin(context)
+
+      const user = await Account.findByIdAndUpdate(
+        context.currentAccount._id,
+        {
+          ...(args.username != null && { username: args.username }),
+          ...(args.email != null && { email: args.email }),
+          ...(args.password != null && {
+            password: await hashPassword(args.password),
+          }),
+          ...(args.accountType != null &&
+            isAccountType(args.accountType) && {
+              accountType: args.accountType,
+            }),
+          ...(args.cart != null && {
+            cart: args.cart,
+          }),
+        },
+        { new: true }
+      )
+
+      return user
+    },
+
+    editAccountClient: async (root, args, context) => {
       requireLogin(context)
 
       const user = await Account.findByIdAndUpdate(
@@ -103,6 +138,15 @@ const accountResolvers = {
 
       return user
     },
+
+    // This will delete account information, but the orders placed
+    // by that account will remain in the database
+    deleteAccount: async (root, args, context) => {
+      requireAdmin(context)
+
+      const result = await Account.deleteOne({ _id: args._id })
+      return result.deletedCount === 1
+    },
   },
 }
 
@@ -116,6 +160,14 @@ const accountTypeDefs = `
     cart: [CartProduct]!
   }
 
+  type SafeAccount {
+    _id: ID!
+    username: String!
+    email: String!
+    accountType: AccountType!
+    cart: [CartProduct]!
+  }
+
   type CartProduct {
     referenceToProductId: ID!
     customization: [Options]!
@@ -123,8 +175,14 @@ const accountTypeDefs = `
   }
 
   enum AccountType {
-    ${accountTypes.ADMIN}
-    ${accountTypes.CUSTOMER}
+    ${types.ADMIN}
+    ${types.CUSTOMER}
+  }
+
+  extend type Query {
+    getAccounts(
+      email: String
+    ): [SafeAccount]!
   }
 
   extend type Mutation {
@@ -133,11 +191,22 @@ const accountTypeDefs = `
       email: String!
       password: String!
     ): Token
-    editAccount(
+
+    editAccountAdmin(
+      username: String
+      email: String
+      password: String
+      accountType: String
+      cart: [CartProductInput]
+    ): Account
+
+    editAccountClient(
       email: String
       password: String
       cart: [CartProductInput]
     ): Account
+
+    deleteAccount(_id: ID!): Boolean
   }
 
   input CartProductInput {

@@ -33,6 +33,10 @@ export const useRouting = () => {
     return `/${language}/products/campaigns`
   }
 
+  const userManageLink = () => {
+    return `/${language}/users/manage`
+  }
+
   return {
     openLink,
     back,
@@ -42,5 +46,7 @@ export const useRouting = () => {
     productManageLink,
     productCategoriesLink,
     productCampaignsLink,
+
+    userManageLink,
   }
 }

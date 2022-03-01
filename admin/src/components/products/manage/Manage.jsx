@@ -2,16 +2,12 @@ import { useState } from "react"
 
 import { Box, Button } from "@mui/material"
 import { useDebounce } from "use-debounce"
-import SearchBar from "./SearchBar"
+import SearchBar from "../../general/SearchBar"
 import ProductDialog from "./dialog/ProductDialog"
 import CategorySubtitle from "../../general/CategorySubtitle"
 import ProductList from "./ProductList"
 
 const Manage = () => {
-  //const [page, setPage] = useState(0)
-  // eslint-disable-next-line
-  const [size, setSize] = useState(6)
-
   const [searchWord, setSearchWord] = useState("")
   const [debouncedSearchWord] = useDebounce(searchWord, 300)
 

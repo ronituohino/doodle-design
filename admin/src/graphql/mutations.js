@@ -99,6 +99,32 @@ export const DELETE_PRODUCT = gql`
   }
 `
 
+export const EDIT_ACCOUNT = gql`
+  mutation EditAccountAdmin(
+    $username: String
+    $email: String
+    $password: String
+    $accountType: String
+    $cart: [CartProductInput]
+  ) {
+    editAccountAdmin(
+      username: $username
+      email: $email
+      password: $password
+      accountType: $accountType
+      cart: $cart
+    ) {
+      _id
+    }
+  }
+`
+
+export const DELETE_ACCOUNT = gql`
+  mutation DeleteAccount($id: ID!) {
+    deleteAccount(_id: $id)
+  }
+`
+
 export const FILE_UPLOAD = gql`
   mutation FileUpload($files: [Upload]!) {
     fileUpload(files: $files) {

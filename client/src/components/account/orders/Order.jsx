@@ -209,7 +209,6 @@ const Order = ({ order, language }) => {
           <LabelPaper
             label="Payment details"
             variant="outlined"
-            elevation={4}
             sx={{ width: "100%" }}
           >
             <Typography>Method: {paymentMethodText}</Typography>

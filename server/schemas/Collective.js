@@ -16,7 +16,7 @@ const datetime = require("../constants/datetime")
 
 const commonTypeDefs = `
   type Query {
-    me: Account
+    me: SafeAccount
   }
 
   type Mutation {

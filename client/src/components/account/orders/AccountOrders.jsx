@@ -1,4 +1,4 @@
-import { Box, List } from "@mui/material"
+import { Box } from "@mui/material"
 import { useAccount } from "../../../hooks/useAccount"
 import { useLanguage } from "../../../hooks/useLanguage"
 import { useQuery } from "@apollo/client"

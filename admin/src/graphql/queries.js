@@ -5,12 +5,23 @@ export const ACCOUNT = gql`
     me {
       _id
       username
-      password
       email
       accountType
     }
   }
 `
+
+export const GET_ACCOUNTS = gql`
+  query GetAccounts($email: String) {
+    getAccounts(email: $email) {
+      _id
+      username
+      email
+      accountType
+    }
+  }
+`
+
 export const GET_CATEGORIES = gql`
   query GetCategories {
     getCategories {

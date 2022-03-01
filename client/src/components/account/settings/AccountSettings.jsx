@@ -6,7 +6,7 @@ import { useFormik } from "formik"
 import { useEffect } from "react"
 import * as yup from "yup"
 
-import { EDIT_USER } from "../../../graphql/mutations"
+import { EDIT_ACCOUNT } from "../../../graphql/mutations"
 import { ACCOUNT } from "../../../graphql/queries"
 import { useAccount } from "../../../hooks/useAccount"
 
@@ -16,11 +16,11 @@ const AccountSettings = () => {
   const { data } = useAccount()
   const client = useApolloClient()
 
-  const [editUserMutation] = useMutation(EDIT_USER, {
+  const [editUserMutation] = useMutation(EDIT_ACCOUNT, {
     onCompleted: (response) => {
       client.writeQuery({
         query: ACCOUNT,
-        data: { me: response.editUser },
+        data: { me: response.editAccountClient },
       })
     },
   })

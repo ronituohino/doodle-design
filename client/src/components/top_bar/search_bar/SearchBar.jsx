@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { TextField, Typography, Popover, List } from "@mui/material"
+import { TextField, Typography, Popover } from "@mui/material"
 
 import SearchResult from "./SearchResult"
 
@@ -94,8 +94,12 @@ const SearchBar = ({ placeholder, sx }) => {
               </Typography>
             ) : (
               <>
-                {data.getProducts.docs.map((p) => (
-                  <SearchResult product={p} language={language} />
+                {data.getProducts.docs.map((product) => (
+                  <SearchResult
+                    key={product._id}
+                    product={product}
+                    language={language}
+                  />
                 ))}
               </>
             )}

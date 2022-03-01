@@ -1,4 +1,4 @@
-const accountTypes = require("../constants/accountTypes")
+const { types } = require("../constants/accountTypes")
 const { AuthenticationError } = require("apollo-server-express")
 
 const isLoggedIn = (context) => {
@@ -9,15 +9,17 @@ const isLoggedIn = (context) => {
   )
 }
 
+// Returns object with account type booleans
+// Checks what type is in context
 const isAccountType = (context) => {
   const isLogged = isLoggedIn(context)
 
   return {
     admin: isLogged
-      ? context.currentAccount.accountType === accountTypes.ADMIN
+      ? context.currentAccount.accountType === types.ADMIN
       : false,
     customer: isLogged
-      ? context.currentAccount.accountType === accountTypes.CUSTOMER
+      ? context.currentAccount.accountType === types.CUSTOMER
       : false,
     none: !isLogged,
   }
@@ -40,7 +42,6 @@ const requireAdmin = (context) => {
 }
 
 module.exports = {
-  accountTypes,
   isAccountType,
   requireLogin,
   requireAdmin,
