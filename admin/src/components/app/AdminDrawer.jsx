@@ -138,7 +138,7 @@ const AdminDrawer = () => {
             <ListItemIcon>
               <Icon>person</Icon>
             </ListItemIcon>
-            <ListItemText primary="Users" />
+            <ListItemText primary="Accounts" />
             {userTabOpen ? (
               <Icon>expand_less</Icon>
             ) : (

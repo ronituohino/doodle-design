@@ -34,7 +34,7 @@ export const useRouting = () => {
   }
 
   const userManageLink = () => {
-    return `/${language}/users/manage`
+    return `/${language}/accounts/manage`
   }
 
   return {

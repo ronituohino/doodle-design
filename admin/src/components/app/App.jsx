@@ -8,7 +8,7 @@ import ProductManage from "../products/manage/Manage"
 import Categories from "../products/categories/Categories"
 import { useRouting } from "../../hooks/useRouting"
 
-import UserManage from "../users/manage/Manage"
+import AccountManage from "../accounts/manage/Manage"
 
 const App = () => {
   const { data } = useAccount()
@@ -34,8 +34,8 @@ const App = () => {
             <Route path="campaigns" element={<></>} />
           </Route>
 
-          <Route path="users" element={<Outlet />}>
-            <Route path="manage" element={<UserManage />} />
+          <Route path="accounts" element={<Outlet />}>
+            <Route path="manage" element={<AccountManage />} />
           </Route>
         </Route>
       </Route>
