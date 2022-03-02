@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { useLazyQuery } from "@apollo/client"
 import { GET_PRODUCTS } from "../../../graphql/queries"
 import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 // Renders a search icon, which opens a search bar
 // Dialog?
@@ -80,7 +81,7 @@ const SearchBar = ({ placeholder, sx }) => {
             color="grey.700"
             sx={{ p: 2, textAlign: "center" }}
           >
-            Type something to search products!
+            {getText(language, "searchEmptyText")}
           </Typography>
         )}
         {data && data.getProducts && searchWord.length > 0 && (
@@ -90,7 +91,7 @@ const SearchBar = ({ placeholder, sx }) => {
                 color="grey.700"
                 sx={{ p: 2, textAlign: "center" }}
               >
-                No products found!
+                {getText(language, "searchNoFoundText")}
               </Typography>
             ) : (
               <>

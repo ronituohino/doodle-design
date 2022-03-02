@@ -12,8 +12,11 @@ import { useQuery } from "@apollo/client"
 import { GET_CATEGORIES } from "../../../graphql/queries"
 
 import Category from "./Category"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const CategoryDrawer = () => {
+  const { language } = useLanguage()
   const { data } = useQuery(GET_CATEGORIES)
   const [drawerOpen, setDrawerOpen] = useState(false)
   return (
@@ -49,7 +52,9 @@ const CategoryDrawer = () => {
                     })}
                   </>
                 ) : (
-                  <ListSubheader>No categories defined</ListSubheader>
+                  <ListSubheader>
+                    {getText(language, "noCategoriesDefined")}
+                  </ListSubheader>
                 )}
               </>
             )}

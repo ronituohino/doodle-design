@@ -5,6 +5,8 @@ import AddressDisplay from "../../general/AddressDisplay"
 import PaymentDisplay from "./PaymentDisplay"
 import LabelPaper from "../../general/LabelPaper"
 import FormikField from "../../general/formik/FormikField"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const Confirmation = ({
   formik,
@@ -14,6 +16,7 @@ const Confirmation = ({
   checkout,
   hidden,
 }) => {
+  const { language } = useLanguage()
   let deliveryAddress = undefined
 
   const explicitDeliveryAddress =
@@ -51,8 +54,8 @@ const Confirmation = ({
                 !explicitDeliveryAddress &&
                 !isStorePickup &&
                 !postiParcel
-                  ? "Your details & delivered to"
-                  : "Your details"
+                  ? getText(language, "yourDetailsAndDeliveredTo")
+                  : getText(language, "yourDetails")
               }
               disableEdit
               sx={{ width: "100%" }}
@@ -67,7 +70,9 @@ const Confirmation = ({
                 elevation={4}
                 address={deliveryAddress}
                 label={
-                  isStorePickup ? "Pick up from" : "Delivered to"
+                  isStorePickup
+                    ? getText(language, "pickUpFrom")
+                    : getText(language, "deliveredTo")
                 }
                 disableEdit
                 sx={{ width: "100%" }}
@@ -82,7 +87,7 @@ const Confirmation = ({
           )}
 
           <LabelPaper
-            label="Extra information"
+            label={getText(language, "extraInformation")}
             elevation={4}
             sx={{ width: "100%" }}
           >
@@ -91,7 +96,10 @@ const Confirmation = ({
               field="extrainfo"
               fullWidth
               multiline
-              placeholder="If you have details you would like to add to your order, write them here"
+              placeholder={getText(
+                language,
+                "extraInformationDetails"
+              )}
             />
           </LabelPaper>
 
@@ -101,7 +109,7 @@ const Confirmation = ({
             variant="contained"
             onClick={next}
           >
-            Purchase
+            {getText(language, "purchase")}
           </Button>
         </Cart>
       )}

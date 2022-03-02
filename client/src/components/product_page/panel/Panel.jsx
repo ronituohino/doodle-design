@@ -10,6 +10,7 @@ import FormikProductCustomization from "./FormikProductCustomization"
 
 import hash from "object-hash"
 import { useEffect } from "react"
+import { getText } from "../../../utils/dictionary"
 
 const Panel = ({ product }) => {
   const { language } = useLanguage()
@@ -99,7 +100,7 @@ const Panel = ({ product }) => {
             addItemToCart(selectedProduct)
           }}
         >
-          Add to shopping cart
+          {getText(language, "addToCartText")}
         </Button>
       </Box>
     </Paper>

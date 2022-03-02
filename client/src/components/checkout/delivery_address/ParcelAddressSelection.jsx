@@ -4,8 +4,11 @@ import { getPostalPoints } from "../../../utils/requests"
 
 import ParcelAddress from "./ParcelAddress"
 import FormikField from "../../general/formik/FormikField"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const ParcelAddressSelection = ({ formik, setAddress }) => {
+  const { language } = useLanguage()
   const [deliveryPoints, setDeliveryPoints] = useState(undefined)
 
   const foundDeliveryPoints =
@@ -58,12 +61,12 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
       >
         <FormikField
           formik={formik}
-          label="Zip Code"
+          label={getText(language, "zipCode")}
           field="searchZipCode"
           sx={{ width: "30%" }}
         />
         <Button onClick={fetchDeliveryPoints} variant="contained">
-          Search
+          {getText(language, "search")}
         </Button>
       </Box>
 
@@ -80,7 +83,7 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
         )}
       {notFoundDeliveryPoints && (
         <Typography sx={{ margin: 1 }}>
-          No Posti points found!
+          {getText(language, "noPostiPointsFound")}
         </Typography>
       )}
     </Paper>

@@ -2,8 +2,11 @@ import { Box, Typography, Paper } from "@mui/material"
 
 import FormikField from "../../general/formik/FormikField"
 import FormikCheckbox from "../../general/formik/FormikCheckbox"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const HomeDeliveryAddress = ({ formik }) => {
+  const { language } = useLanguage()
   // Fixes tiny offset
   const paperPaddingBottom = formik.values.useExplicitDeliveryAddress
     ? { paddingBottom: 2 }
@@ -19,7 +22,7 @@ const HomeDeliveryAddress = ({ formik }) => {
         field="useExplicitDeliveryAddress"
       >
         <Typography sx={{ alignSelf: "center" }}>
-          Recipient is not me
+          {getText(language, "recipientIsNotMe")}
         </Typography>
       </FormikCheckbox>
 
@@ -29,14 +32,14 @@ const HomeDeliveryAddress = ({ formik }) => {
             <FormikField
               formik={formik}
               field="homeDeliveryAddress.firstName"
-              label="First Name"
+              label={getText(language, "firstName")}
               sx={{ width: "50%" }}
             />
 
             <FormikField
               formik={formik}
               field="homeDeliveryAddress.lastName"
-              label="Last Name"
+              label={getText(language, "lastName")}
               sx={{ width: "50%" }}
             />
           </Box>
@@ -44,7 +47,7 @@ const HomeDeliveryAddress = ({ formik }) => {
           <FormikField
             formik={formik}
             field="homeDeliveryAddress.address"
-            label="Address"
+            label={getText(language, "address")}
             sx={{ marginBottom: 2 }}
           />
 
@@ -52,13 +55,13 @@ const HomeDeliveryAddress = ({ formik }) => {
             <FormikField
               formik={formik}
               field="homeDeliveryAddress.zipCode"
-              label="Zip Code"
+              label={getText(language, "zipCode")}
               sx={{ width: "40%" }}
             />
             <FormikField
               formik={formik}
               field="homeDeliveryAddress.city"
-              label="City"
+              label={getText(language, "city")}
               sx={{ width: "60%" }}
             />
           </Box>

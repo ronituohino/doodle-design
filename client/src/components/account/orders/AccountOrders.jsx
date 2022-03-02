@@ -6,6 +6,8 @@ import PageSubtitle from "../PageSubtitle"
 import { GET_ORDERS } from "../../../graphql/queries"
 import Order from "./Order"
 
+import { getText } from "../../../utils/dictionary"
+
 const AccountOrders = () => {
   const account = useAccount()
   const orders = useQuery(GET_ORDERS)
@@ -16,7 +18,7 @@ const AccountOrders = () => {
       {account.data && account.data.me && (
         <Box>
           <Box sx={{ padding: 2 }}>
-            <PageSubtitle text="Orders" />
+            <PageSubtitle text={getText(language, "orders")} />
           </Box>
 
           {orders.data && orders.data.getOrders && (

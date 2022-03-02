@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import {
   Container,
@@ -21,14 +21,18 @@ import { Link } from "react-router-dom"
 
 import LoadingButton from "../general/LoadingButton"
 import { useSnackbar } from "notistack"
+import { useLanguage } from "../../hooks/useLanguage"
+import { getText } from "../../utils/dictionary"
 
 const AccountRegister = () => {
+  const { language } = useLanguage()
+
   const { openLink, homeLink, loginLink } = useRouting()
   const { enqueueSnackbar } = useSnackbar()
   const [waiting, setWaiting] = useState(false)
 
   const { register, registerData } = useAccount(() => {
-    enqueueSnackbar("Account created, welcome!", {
+    enqueueSnackbar(getText(language, "registrationNotification"), {
       variant: "success",
     })
     openLink(homeLink())
@@ -43,16 +47,16 @@ const AccountRegister = () => {
     validationSchema: yup.object({
       username: yup
         .string()
-        .max(30, "Must be 30 characters or less")
-        .required("Username is required"),
+        .max(30, getText(language, "lessThanThirtyChars")) //useEffect reload validationSchema?
+        .required(getText(language, "usernameRequired")),
       email: yup
         .string()
-        .email("Invalid email address")
-        .required("Email is required"),
+        .email(getText(language, "emailIncorrect"))
+        .required(getText(language, "emailRequired")),
       password: yup
         .string()
-        .min(6, "Password must be atleast 6 characters long")
-        .required("Password is required"),
+        .min(6, getText(language, "moreThanFiveChars"))
+        .required(getText(language, "passwordRequired")),
     }),
     onSubmit: (values) => {
       setWaiting(true)
@@ -60,7 +64,13 @@ const AccountRegister = () => {
         register(values.username, values.email, values.password)
       }, 4000)
     },
+    validateOnBlur: true,
   })
+
+  useEffect(() => {
+    formik.validateForm()
+    // eslint-disable-next-line
+  }, [language])
 
   const [values, setValues] = useState({
     showPassword: false,
@@ -75,21 +85,21 @@ const AccountRegister = () => {
       <Paper elevation={4} sx={{ padding: 2 }}>
         <FormikField
           field="username"
-          label="Username"
+          label={getText(language, "username")}
           formik={formik}
           sx={{ marginBottom: 2 }}
         />
 
         <FormikField
           field="email"
-          label="Email"
+          label={getText(language, "email")}
           formik={formik}
           sx={{ marginBottom: 2 }}
         />
 
         <FormikField
           field="password"
-          label="Password"
+          label={getText(language, "password")}
           type={values.showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -118,7 +128,7 @@ const AccountRegister = () => {
           variant="contained"
           fullWidth
           onClick={formik.handleSubmit}
-          text="Register"
+          text={getText(language, "register")}
         />
 
         <Link to={loginLink()} style={{ textDecoration: "none" }}>
@@ -126,7 +136,7 @@ const AccountRegister = () => {
             color="primary"
             sx={{ textAlign: "center", mt: 1 }}
           >
-            Already have an account?
+            {getText(language, "registeredAlready")}
           </Typography>
         </Link>
       </Paper>

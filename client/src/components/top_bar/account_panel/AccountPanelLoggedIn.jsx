@@ -9,15 +9,18 @@ import {
 
 import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const AccountPanelLoggedIn = ({ closeMenu }) => {
+  const { language } = useLanguage()
   const { openLink, accountLink } = useRouting()
   const { logOut, data } = useAccount()
 
   return (
     <>
       <ListSubheader>
-        {`Logged in: ${data.me.username}`}
+        {`${getText(language, "loggedIn")}: ${data.me.username}`}
       </ListSubheader>
 
       <ListItem disablePadding>
@@ -30,7 +33,9 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
           <ListItemIcon>
             <Icon>manage_accounts</Icon>
           </ListItemIcon>
-          <ListItemText primary="Settings" />
+          <ListItemText
+            primary={`${getText(language, "settings")}`}
+          />
         </ListItemButton>
       </ListItem>
 
@@ -44,7 +49,7 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
           <ListItemIcon>
             <Icon>logout</Icon>
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText primary={`${getText(language, "logout")}`} />
         </ListItemButton>
       </ListItem>
     </>

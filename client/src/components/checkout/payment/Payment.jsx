@@ -5,8 +5,11 @@ import FormikRadioField from "../../general/formik/radio/FormikRadioField"
 import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
 import PaymentGroup from "./PaymentGroup"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
+import { getText } from "../../../utils/dictionary"
+import { useLanguage } from "../../../hooks/useLanguage"
 
 const Payment = ({ formik, constants, next, checkout, hidden }) => {
+  const { language } = useLanguage()
   const nextButtonDisabled =
     !checkout || !checkout.paymentDetails || !formik.isValid
 
@@ -21,18 +24,17 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
         >
           <FormikRadioGroup
             formik={formik}
-            label="Payment Details"
             field="paymentMethod"
             sx={{ marginBottom: 2 }}
             innerSx={{ padding: 2 }}
           >
             <FormikRadioField value={constants.PREPAYMENT}>
               <FormikRadioAccordion
-                title="Prepayment"
-                text="Payment using a card, banking applications, or payment services"
+                title={getText(language, "prePayment")}
+                text={getText(language, "prePaymentDetails")}
               >
                 <PaymentGroup
-                  groupName="Bank Payment"
+                  groupName={getText(language, "bankPayment")}
                   submit={(name) =>
                     formik.setFieldValue("prePayment", name)
                   }
@@ -44,7 +46,7 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
                 />
 
                 <PaymentGroup
-                  groupName="Card"
+                  groupName={getText(language, "card")}
                   submit={(name) =>
                     formik.setFieldValue("prePayment", name)
                   }
@@ -54,7 +56,7 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
                 />
 
                 <PaymentGroup
-                  groupName="Payment Service"
+                  groupName={getText(language, "paymentService")}
                   submit={(name) =>
                     formik.setFieldValue("prePayment", name)
                   }
@@ -68,8 +70,8 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
 
             <FormikRadioField value={constants.INSTALLMENT}>
               <FormikRadioAccordion
-                title="Installment"
-                text="Get your package now, pay later"
+                title={getText(language, "installment")}
+                text={getText(language, "installmentDetails")}
                 sx={{ display: "flex", flexWrap: "wrap" }}
               >
                 <PaymentGroup
@@ -87,8 +89,8 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
               constants.STORE_PICKUP && (
               <FormikRadioField value={constants.LOCAL_PAYMENT}>
                 <FormikRadioAccordion
-                  title="Local Payment"
-                  text="Pay at the store"
+                  title={getText(language, "localPayment")}
+                  text={getText(language, "localPaymentDetails")}
                   price="100"
                 ></FormikRadioAccordion>
               </FormikRadioField>
@@ -104,7 +106,7 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
             onClick={next}
             disabled={nextButtonDisabled}
           >
-            Next
+            {getText(language, "next")}
           </Button>
         </Container>
       )}

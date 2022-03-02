@@ -10,8 +10,11 @@ import AccountPanel from "./account_panel/AccountPanel"
 import Language from "./Language"
 import { useRouting } from "../../hooks/useRouting"
 import CategoryDrawer from "./category_drawer/CategoryDrawer"
+import { getText } from "../../utils/dictionary"
+import { useLanguage } from "../../hooks/useLanguage"
 
 const TopBar = () => {
+  const { language } = useLanguage()
   const { homeLink } = useRouting()
 
   return (
@@ -47,7 +50,7 @@ const TopBar = () => {
             }}
           >
             <SearchBar
-              placeholder="Search..."
+              placeholder={getText(language, "search")}
               sx={{
                 width: "80%",
                 backgroundColor: "common.white",

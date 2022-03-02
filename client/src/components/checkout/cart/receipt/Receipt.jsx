@@ -5,6 +5,7 @@ import { useLanguage } from "../../../../hooks/useLanguage"
 
 import ProductListing from "./ProductListing"
 import ReceiptLine from "./ReceiptLine"
+import { getText } from "../../../../utils/dictionary"
 
 const Receipt = () => {
   const { language } = useLanguage()
@@ -16,7 +17,7 @@ const Receipt = () => {
     <Paper elevation={4} sx={{ width: "100%" }}>
       <List sx={{ padding: 1, paddingRight: 0 }}>
         <ReceiptLine
-          leftText="Total"
+          leftText={getText(language, "total")}
           rightText={formatPrice(totalPrice, language, "EUR")}
           variant="h5"
           indent={0}
@@ -26,7 +27,7 @@ const Receipt = () => {
         />
 
         <ReceiptLine
-          leftText={"Products"}
+          leftText={getText(language, "products")}
           rightText={formatPrice(totalPrice, language, "EUR")}
           variant="body1"
           indent={8}
@@ -45,7 +46,7 @@ const Receipt = () => {
         })}
 
         <ReceiptLine
-          leftText={"Shipping"}
+          leftText={getText(language, "shipping")}
           rightText={formatPrice(0, language, "EUR")}
           variant="body1"
           indent={8}
@@ -54,7 +55,7 @@ const Receipt = () => {
           }}
         />
         <ReceiptLine
-          leftText={"Coupons"}
+          leftText={getText(language, "coupons")}
           rightText={formatPrice(0, language, "EUR")}
           variant="body1"
           indent={8}

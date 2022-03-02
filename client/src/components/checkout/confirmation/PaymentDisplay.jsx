@@ -1,34 +1,42 @@
 import LabelPaper from "../../general/LabelPaper"
 import { Typography } from "@mui/material"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const PaymentDisplay = ({ checkout, constants }) => {
+  const { language } = useLanguage()
   let paymentMethodText = ""
   let paymentProviderText = ""
 
   switch (checkout.paymentDetails.paymentMethod) {
     case constants.PREPAYMENT:
-      paymentMethodText = "Prepayment"
+      paymentMethodText = getText(language, "prePayment")
       paymentProviderText = checkout.paymentDetails.prePayment
       break
     case constants.INSTALLMENT:
-      paymentMethodText = "Installment"
+      paymentMethodText = getText(language, "installment")
       paymentProviderText = checkout.paymentDetails.installment
       break
     case constants.LOCAL_PAYMENT:
-      paymentMethodText = "Pay at the store"
+      paymentMethodText = getText(language, "localPayment")
       break
     default:
       break
   }
   return (
     <LabelPaper
-      label="Payment details"
+      label={getText(language, "paymentDetails")}
       elevation={4}
       sx={{ width: "100%" }}
     >
-      <Typography>Method: {paymentMethodText}</Typography>
+      <Typography>{`${getText(
+        language,
+        "method"
+      )}: ${paymentMethodText}`}</Typography>
       {paymentProviderText !== "" && (
-        <Typography>Provider: {paymentProviderText}</Typography>
+        <Typography>
+          {`${getText(language, "provider")}: ${paymentProviderText}`}
+        </Typography>
       )}
     </LabelPaper>
   )

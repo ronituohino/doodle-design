@@ -7,8 +7,11 @@ import HomeDeliveryAddress from "./HomeDeliveryAddress"
 import AddressDisplay from "../../general/AddressDisplay"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 import FormikField from "../../general/formik/FormikField"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const Delivery = ({ formik, next, checkout, constants, hidden }) => {
+  const { language } = useLanguage()
   const nextButtonDisabled =
     !checkout || !checkout.deliveryDetails || !formik.isValid
 
@@ -19,13 +22,12 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
           <FormikRadioGroup
             formik={formik}
             field="deliveryMethod"
-            label="Delivery Address"
             sx={{ mb: 2 }}
           >
             <FormikRadioField value={constants.HOME_DELIVERY}>
               <FormikRadioAccordion
-                title="Home Delivery"
-                text="Delivery straight to your (or your friend's) doorstep"
+                title={getText(language, "homeDelivery")}
+                text={getText(language, "homeDeliveryDetails")}
               >
                 <HomeDeliveryAddress formik={formik} />
               </FormikRadioAccordion>
@@ -33,8 +35,8 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
 
             <FormikRadioField value={constants.POSTI_PARCEL}>
               <FormikRadioAccordion
-                title="Posti Parcel"
-                text="Delivery to a Posti pickup point"
+                title={getText(language, "postiParcel")}
+                text={getText(language, "postiParcelDetails")}
               >
                 {formik.values.postiParcelAddress && (
                   <AddressDisplay
@@ -65,8 +67,8 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
 
             <FormikRadioField value={constants.STORE_PICKUP}>
               <FormikRadioAccordion
-                title="Pickup From Store"
-                text="Fetch package from our store"
+                title={getText(language, "pickupFromStore")}
+                text={getText(language, "pictupFromStoreDetails")}
                 price="100"
               >
                 <AddressDisplay
@@ -83,7 +85,7 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
             <FormikField
               formik={formik}
               field="phone"
-              label="Phone number (package tracking)"
+              label={getText(language, "phoneNumberPackageTracking")}
               sx={{ maxWidth: "50%", mt: 1, mb: 2 }}
             />
 
@@ -100,7 +102,7 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                 mb: 1,
               }}
             >
-              Next
+              {getText(language, "next")}
             </Button>
           </Box>
 

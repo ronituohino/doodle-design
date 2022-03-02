@@ -1,7 +1,13 @@
+import { useEffect } from "react"
+
 import { useFormik } from "formik"
 import * as yup from "yup"
+import { useLanguage } from "../../hooks/useLanguage"
+import { getText } from "../../utils/dictionary"
 
 export const useCheckoutForms = (constants) => {
+  const { language } = useLanguage()
+
   // The main checkout states
   const billingFormik = useFormik({
     initialValues: {
@@ -14,17 +20,25 @@ export const useCheckoutForms = (constants) => {
       company: "",
     },
     validationSchema: yup.object({
-      firstName: yup.string().required("First name is required"),
-      lastName: yup.string().required("Last name is required"),
-      address: yup.string().required("Address is required"),
-      city: yup.string().required("City is required"),
+      firstName: yup
+        .string()
+        .required(getText(language, "firstNameRequired")),
+      lastName: yup
+        .string()
+        .required(getText(language, "lastNameRequired")),
+      address: yup
+        .string()
+        .required(getText(language, "addressRequired")),
+      city: yup.string().required(getText(language, "cityRequired")),
       zipCode: yup
         .string()
-        .matches(/^[0-9]+$/, "Must be digits only")
-        .min(5, "Must be 5 digits")
-        .max(5, "Must be 5 digits")
-        .required("Postal code is required"),
-      country: yup.string().required("Country is required"),
+        .matches(/^[0-9]+$/, getText(language, "mustBeDigitsOnly"))
+        .min(5, getText(language, "mustBeFiveDigits"))
+        .max(5, getText(language, "mustBeFiveDigits"))
+        .required(getText(language, "zipCodeRequired")),
+      country: yup
+        .string()
+        .required(getText(language, "countryRequired")),
       company: yup.string(),
     }),
     onSubmit: () => {},
@@ -54,23 +68,23 @@ export const useCheckoutForms = (constants) => {
 
       // STORE_PICKUP
       storePickupAddress: {
-        company: "Fred's Computers!",
-        address: "Joukolankatu 12",
+        company: "Doodle Duds",
+        address: "Suurselänsaarentie 102",
         city: "HELSINKI",
-        zipCode: "00510",
+        zipCode: "00551",
         country: "FI",
       },
     },
     validationSchema: yup.object({
       deliveryMethod: yup
         .string()
-        .required("Delivery method is required"),
+        .required(getText(language, "firstNameRequired")),
 
       phone: yup
         .string()
-        .matches(/^[0-9]+$/, "Must be digits only")
-        .min(10, "Must be 10 digits")
-        .max(10, "Must be 10 digits"),
+        .matches(/^[0-9]+$/, getText(language, "mustBeDigitsOnly"))
+        .min(10, getText(language, "mustBeTenDigits"))
+        .max(10, getText(language, "mustBeTenDigits")),
 
       // HOME_DELIVERY
       useExplicitDeliveryAddress: yup.boolean(),
@@ -84,24 +98,36 @@ export const useCheckoutForms = (constants) => {
             .object({
               firstName: yup
                 .string()
-                .required("First name is required"),
+                .required(getText(language, "firstNameRequired")),
               lastName: yup
                 .string()
-                .required("Last name is required"),
-              address: yup.string().required("Address is required"),
-              city: yup.string().required("City is required"),
+                .required(getText(language, "firstNameRequired")),
+              address: yup
+                .string()
+                .required(getText(language, "firstNameRequired")),
+              city: yup
+                .string()
+                .required(getText(language, "firstNameRequired")),
               zipCode: yup
                 .string()
-                .matches(/^[0-9]+$/, "Must be digits only")
-                .min(5, "Must be 5 digits")
-                .max(5, "Must be 5 digits")
-                .required("Zip code is required"),
-              country: yup.string().required("Country is required"),
+                .matches(
+                  /^[0-9]+$/,
+                  getText(language, "mustBeDigitsOnly")
+                )
+                .min(5, getText(language, "mustBeFiveDigits"))
+                .max(5, getText(language, "mustBeFiveDigits"))
+                .required(getText(language, "firstNameRequired")),
+              country: yup
+                .string()
+                .required(getText(language, "firstNameRequired")),
               phone: yup
                 .string()
-                .matches(/^[0-9]+$/, "Must be digits only")
-                .min(10, "Must be 10 digits")
-                .max(10, "Must be 10 digits"),
+                .matches(
+                  /^[0-9]+$/,
+                  getText(language, "mustBeDigitsOnly")
+                )
+                .min(10, getText(language, "mustBeTenDigits"))
+                .max(10, getText(language, "mustBeTenDigits")),
             })
             .required("Delivery address missing"),
         }),
@@ -110,7 +136,9 @@ export const useCheckoutForms = (constants) => {
       postiParcelAddress: yup.object().when("deliveryMethod", {
         is: (deliveryMethod) =>
           deliveryMethod === constants.POSTI_PARCEL,
-        then: yup.object().required("Please select parcel address"),
+        then: yup
+          .object()
+          .required(getText(language, "parcelAddressMissing")),
       }),
 
       // STORE_PICKUP
@@ -139,13 +167,13 @@ export const useCheckoutForms = (constants) => {
     validationSchema: yup.object({
       paymentMethod: yup
         .string()
-        .required("Payment method is required"),
+        .required(getText(language, "paymentMethodRequired")),
 
       prePayment: yup.string().when("paymentMethod", {
         is: (paymentMethod) => paymentMethod === constants.PREPAYMENT,
         then: yup
           .string()
-          .required("Prepayment provider is required"),
+          .required(getText(language, "prePaymentRequired")),
       }),
 
       installment: yup.string().when("paymentMethod", {
@@ -153,7 +181,7 @@ export const useCheckoutForms = (constants) => {
           paymentMethod === constants.INSTALLMENT,
         then: yup
           .string()
-          .required("Installment provider is required"),
+          .required(getText(language, "installmentRequired")),
       }),
     }),
     onSubmit: () => {},
@@ -170,6 +198,14 @@ export const useCheckoutForms = (constants) => {
 
     onSubmit: () => {},
   })
+
+  useEffect(() => {
+    billingFormik.validateForm()
+    deliveryFormik.validateForm()
+    paymentFormik.validateForm()
+    confirmationFormik.validateForm()
+    // eslint-disable-next-line
+  }, [language])
 
   return {
     billingFormik,

@@ -4,8 +4,11 @@ import { Box, Paper } from "@mui/material"
 
 import FormikField from "../../general/formik/FormikField"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText, useText } from "../../../utils/dictionary"
 
 const BillingAddress = ({ formik, next, checkout, hidden }) => {
+  const { language } = useLanguage()
   const nextButtonDisabled =
     !checkout || !checkout.billingDetails || !formik.isValid
 
@@ -25,14 +28,14 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
               <FormikField
                 formik={formik}
                 field="firstName"
-                label="First Name"
+                label={getText(language, "firstName")}
                 sx={{ width: "50%" }}
               />
 
               <FormikField
                 formik={formik}
                 field="lastName"
-                label="Last Name"
+                label={getText(language, "lastName")}
                 sx={{ width: "50%" }}
               />
             </Box>
@@ -40,7 +43,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
             <FormikField
               formik={formik}
               field="address"
-              label="Address"
+              label={getText(language, "address")}
               sx={{ marginBottom: 2 }}
             />
 
@@ -55,13 +58,13 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
               <FormikField
                 formik={formik}
                 field="zipCode"
-                label="Zip Code"
+                label={getText(language, "zipCode")}
                 sx={{ width: "40%" }}
               />
               <FormikField
                 formik={formik}
                 field="city"
-                label="City"
+                label={getText(language, "city")}
                 sx={{ width: "60%" }}
               />
             </Box>
@@ -69,7 +72,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
             <FormikField
               formik={formik}
               field="company"
-              label="Company"
+              label={getText(language, "company")}
             />
 
             <FormikAutoSave formik={formik} />
@@ -81,7 +84,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
             disabled={nextButtonDisabled}
             onClick={next}
           >
-            Next
+            {getText(language, "next")}
           </Button>
         </Container>
       )}

@@ -12,7 +12,11 @@ import { useAccount } from "../../../hooks/useAccount"
 
 import FormikField from "../../general/formik/FormikField"
 
+import { getText } from "../../../utils/dictionary"
+import { useLanguage } from "../../../hooks/useLanguage"
+
 const AccountSettings = () => {
+  const { language } = useLanguage()
   const { data } = useAccount()
   const client = useApolloClient()
 
@@ -25,13 +29,13 @@ const AccountSettings = () => {
     },
   })
 
-  const emailFormik = useFormik({
+  const formik = useFormik({
     initialValues: {
       email: "",
     },
 
     validationSchema: yup.object({
-      email: yup.string().email("Not a valid email"),
+      email: yup.string().email(getText(language, "emailIncorrect")),
     }),
   })
 
@@ -44,16 +48,24 @@ const AccountSettings = () => {
     validationSchema: yup.object({
       password: yup
         .string()
-        .min(6, "Password must be atleast 6 characters long"),
+        .min(6, getText(language, "moreThanFiveChars")),
       passwordConfirm: yup
         .string()
-        .oneOf([yup.ref("password")], "Passwords do not match"),
+        .oneOf(
+          [yup.ref("password")],
+          getText(language, "passwordNoMatch")
+        ),
     }),
   })
 
   useEffect(() => {
+    formik.validateForm()
+    // eslint-disable-next-line
+  }, [language])
+
+  useEffect(() => {
     if (data && data.me) {
-      emailFormik.setFieldValue("email", data.me.email)
+      formik.setFieldValue("email", data.me.email)
     }
 
     // eslint-disable-next-line
@@ -63,32 +75,32 @@ const AccountSettings = () => {
     <>
       {data && data.me && (
         <Box sx={{ padding: 2, width: "60%" }}>
-          <PageSubtitle text="Account settings" />
+          <PageSubtitle text={getText(language, "settings")} />
 
           <Box sx={{ mt: 2 }}>
             <Box sx={{ display: "flex", gap: "10px" }}>
               <FormikField
-                formik={emailFormik}
+                formik={formik}
                 field="email"
-                label="Email"
+                label={getText(language, "email")}
               />
               <Button
                 onClick={() =>
                   editUserMutation({
                     variables: {
-                      email: emailFormik.values.email,
+                      email: formik.values.email,
                     },
                   })
                 }
                 disabled={
-                  !emailFormik.isValid ||
-                  data.me.email === emailFormik.values.email ||
-                  emailFormik.values.email.length === 0
+                  !formik.isValid ||
+                  data.me.email === formik.values.email ||
+                  formik.values.email.length === 0
                 }
                 variant="contained"
                 sx={{ maxWidth: "50px", maxHeight: "56px" }}
               >
-                Update
+                {getText(language, "update")}
               </Button>
             </Box>
 
@@ -96,14 +108,14 @@ const AccountSettings = () => {
               <FormikField
                 formik={passwordFormik}
                 field="password"
-                label="Password"
+                label={getText(language, "password")}
                 type="password"
               />
 
               <FormikField
                 formik={passwordFormik}
                 field="passwordConfirm"
-                label="Password again"
+                label={getText(language, "passwordAgain")}
                 type="password"
               />
 
@@ -122,7 +134,7 @@ const AccountSettings = () => {
                 variant="contained"
                 sx={{ maxWidth: "50px", maxHeight: "56px" }}
               >
-                Update
+                {getText(language, "update")}
               </Button>
             </Box>
           </Box>

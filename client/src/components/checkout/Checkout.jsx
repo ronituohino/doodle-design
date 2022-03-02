@@ -19,27 +19,29 @@ import { useSnackbar } from "notistack"
 
 import { orderConstants } from "../../utils/constants"
 import { GET_ORDERS } from "../../graphql/queries"
-
-const steps = [
-  {
-    label: "Cart",
-  },
-  {
-    label: "Billing Address",
-    sublabel: "(Your details)",
-  },
-  {
-    label: "Delivery Address",
-  },
-  {
-    label: "Payment Details",
-  },
-  {
-    label: "Confirmation",
-  },
-]
+import { useLanguage } from "../../hooks/useLanguage"
+import { getText } from "../../utils/dictionary"
 
 const Checkout = () => {
+  const { language } = useLanguage()
+  const steps = [
+    {
+      label: getText(language, "cart"),
+    },
+    {
+      label: getText(language, "billingAddress"),
+      sublabel: `(${getText(language, "yourDetails")})`,
+    },
+    {
+      label: getText(language, "deliveryAddress"),
+    },
+    {
+      label: getText(language, "paymentDetails"),
+    },
+    {
+      label: getText(language, "confirmation"),
+    },
+  ]
   const client = useApolloClient()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -126,7 +128,7 @@ const Checkout = () => {
 
   const [createOrderMutation] = useMutation(CREATE_ORDER, {
     onCompleted: () => {
-      enqueueSnackbar("Order received!", {
+      enqueueSnackbar(getText(language, "orderReceived"), {
         variant: "success",
       })
 

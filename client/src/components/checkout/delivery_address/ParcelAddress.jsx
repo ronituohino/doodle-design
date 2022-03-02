@@ -1,7 +1,10 @@
 import { Box, Typography, Button } from "@mui/material"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 // Don't use language here, because not all points have "en" in them
 const ParcelAddress = ({ point, selectCallback }) => {
+  const { language } = useLanguage()
   const location = point.address.fi
   if (!location) {
     return <></>
@@ -42,7 +45,7 @@ const ParcelAddress = ({ point, selectCallback }) => {
           variant="outlined"
           onClick={() => selectCallback(point)}
         >
-          Select
+          {getText(language, "select")}
         </Button>
       </Box>
     </Box>

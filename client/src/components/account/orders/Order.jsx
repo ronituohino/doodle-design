@@ -24,6 +24,7 @@ import AddressDisplay from "../../general/AddressDisplay"
 import { getFile } from "../../../utils/getFile"
 
 import { orderConstants } from "../../../utils/constants"
+import { getText } from "../../../utils/dictionary"
 
 const Order = ({ order, language }) => {
   const { openLink, productLink } = useRouting()
@@ -68,7 +69,10 @@ const Order = ({ order, language }) => {
               order.datetime.minutes
             )}`}
           </Typography>
-          <Chip sx={{ alignSelf: "center" }} label={order.status} />
+          <Chip
+            sx={{ alignSelf: "center" }}
+            label={getText(language, order.status.toLowerCase())}
+          />
         </Box>
       </AccordionSummary>
       <AccordionDetails>
@@ -179,7 +183,10 @@ const Order = ({ order, language }) => {
             gap: "10px",
           }}
         >
-          <LabelPaper variant="outlined" label="Total">
+          <LabelPaper
+            variant="outlined"
+            label={getText(language, "total")}
+          >
             <Typography
               noWrap
               sx={{
@@ -190,7 +197,7 @@ const Order = ({ order, language }) => {
             </Typography>
           </LabelPaper>
           <AddressDisplay
-            label="Billing address"
+            label={getText(language, "billingAddress")}
             variant="outlined"
             address={order.billingAddress}
             disableEdit
@@ -199,28 +206,36 @@ const Order = ({ order, language }) => {
             label={
               order.deliveryAddress.method ===
               orderConstants.STORE_PICKUP
-                ? "Pick-up address"
-                : "Delivery address"
+                ? getText(language, "pickUpFrom")
+                : getText(language, "deliveryAddress")
             }
             variant="outlined"
             address={order.deliveryAddress}
             disableEdit
           />
           <LabelPaper
-            label="Payment details"
+            label={getText(language, "paymentDetails")}
             variant="outlined"
             sx={{ width: "100%" }}
           >
-            <Typography>Method: {paymentMethodText}</Typography>
+            <Typography>{`${getText(
+              language,
+              "method"
+            )}: ${paymentMethodText}`}</Typography>
             {order.paymentDetails.details.method !==
               orderConstants.LOCAL_PAYMENT && (
               <Typography>
-                Provider: {order.paymentDetails.details.provider}
+                {`${getText(language, "provider")}: ${
+                  order.paymentDetails.details.provider
+                }`}
               </Typography>
             )}
           </LabelPaper>
           {order.extrainfo && (
-            <LabelPaper variant="outlined" label="Extra information">
+            <LabelPaper
+              variant="outlined"
+              label={getText(language, "extraInformation")}
+            >
               <Typography>{order.extrainfo}</Typography>
             </LabelPaper>
           )}

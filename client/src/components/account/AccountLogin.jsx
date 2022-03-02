@@ -10,7 +10,7 @@ import {
   Icon,
 } from "@mui/material"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouting } from "../../hooks/useRouting"
 import { useAccount } from "../../hooks/useAccount"
 
@@ -19,14 +19,17 @@ import { Link } from "react-router-dom"
 
 import LoadingButton from "../general/LoadingButton"
 import { useSnackbar } from "notistack"
+import { useLanguage } from "../../hooks/useLanguage"
+import { getText } from "../../utils/dictionary"
 
 const AccountLogin = () => {
+  const { language } = useLanguage()
   const { openLink, homeLink, registerLink } = useRouting()
   const { enqueueSnackbar } = useSnackbar()
   const [waiting, setWaiting] = useState(false)
 
   const { logIn, loginData } = useAccount(() => {
-    enqueueSnackbar("Logged in!", {
+    enqueueSnackbar(getText(language, "loggedInNotification"), {
       variant: "success",
     })
     openLink(homeLink())
@@ -38,8 +41,12 @@ const AccountLogin = () => {
       password: "",
     },
     validationSchema: yup.object({
-      email: yup.string().required("Email is required"),
-      password: yup.string().required("Password is required"),
+      email: yup
+        .string()
+        .required(getText(language, "emailRequired")),
+      password: yup
+        .string()
+        .required(getText(language, "passwordRequired")),
     }),
     onSubmit: (values) => {
       setWaiting(true)
@@ -49,6 +56,11 @@ const AccountLogin = () => {
       }, 2000)
     },
   })
+
+  useEffect(() => {
+    formik.validateForm()
+    // eslint-disable-next-line
+  }, [language])
 
   const [values, setValues] = useState({
     showPassword: false,
@@ -63,14 +75,14 @@ const AccountLogin = () => {
       <Paper elevation={4} sx={{ padding: 2 }}>
         <FormikField
           field="email"
-          label="Email"
+          label={getText(language, "email")}
           formik={formik}
           sx={{ marginBottom: 2 }}
         />
 
         <FormikField
           field="password"
-          label="Password"
+          label={getText(language, "password")}
           type={values.showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -98,7 +110,7 @@ const AccountLogin = () => {
           variant="contained"
           fullWidth
           onClick={formik.handleSubmit}
-          text="Log in"
+          text={getText(language, "login")}
         />
 
         <Link to={registerLink()} style={{ textDecoration: "none" }}>
@@ -106,7 +118,7 @@ const AccountLogin = () => {
             color="primary"
             sx={{ textAlign: "center", mt: 1 }}
           >
-            New here?
+            {getText(language, "newHere")}
           </Typography>
         </Link>
       </Paper>

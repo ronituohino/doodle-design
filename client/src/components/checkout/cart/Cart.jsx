@@ -7,8 +7,11 @@ import { useShoppingCart } from "../../../hooks/useShoppingCart"
 import ShoppingCartProduct from "../../top_bar/shopping_cart/ShoppingCartProduct"
 import Receipt from "./receipt/Receipt"
 import Coupons from "./Coupons"
+import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary"
 
 const Cart = ({ next, hideControls, hidden, children }) => {
+  const { language } = useLanguage()
   const { openLink, loginLink } = useRouting()
 
   const account = useAccount()
@@ -28,7 +31,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                   color="grey.700"
                   sx={{ textAlign: "center", mb: 2 }}
                 >
-                  Shopping cart empty, go add something!
+                  {getText(language, "cartEmptyText")}
                 </Typography>
               </Box>
             )}
@@ -62,7 +65,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                     variant="contained"
                     onClick={next}
                   >
-                    Next
+                    {getText(language, "next")}
                   </Button>
                 ) : (
                   <Button
@@ -70,7 +73,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                     variant="contained"
                     onClick={() => openLink(loginLink())}
                   >
-                    Login
+                    {getText(language, "login")}
                   </Button>
                 )}
               </>

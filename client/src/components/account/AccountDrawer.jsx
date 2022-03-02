@@ -9,9 +9,12 @@ import {
 } from "@mui/material"
 
 import { useAccount } from "../../hooks/useAccount"
+import { useLanguage } from "../../hooks/useLanguage"
 import { useRouting } from "../../hooks/useRouting"
+import { getText } from "../../utils/dictionary"
 
 const AccountDrawer = () => {
+  const { language } = useLanguage()
   const { data } = useAccount()
   const {
     openLink,
@@ -25,7 +28,7 @@ const AccountDrawer = () => {
       <List sx={{ backgroundColor: "common.white" }}>
         {data && data.me && (
           <ListSubheader>
-            {`Logged in: ${data.me.username}`}
+            {`${getText(language, "loggedIn")}: ${data.me.username}`}
           </ListSubheader>
         )}
 
@@ -34,7 +37,7 @@ const AccountDrawer = () => {
             <ListItemIcon>
               <Icon>account_circle</Icon>
             </ListItemIcon>
-            <ListItemText primary="Overview" />
+            <ListItemText primary={getText(language, "overview")} />
           </ListItemButton>
         </ListItem>
 
@@ -45,7 +48,7 @@ const AccountDrawer = () => {
             <ListItemIcon>
               <Icon>manage_accounts</Icon>
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            <ListItemText primary={getText(language, "settings")} />
           </ListItemButton>
         </ListItem>
 
@@ -56,7 +59,7 @@ const AccountDrawer = () => {
             <ListItemIcon>
               <Icon>local_shipping</Icon>
             </ListItemIcon>
-            <ListItemText primary="Orders" />
+            <ListItemText primary={getText(language, "orders")} />
           </ListItemButton>
         </ListItem>
       </List>

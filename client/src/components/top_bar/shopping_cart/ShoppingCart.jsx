@@ -17,6 +17,7 @@ import ShoppingCartProduct from "./ShoppingCartProduct"
 import { formatPrice } from "../../../utils/formatting"
 import { useLanguage } from "../../../hooks/useLanguage"
 import { useRouting } from "../../../hooks/useRouting"
+import { getText } from "../../../utils/dictionary"
 
 const ShoppingCart = () => {
   const { language } = useLanguage()
@@ -85,7 +86,7 @@ const ShoppingCart = () => {
               color="grey.700"
               sx={{ textAlign: "center", mb: 2 }}
             >
-              Shopping cart empty, go add something!
+              {getText(language, "cartEmptyText")}
             </Typography>
           </Box>
         )}
@@ -115,7 +116,11 @@ const ShoppingCart = () => {
                   fontWeight: "bold",
                 }}
               >
-                {`Total: ${formatPrice(totalPrice, language, "EUR")}`}
+                {`${getText(language, "total")}: ${formatPrice(
+                  totalPrice,
+                  language,
+                  "EUR"
+                )}`}
               </Typography>
             </Box>
             <Divider />
@@ -130,7 +135,7 @@ const ShoppingCart = () => {
                   closeMenu()
                 }}
               >
-                Open Checkout
+                {getText(language, "openCheckout")}
               </Button>
             </Box>
           </Box>
