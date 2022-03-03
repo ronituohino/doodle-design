@@ -5,7 +5,7 @@ import { Box, Paper } from "@mui/material"
 import FormikField from "../../general/formik/FormikField"
 import FormikAutoSave from "../../general/formik/FormikAutoSave"
 import { useLanguage } from "../../../hooks/useLanguage"
-import { getText, useText } from "../../../utils/dictionary"
+import { getText } from "../../../utils/dictionary"
 
 const BillingAddress = ({ formik, next, checkout, hidden }) => {
   const { language } = useLanguage()

@@ -8,7 +8,7 @@ export const LOGIN = gql`
   }
 `
 
-export const CRETE_CATEGORY = gql`
+export const CREATE_CATEGORY = gql`
   mutation CreateCategory(
     $name: String!
     $label: String!

@@ -8,7 +8,7 @@ export const formatPrice = (price, language, currency) => {
 }
 
 export const formatMonth = (month, language) => {
-  return months[language][month]
+  return months[language][month - 1]
 }
 
 export const formatTime = (hours, minutes) => {

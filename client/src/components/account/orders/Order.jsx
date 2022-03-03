@@ -67,7 +67,7 @@ const Order = ({ order, language }) => {
             )} ${order.datetime.year} - ${formatTime(
               order.datetime.hours,
               order.datetime.minutes
-            )}`}
+            )} UTC`}
           </Typography>
           <Chip
             sx={{ alignSelf: "center" }}
