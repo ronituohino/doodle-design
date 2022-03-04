@@ -6,9 +6,11 @@ import {
   Box,
   Typography,
   Button,
+  Icon,
 } from "@mui/material"
 
 import { useFormik } from "formik"
+import { useEffect } from "react"
 import * as yup from "yup"
 
 import FormikField from "../../general/formik/FormikField"
@@ -37,8 +39,22 @@ const CategoryDialog = ({
         .required(""),
       urlPath: yup.string().required(""),
     }),
-    onSubmit: () => {},
+    onSubmit: (results) => {
+      if (values) {
+        editCategory(results)
+      } else {
+        createCategory(results)
+      }
+      handleClose()
+    },
   })
+
+  useEffect(() => {
+    if (open && values) {
+      formik.setValues(values)
+    }
+    // eslint-disable-next-line
+  }, [open, values])
 
   return (
     <Dialog
@@ -53,20 +69,22 @@ const CategoryDialog = ({
             variant="h5"
             sx={{ width: "50%", alignSelf: "center" }}
           >
-            {values ? "Modify product" : "Add product"}
+            {values ? "Modify category" : "Create category"}
           </Typography>
-          <Box sx={{ flexBasis: "100%" }} />
-          <Button variant="contained" onClick={formik.resetForm}>
-            Clear
-          </Button>
         </Box>
       </DialogTitle>
       <DialogContent>
         <Box sx={{ mt: 1 }}>
+          <Box sx={{ display: "flex", mb: 3, gap: "10px" }}>
+            <Icon>{formik.values.icon}</Icon>
+            <Typography>{formik.values.label.en}</Typography>
+          </Box>
+
           <FormikField
             formik={formik}
             field="icon"
             label="Google Fonts Icon"
+            sx={{ mb: 2 }}
           />
           <FormikFieldArray
             formik={formik}

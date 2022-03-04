@@ -10,14 +10,17 @@ export const LOGIN = gql`
 
 export const CREATE_CATEGORY = gql`
   mutation CreateCategory(
-    $name: String!
-    $label: String!
+    $urlPath: String!
+    $label: LanguageStringInput!
     $icon: String!
   ) {
-    createCategory(name: $name, label: $label, icon: $icon) {
+    createCategory(urlPath: $urlPath, label: $label, icon: $icon) {
       _id
-      name
-      label
+      urlPath
+      label {
+        en
+        fi
+      }
       icon
     }
   }
@@ -26,14 +29,22 @@ export const CREATE_CATEGORY = gql`
 export const EDIT_CATEGORY = gql`
   mutation EditCategory(
     $id: ID!
-    $name: String
-    $label: String
+    $urlPath: String
+    $label: LanguageStringInput
     $icon: String
   ) {
-    editCategory(_id: $id, name: $name, label: $label, icon: $icon) {
+    editCategory(
+      _id: $id
+      urlPath: $urlPath
+      label: $label
+      icon: $icon
+    ) {
       _id
-      label
-      name
+      urlPath
+      label {
+        en
+        fi
+      }
       icon
     }
   }

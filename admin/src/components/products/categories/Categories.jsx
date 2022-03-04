@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { List } from "@mui/material"
+import { List, Button, Box } from "@mui/material"
 
 import { useQuery } from "@apollo/client"
 import { GET_CATEGORIES } from "../../../graphql/queries"
@@ -15,6 +15,7 @@ import CategorySubtitle from "../../general/CategorySubtitle"
 import { useApolloClient, useMutation } from "@apollo/client"
 
 import ConfirmDialog from "../../general/ConfirmDialog"
+import CategoryDialog from "./CategoryDialog"
 
 const ProductCategories = () => {
   const client = useApolloClient()
@@ -78,33 +79,29 @@ const ProductCategories = () => {
 
   const [deleteCategoryMutation] = useMutation(DELETE_CATEGORY, {
     onCompleted: (response) => {
-      const cacheCategories = [
-        ...client.readQuery({ query: GET_CATEGORIES }).getCategories,
-      ]
-      const index = cacheCategories.findIndex(
-        (c) => c._id === response.editCategory._id
-      )
-      cacheCategories.splice(index, 1)
-
-      // Update local client store
-      client.writeQuery({
-        query: GET_CATEGORIES,
-        data: {
-          getCategories: cacheCategories,
-        },
-      })
+      client.refetchQueries({ include: [GET_CATEGORIES] })
     },
   })
 
   return (
     <>
       <CategorySubtitle text="Categories" />
+      <Box sx={{ ml: 2, mt: 1 }}>
+        <Button variant="contained" onClick={openCreateDialog}>
+          Create category
+        </Button>
+      </Box>
 
       <List>
         {data &&
           data.getCategories &&
           data.getCategories.map((category) => (
-            <Category key={category._id} category={category} />
+            <Category
+              key={category._id}
+              category={category}
+              openEditDialog={openEditDialog}
+              openDeleteDialog={openDeleteDialog}
+            />
           ))}
       </List>
 
@@ -115,7 +112,34 @@ const ProductCategories = () => {
         text="This will delete the category, but the items that are associated with this category will remain in the database."
         cancelText="Cancel"
         acceptText="Delete"
-        acceptCallback={() => {}}
+        acceptCallback={() => {
+          deleteCategoryMutation({
+            variables: { id: deleteDialogCategory._id },
+          })
+        }}
+      />
+
+      <CategoryDialog
+        open={createDialogOpen}
+        handleClose={() => {
+          setCreateDialogOpen(false)
+        }}
+        createCategory={(values) =>
+          createCategoryMutation({ variables: values })
+        }
+      />
+
+      <CategoryDialog
+        open={editDialogOpen}
+        handleClose={() => {
+          setEditDialogOpen(false)
+        }}
+        values={editDialogCategory}
+        editCategory={(values) =>
+          editCategoryMutation({
+            variables: { id: editDialogCategory._id, ...values },
+          })
+        }
       />
     </>
   )

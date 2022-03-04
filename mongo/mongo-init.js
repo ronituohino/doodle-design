@@ -32,8 +32,8 @@ db.accounts.insert({
 
 db.categories.insert({
   _id: ObjectId("61f519593c71ee71cd5270fd"),
-  name: "pictures",
-  label: "Pictures",
+  urlPath: "pictures",
+  label: { en: "Pictures", fi: "Kuvat" },
   icon: "image",
 })
 

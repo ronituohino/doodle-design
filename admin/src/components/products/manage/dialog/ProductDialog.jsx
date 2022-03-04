@@ -242,7 +242,7 @@ const ProductDialog = ({
               data.getCategories &&
               data.getCategories.map((category) => (
                 <MenuItem key={category._id} value={category._id}>
-                  {category.label}
+                  {category.label.en}
                 </MenuItem>
               ))}
           </FormikSelect>

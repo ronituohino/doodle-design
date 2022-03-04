@@ -1,8 +1,10 @@
 const mongoose = require("mongoose")
 
+const LanguageString = require("../types/LanguageString")
+
 const categorySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  label: { type: String, required: true },
+  urlPath: { type: String, required: true },
+  label: { type: LanguageString, required: true },
   icon: { type: String, required: true },
 })
 
@@ -22,7 +24,7 @@ const categoryResolvers = {
       requireAdmin(context)
 
       const category = new Category({
-        name: args.name,
+        urlPath: args.urlPath,
         label: args.label,
         icon: args.icon,
       })
@@ -38,7 +40,7 @@ const categoryResolvers = {
       const category = await Category.findByIdAndUpdate(
         args._id,
         {
-          ...(args.name != null && { name: args.name }),
+          ...(args.urlPath != null && { urlPath: args.urlPath }),
           ...(args.label != null && { label: args.label }),
           ...(args.icon != null && { icon: args.icon }),
         },
@@ -61,8 +63,8 @@ const categoryResolvers = {
 const categoryTypeDefs = `
   type Category {
     _id: ID!
-    name: String!
-    label: String!
+    urlPath: String!
+    label: LanguageString!
     icon: String!
   }
 
@@ -72,15 +74,15 @@ const categoryTypeDefs = `
 
   extend type Mutation {
     createCategory(
-      name: String!
-      label: String!
+      urlPath: String!
+      label: LanguageStringInput!
       icon: String!
     ): Category!
 
     editCategory(
       _id: ID!
-      name: String
-      label: String
+      urlPath: String
+      label: LanguageStringInput
       icon: String
     ): Category!
 
