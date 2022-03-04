@@ -92,7 +92,7 @@ const ShoppingCartProduct = ({
     ) {
       openLink(
         productLink(
-          cartObject.product.category.name,
+          cartObject.product.category.urlPath,
           cartObject.product._id
         )
       )

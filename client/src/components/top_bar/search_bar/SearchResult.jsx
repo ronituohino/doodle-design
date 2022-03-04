@@ -8,7 +8,7 @@ const SearchResult = ({ product, language }) => {
   return (
     <MenuItem
       onClick={() =>
-        openLink(productLink(product.category.name, product._id))
+        openLink(productLink(product.category.urlPath, product._id))
       }
     >
       <img

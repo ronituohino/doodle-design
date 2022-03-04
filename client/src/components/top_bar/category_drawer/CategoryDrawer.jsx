@@ -44,9 +44,8 @@ const CategoryDrawer = () => {
                         <Category
                           closeMenu={() => setDrawerOpen(false)}
                           key={category._id}
-                          category={category.name}
-                          label={category.label}
-                          icon={category.icon}
+                          category={category}
+                          language={language}
                         />
                       )
                     })}

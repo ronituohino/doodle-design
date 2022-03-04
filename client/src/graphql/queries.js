@@ -4,8 +4,11 @@ export const GET_CATEGORIES = gql`
   query GetCategories {
     getCategories {
       _id
-      name
-      label
+      urlPath
+      label {
+        en
+        fi
+      }
       icon
     }
   }
@@ -34,7 +37,7 @@ export const GET_PRODUCTS = gql`
           EUR
         }
         category {
-          name
+          urlPath
         }
         images {
           _id
@@ -73,9 +76,12 @@ export const GET_PRODUCT = gql`
       }
       category {
         _id
-        name
+        urlPath
         icon
-        label
+        label {
+          en
+          fi
+        }
       }
       images {
         _id
@@ -119,7 +125,7 @@ export const GET_ORDERS = gql`
             _id
           }
           category {
-            name
+            urlPath
           }
         }
       }

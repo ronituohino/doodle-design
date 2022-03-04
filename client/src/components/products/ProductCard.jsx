@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link
-      to={productLink(product.category.name, product._id)}
+      to={productLink(product.category.urlPath, product._id)}
       style={{ textDecoration: "none" }}
     >
       <Paper elevation={4}>

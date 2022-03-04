@@ -21,7 +21,7 @@ const Products = () => {
 
   const category =
     data && data.getCategories
-      ? data.getCategories.find((c) => c.name === urlCategoryName)
+      ? data.getCategories.find((c) => c.urlPath === urlCategoryName)
       : undefined
 
   return (

@@ -26,6 +26,8 @@ import { getFile } from "../../../utils/getFile"
 import { orderConstants } from "../../../utils/constants"
 import { getText } from "../../../utils/dictionary"
 
+import hash from "object-hash"
+
 const Order = ({ order, language }) => {
   const { openLink, productLink } = useRouting()
   const totalPrice = () => {
@@ -81,11 +83,11 @@ const Order = ({ order, language }) => {
           <List>
             {order.products.map((productObject) => (
               <MenuItem
-                key={productObject.product._id}
+                key={hash(productObject)}
                 onClick={() =>
                   openLink(
                     productLink(
-                      productObject.product.category.name,
+                      productObject.product.category.urlPath,
                       productObject.product._id
                     )
                   )
@@ -108,6 +110,7 @@ const Order = ({ order, language }) => {
                   sx={{
                     alignSelf: "center",
                     ml: 1,
+                    width: "100%",
                   }}
                 >
                   <Typography
@@ -125,7 +128,7 @@ const Order = ({ order, language }) => {
                     productObject.customization.map((c) => {
                       return (
                         <Box
-                          key={`${productObject.product.hash}-${c.label[language]}-${c.option[language]}`}
+                          key={`${c.label[language]}-${c.option[language]}`}
                         >
                           <Typography
                             variant="caption"
@@ -140,7 +143,7 @@ const Order = ({ order, language }) => {
                     })}
                 </Box>
 
-                <Box sx={{ ml: 8 }}>
+                <Box>
                   <Typography
                     noWrap
                     sx={{

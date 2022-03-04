@@ -7,21 +7,21 @@ import {
 } from "@mui/material"
 import { useRouting } from "../../../hooks/useRouting"
 
-const Category = ({ closeMenu, category, label, icon }) => {
+const Category = ({ closeMenu, category, language }) => {
   const { openLink, categoryLink } = useRouting()
 
   return (
     <ListItem disablePadding>
       <ListItemButton
         onClick={() => {
-          openLink(categoryLink(category))
+          openLink(categoryLink(category.urlPath))
           closeMenu()
         }}
       >
         <ListItemIcon>
-          <Icon>{icon}</Icon>
+          <Icon>{category.icon}</Icon>
         </ListItemIcon>
-        <ListItemText primary={label} />
+        <ListItemText primary={category.label[language]} />
       </ListItemButton>
     </ListItem>
   )
