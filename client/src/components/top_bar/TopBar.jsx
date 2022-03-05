@@ -5,6 +5,7 @@ import SearchBar from "./search_bar/SearchBar"
 import { Link } from "react-router-dom"
 
 import logo from "../../images/logo.png"
+
 import ShoppingCart from "./shopping_cart/ShoppingCart"
 import AccountPanel from "./account_panel/AccountPanel"
 import Language from "./Language"
@@ -35,7 +36,7 @@ const TopBar = () => {
                 alt="shop logo, link to home page"
                 style={{
                   height: 40,
-                  width: 80,
+                  width: 100,
                 }}
                 src={logo}
               />

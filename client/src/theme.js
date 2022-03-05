@@ -3,11 +3,14 @@ import { unstable_createMuiStrictModeTheme } from "@mui/material/styles"
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
     primary: {
-      main: "#2962ff",
+      main: "#def2ff",
     },
     secondary: {
-      main: "#E67615",
+      main: "#ffa59e",
     },
+  },
+  typography: {
+    fontFamily: ['"Segoe UI"'].join(","),
   },
 })
 

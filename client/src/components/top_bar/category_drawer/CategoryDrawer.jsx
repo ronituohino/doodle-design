@@ -23,7 +23,7 @@ const CategoryDrawer = () => {
     <>
       <Box sx={{ alignSelf: "center" }}>
         <IconButton onClick={() => setDrawerOpen(true)}>
-          <Icon sx={{ color: "white" }}>menu</Icon>
+          <Icon sx={{ color: "black" }}>menu</Icon>
         </IconButton>
       </Box>
 

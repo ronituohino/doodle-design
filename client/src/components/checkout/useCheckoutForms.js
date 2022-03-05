@@ -68,7 +68,7 @@ export const useCheckoutForms = (constants) => {
 
       // STORE_PICKUP
       storePickupAddress: {
-        company: "Doodle Dressing",
+        company: "Doodle Design",
         address: "Suurselänsaarentie 102",
         city: "HELSINKI",
         zipCode: "00551",
