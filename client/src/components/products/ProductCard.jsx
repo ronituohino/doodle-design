@@ -8,7 +8,7 @@ import { useRouting } from "../../hooks/useRouting"
 import { Link } from "react-router-dom"
 import { getFile } from "../../utils/getFile"
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, sx }) => {
   const { language } = useLanguage()
   const { productLink } = useRouting()
 
@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
       to={productLink(product.category.urlPath, product._id)}
       style={{ textDecoration: "none" }}
     >
-      <Paper elevation={4}>
+      <Paper elevation={4} sx={sx}>
         <img
           component="img"
           src={getFile(

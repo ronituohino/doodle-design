@@ -32,27 +32,73 @@ db.accounts.insert({
 
 db.categories.insert({
   _id: ObjectId("61f519593c71ee71cd5270fd"),
-  urlPath: "pictures",
-  label: { en: "Pictures", fi: "Kuvat" },
-  icon: "image",
+  urlPath: "socks",
+  label: { en: "Socks", fi: "Sukat" },
+  icon: "minimize",
+})
+
+db.categories.insert({
+  _id: ObjectId("61f519593c71ee71cd5270fd"),
+  urlPath: "shoes",
+  label: { en: "Shoes", fi: "Kengät" },
+  icon: "minimize",
 })
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527114"),
-  filename: "test.png",
+  filename: "socks_dots.png",
+  mimetype: "image/png",
+  encoding: "7bit",
+})
+
+db.files.insert({
+  _id: ObjectId("61f51b243c71ee71cd527115"),
+  filename: "socks_stripes.png",
+  mimetype: "image/png",
+  encoding: "7bit",
+})
+
+db.files.insert({
+  _id: ObjectId("61f51b243c71ee71cd527116"),
+  filename: "socks_zebra.png",
+  mimetype: "image/png",
+  encoding: "7bit",
+})
+
+db.files.insert({
+  _id: ObjectId("61f51b243c71ee71cd527124"),
+  filename: "sneakers_left.png",
+  mimetype: "image/png",
+  encoding: "7bit",
+})
+
+db.files.insert({
+  _id: ObjectId("61f51b243c71ee71cd527125"),
+  filename: "sneakers_right.png",
+  mimetype: "image/png",
+  encoding: "7bit",
+})
+
+db.files.insert({
+  _id: ObjectId("61f51b243c71ee71cd527126"),
+  filename: "sneakers_top.png",
   mimetype: "image/png",
   encoding: "7bit",
 })
 
 db.products.insert({
   name: {
-    en: "Flower",
-    fi: "Kukka",
+    en: "Sneakers",
+    fi: "Lenkkarit",
   },
   price: {
-    EUR: 4,
+    EUR: 60,
   },
-  images: [ObjectId("61f51b243c71ee71cd527114")],
+  images: [
+    ObjectId("61f51b243c71ee71cd527124"),
+    ObjectId("61f51b243c71ee71cd527125"),
+    ObjectId("61f51b243c71ee71cd527126"),
+  ],
   customization: [
     {
       label: {
@@ -61,23 +107,101 @@ db.products.insert({
       },
       options: [
         {
-          en: "Small",
-          fi: "Pieni",
+          en: "36",
+          fi: "36",
         },
         {
-          en: "Medium",
-          fi: "Keskikokoinen",
+          en: "37",
+          fi: "37",
         },
         {
-          en: "Big",
-          fi: "Iso",
+          en: "38",
+          fi: "38",
+        },
+        {
+          en: "39",
+          fi: "39",
+        },
+        {
+          en: "40",
+          fi: "40",
+        },
+        {
+          en: "41",
+          fi: "41",
+        },
+        {
+          en: "42",
+          fi: "42",
+        },
+        {
+          en: "43",
+          fi: "43",
+        },
+        {
+          en: "44",
+          fi: "44",
         },
       ],
     },
   ],
   description: {
-    en: "A beautiful picture of a white flower",
-    fi: "Kaunis valkoinen kukka",
+    en: "The official Doodle Design sneakers featuring the classic Doodle Design stripes. Make your summer really pop with these on your feet!",
+    fi: "Official Doodle Design lenkkarit, joiden kyljissä hohtavat klassiset Doodle Design raidat. Tuo kesääsi loistoa näillä lenkkareilla!",
+  },
+  category: ObjectId("61f519593c71ee71cd5270fd"),
+  visible: true,
+})
+
+db.products.insert({
+  name: {
+    en: "Socks - Dots",
+    fi: "Sukat - Pisteet",
+  },
+  price: {
+    EUR: 10,
+  },
+  images: [ObjectId("61f51b243c71ee71cd527114")],
+  customization: [],
+  description: {
+    en: "Doodle Design dotted socks",
+    fi: "Doodle Design pistesukat",
+  },
+  category: ObjectId("61f519593c71ee71cd5270fd"),
+  visible: true,
+})
+
+db.products.insert({
+  name: {
+    en: "Socks - Stripes",
+    fi: "Sukat - Raidat",
+  },
+  price: {
+    EUR: 10,
+  },
+  images: [ObjectId("61f51b243c71ee71cd527115")],
+  customization: [],
+  description: {
+    en: "Doodle Design striped socks",
+    fi: "Doodle Design raitasukat",
+  },
+  category: ObjectId("61f519593c71ee71cd5270fd"),
+  visible: true,
+})
+
+db.products.insert({
+  name: {
+    en: "Socks - Zebra",
+    fi: "Sukat - Seepra",
+  },
+  price: {
+    EUR: 15,
+  },
+  images: [ObjectId("61f51b243c71ee71cd527116")],
+  customization: [],
+  description: {
+    en: "Doodle Design zebra socks",
+    fi: "Doodle Design seeprasukat",
   },
   category: ObjectId("61f519593c71ee71cd5270fd"),
   visible: true,
