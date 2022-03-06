@@ -1,6 +1,6 @@
 import { Box, Icon, Typography } from "@mui/material"
 
-const PointIcon = ({ icon, text, textColor }) => {
+const PointIcon = ({ icon, text, textColor, iconColor }) => {
   return (
     <Box
       sx={{
@@ -10,9 +10,11 @@ const PointIcon = ({ icon, text, textColor }) => {
     >
       <Icon
         sx={{
+          color: iconColor,
           fontSize: 48,
           border: "solid",
           borderRadius: 40,
+          borderColor: iconColor,
           p: 1,
           alignSelf: "center",
         }}

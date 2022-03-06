@@ -4,8 +4,12 @@ import ProductCard from "../products/ProductCard"
 import { useQuery } from "@apollo/client"
 import { GET_PRODUCT } from "../../graphql/queries"
 import PointIcon from "./PointIcon"
+import { getText } from "../../utils/dictionary"
+import { useLanguage } from "../../hooks/useLanguage"
 
 const Home = () => {
+  const { language } = useLanguage()
+
   const sneakerQuery = useQuery(GET_PRODUCT, {
     variables: {
       id: "61f51b243c71ee71cd527222",
@@ -30,13 +34,11 @@ const Home = () => {
     },
   })
 
-  console.log(sneakerQuery)
-
   return (
     <Box>
       <Paper sx={{ p: 2 }}>
         <Typography variant="h4" sx={{ textAlign: "center" }}>
-          Experience new era of clothing - Doodle Design!
+          {getText(language, "homeHeadline")}
         </Typography>
         <Divider sx={{ mt: 2 }} />
         <Box
@@ -56,12 +58,10 @@ const Home = () => {
             }}
           >
             <Typography color="grey.700">
-              Doodle Design is an environmentally friendly clothing
-              line that creates products that people want to wear.
+              {getText(language, "homeExplanationOne")}
             </Typography>
             <Typography color="grey.700" sx={{ mt: 1 }}>
-              Our goal is to bring together designers and the general
-              public to work on new clothing.
+              {getText(language, "homeExplanationTwo")}
             </Typography>
           </Box>
           <Box
@@ -74,36 +74,38 @@ const Home = () => {
           >
             <PointIcon
               icon="recycling"
-              text="High-quality recycled materials"
+              text={getText(language, "homePointOneText")}
+              iconColor="#81c784"
               textColor="grey.700"
             />
             <PointIcon
               icon="handshake"
-              text="Customer recommendations and needs"
+              text={getText(language, "homePointTwoText")}
+              iconColor="#ffb74d"
               textColor="grey.700"
             />
             <PointIcon
               icon="public"
-              text="A friendly design suitable for everyone"
+              text={getText(language, "homePointThreeText")}
+              iconColor="#64b5f6"
               textColor="grey.700"
             />
           </Box>
         </Box>
       </Paper>
-      <Box sx={{ mt: 4, display: "flex" }}>
+      <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
         <>
           {sneakerQuery.data && sneakerQuery.data.getProductById && (
-            <Paper sx={{ display: "flex", p: 2, gap: "10px" }}>
+            <Paper sx={{ display: "flex", p: 2, gap: "30px" }}>
               <Box>
                 <Typography variant="h5" sx={{ width: "150px" }}>
-                  A hot pick for the summer
+                  {getText(language, "sneakerPaperTitle")}
                 </Typography>
                 <Typography
                   color="grey.700"
                   sx={{ width: "150px", mt: 2 }}
                 >
-                  The official Doodle Design Sneakers are finally
-                  here, 100% made with recycled ocean plastics.
+                  {getText(language, "sneakerPaperDescription")}
                 </Typography>
               </Box>
               <ProductCard
@@ -121,7 +123,7 @@ const Home = () => {
             sockZebraQuery.data.getProductById && (
               <Paper sx={{ p: 2, ml: 4 }}>
                 <Typography variant="h6">
-                  Also check out our socks to go with!
+                  {getText(language, "socksPaperTitle")}
                 </Typography>
                 <Box sx={{ display: "flex", gap: "10px", mt: 2 }}>
                   <ProductCard
@@ -147,7 +149,7 @@ const Home = () => {
                   color="grey.700"
                   sx={{ mt: 1.7, mb: -1, alignSelf: "center" }}
                 >
-                  These socks are made from bamboo
+                  {getText(language, "socksPaperNote")}
                 </Typography>
               </Paper>
             )}
@@ -156,7 +158,7 @@ const Home = () => {
 
       <Paper sx={{ mt: 4 }}>
         <Typography sx={{ p: 2, textAlign: "center" }}>
-          Stay tuned for more to come...
+          {getText(language, "homeEndText")}
         </Typography>
       </Paper>
     </Box>

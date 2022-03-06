@@ -4,6 +4,25 @@ export const getText = (language, variable) => {
 
 export const dictionary = {
   en: {
+    homeHeadline: "Experience new era of clothing - Doodle Design",
+    homeExplanationOne:
+      "Doodle Design is an environmentally friendly clothing line that creates clothing that people want to wear",
+    homeExplanationTwo:
+      "Our goal is to bring together designers and customers to work on new clothing",
+
+    homePointOneText: "High-quality recycled materials",
+    homePointTwoText: "Customer recommendations and needs",
+    homePointThreeText: "A friendly design suitable for everyone",
+
+    sneakerPaperTitle: "A hot pick for the summer",
+    sneakerPaperDescription:
+      "The official Doodle Design Sneakers are finally here, 100% made with recycled ocean plastics",
+
+    socksPaperTitle: "Also check out our socks to go with!",
+    socksPaperNote: "These socks are made from bamboo",
+
+    homeEndText: "Stay tuned for more to come...",
+
     address: "Address",
     addressRequired: "Address is required",
     addToCartText: "Add to cart",
@@ -101,6 +120,25 @@ export const dictionary = {
   },
 
   fi: {
+    homeHeadline: "Koe vaatteiden uusi aikakausi - Doodle Design",
+    homeExplanationOne:
+      "Doodle Design on ympäristöystävällinen vaatelinja, joka luo vaattetia, joita ihmiset halauavat pitää",
+    homeExplanationTwo:
+      "Meidän tavoitteemme on tuoda suunnittelijat ja asiakkaat yhteen uusien vaatteiden luomisessa",
+
+    homePointOneText: "Korkealaatuisia kierrätettyjä materiaaleja",
+    homePointTwoText: "Asiakkaiden suositukset ja tarpeet",
+    homePointThreeText: "Ystävällinen design joka sopii kaikille",
+
+    sneakerPaperTitle: "Kuuma valinta kesälle",
+    sneakerPaperDescription:
+      "Official Doodle Design lenkkarit ovat viimein täällä, 100% kierrätettyä merimuovia",
+
+    socksPaperTitle: "Tsekkaa myös mukaan meidän sukkia!",
+    socksPaperNote: "Sukkien materiaalina on käytetty bambua",
+
+    homeEndText: "Lisää tulossa...",
+
     select: "Valitse",
     address: "Osoite",
     addressRequired: "Osoite on pakollinen",
