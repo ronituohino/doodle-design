@@ -5,7 +5,7 @@ services:
   # local mongo database with initial values
   # defined in mongo/mongo-init.js
   mongo:
-    image: mongo
+    image: mongo:5.0.6@sha256:b0abf19259902648be5ac17479dd4c65e037c3292c9eb09181f087687bca5102
     command:
       - --logpath
       - /var/log/mongodb/mongod.log

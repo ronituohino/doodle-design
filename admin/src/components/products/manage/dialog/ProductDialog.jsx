@@ -54,23 +54,19 @@ const ProductDialog = ({
     },
     validationSchema: yup.object({
       pictures: yup.array().min(1, "At least 1 picture is required"),
-
       category: yup.string().required("Category required"),
-
       name: yup
         .object({
           en: yup.string().required("English name required"),
           fi: yup.string().required("Finnish name required"),
         })
         .required("Name object missing, contact IT!"),
-
       description: yup
         .object({
           en: yup.string(),
           fi: yup.string(),
         })
         .required("Name object missing, contact IT!"),
-
       price: yup
         .object({
           EUR: yup
@@ -79,7 +75,6 @@ const ProductDialog = ({
             .moreThan(0, "Price must be greater than 0"),
         })
         .required("Price object missing, contact IT!"),
-
       customization: yup.array().of(
         yup.object({
           label: yup

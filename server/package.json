@@ -1,7 +1,6 @@
 {
   "name": "recom-server",
   "version": "1.0.0",
-  "description": "",
   "author": "ronituohino",
   "license": "MIT",
   "main": "index.js",

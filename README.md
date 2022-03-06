@@ -84,7 +84,7 @@ DB_URI=mongodb+srv://myUser:myUserPassword@database.ishgo.mongodb.net/recom?retr
 
 ## Development
 
-Setting up the development environment is very simple:
+Setting up the development environment
 
 - Make sure your .env file has at least the JWT_SECRET field
 - Make sure you have node.js installed
@@ -112,13 +112,23 @@ To force reinitialization, delete mongo_data folder from ./mongo and restart the
 
 ## Production
 
-Setting up the production environment is also very easy:
+Setting up the production environment
 
 - Make sure your .env file and MongoDB are configured correctly
 - Make sure you have Docker installed **and running**
   - You can test this by opening a terminal and running `docker -v`
   - This should print the Docker version, otherwise find out how to install Docker on your operating system
 - Open the project root directory with a terminal and run `npm run docker-up`
+
+Managing categories, products, and users
+
+- Open the store in your browser and register a new account
+- Open [MongoDB](https://www.mongodb.com/) and open the database
+- Select Browse Collections
+- Select the accounts tab
+- Change the accountType field from `Customer` to `Admin` and click Update
+- Go to the admin panel at `admin.localhost`
+- Create categories, create products, manage accounts...
 
 In case you need to rebuild the docker images, run `npm run docker-build`
 

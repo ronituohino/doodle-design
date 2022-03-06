@@ -87,7 +87,7 @@ const accountResolvers = {
         username: args.username,
         password: passwordHash,
         email: args.email,
-        accountType: accountTypes.CUSTOMER,
+        accountType: types.CUSTOMER,
         cart: [],
         verified: false,
       })

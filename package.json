@@ -5,10 +5,9 @@
   "main": "index.js",
   "keywords": [
     "recom",
-    "react",
     "e-commerce",
-    "store",
-    "shop"
+    "react",
+    "doodle design"
   ],
   "scripts": {
     "docker-up": "docker-compose -f docker-compose.yml up",
@@ -22,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ronituohino/react-online-store.git"
+    "url": "git+https://github.com/ronituohino/recom.git"
   },
   "author": "ronituohino",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ronituohino/react-online-store/issues"
+    "url": "https://github.com/ronituohino/recom/issues"
   },
-  "homepage": "https://github.com/ronituohino/react-online-store#readme",
+  "homepage": "https://github.com/ronituohino/recom",
   "devDependencies": {
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3"

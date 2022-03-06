@@ -1,19 +1,21 @@
-FROM mhart/alpine-node AS build-stage
+FROM node:lts-alpine@sha256:2c6c59cf4d34d4f937ddfcf33bab9d8bbad8658d1b9de7b97622566a52167f2b AS build-stage
 
 ENV NODE_ENV=production
-ENV REACT_APP_BACKEND_URL=http://api.localhost/
+ENV REACT_APP_BACKEND_URL=http://api.localhost
 
 WORKDIR /client
 
-COPY . .
+COPY --chown=node:node . .
 
-RUN npm ci && \
+RUN npm ci --only=production && \
   npm run build
 #RUN CI=true npm run test
 
-FROM mhart/alpine-node
+FROM node:lts-alpine@sha256:2c6c59cf4d34d4f937ddfcf33bab9d8bbad8658d1b9de7b97622566a52167f2b
 
-COPY --from=build-stage /client/build/ /build
+COPY --chown=node:node --from=build-stage /client/build/ /build
 
 RUN npm install -g serve
+
+USER node 
 CMD serve -p 3000 -s build

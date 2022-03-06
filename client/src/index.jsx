@@ -9,8 +9,6 @@ import theme from "./theme"
 import { SnackbarProvider } from "notistack"
 import { Collapse } from "@mui/material"
 
-import { HelmetProvider } from "react-helmet-async"
-
 import {
   ApolloClient,
   ApolloLink,
@@ -44,18 +42,16 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <HelmetProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <SnackbarProvider
-              maxSnack={3}
-              TransitionComponent={Collapse}
-            >
-              <App />
-            </SnackbarProvider>
-          </BrowserRouter>
-        </ThemeProvider>
-      </HelmetProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <SnackbarProvider
+            maxSnack={3}
+            TransitionComponent={Collapse}
+          >
+            <App />
+          </SnackbarProvider>
+        </BrowserRouter>
+      </ThemeProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
