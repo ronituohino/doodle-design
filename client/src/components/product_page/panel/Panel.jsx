@@ -71,7 +71,7 @@ const Panel = ({ product }) => {
         >
           {formatPrice(product.price.EUR, language, "EUR")}
         </Typography>
-        <Typography sx={{ mt: 2 }}>
+        <Typography color="grey.700" sx={{ mt: 2 }}>
           {product.description[language]}
         </Typography>
       </Box>

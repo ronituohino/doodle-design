@@ -115,7 +115,7 @@ const AccountLogin = () => {
 
         <Link to={registerLink()} style={{ textDecoration: "none" }}>
           <Typography
-            color="primary"
+            color="secondary"
             sx={{ textAlign: "center", mt: 1 }}
           >
             {getText(language, "newHere")}

@@ -34,14 +34,14 @@ db.categories.insert({
   _id: ObjectId("61f519593c71ee71cd5270fd"),
   urlPath: "socks",
   label: { en: "Socks", fi: "Sukat" },
-  icon: "minimize",
+  icon: "tag",
 })
 
 db.categories.insert({
-  _id: ObjectId("61f519593c71ee71cd5270fd"),
+  _id: ObjectId("61f519593c71ee71cd5270fe"),
   urlPath: "shoes",
   label: { en: "Shoes", fi: "Kengät" },
-  icon: "minimize",
+  icon: "tag",
 })
 
 db.files.insert({
@@ -87,12 +87,13 @@ db.files.insert({
 })
 
 db.products.insert({
+  _id: ObjectId("61f51b243c71ee71cd527222"),
   name: {
     en: "Sneakers",
     fi: "Lenkkarit",
   },
   price: {
-    EUR: 60,
+    EUR: 45,
   },
   images: [
     ObjectId("61f51b243c71ee71cd527124"),
@@ -149,17 +150,18 @@ db.products.insert({
     en: "The official Doodle Design sneakers featuring the classic Doodle Design stripes. Make your summer really pop with these on your feet!",
     fi: "Official Doodle Design lenkkarit, joiden kyljissä hohtavat klassiset Doodle Design raidat. Tuo kesääsi loistoa näillä lenkkareilla!",
   },
-  category: ObjectId("61f519593c71ee71cd5270fd"),
+  category: ObjectId("61f519593c71ee71cd5270fe"),
   visible: true,
 })
 
 db.products.insert({
+  _id: ObjectId("61f51b243c71ee71cd527231"),
   name: {
     en: "Socks - Dots",
     fi: "Sukat - Pisteet",
   },
   price: {
-    EUR: 10,
+    EUR: 5,
   },
   images: [ObjectId("61f51b243c71ee71cd527114")],
   customization: [],
@@ -172,12 +174,13 @@ db.products.insert({
 })
 
 db.products.insert({
+  _id: ObjectId("61f51b243c71ee71cd527232"),
   name: {
     en: "Socks - Stripes",
     fi: "Sukat - Raidat",
   },
   price: {
-    EUR: 10,
+    EUR: 5,
   },
   images: [ObjectId("61f51b243c71ee71cd527115")],
   customization: [],
@@ -190,12 +193,13 @@ db.products.insert({
 })
 
 db.products.insert({
+  _id: ObjectId("61f51b243c71ee71cd527233"),
   name: {
     en: "Socks - Zebra",
     fi: "Sukat - Seepra",
   },
   price: {
-    EUR: 15,
+    EUR: 8,
   },
   images: [ObjectId("61f51b243c71ee71cd527116")],
   customization: [],

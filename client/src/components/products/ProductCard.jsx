@@ -8,7 +8,7 @@ import { useRouting } from "../../hooks/useRouting"
 import { Link } from "react-router-dom"
 import { getFile } from "../../utils/getFile"
 
-const ProductCard = ({ product, sx }) => {
+const ProductCard = ({ product, size, descriptionPadding, sx }) => {
   const { language } = useLanguage()
   const { productLink } = useRouting()
 
@@ -26,14 +26,18 @@ const ProductCard = ({ product, sx }) => {
           )}
           alt={product.name[language]}
           style={{
-            width: "200px",
-            height: "200px",
+            width: size ? size.x : "200px",
+            height: size ? size.y : "200px",
             borderTopLeftRadius: 4,
             borderTopRightRadius: 4,
           }}
         />
 
-        <Box sx={{ padding: 2 }}>
+        <Box
+          sx={{
+            padding: descriptionPadding ? descriptionPadding : 2,
+          }}
+        >
           <Typography
             variant="subtitle1"
             sx={{
