@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV === "production") {
+  require("dotenv").config()
+}
+
 const { ApolloServer } = require("apollo-server-express")
 
 const { graphqlUploadExpress } = require("graphql-upload")
@@ -32,8 +36,12 @@ require("./utils/files")
 const startApolloServer = async () => {
   const app = express()
   app.use(cors())
-  app.use(express.static("public"))
-  app.use("/images", express.static("images"))
+  if (process.env.NODE_ENV === "production") {
+    app.use("/images", express.static("public/images/production"))
+  } else {
+    app.use("/images", express.static("public/images/development"))
+  }
+
   app.use(
     graphqlUploadExpress({ maxFileSize: 16000000, maxFiles: 10 })
   )

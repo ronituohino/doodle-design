@@ -12,6 +12,7 @@ const File = mongoose.model("File", fileSchema)
 const fs = require("fs")
 const { streamToBase64 } = require("../utils/serverUtils")
 const { requireAdmin } = require("../utils/authentication")
+const { getFileLocation } = require("../utils/files")
 
 const fileResolvers = {
   Query: {
@@ -54,7 +55,7 @@ const fileResolvers = {
         results.push(response)
 
         // If location has folders that don't exist, the image is not saved
-        const location = `./public/images/${fileId}-${filename}`
+        const location = getFileLocation(fileId, filename)
 
         // Then save image to public/files/... folder
         // where it can be served from

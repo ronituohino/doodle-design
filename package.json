@@ -10,14 +10,25 @@
     "doodle design"
   ],
   "scripts": {
-    "docker-up": "docker-compose -f docker-compose.yml up",
-    "docker-build": "docker-compose -f docker-compose.yml build",
-    "ins": "npm install && (cd ./server && npm install) && cd .. && (cd ./client && npm install) && cd .. && (cd ./admin && npm install)",
-    "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\" \" npm run admin-dev \" \" npm run mongo\"",
-    "mongo": "docker-compose -f docker-compose.dev.yml up",
-    "admin-dev": "cd ./admin && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none PORT=3050 npm start",
-    "client-dev": "cd ./client && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none npm start",
-    "server-dev": "cd ./server && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev"
+    "prod": "npm-run-all --parallel \"production:*\"",
+    "production:proxy": "cd ./proxy && cross-env NODE_ENV=production npm run start",
+    "production:admin": "serve -p 3050 -s ./admin/build",
+    "production:client": "serve -p 3000 -s ./client/build",
+    "production:server": "cd ./server && cross-env NODE_ENV=production npm run start",
+    "bld": "npm-run-all --parallel \"build:*\"",
+    "build:admin": " cd ./admin && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=http://localhost:4000 npm run build",
+    "build:client": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=http://localhost:4000 npm run build",
+    "ins": "npm install && npm-run-all --parallel \"install:*\"",
+    "install:proxy": "cd ./proxy && npm install",
+    "install:admin": "cd ./admin && npm install",
+    "install:client": "cd ./client && npm install",
+    "install:server": "cd ./server && npm install",
+    "dev": "npm-run-all --parallel \"development:*\"",
+    "development:proxy": "cd ./proxy && npm run dev",
+    "development:mongo": "docker-compose -f docker-compose.dev.yml up",
+    "development:admin": "cd ./admin && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none PORT=3050 npm start",
+    "development:client": "cd ./client && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none npm start",
+    "development:server": "cd ./server && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev"
   },
   "repository": {
     "type": "git",
@@ -31,6 +42,11 @@
   "homepage": "https://github.com/ronituohino/recom",
   "devDependencies": {
     "concurrently": "^7.0.0",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "dotenv-run-script": "^0.2.0",
+    "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "serve": "^13.0.2"
   }
 }

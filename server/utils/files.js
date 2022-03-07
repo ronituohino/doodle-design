@@ -24,7 +24,7 @@ const syncFromDatabase = async () => {
   const files = await File.find({})
   files.forEach((file) => {
     if (file.data) {
-      const location = `./public/images/${file._id}-${file.filename}`
+      const location = getFileLocation(file._id, file.filename)
 
       if (!fs.existsSync(location)) {
         const buffer = Buffer.from(file.data, "base64")
@@ -37,4 +37,17 @@ const syncFromDatabase = async () => {
     }
   })
 }
-module.exports = { deleteProductFiles, syncFromDatabase }
+
+const getFileLocation = (fileId, filename) => {
+  if (process.env.NODE_ENV === "production") {
+    return `./public/images/production/${fileId}-${filename}`
+  } else {
+    return `./public/images/development/${fileId}-${filename}`
+  }
+}
+
+module.exports = {
+  deleteProductFiles,
+  syncFromDatabase,
+  getFileLocation,
+}
