@@ -1,3 +1,1 @@
-web: npm run ins
-web: npm run bld
-web: npm run prod
+web: npm run ins & npm run bld & npm run prod wait -n
