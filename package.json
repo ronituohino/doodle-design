@@ -10,6 +10,7 @@
     "doodle design"
   ],
   "scripts": {
+    "heroku": "npm run ins & npm run bld & npm run prod",
     "prod": "npm-run-all --parallel \"production:*\"",
     "production:proxy": "cd ./proxy && cross-env NODE_ENV=production npm run start",
     "production:admin": "serve -p 3050 -s ./admin/build",

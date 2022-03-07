@@ -1,1 +1,1 @@
-web: npm run ins & npm run bld & npm run prod wait -n
+web: npm run heroku
