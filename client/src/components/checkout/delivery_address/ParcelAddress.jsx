@@ -42,7 +42,8 @@ const ParcelAddress = ({ point, selectCallback }) => {
         }}
       >
         <Button
-          variant="outlined"
+          variant="contained"
+          color="secondary"
           onClick={() => selectCallback(point)}
         >
           {getText(language, "select")}

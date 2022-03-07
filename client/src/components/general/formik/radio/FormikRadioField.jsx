@@ -39,6 +39,7 @@ const FormikRadioField = ({ formik, field, children, value }) => {
         value={value}
         disableRipple
         className={classes.root}
+        color="secondary"
         sx={{ alignSelf: "flex-start", top: 12.5, left: 7.5 }}
       />
 

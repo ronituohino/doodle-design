@@ -86,7 +86,7 @@ const Panel = ({ product }) => {
         />
         <Button
           disabled={!formik.isValid}
-          color="primary"
+          color="secondary"
           variant="contained"
           fullWidth
           onClick={() => {

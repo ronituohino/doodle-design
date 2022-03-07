@@ -85,6 +85,7 @@ const AccountSettings = () => {
                 label={getText(language, "email")}
               />
               <Button
+                color="secondary"
                 onClick={() =>
                   editUserMutation({
                     variables: {
@@ -120,6 +121,7 @@ const AccountSettings = () => {
               />
 
               <Button
+                color="secondary"
                 onClick={() =>
                   editUserMutation({
                     variables: {

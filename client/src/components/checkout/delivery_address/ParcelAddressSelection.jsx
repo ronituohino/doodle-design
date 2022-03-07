@@ -65,7 +65,11 @@ const ParcelAddressSelection = ({ formik, setAddress }) => {
           field="searchZipCode"
           sx={{ width: "30%" }}
         />
-        <Button onClick={fetchDeliveryPoints} variant="contained">
+        <Button
+          onClick={fetchDeliveryPoints}
+          color="secondary"
+          variant="contained"
+        >
           {getText(language, "search")}
         </Button>
       </Box>

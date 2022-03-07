@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react"
 
-import { Typography, Paper } from "@mui/material"
-import Stepper from "@mui/material/Stepper"
-import Step from "@mui/material/Step"
-import StepLabel from "@mui/material/StepLabel"
+import {
+  Typography,
+  Paper,
+  Stepper,
+  Step,
+  StepLabel,
+} from "@mui/material"
 
 import Cart from "./cart/Cart"
 import Delivery from "./delivery_address/Delivery"
 import Payment from "./payment/Payment"
 import Confirmation from "./confirmation/Confirmation"
 import BillingAddress from "./billing_address/BillingAddress"
+
 import { useCheckoutForms } from "./useCheckoutForms"
 import { useApolloClient, useMutation } from "@apollo/client"
 import { CREATE_ORDER } from "../../graphql/mutations"
+import { GET_ORDERS } from "../../graphql/queries"
 import { useRouting } from "../../hooks/useRouting"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { useSnackbar } from "notistack"
 
 import { orderConstants } from "../../utils/constants"
-import { GET_ORDERS } from "../../graphql/queries"
 import { useLanguage } from "../../hooks/useLanguage"
 import { getText } from "../../utils/dictionary"
 

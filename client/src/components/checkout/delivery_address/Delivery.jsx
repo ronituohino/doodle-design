@@ -90,7 +90,7 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
             />
 
             <Button
-              color="primary"
+              color="secondary"
               variant="contained"
               disabled={nextButtonDisabled}
               fullWidth

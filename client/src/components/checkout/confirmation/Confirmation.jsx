@@ -107,6 +107,7 @@ const Confirmation = ({
             disabled={!allValid}
             fullWidth
             variant="contained"
+            color="secondary"
             onClick={next}
           >
             {getText(language, "purchase")}

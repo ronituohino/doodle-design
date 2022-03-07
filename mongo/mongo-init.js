@@ -157,8 +157,8 @@ db.products.insert({
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527231"),
   name: {
-    en: "Socks - Dots",
-    fi: "Sukat - Pisteet",
+    en: "Summer Socks - Dots",
+    fi: "Kesäsukat - Pisteet",
   },
   price: {
     EUR: 5,
@@ -176,8 +176,8 @@ db.products.insert({
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527232"),
   name: {
-    en: "Socks - Stripes",
-    fi: "Sukat - Raidat",
+    en: "Summer Socks - Stripes",
+    fi: "Kesäsukat - Raidat",
   },
   price: {
     EUR: 5,
@@ -195,8 +195,8 @@ db.products.insert({
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527233"),
   name: {
-    en: "Socks - Zebra",
-    fi: "Sukat - Seepra",
+    en: "Summer Socks - Zebra",
+    fi: "Kesäsukat - Seepra",
   },
   price: {
     EUR: 8,

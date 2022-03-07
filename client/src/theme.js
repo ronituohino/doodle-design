@@ -6,7 +6,7 @@ const theme = unstable_createMuiStrictModeTheme({
       main: "#def2ff",
     },
     secondary: {
-      main: "#ffa59e",
+      main: "#ff8f8f",
     },
   },
   typography: {

@@ -124,7 +124,7 @@ const AccountRegister = () => {
           disabled={
             !formik.isValid || formik.values === formik.initialValues
           }
-          color="primary"
+          color="secondary"
           variant="contained"
           fullWidth
           onClick={formik.handleSubmit}

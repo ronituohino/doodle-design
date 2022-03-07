@@ -129,7 +129,7 @@ const ShoppingCart = () => {
               <Button
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={() => {
                   openLink(checkoutLink())
                   closeMenu()

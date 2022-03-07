@@ -4,7 +4,7 @@ const nonSelectedSx = {
   borderColor: "lightgray",
 }
 const selectedSx = {
-  borderColor: "primary.main",
+  borderColor: "secondary.main",
 }
 
 const PaymentMethod = ({ name, imgSrc, selected, selectThis }) => {

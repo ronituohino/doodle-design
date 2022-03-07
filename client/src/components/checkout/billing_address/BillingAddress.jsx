@@ -80,6 +80,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
 
           <Button
             fullWidth
+            color="secondary"
             variant="contained"
             disabled={nextButtonDisabled}
             onClick={next}

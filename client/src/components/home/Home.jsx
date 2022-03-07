@@ -2,7 +2,7 @@ import { Paper, Typography, Box, Divider } from "@mui/material"
 
 import ProductCard from "../products/ProductCard"
 import { useQuery } from "@apollo/client"
-import { GET_PRODUCT } from "../../graphql/queries"
+import { GET_PRODUCTS } from "../../graphql/queries"
 import PointIcon from "./PointIcon"
 import { getText } from "../../utils/dictionary"
 import { useLanguage } from "../../hooks/useLanguage"
@@ -10,27 +10,26 @@ import { useLanguage } from "../../hooks/useLanguage"
 const Home = () => {
   const { language } = useLanguage()
 
-  const sneakerQuery = useQuery(GET_PRODUCT, {
+  // A tagging system would be a lot handier here
+  const sneakerQuery = useQuery(GET_PRODUCTS, {
     variables: {
-      id: "61f51b243c71ee71cd527222",
+      page: 0,
+      size: 1,
+      search: {
+        searchWord: "Sneakers",
+        searchLanguage: "en",
+      },
     },
   })
 
-  const sockDotQuery = useQuery(GET_PRODUCT, {
+  const sockQuery = useQuery(GET_PRODUCTS, {
     variables: {
-      id: "61f51b243c71ee71cd527231",
-    },
-  })
-
-  const sockStripeQuery = useQuery(GET_PRODUCT, {
-    variables: {
-      id: "61f51b243c71ee71cd527232",
-    },
-  })
-
-  const sockZebraQuery = useQuery(GET_PRODUCT, {
-    variables: {
-      id: "61f51b243c71ee71cd527233",
+      page: 0,
+      size: 3,
+      search: {
+        searchWord: "Summer Socks",
+        searchLanguage: "en",
+      },
     },
   })
 
@@ -95,54 +94,53 @@ const Home = () => {
       </Paper>
       <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
         <>
-          {sneakerQuery.data && sneakerQuery.data.getProductById && (
-            <Paper sx={{ display: "flex", p: 2, gap: "30px" }}>
-              <Box>
-                <Typography variant="h5" sx={{ width: "150px" }}>
-                  {getText(language, "sneakerPaperTitle")}
-                </Typography>
-                <Typography
-                  color="grey.700"
-                  sx={{ width: "150px", mt: 2 }}
-                >
-                  {getText(language, "sneakerPaperDescription")}
-                </Typography>
-              </Box>
-              <ProductCard
-                product={sneakerQuery.data.getProductById}
-              />
-            </Paper>
-          )}
+          {sneakerQuery.data &&
+            sneakerQuery.data.getProducts &&
+            sneakerQuery.data.getProducts.docs.length === 1 && (
+              <Paper sx={{ display: "flex", p: 2, gap: "30px" }}>
+                <Box>
+                  <Typography variant="h5" sx={{ width: "150px" }}>
+                    {getText(language, "sneakerPaperTitle")}
+                  </Typography>
+                  <Typography
+                    color="grey.700"
+                    sx={{ width: "150px", mt: 2 }}
+                  >
+                    {getText(language, "sneakerPaperDescription")}
+                  </Typography>
+                </Box>
+                <ProductCard
+                  product={sneakerQuery.data.getProducts.docs[0]}
+                />
+              </Paper>
+            )}
         </>
         <>
-          {sockDotQuery.data &&
-            sockDotQuery.data.getProductById &&
-            sockStripeQuery.data &&
-            sockStripeQuery.data.getProductById &&
-            sockZebraQuery.data &&
-            sockZebraQuery.data.getProductById && (
+          {sockQuery.data &&
+            sockQuery.data.getProducts &&
+            sockQuery.data.getProducts.docs.length === 3 && (
               <Paper sx={{ p: 2, ml: 4 }}>
                 <Typography variant="h6">
                   {getText(language, "socksPaperTitle")}
                 </Typography>
                 <Box sx={{ display: "flex", gap: "10px", mt: 2 }}>
                   <ProductCard
-                    product={sockDotQuery.data.getProductById}
-                    size={{ x: "105px", y: "105px" }}
+                    product={sockQuery.data.getProducts.docs[0]}
+                    size={{ x: "130px", y: "130px" }}
                     descriptionPadding={1}
-                    sx={{ width: "105px", height: "210px" }}
+                    sx={{ width: "130px", height: "240px" }}
                   />
                   <ProductCard
-                    product={sockStripeQuery.data.getProductById}
-                    size={{ x: "105px", y: "105px" }}
+                    product={sockQuery.data.getProducts.docs[1]}
+                    size={{ x: "130px", y: "130px" }}
                     descriptionPadding={1}
-                    sx={{ width: "105px", height: "210px" }}
+                    sx={{ width: "130px", height: "240px" }}
                   />
                   <ProductCard
-                    product={sockZebraQuery.data.getProductById}
-                    size={{ x: "105px", y: "105px" }}
+                    product={sockQuery.data.getProducts.docs[2]}
+                    size={{ x: "130px", y: "130px" }}
                     descriptionPadding={1}
-                    sx={{ width: "105px", height: "210px" }}
+                    sx={{ width: "130px", height: "240px" }}
                   />
                 </Box>
                 <Typography

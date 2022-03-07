@@ -4,6 +4,7 @@ const fileSchema = new mongoose.Schema({
   filename: { type: String, required: true },
   mimetype: { type: String, required: true },
   encoding: { type: String, required: true },
+  data: { type: String, required: true },
 })
 
 const File = mongoose.model("File", fileSchema)
@@ -46,8 +47,7 @@ const fileResolvers = {
           filename,
           mimetype,
           encoding,
-          // Image backup is possible...
-          //data: streamData,
+          data: streamData,
         })
 
         const response = await mongooseFile.save()

@@ -18,4 +18,23 @@ const deleteProductFiles = async (productId) => {
   })
 }
 
-module.exports = { deleteProductFiles }
+// Sync local files to match database
+const syncFromDatabase = async () => {
+  const File = mongoose.model("File")
+  const files = await File.find({})
+  files.forEach((file) => {
+    if (file.data) {
+      const location = `./public/images/${file._id}-${file.filename}`
+
+      if (!fs.existsSync(location)) {
+        const buffer = Buffer.from(file.data, "base64")
+        fs.writeFile(location, buffer, () => {
+          console.log(
+            `File ${file._id}-${file.filename} retrieved from database`
+          )
+        })
+      }
+    }
+  })
+}
+module.exports = { deleteProductFiles, syncFromDatabase }

@@ -100,7 +100,7 @@ const Payment = ({ formik, constants, next, checkout, hidden }) => {
           <FormikAutoSave formik={formik} />
 
           <Button
-            color="primary"
+            color="secondary"
             variant="contained"
             fullWidth
             onClick={next}

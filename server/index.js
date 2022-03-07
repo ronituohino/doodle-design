@@ -25,6 +25,10 @@ mongoose
   .then(() => console.log("Server connected to database"))
   .catch((e) => console.log(`Error connecting to database: ${e}`))
 
+require("./utils/files")
+  .syncFromDatabase()
+  .then(() => console.log("Server files synced with database"))
+
 const startApolloServer = async () => {
   const app = express()
   app.use(cors())

@@ -62,6 +62,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                   <Button
                     disabled={total <= 0}
                     fullWidth
+                    color="secondary"
                     variant="contained"
                     onClick={next}
                   >
@@ -70,6 +71,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
                 ) : (
                   <Button
                     fullWidth
+                    color="secondary"
                     variant="contained"
                     onClick={() => openLink(loginLink())}
                   >

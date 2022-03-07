@@ -28,6 +28,7 @@ const FormikCheckbox = ({ formik, field, children }) => {
         checked={checked}
         value={checked}
         disableRipple
+        color="secondary"
       />
 
       {childrenWithProps}
