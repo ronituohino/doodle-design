@@ -18,7 +18,7 @@ services:
     image: recom-admin
     build:
       context: ./admin
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.admin
     ports:
       - 3050:3050
     labels:
@@ -31,7 +31,7 @@ services:
     image: recom-client
     build:
       context: ./client # The context will pick this directory as the "build context"
-      dockerfile: Dockerfile # This will simply tell which dockerfile to read
+      dockerfile: Dockerfile.client # This will simply tell which dockerfile to read
     ports:
      - 3000:3000
     labels:
@@ -44,7 +44,7 @@ services:
     image: recom-server
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.server
     ports:
      - 4000:4000
     environment: 
