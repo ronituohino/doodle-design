@@ -10,7 +10,7 @@
     "doodle design"
   ],
   "scripts": {
-    "heroku": "npm run ins & npm run prod ",
+    "heroku-postbuild": "npm-run-all --parallel \"install:*\"",
     "deploy": "git push heroku main",
     "prod": "npm-run-all --parallel \"production:*\"",
     "production:server": "cd ./server && cross-env NODE_ENV=production npm run start",
