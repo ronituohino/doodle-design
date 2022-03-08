@@ -1,6 +1,11 @@
 # Introduction
 
-A template for an e-commerce application, made with React!
+A template for an e-commerce application, made with React!  
+This project is a submission for the Full stack open 2021 project.  
+The hourbook is in the project directory as an Excel sheet: project-hourbook.xlsx  
+
+Check out the client app live at [Heroku](https://fso-2021-recom.herokuapp.com/)!  
+The live sample can take a while to launch since Heroku puts apps to sleep when they are not used.  
 
 Disclaimer:  
 This repo is only a personal project of mine, and it is not meant to be deployed irl.  
@@ -8,8 +13,6 @@ However, this project, and all of the code is under an MIT licence if someone wi
 
 # Showcase:  
 Doodle Design sample site  
-Check out the client app live at [Heroku](https://fso-2021-recom.herokuapp.com/)!  
-The live sample can take a while to launch since Heroku puts apps to sleep when they are not used.  
 
 Homepage  
 ![homepage](https://user-images.githubusercontent.com/42767842/157247782-1f8a36c1-1b61-43ed-914a-3752f200b2fa.png)
