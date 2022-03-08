@@ -12,7 +12,7 @@
   "scripts": {
     "deploy": "git push heroku main",
     "heroku-postbuild": "npm-run-all \"heroku:*\"",
-    "heroku:ci": "npm-run-all \"ci:*\"",
+    "heroku:ci": "npm-run-all --parallel \"ci:*\"",
     "ci:server": "cd ./server && npm ci",
     "ci:client": "cd ./client && npm ci",
     "heroku:build": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=https://https://fso-2021-recom-server.herokuapp.com npm run build",

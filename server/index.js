@@ -74,14 +74,14 @@ const startApolloServer = async () => {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   })
 
-  const port = 4000
+  const port = process.env.PORT || 4000
 
   await server.start()
   server.applyMiddleware({ app })
   await new Promise((resolve) => httpServer.listen({ port }, resolve))
 
   //eslint-disable-next-line
-  console.log(`Server running`)
+  console.log(`Server running on port ${port}`)
 }
 
 startApolloServer()
