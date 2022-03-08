@@ -36,13 +36,9 @@ require("./utils/files")
 const startApolloServer = async () => {
   const app = express()
   app.use(cors())
+  app.use("/images", express.static("public/images"))
   if (process.env.NODE_ENV === "production") {
-    console.log("hello?")
-    app.use("/images", express.static("public/images"))
     app.use(express.static("../client/build"))
-  } else {
-    console.log("devel hello?")
-    app.use("/images", express.static("public/images"))
   }
 
   app.use(

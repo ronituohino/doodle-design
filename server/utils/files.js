@@ -39,11 +39,7 @@ const syncFromDatabase = async () => {
 }
 
 const getFileLocation = (fileId, filename) => {
-  if (process.env.NODE_ENV === "production") {
-    return `./public/images/production/${fileId}-${filename}`
-  } else {
-    return `./public/images/development/${fileId}-${filename}`
-  }
+  return `./public/images/${fileId}-${filename}`
 }
 
 module.exports = {
