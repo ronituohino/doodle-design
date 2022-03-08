@@ -19,7 +19,7 @@ import { createUploadLink } from "apollo-upload-client"
 import cache from "./cache"
 
 const uploadLink = createUploadLink({
-  uri: `/graphql`,
+  uri: "/graphql",
 })
 
 const authLink = new ApolloLink((operation, forward) => {
