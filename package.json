@@ -15,7 +15,7 @@
     "heroku:ci": "npm-run-all --parallel \"ci:*\"",
     "ci:server": "cd ./server && npm ci",
     "ci:client": "cd ./client && npm ci",
-    "heroku:build": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=https://https://fso-2021-recom.herokuapp.com npm run build",
+    "heroku:build": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=https://fso-2021-recom.herokuapp.com npm run build",
     "prod": "cd ./server && cross-env NODE_ENV=production PORT=$PORT npm run start",
     "admin": "cd ./admin && REACT_APP_BACKEND_URL=https://https://fso-2021-recom.herokuapp.com npm start",
     "ins": "npm install && npm-run-all --parallel \"install:*\"",
