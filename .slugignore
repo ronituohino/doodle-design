@@ -1,0 +1,6 @@
+# This file excludes these files & directories from ending
+# up in the final Heroku build
+/admin
+/mongo
+docker-compose.dev.yml
+project-hourbook.xlsx

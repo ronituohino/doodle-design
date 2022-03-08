@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.47a1e22f.js",
+    "main.js": "/static/js/main.83c4f068.js",
     "static/media/mobilepay.png": "/static/media/mobilepay.a41a53462a3e82d0a531.png",
     "static/media/op.png": "/static/media/op.cde6259264a89d68b9cd.png",
     "static/media/spankki.png": "/static/media/spankki.428f52277a3a58e5fc42.png",
@@ -13,9 +13,9 @@
     "static/media/nordea.png": "/static/media/nordea.41d2f7715db38b223a47.png",
     "static/media/klarna.png": "/static/media/klarna.fed3bd6d6dd5e05e6bf3.png",
     "index.html": "/index.html",
-    "main.47a1e22f.js.map": "/static/js/main.47a1e22f.js.map"
+    "main.83c4f068.js.map": "/static/js/main.83c4f068.js.map"
   },
   "entrypoints": [
-    "static/js/main.47a1e22f.js"
+    "static/js/main.83c4f068.js"
   ]
 }

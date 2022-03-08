@@ -37,10 +37,20 @@ const startApolloServer = async () => {
   const app = express()
   app.use(cors())
 
+  // Serve images from public/images folder
   app.use("/images", express.static("./public/images"))
 
   if (process.env.NODE_ENV === "production") {
+    // Serve client app from ../client/build folder
     app.use(express.static("../client/build"))
+    app.use("/*", (req, res, next) => {
+      // Redirect /graphql requests to the Apollo Server using next()
+      if (req.baseUrl.startsWith("/graphql")) {
+        next()
+      } else {
+        res.sendFile("index.html", { root: "../client/build" })
+      }
+    })
   }
 
   app.use(
