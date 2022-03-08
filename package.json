@@ -16,6 +16,7 @@
     "ci:server": "cd ./server && npm ci",
     "ci:client": "cd ./client && npm ci",
     "heroku:build": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL= npm run build",
+    "bld": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=http://localhost:4000 npm run build",
     "prod": "cd ./server && cross-env NODE_ENV=production PORT=$PORT npm run start",
 
     "admin": "cd ./admin && cross-env REACT_APP_BACKEND_URL=https://fso-2021-recom.herokuapp.com PORT=3060 npm start",
