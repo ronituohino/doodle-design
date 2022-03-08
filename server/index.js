@@ -37,10 +37,12 @@ const startApolloServer = async () => {
   const app = express()
   app.use(cors())
   if (process.env.NODE_ENV === "production") {
-    app.use("/images", express.static("public/images/production"))
+    console.log("hello?")
+    app.use("/images", express.static("public/images"))
     app.use(express.static("../client/build"))
   } else {
-    app.use("/images", express.static("public/images/development"))
+    console.log("devel hello?")
+    app.use("/images", express.static("public/images"))
   }
 
   app.use(
