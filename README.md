@@ -6,19 +6,35 @@ Disclaimer:
 This repo is only a personal project of mine, and it is not meant to be deployed irl.  
 However, this project, and all of the code is under an MIT licence if someone wishes to use it.
 
-Showcase:
-**_pics_**
+# Showcase:  
+Doodle Design sample site  
+Check out the client app live at [Heroku](https://fso-2021-recom.herokuapp.com/)!
 
-Features:
+Homepage  
+![homepage](https://user-images.githubusercontent.com/42767842/157247782-1f8a36c1-1b61-43ed-914a-3752f200b2fa.png)
 
+The admin tools are used locally, and they should not be deployed online.
+
+Administrative tools  
+![admin-tools](https://user-images.githubusercontent.com/42767842/157247711-bffdfada-6124-4976-b921-93deac1b20eb.png)
+
+Product management & creation  
+![admin-tools-create-procut](https://user-images.githubusercontent.com/42767842/157247739-5a96c153-eb8d-4fb8-809f-57d7b43f000d.png)
+
+Category management & creation  
+![admin-tools-category](https://user-images.githubusercontent.com/42767842/157247736-7d703641-a625-46b3-808a-ba6d721066fa.png)
+
+Account management  
+![admin-tools-account](https://user-images.githubusercontent.com/42767842/157247722-bcc6ed19-2155-4338-bc45-190d9d21dd6d.png)
+
+Features:  
 - Client application
   - Users can browse products in different categories and search for products with keywords
   - Products can be added to the shopping cart with customization options
   - Users can place orders on products
-  - The process of placing an order is very user-friendly
-  - Orders support different delivery methods
-  - **Different payment providers can be selected, but they have not been implemented**
-  - Users can create an account on the site
+  - Support for different delivery methods
+  - **Different payment providers can be selected, but the actual payment functionality has not been implemented**
+  - Users can create an account on the site and log in with token auth
   - Users can change their account settings, and view previous orders
 - Admin application
   - Admins can add/remove/modify products
@@ -26,17 +42,11 @@ Features:
   - By default the application supports English and Finnish, more languages can be added, but the client has to be modified some to support more
   - Also, by default the application supports Euro, but more can be added, however the frontend requires some tinkering
   - Admins can add/remove/modify categories
-- GraphQL server
-  - Both of these applications talk with a GraphQL server, which handles saving/fetching data to/from a Mongo database.
-
-The database solution is Mongo. During development a local [Docker Mongo container](https://hub.docker.com/_/mongo) is booted up with initial values.  
-During production the GraphQL server connects to a server set up in [MongoDB](https://www.mongodb.com/).
-
-All of these parts are served in Docker containers in production.  
-The development environment is not containerized, except for the local Mongo server.
-
-In production, a reverse proxy container (Traefik) takes care of connecting to the different applications.  
-The configuration for Traefik is in the labels of containers in docker-compose.yml
+  - Admins can modify/remove accounts
+- Server
+  - The client and admin application talk to the server runnin in Heroku. The server is running an Express http server and an Apollo GraphQL server.
+  - The database solution is MongoDB. In production the server connects to a database running in [MongoDB](https://www.mongodb.com/)
+  - In development a local [Docker Mongo container](https://hub.docker.com/_/mongo) is booted up with initial values.
 
 The client and admin application use [Create React App](https://github.com/facebook/create-react-app).
 
@@ -47,8 +57,7 @@ Start up by cloning this project on your machine!
 ## .env file
 
 Open the project folder and create a new file in the root directory and name it .env  
-Add the following keys to the file:
-
+Add the following keys to the file:  
 - JWT_SECRET=\[value\]
   - This is the key used to encrypt/decrypt account tokens on the GraphQl server
   - Make sure this value is kept secret
@@ -75,8 +84,7 @@ Add the following keys to the file:
     - Replace "myFirstDatabase" with the name of your database, for example "store"
   - After modifying the connection string, replace <value> in the .env file with the new string
 
-The file should look something like this after setup:
-
+The file should look something like this after setup:  
 ```
 JWT_SECRET=supergoodandsecretkey
 DB_URI=mongodb+srv://myUser:myUserPassword@database.ishgo.mongodb.net/recom?retryWrites=true&w=majority
@@ -129,8 +137,6 @@ Managing categories, products, and users
 - Change the accountType field from `Customer` to `Admin` and click Update
 - Go to the admin panel at `admin.localhost`
 - Create categories, create products, manage accounts...
-
-In case you need to rebuild the docker images, run `npm run docker-build`
 
 Now you can connect to the client application by opening a browser and connecting to `localhost`  
 You can also connect to the admin application by connecting to `admin.localhost`  
