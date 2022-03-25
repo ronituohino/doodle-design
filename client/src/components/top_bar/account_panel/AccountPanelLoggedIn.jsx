@@ -11,9 +11,11 @@ import { useRouting } from "../../../hooks/useRouting"
 import { useAccount } from "../../../hooks/useAccount"
 import { useLanguage } from "../../../hooks/useLanguage"
 import { getText } from "../../../utils/dictionary"
+import { useSnackbar } from "notistack"
 
 const AccountPanelLoggedIn = ({ closeMenu }) => {
   const { language } = useLanguage()
+  const { enqueueSnackbar } = useSnackbar()
   const { openLink, accountLink } = useRouting()
   const { logOut, data } = useAccount()
 
@@ -42,7 +44,14 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
       <ListItem disablePadding>
         <ListItemButton
           onClick={() => {
-            logOut()
+            logOut(
+              enqueueSnackbar(
+                getText(language, "loggedOutNotification"),
+                {
+                  variant: "success",
+                }
+              )
+            )
             closeMenu()
           }}
         >

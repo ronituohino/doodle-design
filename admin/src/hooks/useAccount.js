@@ -22,10 +22,7 @@ export const useAccount = () => {
     },
     onCompleted: (response) => {
       setToken(response.login.token)
-
-      client.refetchQueries({
-        include: [ACCOUNT],
-      })
+      client.resetStore()
     },
     notifyOnNetworkStatusChange: true,
   })

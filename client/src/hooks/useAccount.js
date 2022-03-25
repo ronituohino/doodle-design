@@ -24,9 +24,7 @@ export const useAccount = (callback) => {
     onCompleted: (response) => {
       setToken(response.createAccount.token)
 
-      client.refetchQueries({
-        include: [ACCOUNT],
-      })
+      client.resetStore()
 
       if (callback) {
         callback()
@@ -45,9 +43,7 @@ export const useAccount = (callback) => {
     onCompleted: (response) => {
       setToken(response.login.token)
 
-      client.refetchQueries({
-        include: [ACCOUNT],
-      })
+      client.resetStore()
 
       if (callback) {
         callback()
