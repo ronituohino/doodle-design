@@ -19,6 +19,8 @@ import { hasParentWithMatchingSelector } from "../../../utils/utils"
 import { formatPrice } from "../../../utils/formatting"
 import { useRouting } from "../../../hooks/useRouting"
 
+import { getText } from "../../../utils/dictionary"
+
 // eslint-disable-next-line react/display-name
 const ShoppingCartProduct = ({
   cartObject,
@@ -222,7 +224,8 @@ const ShoppingCartProduct = ({
                 width: 20,
                 height: 20,
                 alignSelf: "center",
-                pb: 0.5,
+                mt: -1,
+                mb: 1,
               }}
             >
               <IconButton
@@ -244,9 +247,9 @@ const ShoppingCartProduct = ({
               value={productAmount}
               onChange={handleValueChange}
               onBlur={handleBlur}
+              color="secondary"
               size="small"
               sx={{
-                alignSelf: "center",
                 width: 46,
               }}
               inputProps={{
@@ -282,19 +285,22 @@ const ShoppingCartProduct = ({
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            paddingRight: 1,
-            paddingLeft: 1,
+            gap: "8px",
             width: 81,
-            height: 80,
           }}
         >
-          <Button onClick={() => setDeleteConfirm(false)}>
-            Cancel
+          <Button
+            variant="contained"
+            onClick={() => setDeleteConfirm(false)}
+          >
+            {getText(language, "cancel")}
           </Button>
           <Button
+            variant="contained"
+            color="secondary"
             onClick={() => removeItemFromCart(cartObject.product)}
           >
-            Delete
+            {getText(language, "delete")}
           </Button>
         </Box>
       )}
