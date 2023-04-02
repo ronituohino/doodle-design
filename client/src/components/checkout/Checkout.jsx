@@ -1,33 +1,27 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
-import {
-  Typography,
-  Paper,
-  Stepper,
-  Step,
-  StepLabel,
-} from "@mui/material"
+import { Typography, Paper, Stepper, Step, StepLabel } from "@mui/material";
 
-import Cart from "./cart/Cart"
-import Delivery from "./delivery_address/Delivery"
-import Payment from "./payment/Payment"
-import Confirmation from "./confirmation/Confirmation"
-import BillingAddress from "./billing_address/BillingAddress"
+import Cart from "./cart/Cart";
+import Delivery from "./delivery_address/Delivery";
+import Payment from "./payment/Payment";
+import Confirmation from "./confirmation/Confirmation";
+import BillingAddress from "./billing_address/BillingAddress";
 
-import { useCheckoutForms } from "./useCheckoutForms"
-import { useApolloClient, useMutation } from "@apollo/client"
-import { CREATE_ORDER } from "../../graphql/mutations"
-import { GET_ORDERS } from "../../graphql/queries"
-import { useRouting } from "../../hooks/useRouting"
-import { useShoppingCart } from "../../hooks/useShoppingCart"
-import { useSnackbar } from "notistack"
+import { useCheckoutForms } from "./useCheckoutForms";
+import { useApolloClient, useMutation } from "@apollo/client";
+import { CREATE_ORDER } from "../../graphql/mutations";
+import { GET_ORDERS } from "../../graphql/queries";
+import { useRouting } from "../../hooks/useRouting";
+import { useShoppingCart } from "../../hooks/useShoppingCart";
+import { useSnackbar } from "notistack";
 
-import { orderConstants } from "../../utils/constants"
-import { useLanguage } from "../../hooks/useLanguage"
-import { getText } from "../../utils/dictionary"
+import { orderConstants } from "../../utils/constants";
+import { useLanguage } from "../../hooks/useLanguage";
+import { getText } from "../../utils/dictionary";
 
 const Checkout = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   const steps = [
     {
       label: getText(language, "cart"),
@@ -45,29 +39,25 @@ const Checkout = () => {
     {
       label: getText(language, "confirmation"),
     },
-  ]
-  const client = useApolloClient()
-  const { enqueueSnackbar } = useSnackbar()
+  ];
+  const client = useApolloClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   // Stepper state variables
-  const [activeStep, setActiveStep] = useState(0)
+  const [activeStep, setActiveStep] = useState(0);
 
   // These states store steps as 0: true, 1: true ...
-  const [completed, setCompleted] = useState({})
-  const [failed, setFailed] = useState({})
+  const [completed, setCompleted] = useState({});
+  const [failed, setFailed] = useState({});
 
-  const {
-    billingFormik,
-    deliveryFormik,
-    paymentFormik,
-    confirmationFormik,
-  } = useCheckoutForms(orderConstants)
+  const { billingFormik, deliveryFormik, paymentFormik, confirmationFormik } =
+    useCheckoutForms(orderConstants);
 
   const allValid =
     billingFormik.isValid &&
     deliveryFormik.isValid &&
     paymentFormik.isValid &&
-    confirmationFormik.isValid
+    confirmationFormik.isValid;
 
   // Used to set checkout errors
   useEffect(() => {
@@ -76,96 +66,96 @@ const Checkout = () => {
       deliveryFormik.isValid,
       paymentFormik.isValid,
       confirmationFormik.isValid
-    )
+    );
     // eslint-disable-next-line
   }, [
     billingFormik.isValid,
     deliveryFormik.isValid,
     paymentFormik.isValid,
     confirmationFormik.isValid,
-  ])
+  ]);
 
   const checkout = {
     billingDetails: billingFormik.values,
     deliveryDetails: deliveryFormik.values,
     paymentDetails: paymentFormik.values,
     confirmationDetails: confirmationFormik.values,
-  }
+  };
 
   const handleComplete = () => {
-    const newCompleted = { ...completed }
-    newCompleted[activeStep] = true
-    setCompleted(newCompleted)
-    handleNext()
-  }
+    const newCompleted = { ...completed };
+    newCompleted[activeStep] = true;
+    setCompleted(newCompleted);
+    handleNext();
+  };
 
   const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1
-    setActiveStep(newActiveStep)
-  }
+        : activeStep + 1;
+    setActiveStep(newActiveStep);
+  };
 
-  const previousStepsCompleted = (index) => {
-    return completedSteps() >= index
-  }
+  const previousStepsCompleted = index => {
+    return completedSteps() >= index;
+  };
 
   const isLastStep = () => {
-    return activeStep === totalSteps() - 1
-  }
+    return activeStep === totalSteps() - 1;
+  };
 
   const totalSteps = () => {
-    return steps.length
-  }
+    return steps.length;
+  };
 
   const completedSteps = () => {
-    return Object.keys(completed).length
-  }
+    return Object.keys(completed).length;
+  };
 
   const allStepsCompleted = () => {
-    return completedSteps() === totalSteps()
-  }
+    return completedSteps() === totalSteps();
+  };
 
-  const { openLink, homeLink } = useRouting()
-  const { data, emptyCart } = useShoppingCart()
+  const { openLink, homeLink } = useRouting();
+  const { data, emptyCart } = useShoppingCart();
 
   const [createOrderMutation] = useMutation(CREATE_ORDER, {
     onCompleted: () => {
       enqueueSnackbar(getText(language, "orderReceived"), {
         variant: "success",
-      })
+      });
 
-      emptyCart()
+      emptyCart();
 
       // Refetch GET_ORDERS query
       client.refetchQueries({
         include: [GET_ORDERS],
-      })
+      });
 
       // Replace with success screen?
-      openLink(homeLink())
+      openLink(homeLink());
     },
-  })
+  });
 
   // This is called when all forms are filled,
   // and the purchase button is pressed
   const purchase = () => {
-    const products = []
+    const products = [];
 
-    data.cartProducts.forEach((cartObject) => {
-      const product = {}
+    data.cartProducts.forEach(cartObject => {
+      const product = {};
 
-      product.product = cartObject.product._id
-      product.price = cartObject.product.price
-      product.customization = cartObject.product.customization
-      product.amount = cartObject.amount
+      product.product = cartObject.product._id;
+      product.price = cartObject.product.price;
+      product.customization = cartObject.product.customization;
+      product.amount = cartObject.amount;
 
-      products.push(product)
-    })
+      products.push(product);
+    });
 
-    const billingAddress = checkout.billingDetails
-    let deliveryAddress = {}
+    const billingAddress = checkout.billingDetails;
+    let deliveryAddress = {};
 
     switch (checkout.deliveryDetails.deliveryMethod) {
       case orderConstants.HOME_DELIVERY:
@@ -173,58 +163,58 @@ const Checkout = () => {
           deliveryAddress = {
             method: orderConstants.HOME_DELIVERY,
             ...checkout.deliveryDetails.homeDeliveryAddress,
-          }
+          };
         } else {
           deliveryAddress = {
             method: orderConstants.HOME_DELIVERY,
             ...billingAddress,
-          }
+          };
         }
-        break
+        break;
       case orderConstants.POSTI_PARCEL:
         deliveryAddress = {
           method: orderConstants.POSTI_PARCEL,
           firstName: billingAddress.firstName,
           lastName: billingAddress.lastName,
           ...checkout.deliveryDetails.postiParcelAddress,
-        }
-        break
+        };
+        break;
       case orderConstants.STORE_PICKUP:
         deliveryAddress = {
           method: orderConstants.STORE_PICKUP,
           firstName: billingAddress.firstName,
           lastName: billingAddress.lastName,
           ...checkout.deliveryDetails.storePickupAddress,
-        }
-        break
+        };
+        break;
       default:
-        break
+        break;
     }
-    deliveryAddress.phone = checkout.deliveryDetails.phone
+    deliveryAddress.phone = checkout.deliveryDetails.phone;
 
-    const paymentDetails = { coupons: [] }
+    const paymentDetails = { coupons: [] };
 
     switch (checkout.paymentDetails.paymentMethod) {
       case orderConstants.PREPAYMENT:
         paymentDetails.details = {
           method: orderConstants.PREPAYMENT,
           provider: checkout.paymentDetails.prePayment,
-        }
-        break
+        };
+        break;
       case orderConstants.INSTALLMENT:
         paymentDetails.details = {
           method: orderConstants.INSTALLMENT,
           provider: checkout.paymentDetails.installment,
-        }
-        break
+        };
+        break;
       case orderConstants.LOCAL_PAYMENT:
         paymentDetails.details = {
           method: orderConstants.LOCAL_PAYMENT,
           provider: "",
-        }
-        break
+        };
+        break;
       default:
-        break
+        break;
     }
 
     createOrderMutation({
@@ -235,59 +225,45 @@ const Checkout = () => {
         paymentDetails,
         extrainfo: checkout.confirmationDetails.extrainfo,
       },
-    })
-  }
+    });
+  };
 
-  const regularLabel = { padding: 1 }
-  const clickableLabel = { padding: 1, cursor: "pointer" }
+  const regularLabel = { padding: 1 };
+  const clickableLabel = { padding: 1, cursor: "pointer" };
 
-  const handleErrors = (
-    billingValid,
-    deliveryValid,
-    paymentValid
-  ) => {
-    const newFailed = { ...failed }
+  const handleErrors = (billingValid, deliveryValid, paymentValid) => {
+    const newFailed = { ...failed };
 
     if (billingValid !== undefined) {
-      newFailed[1] = !billingValid
+      newFailed[1] = !billingValid;
     }
     if (deliveryValid !== undefined) {
-      newFailed[2] = !deliveryValid
+      newFailed[2] = !deliveryValid;
     }
     if (paymentValid !== undefined) {
-      newFailed[3] = !paymentValid
+      newFailed[3] = !paymentValid;
     }
 
-    setFailed(newFailed)
-  }
+    setFailed(newFailed);
+  };
 
   return (
     <>
-      <Stepper
-        nonLinear
-        activeStep={activeStep}
-        sx={{ marginBottom: 4 }}
-      >
+      <Stepper nonLinear activeStep={activeStep} sx={{ marginBottom: 4 }}>
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
             <Paper
               onClick={() => {
                 if (previousStepsCompleted(index)) {
-                  setActiveStep(index)
+                  setActiveStep(index);
                 }
               }}
               elevation={previousStepsCompleted(index) ? 4 : 0}
-              sx={
-                previousStepsCompleted(index)
-                  ? clickableLabel
-                  : regularLabel
-              }
+              sx={previousStepsCompleted(index) ? clickableLabel : regularLabel}
             >
               <StepLabel error={failed[index]}>
                 <Typography variant="body2">{step.label}</Typography>
-                <Typography variant="caption">
-                  {step.sublabel}
-                </Typography>
+                <Typography variant="caption">{step.sublabel}</Typography>
               </StepLabel>
             </Paper>
           </Step>
@@ -325,7 +301,7 @@ const Checkout = () => {
         hidden={activeStep !== 4}
       />
     </>
-  )
-}
+  );
+};
 
-export default Checkout
+export default Checkout;

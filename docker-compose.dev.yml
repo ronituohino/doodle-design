@@ -10,12 +10,12 @@ services:
       - --logpath
       - /var/log/mongodb/mongod.log
     ports:
-     - 27017:27017
+      - 27017:27017
     environment:
-     - MONGO_INITDB_ROOT_USERNAME=root
-     - MONGO_INITDB_ROOT_PASSWORD=example
-     - MONGO_INITDB_DATABASE=store
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=store
     volumes:
-     - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
-     - ./mongo/mongo_data:/data/db
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./mongo/mongo_data:/data/db
     container_name: mongo

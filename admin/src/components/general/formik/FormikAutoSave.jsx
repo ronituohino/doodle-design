@@ -1,26 +1,26 @@
-import { useCallback, useEffect } from "react"
-import { useDebouncedCallback } from "use-debounce"
+import { useCallback, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 const FormikAutoSave = ({ formik, onSave, debounceMs = 300 }) => {
   // Submit form when it is loaded
   // eslint-disable-next-line
-  useEffect(() => formik.submitForm(), [])
+  useEffect(() => formik.submitForm(), []);
 
   // eslint-disable-next-line
   const debouncedSubmit = useCallback(
     useDebouncedCallback(() => {
-      formik.submitForm()
+      formik.submitForm();
 
       if (onSave) {
-        onSave()
+        onSave();
       }
     }, debounceMs),
     [formik.submitForm, debounceMs]
-  )
+  );
 
-  useEffect(() => debouncedSubmit, [debouncedSubmit, formik.values])
+  useEffect(() => debouncedSubmit, [debouncedSubmit, formik.values]);
 
-  return <></>
-}
+  return <></>;
+};
 
-export default FormikAutoSave
+export default FormikAutoSave;

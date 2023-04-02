@@ -1,5 +1,5 @@
-import { useFormik } from "formik"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 import {
   InputAdornment,
@@ -7,18 +7,18 @@ import {
   Paper,
   Icon,
   Typography,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useState } from "react"
-import { useAccount } from "../../hooks/useAccount"
+import { useState } from "react";
+import { useAccount } from "../../hooks/useAccount";
 
-import FormikField from "../general/formik/FormikField"
+import FormikField from "../general/formik/FormikField";
 
-import LoadingButton from "../general/LoadingButton"
+import LoadingButton from "../general/LoadingButton";
 
 const Login = () => {
-  const { logIn, loginData } = useAccount()
-  const [waiting, setWaiting] = useState(false)
+  const { logIn, loginData } = useAccount();
+  const [waiting, setWaiting] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -29,22 +29,22 @@ const Login = () => {
       email: yup.string().required("Email is required"),
       password: yup.string().required("Password is required"),
     }),
-    onSubmit: (values) => {
-      setWaiting(true)
+    onSubmit: values => {
+      setWaiting(true);
       setTimeout(() => {
-        setWaiting(false)
-        logIn(values.email, values.password)
-      }, 3000)
+        setWaiting(false);
+        logIn(values.email, values.password);
+      }, 3000);
     },
-  })
+  });
 
   const [values, setValues] = useState({
     showPassword: false,
-  })
+  });
 
   const togglePasswordVisibility = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
 
   return (
     <Paper
@@ -57,10 +57,7 @@ const Login = () => {
         transform: "translate(-50%, -50%)",
       }}
     >
-      <Typography
-        color="grey.600"
-        sx={{ pb: 2, textAlign: "center" }}
-      >
+      <Typography color="grey.600" sx={{ pb: 2, textAlign: "center" }}>
         Log in as administrator
       </Typography>
       <FormikField
@@ -93,9 +90,7 @@ const Login = () => {
 
       <LoadingButton
         loading={waiting || (loginData ? loginData.loading : false)}
-        disabled={
-          !formik.isValid || formik.values === formik.initialValues
-        }
+        disabled={!formik.isValid || formik.values === formik.initialValues}
         color="primary"
         variant="contained"
         fullWidth
@@ -103,7 +98,7 @@ const Login = () => {
         text="Log in"
       />
     </Paper>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

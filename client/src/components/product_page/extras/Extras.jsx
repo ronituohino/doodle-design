@@ -1,14 +1,14 @@
-import { Paper, Tabs, Tab } from "@mui/material"
-import { useState } from "react"
-import { useLanguage } from "../../../hooks/useLanguage"
-import Ratings from "./Ratings"
-import { getText } from "../../../utils/dictionary"
+import { Paper, Tabs, Tab } from "@mui/material";
+import { useState } from "react";
+import { useLanguage } from "../../../hooks/useLanguage";
+import Ratings from "./Ratings";
+import { getText } from "../../../utils/dictionary";
 
 // Details, ratings, etc
 // eslint-disable-next-line
 const Extras = ({ product }) => {
-  const { language } = useLanguage()
-  const [tab, setTab] = useState(0)
+  const { language } = useLanguage();
+  const [tab, setTab] = useState(0);
 
   return (
     <Paper elecation={4}>
@@ -22,7 +22,7 @@ const Extras = ({ product }) => {
 
       <Ratings tab={tab} index={0} />
     </Paper>
-  )
-}
+  );
+};
 
-export default Extras
+export default Extras;

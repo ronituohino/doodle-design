@@ -9,48 +9,48 @@ import {
   MenuItem,
   Divider,
   Chip,
-} from "@mui/material"
-import { useRouting } from "../../../hooks/useRouting"
+} from "@mui/material";
+import { useRouting } from "../../../hooks/useRouting";
 
 import {
   formatMonth,
   formatPrice,
   formatTime,
-} from "../../../utils/formatting"
+} from "../../../utils/formatting";
 
-import LabelPaper from "../../general/LabelPaper"
-import AddressDisplay from "../../general/AddressDisplay"
+import LabelPaper from "../../general/LabelPaper";
+import AddressDisplay from "../../general/AddressDisplay";
 
-import { getFile } from "../../../utils/getFile"
+import { getFile } from "../../../utils/getFile";
 
-import { orderConstants } from "../../../utils/constants"
-import { getText } from "../../../utils/dictionary"
+import { orderConstants } from "../../../utils/constants";
+import { getText } from "../../../utils/dictionary";
 
-import hash from "object-hash"
+import hash from "object-hash";
 
 const Order = ({ order, language }) => {
-  const { openLink, productLink } = useRouting()
+  const { openLink, productLink } = useRouting();
   const totalPrice = () => {
-    let total = 0
-    order.products.forEach((orderProduct) => {
-      total += orderProduct.price.EUR * orderProduct.amount
-    })
-    return total
-  }
+    let total = 0;
+    order.products.forEach(orderProduct => {
+      total += orderProduct.price.EUR * orderProduct.amount;
+    });
+    return total;
+  };
 
-  let paymentMethodText = ""
+  let paymentMethodText = "";
   switch (order.paymentDetails.details.method) {
     case orderConstants.PREPAYMENT:
-      paymentMethodText = "Prepayment"
-      break
+      paymentMethodText = "Prepayment";
+      break;
     case orderConstants.INSTALLMENT:
-      paymentMethodText = "Installment"
-      break
+      paymentMethodText = "Installment";
+      break;
     case orderConstants.LOCAL_PAYMENT:
-      paymentMethodText = "Pay at the store"
-      break
+      paymentMethodText = "Pay at the store";
+      break;
     default:
-      break
+      break;
   }
 
   return (
@@ -81,7 +81,7 @@ const Order = ({ order, language }) => {
         <Box>
           <Divider />
           <List>
-            {order.products.map((productObject) => (
+            {order.products.map(productObject => (
               <MenuItem
                 key={hash(productObject)}
                 onClick={() =>
@@ -125,11 +125,9 @@ const Order = ({ order, language }) => {
                   </Typography>
 
                   {productObject.customization &&
-                    productObject.customization.map((c) => {
+                    productObject.customization.map(c => {
                       return (
-                        <Box
-                          key={`${c.label[language]}-${c.option[language]}`}
-                        >
+                        <Box key={`${c.label[language]}-${c.option[language]}`}>
                           <Typography
                             variant="caption"
                             sx={{
@@ -139,7 +137,7 @@ const Order = ({ order, language }) => {
                             {c.label[language]}: {c.option[language]}
                           </Typography>
                         </Box>
-                      )
+                      );
                     })}
                 </Box>
 
@@ -151,8 +149,7 @@ const Order = ({ order, language }) => {
                     }}
                   >
                     {formatPrice(
-                      productObject.product.price.EUR *
-                        productObject.amount,
+                      productObject.product.price.EUR * productObject.amount,
                       language,
                       "EUR"
                     )}
@@ -186,10 +183,7 @@ const Order = ({ order, language }) => {
             gap: "10px",
           }}
         >
-          <LabelPaper
-            variant="outlined"
-            label={getText(language, "total")}
-          >
+          <LabelPaper variant="outlined" label={getText(language, "total")}>
             <Typography
               noWrap
               sx={{
@@ -207,8 +201,7 @@ const Order = ({ order, language }) => {
           />
           <AddressDisplay
             label={
-              order.deliveryAddress.method ===
-              orderConstants.STORE_PICKUP
+              order.deliveryAddress.method === orderConstants.STORE_PICKUP
                 ? getText(language, "pickUpFrom")
                 : getText(language, "deliveryAddress")
             }
@@ -245,7 +238,7 @@ const Order = ({ order, language }) => {
         </Box>
       </AccordionDetails>
     </Accordion>
-  )
-}
+  );
+};
 
-export default Order
+export default Order;

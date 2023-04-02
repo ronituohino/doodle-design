@@ -1,2 +1,2 @@
-const currency = require("../constants/currency")
-module.exports = currency.getMongoose()
+const currency = require("../constants/currency");
+module.exports = currency.getMongoose();

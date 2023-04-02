@@ -1,18 +1,18 @@
-import { months } from "./constants"
+import { months } from "./constants";
 
 export const formatPrice = (price, language, currency) => {
   return new Intl.NumberFormat(language, {
     style: "currency",
     currency,
-  }).format(price)
-}
+  }).format(price);
+};
 
 export const formatMonth = (month, language) => {
-  return months[language][month - 1]
-}
+  return months[language][month - 1];
+};
 
 export const formatTime = (hours, minutes) => {
   return `${hours < 10 ? `0${hours}` : `${hours}`}:${
     minutes < 10 ? `0${minutes}` : `${minutes}`
-  }`
-}
+  }`;
+};

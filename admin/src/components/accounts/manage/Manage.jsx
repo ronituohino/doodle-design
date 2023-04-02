@@ -1,15 +1,15 @@
-import { useState } from "react"
-import { Box } from "@mui/material"
+import { useState } from "react";
+import { Box } from "@mui/material";
 
-import CategorySubtitle from "../../general/CategorySubtitle"
-import SearchBar from "../../general/SearchBar"
+import CategorySubtitle from "../../general/CategorySubtitle";
+import SearchBar from "../../general/SearchBar";
 
-import { useDebounce } from "use-debounce"
-import AccountList from "./AccountList"
+import { useDebounce } from "use-debounce";
+import AccountList from "./AccountList";
 
 const Manage = () => {
-  const [searchWord, setSearchWord] = useState("")
-  const [debouncedSearchWord] = useDebounce(searchWord, 300)
+  const [searchWord, setSearchWord] = useState("");
+  const [debouncedSearchWord] = useDebounce(searchWord, 300);
 
   return (
     <>
@@ -33,7 +33,7 @@ const Manage = () => {
         <AccountList userSearchFilter={debouncedSearchWord} />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default Manage
+export default Manage;

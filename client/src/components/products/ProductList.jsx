@@ -1,19 +1,19 @@
-import { Box, Pagination } from "@mui/material"
+import { Box, Pagination } from "@mui/material";
 
-import { useLazyQuery } from "@apollo/client"
-import { GET_PRODUCTS } from "../../graphql/queries"
+import { useLazyQuery } from "@apollo/client";
+import { GET_PRODUCTS } from "../../graphql/queries";
 
-import Loading from "../general/Loading"
-import ProductCard from "./ProductCard"
-import { useState } from "react"
-import { useEffect } from "react"
+import Loading from "../general/Loading";
+import ProductCard from "./ProductCard";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const ProductList = ({ category }) => {
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
   // eslint-disable-next-line
-  const [size, setSize] = useState(6)
+  const [size, setSize] = useState(6);
 
-  const [getProducts, { data, error }] = useLazyQuery(GET_PRODUCTS)
+  const [getProducts, { data, error }] = useLazyQuery(GET_PRODUCTS);
 
   // this is called whenever category is changed
   useEffect(() => {
@@ -23,15 +23,15 @@ const ProductList = ({ category }) => {
         page,
         size,
       },
-    })
-    setPage(0)
+    });
+    setPage(0);
     // eslint-disable-next-line
-  }, [category])
+  }, [category]);
 
   // callback from bottom pagination component
   const changePage = (event, value) => {
-    setPage(value - 1) // backend pagination starts from 0
-  }
+    setPage(value - 1); // backend pagination starts from 0
+  };
 
   return (
     <>
@@ -49,7 +49,7 @@ const ProductList = ({ category }) => {
           >
             {!data && <Loading size={16} />}
             {data &&
-              data.getProducts.docs.map((p) => (
+              data.getProducts.docs.map(p => (
                 <ProductCard key={p._id} product={p} />
               ))}
           </Box>
@@ -72,7 +72,7 @@ const ProductList = ({ category }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default ProductList
+export default ProductList;

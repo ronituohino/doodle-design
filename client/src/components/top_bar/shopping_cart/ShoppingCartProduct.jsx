@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 import {
   IconButton,
@@ -8,108 +8,89 @@ import {
   Typography,
   Button,
   Icon,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useShoppingCart } from "../../../hooks/useShoppingCart"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getFile } from "../../../utils/getFile"
+import { useShoppingCart } from "../../../hooks/useShoppingCart";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getFile } from "../../../utils/getFile";
 
-import { hasParentWithMatchingSelector } from "../../../utils/utils"
+import { hasParentWithMatchingSelector } from "../../../utils/utils";
 
-import { formatPrice } from "../../../utils/formatting"
-import { useRouting } from "../../../hooks/useRouting"
+import { formatPrice } from "../../../utils/formatting";
+import { useRouting } from "../../../hooks/useRouting";
 
-import { getText } from "../../../utils/dictionary"
+import { getText } from "../../../utils/dictionary";
 
 // eslint-disable-next-line react/display-name
-const ShoppingCartProduct = ({
-  cartObject,
-  hideControls,
-  closeMenu,
-}) => {
-  const {
-    setAmount,
-    increaseAmount,
-    decreaseAmount,
-    removeItemFromCart,
-  } = useShoppingCart()
-  const { language } = useLanguage()
-  const { openLink, productLink } = useRouting()
+const ShoppingCartProduct = ({ cartObject, hideControls, closeMenu }) => {
+  const { setAmount, increaseAmount, decreaseAmount, removeItemFromCart } =
+    useShoppingCart();
+  const { language } = useLanguage();
+  const { openLink, productLink } = useRouting();
 
-  const [productAmount, setProductAmount] = useState(
-    cartObject.amount
-  )
-  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [productAmount, setProductAmount] = useState(cartObject.amount);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   // Updates productAmount when amount is modified outside
   useEffect(() => {
-    setProductAmount(cartObject.amount)
-  }, [cartObject.amount])
+    setProductAmount(cartObject.amount);
+  }, [cartObject.amount]);
 
   // Strict input filtering
-  const filterInt = (value) => {
+  const filterInt = value => {
     if (/^[-+]?(\d+|Infinity)$/.test(value)) {
-      return Number(value)
+      return Number(value);
     } else {
-      return NaN
+      return NaN;
     }
-  }
+  };
 
   // Called when user manually enters numbers,
   // all numbers and "" allowed
 
   // Also push changes to cache
-  const handleValueChange = (e) => {
+  const handleValueChange = e => {
     if (e.target.value === "") {
-      setProductAmount("")
-      return
+      setProductAmount("");
+      return;
     }
 
-    const number = filterInt(e.target.value)
+    const number = filterInt(e.target.value);
     if (!isNaN(number) && number < 100) {
       if (number <= 0) {
-        setDeleteConfirm(true)
-        setProductAmount(cartObject.amount)
+        setDeleteConfirm(true);
+        setProductAmount(cartObject.amount);
       } else {
-        setProductAmount(e.target.value)
-        setAmount(cartObject.product, number)
+        setProductAmount(e.target.value);
+        setAmount(cartObject.product, number);
       }
     }
-  }
+  };
 
   // If the cart is closed while input is empty, set amount to 1
-  const handleBlur = (e) => {
+  const handleBlur = e => {
     if (e.target.value === "") {
-      setProductAmount(cartObject.amount)
+      setProductAmount(cartObject.amount);
     }
-  }
+  };
 
-  const checkLinkClick = (e) => {
-    if (
-      !hasParentWithMatchingSelector(
-        e.target,
-        "#product-controls",
-        true
-      )
-    ) {
+  const checkLinkClick = e => {
+    if (!hasParentWithMatchingSelector(e.target, "#product-controls", true)) {
       openLink(
-        productLink(
-          cartObject.product.category.urlPath,
-          cartObject.product._id
-        )
-      )
-      setDeleteConfirm(false)
+        productLink(cartObject.product.category.urlPath, cartObject.product._id)
+      );
+      setDeleteConfirm(false);
       if (closeMenu) {
-        closeMenu()
+        closeMenu();
       }
     }
-  }
+  };
 
   return (
     <MenuItem
       divider
       disableTouchRipple={true}
-      onClick={(e) => checkLinkClick(e)}
+      onClick={e => checkLinkClick(e)}
       sx={{
         display: "flex",
         flexDirection: "row",
@@ -149,7 +130,7 @@ const ShoppingCartProduct = ({
         </Typography>
 
         {cartObject.product.customization &&
-          cartObject.product.customization.map((c) => {
+          cartObject.product.customization.map(c => {
             return (
               <Box
                 key={`${cartObject.product.hash}-${c.label[language]}-${c.option[language]}`}
@@ -164,7 +145,7 @@ const ShoppingCartProduct = ({
                   {c.label[language]}: {c.option[language]}
                 </Typography>
               </Box>
-            )
+            );
           })}
       </Box>
 
@@ -189,11 +170,9 @@ const ShoppingCartProduct = ({
             color: "text.secondary",
           }}
         >
-          {`(${formatPrice(
-            cartObject.product.price.EUR,
-            language,
-            "EUR"
-          )} x${cartObject.amount})`}
+          {`(${formatPrice(cartObject.product.price.EUR, language, "EUR")} x${
+            cartObject.amount
+          })`}
         </Typography>
       </Box>
 
@@ -231,7 +210,7 @@ const ShoppingCartProduct = ({
               <IconButton
                 disabled={cartObject.amount < 99 ? false : true}
                 onClick={() => {
-                  increaseAmount(cartObject.product)
+                  increaseAmount(cartObject.product);
                 }}
                 sx={{
                   width: 20,
@@ -289,10 +268,7 @@ const ShoppingCartProduct = ({
             width: 81,
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() => setDeleteConfirm(false)}
-          >
+          <Button variant="contained" onClick={() => setDeleteConfirm(false)}>
             {getText(language, "cancel")}
           </Button>
           <Button
@@ -305,7 +281,7 @@ const ShoppingCartProduct = ({
         </Box>
       )}
     </MenuItem>
-  )
-}
+  );
+};
 
-export default ShoppingCartProduct
+export default ShoppingCartProduct;

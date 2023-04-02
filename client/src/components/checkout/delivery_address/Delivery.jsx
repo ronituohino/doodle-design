@@ -1,19 +1,19 @@
-import { Button, Container, Box } from "@mui/material"
-import FormikRadioField from "../../general/formik/radio/FormikRadioField"
-import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup"
-import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion"
-import ParcelAddressSelection from "./ParcelAddressSelection"
-import HomeDeliveryAddress from "./HomeDeliveryAddress"
-import AddressDisplay from "../../general/AddressDisplay"
-import FormikAutoSave from "../../general/formik/FormikAutoSave"
-import FormikField from "../../general/formik/FormikField"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import { Button, Container, Box } from "@mui/material";
+import FormikRadioField from "../../general/formik/radio/FormikRadioField";
+import FormikRadioGroup from "../../general/formik/radio/FormikRadioGroup";
+import FormikRadioAccordion from "../../general/formik/radio/FormikRadioAccordion";
+import ParcelAddressSelection from "./ParcelAddressSelection";
+import HomeDeliveryAddress from "./HomeDeliveryAddress";
+import AddressDisplay from "../../general/AddressDisplay";
+import FormikAutoSave from "../../general/formik/FormikAutoSave";
+import FormikField from "../../general/formik/FormikField";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const Delivery = ({ formik, next, checkout, constants, hidden }) => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   const nextButtonDisabled =
-    !checkout || !checkout.deliveryDetails || !formik.isValid
+    !checkout || !checkout.deliveryDetails || !formik.isValid;
 
   return (
     <>
@@ -43,10 +43,7 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                     variant="outlined"
                     address={formik.values.postiParcelAddress}
                     enterEdit={() =>
-                      formik.setFieldValue(
-                        "postiParcelAddress",
-                        undefined
-                      )
+                      formik.setFieldValue("postiParcelAddress", undefined)
                     }
                     sx={{ mr: 26 }}
                   />
@@ -54,11 +51,8 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
                 {!formik.values.postiParcelAddress && (
                   <ParcelAddressSelection
                     formik={formik}
-                    setAddress={(values) =>
-                      formik.setFieldValue(
-                        "postiParcelAddress",
-                        values
-                      )
+                    setAddress={values =>
+                      formik.setFieldValue("postiParcelAddress", values)
                     }
                   />
                 )}
@@ -110,7 +104,7 @@ const Delivery = ({ formik, next, checkout, constants, hidden }) => {
         </Container>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Delivery
+export default Delivery;

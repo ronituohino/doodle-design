@@ -1,6 +1,6 @@
-import ReceiptLine from "./ReceiptLine"
+import ReceiptLine from "./ReceiptLine";
 
-import { formatPrice } from "../../../../utils/formatting"
+import { formatPrice } from "../../../../utils/formatting";
 
 const ProductListing = ({ cartObject, language }) => {
   return (
@@ -15,7 +15,7 @@ const ProductListing = ({ cartObject, language }) => {
         }}
       />
 
-      {cartObject.product.customization.map((c) => {
+      {cartObject.product.customization.map(c => {
         return (
           <ReceiptLine
             key={`${cartObject.product.hash}-${c.label[language]}-${c.option[language]}`}
@@ -26,7 +26,7 @@ const ProductListing = ({ cartObject, language }) => {
               color: "text.secondary",
             }}
           />
-        )
+        );
       })}
 
       <ReceiptLine
@@ -47,7 +47,7 @@ const ProductListing = ({ cartObject, language }) => {
         }}
       />
     </>
-  )
-}
+  );
+};
 
-export default ProductListing
+export default ProductListing;

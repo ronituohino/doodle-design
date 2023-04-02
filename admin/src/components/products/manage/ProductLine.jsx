@@ -6,8 +6,8 @@ import {
   Button,
   ListItemText,
   Divider,
-} from "@mui/material"
-import { getFile } from "../../../utils/getFile"
+} from "@mui/material";
+import { getFile } from "../../../utils/getFile";
 
 const ProductLine = ({
   product,
@@ -22,10 +22,7 @@ const ProductLine = ({
       <ListItem>
         <img
           component="img"
-          src={getFile(
-            product.images[0]._id,
-            product.images[0].filename
-          )}
+          src={getFile(product.images[0]._id, product.images[0].filename)}
           alt={product.name[language]}
           style={{
             width: "50px",
@@ -45,10 +42,7 @@ const ProductLine = ({
               <Icon>visibility_off</Icon>
             )}
           </IconButton>
-          <Button
-            onClick={() => openModifyDialog(product)}
-            variant="contained"
-          >
+          <Button onClick={() => openModifyDialog(product)} variant="contained">
             Modify
           </Button>
           <Button
@@ -61,7 +55,7 @@ const ProductLine = ({
         </Box>
       </ListItem>
     </>
-  )
-}
+  );
+};
 
-export default ProductLine
+export default ProductLine;

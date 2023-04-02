@@ -1,4 +1,4 @@
-import { unstable_createMuiStrictModeTheme } from "@mui/material/styles"
+import { unstable_createMuiStrictModeTheme } from "@mui/material/styles";
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
@@ -12,6 +12,6 @@ const theme = unstable_createMuiStrictModeTheme({
   typography: {
     fontFamily: ['"Segoe UI"'].join(","),
   },
-})
+});
 
-export default theme
+export default theme;

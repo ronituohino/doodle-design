@@ -1,7 +1,7 @@
-import { Container } from "@mui/material"
+import { Container } from "@mui/material";
 
-import TopBar from "../top_bar/TopBar"
-import { Outlet } from "react-router-dom"
+import TopBar from "../top_bar/TopBar";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
@@ -11,7 +11,7 @@ const Layout = () => {
         <Outlet />
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

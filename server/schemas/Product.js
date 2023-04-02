@@ -1,9 +1,9 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const LanguageString = require("../types/LanguageString")
-const CurrencyFloat = require("../types/CurrencyFloat")
+const LanguageString = require("../types/LanguageString");
+const CurrencyFloat = require("../types/CurrencyFloat");
 
-const mongoosePaginate = require("mongoose-paginate-v2")
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const productSchema = new mongoose.Schema({
   name: { type: LanguageString, required: true },
@@ -22,48 +22,45 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   visible: { type: Boolean, required: true },
-})
-productSchema.plugin(mongoosePaginate)
+});
+productSchema.plugin(mongoosePaginate);
 
-const Product = mongoose.model("Product", productSchema)
+const Product = mongoose.model("Product", productSchema);
 
-const { deleteProductFiles } = require("../utils/files")
+const { deleteProductFiles } = require("../utils/files");
 
-const { getPagination } = require("../utils/serverUtils")
-const {
-  isAccountType,
-  requireAdmin,
-} = require("../utils/authentication")
+const { getPagination } = require("../utils/serverUtils");
+const { isAccountType, requireAdmin } = require("../utils/authentication");
 
 const productResolvers = {
   Product: {
-    category: async (root) => {
-      const populated = await root.populate("category")
-      return populated.category
+    category: async root => {
+      const populated = await root.populate("category");
+      return populated.category;
     },
-    images: async (root) => {
-      const populated = await root.populate("images")
-      return populated.images
+    images: async root => {
+      const populated = await root.populate("images");
+      return populated.images;
     },
   },
 
   Query: {
     productCount: async () => {
-      const products = await Product.find({})
-      return products.length
+      const products = await Product.find({});
+      return products.length;
     },
     getProducts: async (root, args, context) => {
-      const type = isAccountType(context)
-      const hideInvisible = type.customer || type.none
+      const type = isAccountType(context);
+      const hideInvisible = type.customer || type.none;
 
-      const searchObject = {}
+      const searchObject = {};
       if (args.search) {
-        const searchKey = `name.${args.search.searchLanguage}`
+        const searchKey = `name.${args.search.searchLanguage}`;
         const searchParams = {
           $regex: `${args.search.searchWord}`,
           $options: "i",
-        }
-        searchObject[searchKey] = searchParams
+        };
+        searchObject[searchKey] = searchParams;
       }
 
       const products = await Product.paginate(
@@ -73,20 +70,20 @@ const productResolvers = {
           ...(args.search != null && searchObject),
         },
         getPagination(args.page, args.size)
-      )
+      );
 
-      return products
+      return products;
     },
 
     getProductById: async (root, args) => {
-      const product = await Product.findById(args.id)
-      return product
+      const product = await Product.findById(args.id);
+      return product;
     },
   },
 
   Mutation: {
     createProduct: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
       const product = new Product({
         name: args.name,
@@ -96,18 +93,18 @@ const productResolvers = {
         images: args.images,
         category: args.category,
         visible: false,
-      })
+      });
 
-      const result = await product.save()
-      return result
+      const result = await product.save();
+      return result;
     },
 
     editProduct: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
       // Remove previous images
       if (args.images) {
-        await deleteProductFiles(args._id)
+        await deleteProductFiles(args._id);
       }
 
       // variable != null, will catch both null and undefined
@@ -127,21 +124,21 @@ const productResolvers = {
           ...(args.images != null && { images: args.images }),
         },
         { new: true }
-      )
+      );
 
-      return product
+      return product;
     },
 
     deleteProduct: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
-      await deleteProductFiles(args._id)
+      await deleteProductFiles(args._id);
 
-      const result = await Product.deleteOne({ _id: args._id })
-      return result.deletedCount === 1
+      const result = await Product.deleteOne({ _id: args._id });
+      return result.deletedCount === 1;
     },
   },
-}
+};
 
 const productTypeDefs = `
   type Product {
@@ -212,10 +209,10 @@ const productTypeDefs = `
     searchWord: String!
     searchLanguage: String!
   }
-`
+`;
 
 module.exports = {
   Product,
   productResolvers,
   productTypeDefs,
-}
+};

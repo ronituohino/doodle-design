@@ -4,7 +4,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-} from "@mui/material"
+} from "@mui/material";
 
 const FormikRadioAccordion = ({ title, text, checked, children }) => {
   return (
@@ -24,7 +24,7 @@ const FormikRadioAccordion = ({ title, text, checked, children }) => {
       </AccordionSummary>
       {children && <AccordionDetails>{children}</AccordionDetails>}
     </Accordion>
-  )
-}
+  );
+};
 
-export default FormikRadioAccordion
+export default FormikRadioAccordion;

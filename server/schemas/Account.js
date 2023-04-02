@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const { UserInputError } = require("apollo-server-express")
+const { UserInputError } = require("apollo-server-express");
 
 const accountSchema = new mongoose.Schema({
   username: { type: String, required: true },
@@ -23,27 +23,24 @@ const accountSchema = new mongoose.Schema({
       amount: { type: Number, required: true },
     },
   ],
-})
+});
 
-const Account = mongoose.model("Account", accountSchema)
+const Account = mongoose.model("Account", accountSchema);
 
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 
-const { hashPassword, createToken } = require("../utils/serverUtils")
+const { hashPassword, createToken } = require("../utils/serverUtils");
 
-const {
-  requireLogin,
-  requireAdmin,
-} = require("../utils/authentication")
-const { isAccountType, types } = require("../constants/accountTypes")
+const { requireLogin, requireAdmin } = require("../utils/authentication");
+const { isAccountType, types } = require("../constants/accountTypes");
 
 const accountResolvers = {
   Query: {
     me: (root, args, context) => {
-      return context.currentAccount
+      return context.currentAccount;
     },
     getAccounts: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
       const results = await Account.find({
         ...(args.email != null && {
@@ -52,36 +49,33 @@ const accountResolvers = {
             $options: "i",
           },
         }),
-      })
+      });
 
-      return results
+      return results;
     },
     getAccountTypes: () => {
-      return types
+      return types;
     },
   },
   Mutation: {
     login: async (root, args) => {
-      const user = await Account.findOne({ email: args.email })
+      const user = await Account.findOne({ email: args.email });
 
       if (!user) {
-        throw new UserInputError("Invalid credentials")
+        throw new UserInputError("Invalid credentials");
       }
 
-      const validPassword = await bcrypt.compare(
-        args.password,
-        user.password
-      )
+      const validPassword = await bcrypt.compare(args.password, user.password);
 
       if (!validPassword) {
-        throw new UserInputError("Invalid credentials")
+        throw new UserInputError("Invalid credentials");
       }
 
-      return createToken(user._id)
+      return createToken(user._id);
     },
 
     createAccount: async (root, args) => {
-      const passwordHash = await hashPassword(args.password)
+      const passwordHash = await hashPassword(args.password);
 
       const user = new Account({
         username: args.username,
@@ -90,21 +84,19 @@ const accountResolvers = {
         accountType: types.CUSTOMER,
         cart: [],
         verified: false,
-      })
+      });
 
       try {
-        const result = await user.save()
-        return createToken(result._id)
+        const result = await user.save();
+        return createToken(result._id);
       } catch (e) {
-        throw new UserInputError(
-          "Account with given email already exists"
-        )
+        throw new UserInputError("Account with given email already exists");
       }
     },
 
     // Modifies anyone's account
     editAccountAdmin: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
       const user = await Account.findByIdAndUpdate(
         args._id,
@@ -123,14 +115,14 @@ const accountResolvers = {
           }),
         },
         { new: true }
-      )
+      );
 
-      return user
+      return user;
     },
 
     // Modifies only own account
     editAccountClient: async (root, args, context) => {
-      requireLogin(context)
+      requireLogin(context);
 
       const user = await Account.findByIdAndUpdate(
         context.currentAccount._id,
@@ -144,21 +136,21 @@ const accountResolvers = {
           }),
         },
         { new: true }
-      )
+      );
 
-      return user
+      return user;
     },
 
     // This will delete account information, but the orders placed
     // by that account will remain in the database
     deleteAccount: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
-      const result = await Account.deleteOne({ _id: args._id })
-      return result.deletedCount === 1
+      const result = await Account.deleteOne({ _id: args._id });
+      return result.deletedCount === 1;
     },
   },
-}
+};
 
 const accountTypeDefs = `
   type Account {
@@ -232,10 +224,10 @@ const accountTypeDefs = `
     customization: [OptionInput]
     amount: Int!
   }
-`
+`;
 
 module.exports = {
   Account,
   accountResolvers,
   accountTypeDefs,
-}
+};

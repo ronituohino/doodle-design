@@ -4,23 +4,23 @@ import {
   ListItemText,
   ListItemIcon,
   Icon,
-} from "@mui/material"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+} from "@mui/material";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
-import { useRouting } from "../../../hooks/useRouting"
+import { useRouting } from "../../../hooks/useRouting";
 
 const AccountPanelNotLoggedIn = ({ closeMenu }) => {
-  const { language } = useLanguage()
-  const { openLink, loginLink, registerLink } = useRouting()
+  const { language } = useLanguage();
+  const { openLink, loginLink, registerLink } = useRouting();
 
   return (
     <>
       <ListItem disablePadding>
         <ListItemButton
           onClick={() => {
-            closeMenu()
-            openLink(loginLink())
+            closeMenu();
+            openLink(loginLink());
           }}
         >
           <ListItemIcon>
@@ -33,20 +33,18 @@ const AccountPanelNotLoggedIn = ({ closeMenu }) => {
       <ListItem disablePadding>
         <ListItemButton
           onClick={() => {
-            closeMenu()
-            openLink(registerLink())
+            closeMenu();
+            openLink(registerLink());
           }}
         >
           <ListItemIcon>
             <Icon>person_add</Icon>
           </ListItemIcon>
-          <ListItemText
-            primary={`${getText(language, "register")}`}
-          />
+          <ListItemText primary={`${getText(language, "register")}`} />
         </ListItemButton>
       </ListItem>
     </>
-  )
-}
+  );
+};
 
-export default AccountPanelNotLoggedIn
+export default AccountPanelNotLoggedIn;

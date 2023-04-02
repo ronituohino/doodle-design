@@ -1,13 +1,13 @@
-import { Box, Paper, Modal, IconButton, Icon } from "@mui/material"
-import { useState } from "react"
-import { renderRow } from "./ProductPicture"
+import { Box, Paper, Modal, IconButton, Icon } from "@mui/material";
+import { useState } from "react";
+import { renderRow } from "./ProductPicture";
 
-import { getFile } from "../../../utils/getFile"
-import { FixedSizeList } from "react-window"
+import { getFile } from "../../../utils/getFile";
+import { FixedSizeList } from "react-window";
 
 const Pictures = ({ product }) => {
-  const [shownMainImage, setShownMainImage] = useState(0)
-  const [imageModalOpen, setImageModalOpen] = useState(false)
+  const [shownMainImage, setShownMainImage] = useState(0);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
   return (
     <Paper elevation={4} sx={{ display: "flex", padding: 2 }}>
       <Box sx={{ mr: 1 }}>
@@ -46,10 +46,7 @@ const Pictures = ({ product }) => {
         />
       </Box>
 
-      <Modal
-        open={imageModalOpen}
-        onClose={() => setImageModalOpen(false)}
-      >
+      <Modal open={imageModalOpen} onClose={() => setImageModalOpen(false)}>
         <Paper
           sx={{
             width: "560px",
@@ -90,7 +87,7 @@ const Pictures = ({ product }) => {
         </Paper>
       </Modal>
     </Paper>
-  )
-}
+  );
+};
 
-export default Pictures
+export default Pictures;

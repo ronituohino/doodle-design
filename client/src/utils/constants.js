@@ -6,7 +6,7 @@ export const orderConstants = {
   PREPAYMENT: "prepayment",
   INSTALLMENT: "installment",
   LOCAL_PAYMENT: "local-payment",
-}
+};
 
 export const months = {
   en: [
@@ -37,4 +37,4 @@ export const months = {
     "Marraskuu",
     "Joulukuu",
   ],
-}
+};

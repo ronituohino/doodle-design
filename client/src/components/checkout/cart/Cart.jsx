@@ -1,24 +1,24 @@
-import { Box, Button, Paper, Typography } from "@mui/material"
+import { Box, Button, Paper, Typography } from "@mui/material";
 
-import { useRouting } from "../../../hooks/useRouting"
-import { useAccount } from "../../../hooks/useAccount"
-import { useShoppingCart } from "../../../hooks/useShoppingCart"
+import { useRouting } from "../../../hooks/useRouting";
+import { useAccount } from "../../../hooks/useAccount";
+import { useShoppingCart } from "../../../hooks/useShoppingCart";
 
-import ShoppingCartProduct from "../../top_bar/shopping_cart/ShoppingCartProduct"
-import Receipt from "./receipt/Receipt"
-import Coupons from "./Coupons"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import ShoppingCartProduct from "../../top_bar/shopping_cart/ShoppingCartProduct";
+import Receipt from "./receipt/Receipt";
+import Coupons from "./Coupons";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const Cart = ({ next, hideControls, hidden, children }) => {
-  const { language } = useLanguage()
-  const { openLink, loginLink } = useRouting()
+  const { language } = useLanguage();
+  const { openLink, loginLink } = useRouting();
 
-  const account = useAccount()
-  const loggedIn = account.loggedIn()
+  const account = useAccount();
+  const loggedIn = account.loggedIn();
 
-  const cart = useShoppingCart()
-  const total = cart.totalAmountOfProducts()
+  const cart = useShoppingCart();
+  const total = cart.totalAmountOfProducts();
 
   return (
     <>
@@ -36,7 +36,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
               </Box>
             )}
             {total > 0 &&
-              cart.data.cartProducts.map((obj) => (
+              cart.data.cartProducts.map(obj => (
                 <ShoppingCartProduct
                   key={obj.product.hash}
                   cartObject={obj}
@@ -86,7 +86,7 @@ const Cart = ({ next, hideControls, hidden, children }) => {
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;

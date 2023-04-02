@@ -1,9 +1,9 @@
-import FormikField from "./FormikField"
-import FormikBox from "./FormikBox"
+import FormikField from "./FormikField";
+import FormikBox from "./FormikBox";
 
-import { Box } from "@mui/material"
+import { Box } from "@mui/material";
 
-import { getInnerFieldFromObject } from "../../../utils/utils"
+import { getInnerFieldFromObject } from "../../../utils/utils";
 
 const FormikFieldArray = ({
   formik,
@@ -14,13 +14,13 @@ const FormikFieldArray = ({
   sx,
   ...props
 }) => {
-  const object = getInnerFieldFromObject(formik.values, field)
+  const object = getInnerFieldFromObject(formik.values, field);
 
   return (
     <>
       <FormikBox label={label} sx={{ mb: 2 }}>
         <Box sx={sx}>
-          {Object.keys(object).map((key) => {
+          {Object.keys(object).map(key => {
             return (
               <FormikField
                 key={key}
@@ -31,14 +31,14 @@ const FormikFieldArray = ({
                 sx={{ mb: 2 }}
                 {...props}
               />
-            )
+            );
           })}
 
           {children}
         </Box>
       </FormikBox>
     </>
-  )
-}
+  );
+};
 
-export default FormikFieldArray
+export default FormikFieldArray;

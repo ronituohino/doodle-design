@@ -1,26 +1,23 @@
-import { Box, Typography, Paper } from "@mui/material"
+import { Box, Typography, Paper } from "@mui/material";
 
-import FormikField from "../../general/formik/FormikField"
-import FormikCheckbox from "../../general/formik/FormikCheckbox"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import FormikField from "../../general/formik/FormikField";
+import FormikCheckbox from "../../general/formik/FormikCheckbox";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const HomeDeliveryAddress = ({ formik }) => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   // Fixes tiny offset
   const paperPaddingBottom = formik.values.useExplicitDeliveryAddress
     ? { paddingBottom: 2 }
-    : { paddingBottom: 1 }
+    : { paddingBottom: 1 };
 
   return (
     <Paper
       variant="outlined"
       sx={{ padding: 2, marginRight: 6, ...paperPaddingBottom }}
     >
-      <FormikCheckbox
-        formik={formik}
-        field="useExplicitDeliveryAddress"
-      >
+      <FormikCheckbox formik={formik} field="useExplicitDeliveryAddress">
         <Typography sx={{ alignSelf: "center" }}>
           {getText(language, "recipientIsNotMe")}
         </Typography>
@@ -68,7 +65,7 @@ const HomeDeliveryAddress = ({ formik }) => {
         </>
       )}
     </Paper>
-  )
-}
+  );
+};
 
-export default HomeDeliveryAddress
+export default HomeDeliveryAddress;

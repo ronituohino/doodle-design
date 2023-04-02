@@ -2,5 +2,5 @@
 // backend server with location information
 
 export const getFile = (fileid, filename) => {
-  return `${process.env.REACT_APP_BACKEND_URL}/images/${fileid}-${filename}`
-}
+  return `${process.env.REACT_APP_BACKEND_URL}/images/${fileid}-${filename}`;
+};

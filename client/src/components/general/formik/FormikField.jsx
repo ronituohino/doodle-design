@@ -1,6 +1,6 @@
-import { TextField } from "@mui/material"
-import { getInnerFieldFromObject } from "../../../utils/utils"
-import { isString } from "../../../utils/utils"
+import { TextField } from "@mui/material";
+import { getInnerFieldFromObject } from "../../../utils/utils";
+import { isString } from "../../../utils/utils";
 
 const FormikField = ({
   field,
@@ -12,10 +12,10 @@ const FormikField = ({
   sx,
   ...props
 }) => {
-  const value = getInnerFieldFromObject(formik.values, field)
-  const error = getInnerFieldFromObject(formik.errors, field)
+  const value = getInnerFieldFromObject(formik.values, field);
+  const error = getInnerFieldFromObject(formik.errors, field);
 
-  const string = isString(error)
+  const string = isString(error);
 
   return (
     <TextField
@@ -34,7 +34,7 @@ const FormikField = ({
       sx={sx}
       {...props}
     />
-  )
-}
+  );
+};
 
-export default FormikField
+export default FormikField;

@@ -1,5 +1,5 @@
-import { LoadingButton as LB } from "@mui/lab"
-import Loading from "./Loading"
+import { LoadingButton as LB } from "@mui/lab";
+import Loading from "./Loading";
 
 const LoadingButton = ({
   text,
@@ -25,7 +25,7 @@ const LoadingButton = ({
     >
       {text}
     </LB>
-  )
-}
+  );
+};
 
-export default LoadingButton
+export default LoadingButton;

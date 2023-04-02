@@ -1,12 +1,12 @@
-import { useEffect } from "react"
+import { useEffect } from "react";
 
-import { useFormik } from "formik"
-import * as yup from "yup"
-import { useLanguage } from "../../hooks/useLanguage"
-import { getText } from "../../utils/dictionary"
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useLanguage } from "../../hooks/useLanguage";
+import { getText } from "../../utils/dictionary";
 
-export const useCheckoutForms = (constants) => {
-  const { language } = useLanguage()
+export const useCheckoutForms = constants => {
+  const { language } = useLanguage();
 
   // The main checkout states
   const billingFormik = useFormik({
@@ -20,15 +20,9 @@ export const useCheckoutForms = (constants) => {
       company: "",
     },
     validationSchema: yup.object({
-      firstName: yup
-        .string()
-        .required(getText(language, "firstNameRequired")),
-      lastName: yup
-        .string()
-        .required(getText(language, "lastNameRequired")),
-      address: yup
-        .string()
-        .required(getText(language, "addressRequired")),
+      firstName: yup.string().required(getText(language, "firstNameRequired")),
+      lastName: yup.string().required(getText(language, "lastNameRequired")),
+      address: yup.string().required(getText(language, "addressRequired")),
       city: yup.string().required(getText(language, "cityRequired")),
       zipCode: yup
         .string()
@@ -36,15 +30,13 @@ export const useCheckoutForms = (constants) => {
         .min(5, getText(language, "mustBeFiveDigits"))
         .max(5, getText(language, "mustBeFiveDigits"))
         .required(getText(language, "zipCodeRequired")),
-      country: yup
-        .string()
-        .required(getText(language, "countryRequired")),
+      country: yup.string().required(getText(language, "countryRequired")),
       company: yup.string(),
     }),
     onSubmit: () => {},
     validateOnChange: false,
     validateOnBlur: false,
-  })
+  });
 
   const deliveryFormik = useFormik({
     initialValues: {
@@ -110,10 +102,7 @@ export const useCheckoutForms = (constants) => {
                 .required(getText(language, "firstNameRequired")),
               zipCode: yup
                 .string()
-                .matches(
-                  /^[0-9]+$/,
-                  getText(language, "mustBeDigitsOnly")
-                )
+                .matches(/^[0-9]+$/, getText(language, "mustBeDigitsOnly"))
                 .min(5, getText(language, "mustBeFiveDigits"))
                 .max(5, getText(language, "mustBeFiveDigits"))
                 .required(getText(language, "firstNameRequired")),
@@ -122,10 +111,7 @@ export const useCheckoutForms = (constants) => {
                 .required(getText(language, "firstNameRequired")),
               phone: yup
                 .string()
-                .matches(
-                  /^[0-9]+$/,
-                  getText(language, "mustBeDigitsOnly")
-                )
+                .matches(/^[0-9]+$/, getText(language, "mustBeDigitsOnly"))
                 .min(10, getText(language, "mustBeTenDigits"))
                 .max(10, getText(language, "mustBeTenDigits")),
             })
@@ -134,17 +120,14 @@ export const useCheckoutForms = (constants) => {
 
       // POSTI_PARCEL
       postiParcelAddress: yup.object().when("deliveryMethod", {
-        is: (deliveryMethod) =>
-          deliveryMethod === constants.POSTI_PARCEL,
-        then: yup
-          .object()
-          .required(getText(language, "parcelAddressMissing")),
+        is: deliveryMethod => deliveryMethod === constants.POSTI_PARCEL,
+        then: yup.object().required(getText(language, "parcelAddressMissing")),
       }),
 
       // STORE_PICKUP
       storePickupAddress: yup.object(),
     }),
-    onSubmit: (values) => {
+    onSubmit: values => {
       // If the user goes back to select another delivery method,
       // which doesn't allow local payment,
       // invalidate paymentFormik
@@ -152,10 +135,10 @@ export const useCheckoutForms = (constants) => {
         values.deliveryMethod !== constants.STORE_PICKUP &&
         paymentFormik.values.paymentMethod === constants.LOCAL_PAYMENT
       ) {
-        paymentFormik.setFieldValue("paymentMethod", "")
+        paymentFormik.setFieldValue("paymentMethod", "");
       }
     },
-  })
+  });
 
   const paymentFormik = useFormik({
     initialValues: {
@@ -170,22 +153,17 @@ export const useCheckoutForms = (constants) => {
         .required(getText(language, "paymentMethodRequired")),
 
       prePayment: yup.string().when("paymentMethod", {
-        is: (paymentMethod) => paymentMethod === constants.PREPAYMENT,
-        then: yup
-          .string()
-          .required(getText(language, "prePaymentRequired")),
+        is: paymentMethod => paymentMethod === constants.PREPAYMENT,
+        then: yup.string().required(getText(language, "prePaymentRequired")),
       }),
 
       installment: yup.string().when("paymentMethod", {
-        is: (paymentMethod) =>
-          paymentMethod === constants.INSTALLMENT,
-        then: yup
-          .string()
-          .required(getText(language, "installmentRequired")),
+        is: paymentMethod => paymentMethod === constants.INSTALLMENT,
+        then: yup.string().required(getText(language, "installmentRequired")),
       }),
     }),
     onSubmit: () => {},
-  })
+  });
 
   const confirmationFormik = useFormik({
     initialValues: {
@@ -197,20 +175,20 @@ export const useCheckoutForms = (constants) => {
     }),
 
     onSubmit: () => {},
-  })
+  });
 
   useEffect(() => {
-    billingFormik.validateForm()
-    deliveryFormik.validateForm()
-    paymentFormik.validateForm()
-    confirmationFormik.validateForm()
+    billingFormik.validateForm();
+    deliveryFormik.validateForm();
+    paymentFormik.validateForm();
+    confirmationFormik.validateForm();
     // eslint-disable-next-line
-  }, [language])
+  }, [language]);
 
   return {
     billingFormik,
     deliveryFormik,
     paymentFormik,
     confirmationFormik,
-  }
-}
+  };
+};

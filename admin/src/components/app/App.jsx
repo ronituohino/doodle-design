@@ -1,18 +1,18 @@
-import { useAccount } from "../../hooks/useAccount"
+import { useAccount } from "../../hooks/useAccount";
 
-import { Routes, Route, Navigate, Outlet } from "react-router-dom"
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
-import Layout from "./Layout"
+import Layout from "./Layout";
 
-import ProductManage from "../products/manage/Manage"
-import Categories from "../products/categories/Categories"
-import { useRouting } from "../../hooks/useRouting"
+import ProductManage from "../products/manage/Manage";
+import Categories from "../products/categories/Categories";
+import { useRouting } from "../../hooks/useRouting";
 
-import AccountManage from "../accounts/manage/Manage"
+import AccountManage from "../accounts/manage/Manage";
 
 const App = () => {
-  const { data } = useAccount()
-  const { adminLink } = useRouting()
+  const { data } = useAccount();
+  const { adminLink } = useRouting();
 
   return (
     <Routes>
@@ -20,9 +20,7 @@ const App = () => {
         path="/"
         element={
           <Layout
-            isAdmin={
-              data && data.me && data.me.accountType === "Admin"
-            }
+            isAdmin={data && data.me && data.me.accountType === "Admin"}
           />
         }
       >
@@ -42,7 +40,7 @@ const App = () => {
 
       <Route index element={<Navigate to={adminLink()} />} />
     </Routes>
-  )
-}
+  );
+};
 
-export default App
+export default App;

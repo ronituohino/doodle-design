@@ -1,16 +1,16 @@
-import { Box, Typography, Paper } from "@mui/material"
+import { Box, Typography, Paper } from "@mui/material";
 
-import { useLanguage } from "../../hooks/useLanguage"
+import { useLanguage } from "../../hooks/useLanguage";
 
-import { formatPrice } from "../../utils/formatting"
+import { formatPrice } from "../../utils/formatting";
 
-import { useRouting } from "../../hooks/useRouting"
-import { Link } from "react-router-dom"
-import { getFile } from "../../utils/getFile"
+import { useRouting } from "../../hooks/useRouting";
+import { Link } from "react-router-dom";
+import { getFile } from "../../utils/getFile";
 
 const ProductCard = ({ product, size, descriptionPadding, sx }) => {
-  const { language } = useLanguage()
-  const { productLink } = useRouting()
+  const { language } = useLanguage();
+  const { productLink } = useRouting();
 
   return (
     <Link
@@ -20,10 +20,7 @@ const ProductCard = ({ product, size, descriptionPadding, sx }) => {
       <Paper elevation={4} sx={sx}>
         <img
           component="img"
-          src={getFile(
-            product.images[0]._id,
-            product.images[0].filename
-          )}
+          src={getFile(product.images[0]._id, product.images[0].filename)}
           alt={product.name[language]}
           style={{
             width: size ? size.x : "200px",
@@ -59,7 +56,7 @@ const ProductCard = ({ product, size, descriptionPadding, sx }) => {
         </Box>
       </Paper>
     </Link>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;

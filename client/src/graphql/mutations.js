@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const REGISTER = gql`
   mutation CreateAccount(
@@ -6,15 +6,11 @@ export const REGISTER = gql`
     $email: String!
     $password: String!
   ) {
-    createAccount(
-      username: $username
-      email: $email
-      password: $password
-    ) {
+    createAccount(username: $username, email: $email, password: $password) {
       token
     }
   }
-`
+`;
 
 export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -22,7 +18,7 @@ export const LOGIN = gql`
       token
     }
   }
-`
+`;
 
 export const EDIT_ACCOUNT = gql`
   mutation EditAccountClient(
@@ -30,11 +26,7 @@ export const EDIT_ACCOUNT = gql`
     $password: String
     $cart: [CartProductInput]
   ) {
-    editAccountClient(
-      email: $email
-      password: $password
-      cart: $cart
-    ) {
+    editAccountClient(email: $email, password: $password, cart: $cart) {
       _id
       accountType
       email
@@ -42,7 +34,7 @@ export const EDIT_ACCOUNT = gql`
       username
     }
   }
-`
+`;
 
 export const CREATE_ORDER = gql`
   mutation CreateOrder(
@@ -62,4 +54,4 @@ export const CREATE_ORDER = gql`
       _id
     }
   }
-`
+`;

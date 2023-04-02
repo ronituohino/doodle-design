@@ -4,18 +4,18 @@ import {
   ListItemIcon,
   ListItemText,
   Icon,
-} from "@mui/material"
-import { useRouting } from "../../../hooks/useRouting"
+} from "@mui/material";
+import { useRouting } from "../../../hooks/useRouting";
 
 const Category = ({ closeMenu, category, language }) => {
-  const { openLink, categoryLink } = useRouting()
+  const { openLink, categoryLink } = useRouting();
 
   return (
     <ListItem disablePadding>
       <ListItemButton
         onClick={() => {
-          openLink(categoryLink(category.urlPath))
-          closeMenu()
+          openLink(categoryLink(category.urlPath));
+          closeMenu();
         }}
       >
         <ListItemIcon>
@@ -24,7 +24,7 @@ const Category = ({ closeMenu, category, language }) => {
         <ListItemText primary={category.label[language]} />
       </ListItemButton>
     </ListItem>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

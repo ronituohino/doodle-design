@@ -1,2 +1,2 @@
-const datetime = require("../constants/datetime")
-module.exports = datetime.getMongoose()
+const datetime = require("../constants/datetime");
+module.exports = datetime.getMongoose();

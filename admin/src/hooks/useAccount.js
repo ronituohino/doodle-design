@@ -1,31 +1,27 @@
-import {
-  useQuery,
-  useMutation,
-  useApolloClient,
-} from "@apollo/client"
-import { ACCOUNT } from "../graphql/queries"
-import { LOGIN } from "../graphql/mutations"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import { ACCOUNT } from "../graphql/queries";
+import { LOGIN } from "../graphql/mutations";
 
-import { useSnackbar } from "notistack"
+import { useSnackbar } from "notistack";
 
 export const useAccount = () => {
-  const { enqueueSnackbar } = useSnackbar()
-  const { data } = useQuery(ACCOUNT)
-  const client = useApolloClient()
+  const { enqueueSnackbar } = useSnackbar();
+  const { data } = useQuery(ACCOUNT);
+  const client = useApolloClient();
 
   const [loginMutation, loginData] = useMutation(LOGIN, {
-    onError: (error) => {
+    onError: error => {
       enqueueSnackbar(`${error.message}`, {
         variant: "error",
-      })
-      return undefined
+      });
+      return undefined;
     },
-    onCompleted: (response) => {
-      setToken(response.login.token)
-      client.resetStore()
+    onCompleted: response => {
+      setToken(response.login.token);
+      client.resetStore();
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
 
   const logIn = async (email, password) => {
     loginMutation({
@@ -33,24 +29,24 @@ export const useAccount = () => {
         email,
         password,
       },
-    })
-  }
+    });
+  };
 
-  const setToken = (token) => {
-    localStorage.setItem("token", token)
-  }
+  const setToken = token => {
+    localStorage.setItem("token", token);
+  };
 
-  const logOut = async (callback) => {
-    localStorage.removeItem("token")
-    await client.resetStore()
-  }
+  const logOut = async callback => {
+    localStorage.removeItem("token");
+    await client.resetStore();
+  };
 
   const loggedIn = () => {
     if (data && data.me) {
-      return true
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   return {
     logIn,
@@ -58,5 +54,5 @@ export const useAccount = () => {
     logOut,
     data,
     loggedIn,
-  }
-}
+  };
+};

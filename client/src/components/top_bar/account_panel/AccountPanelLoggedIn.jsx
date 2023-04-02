@@ -5,19 +5,19 @@ import {
   ListItemIcon,
   Icon,
   ListSubheader,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useRouting } from "../../../hooks/useRouting"
-import { useAccount } from "../../../hooks/useAccount"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
-import { useSnackbar } from "notistack"
+import { useRouting } from "../../../hooks/useRouting";
+import { useAccount } from "../../../hooks/useAccount";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
+import { useSnackbar } from "notistack";
 
 const AccountPanelLoggedIn = ({ closeMenu }) => {
-  const { language } = useLanguage()
-  const { enqueueSnackbar } = useSnackbar()
-  const { openLink, accountLink } = useRouting()
-  const { logOut, data } = useAccount()
+  const { language } = useLanguage();
+  const { enqueueSnackbar } = useSnackbar();
+  const { openLink, accountLink } = useRouting();
+  const { logOut, data } = useAccount();
 
   return (
     <>
@@ -28,16 +28,14 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
       <ListItem disablePadding>
         <ListItemButton
           onClick={() => {
-            openLink(accountLink())
-            closeMenu()
+            openLink(accountLink());
+            closeMenu();
           }}
         >
           <ListItemIcon>
             <Icon>manage_accounts</Icon>
           </ListItemIcon>
-          <ListItemText
-            primary={`${getText(language, "settings")}`}
-          />
+          <ListItemText primary={`${getText(language, "settings")}`} />
         </ListItemButton>
       </ListItem>
 
@@ -45,14 +43,11 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
         <ListItemButton
           onClick={() => {
             logOut(
-              enqueueSnackbar(
-                getText(language, "loggedOutNotification"),
-                {
-                  variant: "success",
-                }
-              )
-            )
-            closeMenu()
+              enqueueSnackbar(getText(language, "loggedOutNotification"), {
+                variant: "success",
+              })
+            );
+            closeMenu();
           }}
         >
           <ListItemIcon>
@@ -62,7 +57,7 @@ const AccountPanelLoggedIn = ({ closeMenu }) => {
         </ListItemButton>
       </ListItem>
     </>
-  )
-}
+  );
+};
 
-export default AccountPanelLoggedIn
+export default AccountPanelLoggedIn;

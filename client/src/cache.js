@@ -1,4 +1,4 @@
-import { InMemoryCache, makeVar } from "@apollo/client"
+import { InMemoryCache, makeVar } from "@apollo/client";
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -6,7 +6,7 @@ const cache = new InMemoryCache({
       fields: {
         cartProducts: {
           read() {
-            return cartProductsVar()
+            return cartProductsVar();
           },
         },
 
@@ -17,7 +17,7 @@ const cache = new InMemoryCache({
     },
   },
   addTypename: false,
-})
+});
 
 // If you call a reactive variable function with zero arguments
 // (e.g., isLoggedInVar()),
@@ -27,6 +27,6 @@ const cache = new InMemoryCache({
 // (e.g., isLoggedInVar(false)),
 // it replaces the variable's current value with the provided value.
 
-export const cartProductsVar = makeVar([])
+export const cartProductsVar = makeVar([]);
 
-export default cache
+export default cache;

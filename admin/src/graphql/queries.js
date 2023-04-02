@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const ACCOUNT = gql`
   query Account {
@@ -9,7 +9,7 @@ export const ACCOUNT = gql`
       accountType
     }
   }
-`
+`;
 
 export const GET_ACCOUNTS = gql`
   query GetAccounts($email: String) {
@@ -20,7 +20,7 @@ export const GET_ACCOUNTS = gql`
       accountType
     }
   }
-`
+`;
 
 export const GET_ACCOUNT_TYPES = gql`
   query Query {
@@ -29,7 +29,7 @@ export const GET_ACCOUNT_TYPES = gql`
       CUSTOMER
     }
   }
-`
+`;
 
 export const GET_CATEGORIES = gql`
   query GetCategories {
@@ -43,7 +43,7 @@ export const GET_CATEGORIES = gql`
       icon
     }
   }
-`
+`;
 export const GET_PRODUCTS = gql`
   query GetProducts(
     $page: Int!
@@ -98,4 +98,4 @@ export const GET_PRODUCTS = gql`
       totalPages
     }
   }
-`
+`;

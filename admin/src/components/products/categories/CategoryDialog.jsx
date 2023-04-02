@@ -7,14 +7,14 @@ import {
   Typography,
   Button,
   Icon,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useFormik } from "formik"
-import { useEffect } from "react"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import { useEffect } from "react";
+import * as yup from "yup";
 
-import FormikField from "../../general/formik/FormikField"
-import FormikFieldArray from "../../general/formik/FormikFieldArray"
+import FormikField from "../../general/formik/FormikField";
+import FormikFieldArray from "../../general/formik/FormikFieldArray";
 
 const CategoryDialog = ({
   open,
@@ -39,22 +39,22 @@ const CategoryDialog = ({
         .required(""),
       urlPath: yup.string().required(""),
     }),
-    onSubmit: (results) => {
+    onSubmit: results => {
       if (values) {
-        editCategory(results)
+        editCategory(results);
       } else {
-        createCategory(results)
+        createCategory(results);
       }
-      handleClose()
+      handleClose();
     },
-  })
+  });
 
   useEffect(() => {
     if (open && values) {
-      formik.setValues(values)
+      formik.setValues(values);
     }
     // eslint-disable-next-line
-  }, [open, values])
+  }, [open, values]);
 
   return (
     <Dialog
@@ -65,10 +65,7 @@ const CategoryDialog = ({
     >
       <DialogTitle id="alert-dialog-title">
         <Box sx={{ display: "flex" }}>
-          <Typography
-            variant="h5"
-            sx={{ width: "50%", alignSelf: "center" }}
-          >
+          <Typography variant="h5" sx={{ width: "50%", alignSelf: "center" }}>
             {values ? "Modify category" : "Create category"}
           </Typography>
         </Box>
@@ -86,16 +83,8 @@ const CategoryDialog = ({
             label="Google Fonts Icon"
             sx={{ mb: 2 }}
           />
-          <FormikFieldArray
-            formik={formik}
-            field="label"
-            label="Label"
-          />
-          <FormikField
-            formik={formik}
-            field="urlPath"
-            label="URL Path"
-          />
+          <FormikFieldArray formik={formik} field="label" label="Label" />
+          <FormikField formik={formik} field="urlPath" label="URL Path" />
         </Box>
       </DialogContent>
       <DialogActions>
@@ -107,16 +96,12 @@ const CategoryDialog = ({
         >
           Cancel
         </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={formik.handleSubmit}
-        >
+        <Button variant="contained" fullWidth onClick={formik.handleSubmit}>
           {values ? "Save" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default CategoryDialog
+export default CategoryDialog;

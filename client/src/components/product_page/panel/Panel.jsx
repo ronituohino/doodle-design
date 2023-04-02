@@ -1,33 +1,33 @@
-import { Box, Typography, Button, Paper } from "@mui/material"
+import { Box, Typography, Button, Paper } from "@mui/material";
 
-import { useLanguage } from "../../../hooks/useLanguage"
-import { useShoppingCart } from "../../../hooks/useShoppingCart"
-import * as yup from "yup"
-import { useFormik } from "formik"
-import { formatPrice } from "../../../utils/formatting"
+import { useLanguage } from "../../../hooks/useLanguage";
+import { useShoppingCart } from "../../../hooks/useShoppingCart";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import { formatPrice } from "../../../utils/formatting";
 
-import FormikProductCustomization from "./FormikProductCustomization"
+import FormikProductCustomization from "./FormikProductCustomization";
 
-import hash from "object-hash"
-import { useEffect } from "react"
-import { getText } from "../../../utils/dictionary"
+import hash from "object-hash";
+import { useEffect } from "react";
+import { getText } from "../../../utils/dictionary";
 
 const Panel = ({ product }) => {
-  const { language } = useLanguage()
-  const { addItemToCart } = useShoppingCart()
+  const { language } = useLanguage();
+  const { addItemToCart } = useShoppingCart();
 
-  const getInitialObject = (product) => {
-    var newInitial = []
+  const getInitialObject = product => {
+    var newInitial = [];
 
     for (let i = 0; i < product.customization.length; i++) {
       newInitial[i] = {
         label: product.customization[i].label,
         option: null,
-      }
+      };
     }
 
-    return newInitial
-  }
+    return newInitial;
+  };
 
   const formik = useFormik({
     initialValues: getInitialObject(product),
@@ -37,10 +37,10 @@ const Panel = ({ product }) => {
         option: yup.object().required(""),
       })
     ),
-  })
+  });
 
   // eslint-disable-next-line
-  useEffect(() => formik.validateForm(), [])
+  useEffect(() => formik.validateForm(), []);
 
   return (
     <Paper
@@ -94,17 +94,17 @@ const Panel = ({ product }) => {
             const selectedProduct = {
               ...product,
               customization: [...formik.values],
-            }
+            };
 
-            selectedProduct.hash = hash(selectedProduct)
-            addItemToCart(selectedProduct)
+            selectedProduct.hash = hash(selectedProduct);
+            addItemToCart(selectedProduct);
           }}
         >
           {getText(language, "addToCartText")}
         </Button>
       </Box>
     </Paper>
-  )
-}
+  );
+};
 
-export default Panel
+export default Panel;

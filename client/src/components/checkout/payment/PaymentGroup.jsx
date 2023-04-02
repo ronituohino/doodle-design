@@ -1,16 +1,16 @@
-import { Box, Typography } from "@mui/material"
-import PaymentMethod from "./PaymentMethod"
+import { Box, Typography } from "@mui/material";
+import PaymentMethod from "./PaymentMethod";
 
-import danskebankLogo from "../../../images/payment_methods/danskebank.png"
-import klarnaLogo from "../../../images/payment_methods/klarna.png"
-import mastercardLogo from "../../../images/payment_methods/mastercard.png"
-import mobilepayLogo from "../../../images/payment_methods/mobilepay.png"
-import nordeaLogo from "../../../images/payment_methods/nordea.png"
-import opLogo from "../../../images/payment_methods/op.png"
-import paypalLogo from "../../../images/payment_methods/paypal.png"
-import pivoLogo from "../../../images/payment_methods/pivo.png"
-import spankkiLogo from "../../../images/payment_methods/spankki.png"
-import visaLogo from "../../../images/payment_methods/visa.png"
+import danskebankLogo from "../../../images/payment_methods/danskebank.png";
+import klarnaLogo from "../../../images/payment_methods/klarna.png";
+import mastercardLogo from "../../../images/payment_methods/mastercard.png";
+import mobilepayLogo from "../../../images/payment_methods/mobilepay.png";
+import nordeaLogo from "../../../images/payment_methods/nordea.png";
+import opLogo from "../../../images/payment_methods/op.png";
+import paypalLogo from "../../../images/payment_methods/paypal.png";
+import pivoLogo from "../../../images/payment_methods/pivo.png";
+import spankkiLogo from "../../../images/payment_methods/spankki.png";
+import visaLogo from "../../../images/payment_methods/visa.png";
 
 // Create state in parent, an set value to selected
 // and update function to submit
@@ -31,9 +31,9 @@ const PaymentGroup = ({
   spankki,
   visa,
 }) => {
-  const handleSelection = (name) => {
-    submit(name)
-  }
+  const handleSelection = name => {
+    submit(name);
+  };
 
   return (
     <>
@@ -47,9 +47,7 @@ const PaymentGroup = ({
             marginBottom: 2,
           }}
         >
-          <Typography sx={{ flexBasis: "100%" }}>
-            {groupName}
-          </Typography>
+          <Typography sx={{ flexBasis: "100%" }}>{groupName}</Typography>
 
           {danskebank && (
             <PaymentMethod
@@ -134,7 +132,7 @@ const PaymentGroup = ({
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PaymentGroup
+export default PaymentGroup;

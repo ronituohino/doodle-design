@@ -1,6 +1,6 @@
-import { Radio, Paper } from "@mui/material"
-import { makeStyles } from "@material-ui/core"
-import * as React from "react"
+import { Radio, Paper } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
+import * as React from "react";
 
 const useStyles = makeStyles({
   root: {
@@ -8,19 +8,19 @@ const useStyles = makeStyles({
       backgroundColor: "transparent",
     },
   },
-})
+});
 
 const FormikRadioField = ({ formik, field, children, value }) => {
-  const checked = formik.values[field] === value
-  const childrenWithProps = React.Children.map(children, (child) => {
+  const checked = formik.values[field] === value;
+  const childrenWithProps = React.Children.map(children, child => {
     // Checking isValidElement is the safe way and avoids a typescript
     // error too.
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { checked })
+      return React.cloneElement(child, { checked });
     }
-    return child
-  })
-  const classes = useStyles()
+    return child;
+  });
+  const classes = useStyles();
 
   return (
     <Paper
@@ -45,7 +45,7 @@ const FormikRadioField = ({ formik, field, children, value }) => {
 
       {childrenWithProps}
     </Paper>
-  )
-}
+  );
+};
 
-export default FormikRadioField
+export default FormikRadioField;

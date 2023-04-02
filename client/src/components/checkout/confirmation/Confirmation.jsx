@@ -1,12 +1,12 @@
-import { Button } from "@mui/material"
+import { Button } from "@mui/material";
 
-import Cart from "../cart/Cart"
-import AddressDisplay from "../../general/AddressDisplay"
-import PaymentDisplay from "./PaymentDisplay"
-import LabelPaper from "../../general/LabelPaper"
-import FormikField from "../../general/formik/FormikField"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import Cart from "../cart/Cart";
+import AddressDisplay from "../../general/AddressDisplay";
+import PaymentDisplay from "./PaymentDisplay";
+import LabelPaper from "../../general/LabelPaper";
+import FormikField from "../../general/formik/FormikField";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const Confirmation = ({
   formik,
@@ -16,30 +16,30 @@ const Confirmation = ({
   checkout,
   hidden,
 }) => {
-  const { language } = useLanguage()
-  let deliveryAddress = undefined
+  const { language } = useLanguage();
+  let deliveryAddress = undefined;
 
   const explicitDeliveryAddress =
-    checkout.deliveryDetails.useExplicitDeliveryAddress
-  let postiParcel = false
-  let isStorePickup = false
+    checkout.deliveryDetails.useExplicitDeliveryAddress;
+  let postiParcel = false;
+  let isStorePickup = false;
 
   switch (checkout.deliveryDetails.deliveryMethod) {
     case constants.HOME_DELIVERY:
       deliveryAddress = explicitDeliveryAddress
         ? checkout.deliveryDetails.homeDeliveryAddress
-        : checkout.billingDetails
-      break
+        : checkout.billingDetails;
+      break;
     case constants.POSTI_PARCEL:
-      postiParcel = true
-      deliveryAddress = checkout.deliveryDetails.postiParcelAddress
-      break
+      postiParcel = true;
+      deliveryAddress = checkout.deliveryDetails.postiParcelAddress;
+      break;
     case constants.STORE_PICKUP:
-      isStorePickup = true
-      deliveryAddress = checkout.deliveryDetails.storePickupAddress
-      break
+      isStorePickup = true;
+      deliveryAddress = checkout.deliveryDetails.storePickupAddress;
+      break;
     default:
-      break
+      break;
   }
 
   return (
@@ -51,9 +51,7 @@ const Confirmation = ({
               elevation={4}
               address={checkout.billingDetails}
               label={
-                !explicitDeliveryAddress &&
-                !isStorePickup &&
-                !postiParcel
+                !explicitDeliveryAddress && !isStorePickup && !postiParcel
                   ? getText(language, "yourDetailsAndDeliveredTo")
                   : getText(language, "yourDetails")
               }
@@ -63,9 +61,7 @@ const Confirmation = ({
           )}
 
           {checkout.deliveryDetails &&
-            (explicitDeliveryAddress ||
-              isStorePickup ||
-              postiParcel) && (
+            (explicitDeliveryAddress || isStorePickup || postiParcel) && (
               <AddressDisplay
                 elevation={4}
                 address={deliveryAddress}
@@ -80,10 +76,7 @@ const Confirmation = ({
             )}
 
           {checkout.paymentDetails && (
-            <PaymentDisplay
-              checkout={checkout}
-              constants={constants}
-            />
+            <PaymentDisplay checkout={checkout} constants={constants} />
           )}
 
           <LabelPaper
@@ -96,10 +89,7 @@ const Confirmation = ({
               field="extrainfo"
               fullWidth
               multiline
-              placeholder={getText(
-                language,
-                "extraInformationDetails"
-              )}
+              placeholder={getText(language, "extraInformationDetails")}
             />
           </LabelPaper>
 
@@ -115,7 +105,7 @@ const Confirmation = ({
         </Cart>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Confirmation
+export default Confirmation;

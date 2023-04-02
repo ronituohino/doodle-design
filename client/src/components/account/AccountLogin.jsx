@@ -1,5 +1,5 @@
-import { useFormik } from "formik"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 import {
   Container,
@@ -8,32 +8,32 @@ import {
   Paper,
   Typography,
   Icon,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useState, useEffect } from "react"
-import { useRouting } from "../../hooks/useRouting"
-import { useAccount } from "../../hooks/useAccount"
+import { useState, useEffect } from "react";
+import { useRouting } from "../../hooks/useRouting";
+import { useAccount } from "../../hooks/useAccount";
 
-import FormikField from "../general/formik/FormikField"
-import { Link } from "react-router-dom"
+import FormikField from "../general/formik/FormikField";
+import { Link } from "react-router-dom";
 
-import LoadingButton from "../general/LoadingButton"
-import { useSnackbar } from "notistack"
-import { useLanguage } from "../../hooks/useLanguage"
-import { getText } from "../../utils/dictionary"
+import LoadingButton from "../general/LoadingButton";
+import { useSnackbar } from "notistack";
+import { useLanguage } from "../../hooks/useLanguage";
+import { getText } from "../../utils/dictionary";
 
 const AccountLogin = () => {
-  const { language } = useLanguage()
-  const { openLink, homeLink, registerLink } = useRouting()
-  const { enqueueSnackbar } = useSnackbar()
-  const [waiting, setWaiting] = useState(false)
+  const { language } = useLanguage();
+  const { openLink, homeLink, registerLink } = useRouting();
+  const { enqueueSnackbar } = useSnackbar();
+  const [waiting, setWaiting] = useState(false);
 
   const { logIn, loginData } = useAccount(() => {
     enqueueSnackbar(getText(language, "loggedInNotification"), {
       variant: "success",
-    })
-    openLink(homeLink())
-  })
+    });
+    openLink(homeLink());
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -41,34 +41,30 @@ const AccountLogin = () => {
       password: "",
     },
     validationSchema: yup.object({
-      email: yup
-        .string()
-        .required(getText(language, "emailRequired")),
-      password: yup
-        .string()
-        .required(getText(language, "passwordRequired")),
+      email: yup.string().required(getText(language, "emailRequired")),
+      password: yup.string().required(getText(language, "passwordRequired")),
     }),
-    onSubmit: (values) => {
-      setWaiting(true)
+    onSubmit: values => {
+      setWaiting(true);
       setTimeout(() => {
-        setWaiting(false)
-        logIn(values.email, values.password)
-      }, 2000)
+        setWaiting(false);
+        logIn(values.email, values.password);
+      }, 2000);
     },
-  })
+  });
 
   useEffect(() => {
-    formik.validateForm()
+    formik.validateForm();
     // eslint-disable-next-line
-  }, [language])
+  }, [language]);
 
   const [values, setValues] = useState({
     showPassword: false,
-  })
+  });
 
   const togglePasswordVisibility = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
 
   return (
     <Container maxWidth={"xs"}>
@@ -103,9 +99,7 @@ const AccountLogin = () => {
 
         <LoadingButton
           loading={waiting || (loginData ? loginData.loading : false)}
-          disabled={
-            !formik.isValid || formik.values === formik.initialValues
-          }
+          disabled={!formik.isValid || formik.values === formik.initialValues}
           color="secondary"
           variant="contained"
           fullWidth
@@ -114,16 +108,13 @@ const AccountLogin = () => {
         />
 
         <Link to={registerLink()} style={{ textDecoration: "none" }}>
-          <Typography
-            color="secondary"
-            sx={{ textAlign: "center", mt: 1 }}
-          >
+          <Typography color="secondary" sx={{ textAlign: "center", mt: 1 }}>
             {getText(language, "newHere")}
           </Typography>
         </Link>
       </Paper>
     </Container>
-  )
-}
+  );
+};
 
-export default AccountLogin
+export default AccountLogin;

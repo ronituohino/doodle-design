@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const GET_CATEGORIES = gql`
   query GetCategories {
@@ -12,7 +12,7 @@ export const GET_CATEGORIES = gql`
       icon
     }
   }
-`
+`;
 
 export const GET_PRODUCTS = gql`
   query GetProducts(
@@ -47,7 +47,7 @@ export const GET_PRODUCTS = gql`
       totalPages
     }
   }
-`
+`;
 
 export const GET_PRODUCT = gql`
   query GetProductById($id: ID!) {
@@ -90,7 +90,7 @@ export const GET_PRODUCT = gql`
       visible
     }
   }
-`
+`;
 
 export const GET_ORDERS = gql`
   query GetOrders {
@@ -169,13 +169,13 @@ export const GET_ORDERS = gql`
       }
     }
   }
-`
+`;
 
 export const SHOPPING_CART = gql`
   query CartProducts {
     cartProducts @client
   }
-`
+`;
 
 export const ACCOUNT = gql`
   query Account {
@@ -186,7 +186,7 @@ export const ACCOUNT = gql`
       accountType
     }
   }
-`
+`;
 
 export const GET_FILE_DETAILS = gql`
   query GetFileDetails($id: ID!) {
@@ -197,4 +197,4 @@ export const GET_FILE_DETAILS = gql`
       location
     }
   }
-`
+`;

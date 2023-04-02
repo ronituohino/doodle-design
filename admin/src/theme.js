@@ -1,4 +1,4 @@
-import { unstable_createMuiStrictModeTheme } from "@mui/material/styles"
+import { unstable_createMuiStrictModeTheme } from "@mui/material/styles";
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
@@ -9,6 +9,6 @@ const theme = unstable_createMuiStrictModeTheme({
       main: "#E67615",
     },
   },
-})
+});
 
-export default theme
+export default theme;

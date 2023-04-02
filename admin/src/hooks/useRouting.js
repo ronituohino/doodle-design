@@ -1,41 +1,41 @@
-import { useNavigate } from "react-router-dom"
-import { useLanguage } from "./useLanguage"
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "./useLanguage";
 
 export const useRouting = () => {
-  const navigate = useNavigate()
-  const { language } = useLanguage()
+  const navigate = useNavigate();
+  const { language } = useLanguage();
 
-  const openLink = (link) => {
-    navigate(link)
-  }
+  const openLink = link => {
+    navigate(link);
+  };
 
   const back = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   const adminLink = () => {
-    return `/${language}/`
-  }
+    return `/${language}/`;
+  };
 
   const productStatisticsLink = () => {
-    return `/${language}/products/statistics`
-  }
+    return `/${language}/products/statistics`;
+  };
 
   const productManageLink = () => {
-    return `/${language}/products/manage`
-  }
+    return `/${language}/products/manage`;
+  };
 
   const productCategoriesLink = () => {
-    return `/${language}/products/categories`
-  }
+    return `/${language}/products/categories`;
+  };
 
   const productCampaignsLink = () => {
-    return `/${language}/products/campaigns`
-  }
+    return `/${language}/products/campaigns`;
+  };
 
   const userManageLink = () => {
-    return `/${language}/accounts/manage`
-  }
+    return `/${language}/accounts/manage`;
+  };
 
   return {
     openLink,
@@ -48,5 +48,5 @@ export const useRouting = () => {
     productCampaignsLink,
 
     userManageLink,
-  }
-}
+  };
+};

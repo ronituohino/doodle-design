@@ -1,12 +1,6 @@
-import { ListItem, Typography } from "@mui/material"
+import { ListItem, Typography } from "@mui/material";
 
-const ReceiptLine = ({
-  leftText,
-  rightText,
-  variant,
-  indent,
-  sx,
-}) => {
+const ReceiptLine = ({ leftText, rightText, variant, indent, sx }) => {
   return (
     <ListItem
       disablePadding
@@ -28,7 +22,7 @@ const ReceiptLine = ({
         {leftText}
       </Typography>
     </ListItem>
-  )
-}
+  );
+};
 
-export default ReceiptLine
+export default ReceiptLine;

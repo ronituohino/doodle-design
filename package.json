@@ -18,14 +18,11 @@
     "heroku:build": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL= npm run build",
     "bld": "cd ./client && cross-env NODE_ENV=production REACT_APP_BACKEND_URL=http://localhost:4000 npm run build",
     "prod": "cd ./server && cross-env NODE_ENV=production PORT=$PORT npm run start",
-
     "admin": "cd ./admin && cross-env REACT_APP_BACKEND_URL=https://fso-2021-recom.herokuapp.com PORT=3060 npm start",
-
     "ins": "npm install && npm-run-all --parallel \"install:*\"",
     "install:server": "cd ./server && npm install",
     "install:client": "cd ./client && npm install",
     "install:admin": "cd ./admin && npm install",
-
     "dev": "npm-run-all --parallel \"development:*\"",
     "development:server": "cd ./server && cross-env JWT_SECRET=abc DB_URI=\"mongodb://the_username:the_password@localhost:27017/store\" npm run dev",
     "development:client": "cd ./client && cross-env REACT_APP_BACKEND_URL=http://localhost:4000 BROWSER=none PORT=3000 npm start",

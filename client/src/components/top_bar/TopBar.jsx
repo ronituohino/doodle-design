@@ -1,22 +1,22 @@
-import { AppBar, Box, Toolbar, Container } from "@mui/material"
+import { AppBar, Box, Toolbar, Container } from "@mui/material";
 
-import SearchBar from "./search_bar/SearchBar"
+import SearchBar from "./search_bar/SearchBar";
 
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import logo from "../../images/logo.png"
+import logo from "../../images/logo.png";
 
-import ShoppingCart from "./shopping_cart/ShoppingCart"
-import AccountPanel from "./account_panel/AccountPanel"
-import Language from "./Language"
-import { useRouting } from "../../hooks/useRouting"
-import CategoryDrawer from "./category_drawer/CategoryDrawer"
-import { getText } from "../../utils/dictionary"
-import { useLanguage } from "../../hooks/useLanguage"
+import ShoppingCart from "./shopping_cart/ShoppingCart";
+import AccountPanel from "./account_panel/AccountPanel";
+import Language from "./Language";
+import { useRouting } from "../../hooks/useRouting";
+import CategoryDrawer from "./category_drawer/CategoryDrawer";
+import { getText } from "../../utils/dictionary";
+import { useLanguage } from "../../hooks/useLanguage";
 
 const TopBar = () => {
-  const { language } = useLanguage()
-  const { homeLink } = useRouting()
+  const { language } = useLanguage();
+  const { homeLink } = useRouting();
 
   return (
     <AppBar position="fixed" color="primary">
@@ -69,7 +69,7 @@ const TopBar = () => {
         </Container>
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
-export default TopBar
+export default TopBar;

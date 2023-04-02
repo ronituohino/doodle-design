@@ -1,71 +1,69 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { List, Button, Box } from "@mui/material"
+import { List, Button, Box } from "@mui/material";
 
-import { useQuery } from "@apollo/client"
-import { GET_CATEGORIES } from "../../../graphql/queries"
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORIES } from "../../../graphql/queries";
 import {
   CREATE_CATEGORY,
   EDIT_CATEGORY,
   DELETE_CATEGORY,
-} from "../../../graphql/mutations"
-import Category from "./Category"
-import CategorySubtitle from "../../general/CategorySubtitle"
+} from "../../../graphql/mutations";
+import Category from "./Category";
+import CategorySubtitle from "../../general/CategorySubtitle";
 
-import { useApolloClient, useMutation } from "@apollo/client"
+import { useApolloClient, useMutation } from "@apollo/client";
 
-import ConfirmDialog from "../../general/ConfirmDialog"
-import CategoryDialog from "./CategoryDialog"
+import ConfirmDialog from "../../general/ConfirmDialog";
+import CategoryDialog from "./CategoryDialog";
 
 const ProductCategories = () => {
-  const client = useApolloClient()
-  const { data } = useQuery(GET_CATEGORIES)
+  const client = useApolloClient();
+  const { data } = useQuery(GET_CATEGORIES);
 
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const openCreateDialog = () => {
-    setCreateDialogOpen(true)
-  }
+    setCreateDialogOpen(true);
+  };
 
-  const [editDialogOpen, setEditDialogOpen] = useState(false)
-  const [editDialogCategory, setEditDialogCategory] = useState(false)
-  const openEditDialog = (category) => {
-    setEditDialogOpen(true)
-    setEditDialogCategory(category)
-  }
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editDialogCategory, setEditDialogCategory] = useState(false);
+  const openEditDialog = category => {
+    setEditDialogOpen(true);
+    setEditDialogCategory(category);
+  };
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [deleteDialogCategory, setDeleteDialogCategory] =
-    useState(false)
-  const openDeleteDialog = (category) => {
-    setDeleteDialogOpen(true)
-    setDeleteDialogCategory(category)
-  }
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteDialogCategory, setDeleteDialogCategory] = useState(false);
+  const openDeleteDialog = category => {
+    setDeleteDialogOpen(true);
+    setDeleteDialogCategory(category);
+  };
 
   const [createCategoryMutation] = useMutation(CREATE_CATEGORY, {
-    onCompleted: (response) => {
+    onCompleted: response => {
       // Update local client store
       client.writeQuery({
         query: GET_CATEGORIES,
         data: {
           getCategories: [
-            ...client.readQuery({ query: GET_CATEGORIES })
-              .getCategories,
+            ...client.readQuery({ query: GET_CATEGORIES }).getCategories,
             response.createCategory,
           ],
         },
-      })
+      });
     },
-  })
+  });
 
   const [editCategoryMutation] = useMutation(EDIT_CATEGORY, {
-    onCompleted: (response) => {
+    onCompleted: response => {
       const cacheCategories = [
         ...client.readQuery({ query: GET_CATEGORIES }).getCategories,
-      ]
+      ];
       const index = cacheCategories.findIndex(
-        (c) => c._id === response.editCategory._id
-      )
-      cacheCategories[index] = response.editCategory
+        c => c._id === response.editCategory._id
+      );
+      cacheCategories[index] = response.editCategory;
 
       // Update local client store
       client.writeQuery({
@@ -73,15 +71,15 @@ const ProductCategories = () => {
         data: {
           getCategories: cacheCategories,
         },
-      })
+      });
     },
-  })
+  });
 
   const [deleteCategoryMutation] = useMutation(DELETE_CATEGORY, {
-    onCompleted: (response) => {
-      client.refetchQueries({ include: [GET_CATEGORIES] })
+    onCompleted: response => {
+      client.refetchQueries({ include: [GET_CATEGORIES] });
     },
-  })
+  });
 
   return (
     <>
@@ -95,7 +93,7 @@ const ProductCategories = () => {
       <List>
         {data &&
           data.getCategories &&
-          data.getCategories.map((category) => (
+          data.getCategories.map(category => (
             <Category
               key={category._id}
               category={category}
@@ -115,34 +113,32 @@ const ProductCategories = () => {
         acceptCallback={() => {
           deleteCategoryMutation({
             variables: { id: deleteDialogCategory._id },
-          })
+          });
         }}
       />
 
       <CategoryDialog
         open={createDialogOpen}
         handleClose={() => {
-          setCreateDialogOpen(false)
+          setCreateDialogOpen(false);
         }}
-        createCategory={(values) =>
-          createCategoryMutation({ variables: values })
-        }
+        createCategory={values => createCategoryMutation({ variables: values })}
       />
 
       <CategoryDialog
         open={editDialogOpen}
         handleClose={() => {
-          setEditDialogOpen(false)
+          setEditDialogOpen(false);
         }}
         values={editDialogCategory}
-        editCategory={(values) =>
+        editCategory={values =>
           editCategoryMutation({
             variables: { id: editDialogCategory._id, ...values },
           })
         }
       />
     </>
-  )
-}
+  );
+};
 
-export default ProductCategories
+export default ProductCategories;

@@ -1,58 +1,58 @@
-import { useNavigate, useLocation } from "react-router-dom"
-import { useLanguage } from "./useLanguage"
+import { useNavigate, useLocation } from "react-router-dom";
+import { useLanguage } from "./useLanguage";
 
 export const useRouting = () => {
-  const navigate = useNavigate()
-  const { language } = useLanguage()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const { language } = useLanguage();
+  const location = useLocation();
 
-  const openLink = (link) => {
-    navigate(link)
-  }
+  const openLink = link => {
+    navigate(link);
+  };
 
   const back = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   const inCheckout = () => {
-    return location.pathname.includes("checkout")
-  }
+    return location.pathname.includes("checkout");
+  };
 
   const homeLink = () => {
-    return `/${language}/home`
-  }
+    return `/${language}/home`;
+  };
 
   const accountLink = () => {
-    return `/${language}/account`
-  }
+    return `/${language}/account`;
+  };
 
   const accountSettingsLink = () => {
-    return `/${language}/account/settings`
-  }
+    return `/${language}/account/settings`;
+  };
 
   const accountOrdersLink = () => {
-    return `/${language}/account/orders`
-  }
+    return `/${language}/account/orders`;
+  };
 
-  const categoryLink = (category) => {
-    return `/${language}/product/${category}`
-  }
+  const categoryLink = category => {
+    return `/${language}/product/${category}`;
+  };
 
   const productLink = (category, productId) => {
-    return `/${language}/product/${category.toLowerCase()}/${productId}`
-  }
+    return `/${language}/product/${category.toLowerCase()}/${productId}`;
+  };
 
   const checkoutLink = () => {
-    return `/${language}/checkout/`
-  }
+    return `/${language}/checkout/`;
+  };
 
   const loginLink = () => {
-    return `/${language}/account/login`
-  }
+    return `/${language}/account/login`;
+  };
 
   const registerLink = () => {
-    return `/${language}/account/register`
-  }
+    return `/${language}/account/register`;
+  };
 
   return {
     openLink,
@@ -68,5 +68,5 @@ export const useRouting = () => {
     checkoutLink,
     loginLink,
     registerLink,
-  }
-}
+  };
+};

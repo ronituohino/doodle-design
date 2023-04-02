@@ -1,22 +1,22 @@
-import { Container, Box } from "@mui/material"
+import { Container, Box } from "@mui/material";
 
-import { useQuery } from "@apollo/client"
-import { GET_PRODUCT } from "../../graphql/queries"
-import { useParams } from "react-router"
-import { useLanguage } from "../../hooks/useLanguage"
+import { useQuery } from "@apollo/client";
+import { GET_PRODUCT } from "../../graphql/queries";
+import { useParams } from "react-router";
+import { useLanguage } from "../../hooks/useLanguage";
 
-import Pictures from "./pictures/Pictures"
-import Panel from "./panel/Panel"
-import Extras from "./extras/Extras"
+import Pictures from "./pictures/Pictures";
+import Panel from "./panel/Panel";
+import Extras from "./extras/Extras";
 
-import Loading from "../general/Loading"
+import Loading from "../general/Loading";
 
 const ProductPage = () => {
-  const { id } = useParams()
-  const { language } = useLanguage()
+  const { id } = useParams();
+  const { language } = useLanguage();
   const { data } = useQuery(GET_PRODUCT, {
     variables: { id, language, currency: "EUR" },
-  })
+  });
 
   return (
     <>
@@ -56,7 +56,7 @@ const ProductPage = () => {
         )}
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default ProductPage
+export default ProductPage;

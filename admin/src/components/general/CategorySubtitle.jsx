@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material";
 
 const CategorySubtitle = ({ text }) => {
   return (
@@ -7,7 +7,7 @@ const CategorySubtitle = ({ text }) => {
         {text}
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default CategorySubtitle
+export default CategorySubtitle;

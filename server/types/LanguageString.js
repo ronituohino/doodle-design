@@ -1,2 +1,2 @@
-const language = require("../constants/language")
-module.exports = language.getMongoose()
+const language = require("../constants/language");
+module.exports = language.getMongoose();

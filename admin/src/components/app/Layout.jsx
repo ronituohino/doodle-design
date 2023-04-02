@@ -1,7 +1,7 @@
-import { Outlet } from "react-router-dom"
-import AdminDrawer from "./AdminDrawer"
-import Login from "./Login"
-import { Box, Divider } from "@mui/material"
+import { Outlet } from "react-router-dom";
+import AdminDrawer from "./AdminDrawer";
+import Login from "./Login";
+import { Box, Divider } from "@mui/material";
 
 const Layout = ({ isAdmin }) => {
   return (
@@ -23,7 +23,7 @@ const Layout = ({ isAdmin }) => {
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

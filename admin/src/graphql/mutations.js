@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -6,7 +6,7 @@ export const LOGIN = gql`
       token
     }
   }
-`
+`;
 
 export const CREATE_CATEGORY = gql`
   mutation CreateCategory(
@@ -24,7 +24,7 @@ export const CREATE_CATEGORY = gql`
       icon
     }
   }
-`
+`;
 
 export const EDIT_CATEGORY = gql`
   mutation EditCategory(
@@ -33,12 +33,7 @@ export const EDIT_CATEGORY = gql`
     $label: LanguageStringInput
     $icon: String
   ) {
-    editCategory(
-      _id: $id
-      urlPath: $urlPath
-      label: $label
-      icon: $icon
-    ) {
+    editCategory(_id: $id, urlPath: $urlPath, label: $label, icon: $icon) {
       _id
       urlPath
       label {
@@ -48,13 +43,13 @@ export const EDIT_CATEGORY = gql`
       icon
     }
   }
-`
+`;
 
 export const DELETE_CATEGORY = gql`
   mutation DeleteCategory($id: ID!) {
     deleteCategory(_id: $id)
   }
-`
+`;
 
 export const CREATE_PRODUCT = gql`
   mutation CreateProduct(
@@ -76,7 +71,7 @@ export const CREATE_PRODUCT = gql`
       _id
     }
   }
-`
+`;
 
 export const EDIT_PRODUCT = gql`
   mutation EditProduct(
@@ -102,13 +97,13 @@ export const EDIT_PRODUCT = gql`
       _id
     }
   }
-`
+`;
 
 export const DELETE_PRODUCT = gql`
   mutation DeleteProduct($id: ID!) {
     deleteProduct(_id: $id)
   }
-`
+`;
 
 export const EDIT_ACCOUNT = gql`
   mutation Mutation(
@@ -128,13 +123,13 @@ export const EDIT_ACCOUNT = gql`
       _id
     }
   }
-`
+`;
 
 export const DELETE_ACCOUNT = gql`
   mutation DeleteAccount($id: ID!) {
     deleteAccount(_id: $id)
   }
-`
+`;
 
 export const FILE_UPLOAD = gql`
   mutation FileUpload($files: [Upload]!) {
@@ -145,4 +140,4 @@ export const FILE_UPLOAD = gql`
       encoding
     }
   }
-`
+`;
