@@ -16,7 +16,9 @@ const hashPassword = async password => {
 
 const createToken = _id => {
   const userToken = { _id };
-  return { token: jwt.sign(userToken, process.env.JWT_SECRET) };
+  return {
+    token: jwt.sign(userToken, process.env.JWT_SECRET, { expiresIn: "2000s" }),
+  };
 };
 
 const streamToBase64 = stream => {
