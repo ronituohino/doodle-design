@@ -10,7 +10,9 @@
     "doodle design"
   ],
   "scripts": {
-    "dev": "DOCKER_BUILDKIT=1 docker-compose -f docker-compose.dev.yml up"
+    "dev": "DOCKER_BUILDKIT=1 docker-compose -f docker-compose.dev.yml up",
+    "build": "docker build -t recom .",
+    "prod": "docker run --env-file .env -p 4000:4000 recom"
   },
   "repository": {
     "type": "git",

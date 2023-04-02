@@ -39,18 +39,18 @@ const startApolloServer = async () => {
   app.use("/images", express.static("./public/images"));
 
   if (process.env.NODE_ENV === "production") {
-    // Serve client app from ../client/build folder
-    app.use(express.static("../client/build"));
-    // Serve admin app from ../admin/build folder
-    app.use(express.static("../admin/build"));
+    // Serve client app from client folder
+    app.use(express.static("client"));
+    // Serve admin app from admin folder
+    app.use(express.static("admin"));
     app.use("/*", (req, res, next) => {
       // Redirect /graphql requests to the Apollo Server using next()
       if (req.baseUrl.startsWith("/graphql")) {
         next();
       } else if (req.baseUrl.startsWith("/admin")) {
-        res.sendFile("index.html", { root: "../admin/build" });
+        res.sendFile("index.html", { root: "admin" });
       } else {
-        res.sendFile("index.html", { root: "../client/build" });
+        res.sendFile("index.html", { root: "client" });
       }
     });
   }

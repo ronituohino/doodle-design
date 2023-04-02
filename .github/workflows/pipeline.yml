@@ -30,7 +30,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env.production
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Build and Push Container
         run: |-
           DOCKER_BUILDKIT=1 docker build -t gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
@@ -38,9 +38,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Install pnpm & dotenv-cli
-        run: npm install -g pnpm dotenv-cli
 
       - name: Deploy container to Cloud Run
         id: deploy
@@ -51,7 +48,7 @@ jobs:
             gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE
             }}:${{ github.sha }}
           region: ${{ env.REGION }}
-          env_vars_file: .env.production
+          env_vars_file: .env
 
       - name: "Service output"
         run: 'curl "${{ steps.deploy.outputs.url }}"'
