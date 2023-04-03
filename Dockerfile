@@ -3,8 +3,8 @@ WORKDIR /app
 
 COPY . .
 
+ARG REACT_APP_BACKEND_URL
 ENV NODE_ENV=production
-ENV REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app
 
 RUN cd ./admin && npm ci && npm run build && mv build ../server/admin \
   && cd ../client && npm ci && npm run build && mv build ../server/client
@@ -16,6 +16,10 @@ WORKDIR /app
 
 COPY --from=build-stage /app/server ./
 
+ENV NODE_ENV=production
+
 RUN npm ci
+
+EXPOSE 4000
 
 CMD ["npm", "start"]
