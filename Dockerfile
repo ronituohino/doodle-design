@@ -16,6 +16,7 @@ WORKDIR /app
 
 COPY --from=build-stage /app/server ./
 
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 ENV NODE_ENV=production
 
 RUN npm ci
