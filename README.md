@@ -18,7 +18,7 @@ The client and admin application use
 
 ## Docs
 
-[Showcase, with some pics of the admin tools](./docs/showcase.md)
-[Setting up the development environment](./docs/development.md)
-[Setting up a local production container](./docs/local-production.md)
+[Showcase, with some pics of the admin tools](./docs/showcase.md)  
+[Setting up the development environment](./docs/development.md)  
+[Setting up a local production container](./docs/local-production.md)  
 [Deployment to Google Cloud Run](./docs/deployment.md)

@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "dev": "DOCKER_BUILDKIT=1 docker-compose -f docker-compose.dev.yml up",
-    "build": "docker build -t recom --build-arg REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app:4000 .",
+    "build": "docker build -t recom --build-arg REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app .",
     "prod": "docker run --env-file .env -p 4000:4000 recom"
   },
   "repository": {
