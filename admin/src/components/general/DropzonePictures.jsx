@@ -1,12 +1,12 @@
-import { useEffect, useMemo } from "react"
-import { useDropzone } from "react-dropzone"
+import { useEffect, useMemo } from "react";
+import { useDropzone } from "react-dropzone";
 
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
   marginTop: 16,
-}
+};
 
 const thumb = {
   display: "inline-flex",
@@ -18,19 +18,19 @@ const thumb = {
   height: 100,
   padding: 4,
   boxSizing: "border-box",
-}
+};
 
 const thumbInner = {
   display: "flex",
   minWidth: 0,
   overflow: "hidden",
-}
+};
 
 const img = {
   display: "block",
   width: "auto",
   height: "100%",
-}
+};
 
 const baseStyle = {
   flex: 1,
@@ -46,57 +46,47 @@ const baseStyle = {
   color: "#bdbdbd",
   outline: "none",
   transition: "border .24s ease-in-out",
-}
+};
 
 const focusedStyle = {
   borderColor: "#2196f3",
-}
+};
 
 const acceptStyle = {
   borderColor: "#00e676",
-}
+};
 
 const rejectStyle = {
   borderColor: "#ff1744",
-}
+};
 
-const DropzonePictures = ({
-  files,
-  setFilesCallback,
-  text,
-  subtext,
-}) => {
-  const {
-    getRootProps,
-    getInputProps,
-    isFocused,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({
-    accept: "image/*",
-    onDrop: (acceptedFiles) => {
-      setFilesCallback(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      )
-    },
-  })
+const DropzonePictures = ({ files, setFilesCallback, text, subtext }) => {
+  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
+    useDropzone({
+      accept: "image/*",
+      onDrop: acceptedFiles => {
+        setFilesCallback(
+          acceptedFiles.map(file =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          )
+        );
+      },
+    });
 
-  const thumbs = files.map((file) => (
+  const thumbs = files.map(file => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
         <img alt="upload preview" src={file.preview} style={img} />
       </div>
     </div>
-  ))
+  ));
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks
-    files.forEach((file) => URL.revokeObjectURL(file.preview))
-  }, [files])
+    files.forEach(file => URL.revokeObjectURL(file.preview));
+  }, [files]);
 
   const style = useMemo(
     () => ({
@@ -106,7 +96,7 @@ const DropzonePictures = ({
       ...(isDragReject ? rejectStyle : {}),
     }),
     [isFocused, isDragAccept, isDragReject]
-  )
+  );
 
   return (
     <section className="container">
@@ -117,7 +107,7 @@ const DropzonePictures = ({
       </div>
       <aside style={thumbsContainer}>{thumbs}</aside>
     </section>
-  )
-}
+  );
+};
 
-export default DropzonePictures
+export default DropzonePictures;

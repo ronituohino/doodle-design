@@ -1,11 +1,9 @@
-import { Box, Typography } from "@mui/material"
-import { getInnerFieldFromObject } from "../../../utils/utils"
+import { Box, Typography } from "@mui/material";
+import { getInnerFieldFromObject } from "../../../utils/utils";
 
 const FormikBox = ({ formik, field, label, children, sx }) => {
   const error =
-    formik && field
-      ? getInnerFieldFromObject(formik.errors, field)
-      : undefined
+    formik && field ? getInnerFieldFromObject(formik.errors, field) : undefined;
 
   return (
     <Box sx={{ ...sx, mt: -2.5 }}>
@@ -20,10 +18,7 @@ const FormikBox = ({ formik, field, label, children, sx }) => {
           backgroundColor: "white",
         }}
       >
-        <Typography
-          variant="caption"
-          color={error ? "error.main" : "grey.700"}
-        >
+        <Typography variant="caption" color={error ? "error.main" : "grey.700"}>
           {label}
         </Typography>
       </Box>
@@ -48,7 +43,7 @@ const FormikBox = ({ formik, field, label, children, sx }) => {
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};
 
-export default FormikBox
+export default FormikBox;

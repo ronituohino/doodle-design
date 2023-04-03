@@ -1,18 +1,17 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { Box, Button } from "@mui/material"
-import { useDebounce } from "use-debounce"
-import SearchBar from "../../general/SearchBar"
-import ProductDialog from "./dialog/ProductDialog"
-import CategorySubtitle from "../../general/CategorySubtitle"
-import ProductList from "./ProductList"
+import { Box, Button } from "@mui/material";
+import { useDebounce } from "use-debounce";
+import SearchBar from "../../general/SearchBar";
+import ProductDialog from "./dialog/ProductDialog";
+import CategorySubtitle from "../../general/CategorySubtitle";
+import ProductList from "./ProductList";
 
 const Manage = () => {
-  const [searchWord, setSearchWord] = useState("")
-  const [debouncedSearchWord] = useDebounce(searchWord, 300)
+  const [searchWord, setSearchWord] = useState("");
+  const [debouncedSearchWord] = useDebounce(searchWord, 300);
 
-  const [createProductDialogOpen, setCreateProductDialogOpen] =
-    useState(false)
+  const [createProductDialogOpen, setCreateProductDialogOpen] = useState(false);
 
   return (
     <>
@@ -46,7 +45,7 @@ const Manage = () => {
         <ProductList productSearchFilter={debouncedSearchWord} />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default Manage
+export default Manage;

@@ -6,22 +6,18 @@ import {
   ListItemButton,
   ListItemText,
   Icon,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useAccount } from "../../hooks/useAccount"
-import { useLanguage } from "../../hooks/useLanguage"
-import { useRouting } from "../../hooks/useRouting"
-import { getText } from "../../utils/dictionary"
+import { useAccount } from "../../hooks/useAccount";
+import { useLanguage } from "../../hooks/useLanguage";
+import { useRouting } from "../../hooks/useRouting";
+import { getText } from "../../utils/dictionary";
 
 const AccountDrawer = () => {
-  const { language } = useLanguage()
-  const { data } = useAccount()
-  const {
-    openLink,
-    accountLink,
-    accountSettingsLink,
-    accountOrdersLink,
-  } = useRouting()
+  const { language } = useLanguage();
+  const { data } = useAccount();
+  const { openLink, accountLink, accountSettingsLink, accountOrdersLink } =
+    useRouting();
 
   return (
     <>
@@ -42,9 +38,7 @@ const AccountDrawer = () => {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => openLink(accountSettingsLink())}
-          >
+          <ListItemButton onClick={() => openLink(accountSettingsLink())}>
             <ListItemIcon>
               <Icon>manage_accounts</Icon>
             </ListItemIcon>
@@ -53,9 +47,7 @@ const AccountDrawer = () => {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => openLink(accountOrdersLink())}
-          >
+          <ListItemButton onClick={() => openLink(accountOrdersLink())}>
             <ListItemIcon>
               <Icon>local_shipping</Icon>
             </ListItemIcon>
@@ -64,7 +56,7 @@ const AccountDrawer = () => {
         </ListItem>
       </List>
     </>
-  )
-}
+  );
+};
 
-export default AccountDrawer
+export default AccountDrawer;

@@ -1,56 +1,52 @@
-import {
-  useQuery,
-  useMutation,
-  useApolloClient,
-} from "@apollo/client"
-import { ACCOUNT } from "../graphql/queries"
-import { LOGIN } from "../graphql/mutations"
-import { REGISTER } from "../graphql/mutations"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import { ACCOUNT } from "../graphql/queries";
+import { LOGIN } from "../graphql/mutations";
+import { REGISTER } from "../graphql/mutations";
 
-import { useSnackbar } from "notistack"
+import { useSnackbar } from "notistack";
 
-export const useAccount = (callback) => {
-  const { enqueueSnackbar } = useSnackbar()
-  const { data } = useQuery(ACCOUNT)
-  const client = useApolloClient()
+export const useAccount = callback => {
+  const { enqueueSnackbar } = useSnackbar();
+  const { data } = useQuery(ACCOUNT);
+  const client = useApolloClient();
 
   const [registerMutation, registerData] = useMutation(REGISTER, {
-    onError: (error) => {
+    onError: error => {
       enqueueSnackbar(`${error.message}`, {
         variant: "error",
-      })
-      return undefined
+      });
+      return undefined;
     },
-    onCompleted: (response) => {
-      setToken(response.createAccount.token)
+    onCompleted: response => {
+      setToken(response.createAccount.token);
 
-      client.resetStore()
+      client.resetStore();
 
       if (callback) {
-        callback()
+        callback();
       }
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
 
   const [loginMutation, loginData] = useMutation(LOGIN, {
-    onError: (error) => {
+    onError: error => {
       enqueueSnackbar(`${error.message}`, {
         variant: "error",
-      })
-      return undefined
+      });
+      return undefined;
     },
-    onCompleted: (response) => {
-      setToken(response.login.token)
+    onCompleted: response => {
+      setToken(response.login.token);
 
-      client.resetStore()
+      client.resetStore();
 
       if (callback) {
-        callback()
+        callback();
       }
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
 
   const register = (username, email, password) => {
     registerMutation({
@@ -59,8 +55,8 @@ export const useAccount = (callback) => {
         email,
         password,
       },
-    })
-  }
+    });
+  };
 
   const logIn = async (email, password) => {
     loginMutation({
@@ -68,28 +64,28 @@ export const useAccount = (callback) => {
         email,
         password,
       },
-    })
-  }
+    });
+  };
 
-  const setToken = (token) => {
-    localStorage.setItem("token", token)
-  }
+  const setToken = token => {
+    localStorage.setItem("token", token);
+  };
 
-  const logOut = async (callback) => {
-    localStorage.removeItem("token")
-    await client.resetStore()
+  const logOut = async callback => {
+    localStorage.removeItem("token");
+    await client.resetStore();
 
     if (callback) {
-      callback()
+      callback();
     }
-  }
+  };
 
   const loggedIn = () => {
     if (data && data.me) {
-      return true
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   return {
     register,
@@ -99,5 +95,5 @@ export const useAccount = (callback) => {
     logOut,
     data,
     loggedIn,
-  }
-}
+  };
+};

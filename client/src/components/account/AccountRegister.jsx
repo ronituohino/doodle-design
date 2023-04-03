@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 import {
   Container,
@@ -7,36 +7,36 @@ import {
   IconButton,
   Paper,
   Icon,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useFormik } from "formik"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import * as yup from "yup";
 
-import FormikField from "../general/formik/FormikField"
+import FormikField from "../general/formik/FormikField";
 
-import { useAccount } from "../../hooks/useAccount"
-import { useRouting } from "../../hooks/useRouting"
+import { useAccount } from "../../hooks/useAccount";
+import { useRouting } from "../../hooks/useRouting";
 
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import LoadingButton from "../general/LoadingButton"
-import { useSnackbar } from "notistack"
-import { useLanguage } from "../../hooks/useLanguage"
-import { getText } from "../../utils/dictionary"
+import LoadingButton from "../general/LoadingButton";
+import { useSnackbar } from "notistack";
+import { useLanguage } from "../../hooks/useLanguage";
+import { getText } from "../../utils/dictionary";
 
 const AccountRegister = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
 
-  const { openLink, homeLink, loginLink } = useRouting()
-  const { enqueueSnackbar } = useSnackbar()
-  const [waiting, setWaiting] = useState(false)
+  const { openLink, homeLink, loginLink } = useRouting();
+  const { enqueueSnackbar } = useSnackbar();
+  const [waiting, setWaiting] = useState(false);
 
   const { register, registerData } = useAccount(() => {
     enqueueSnackbar(getText(language, "registrationNotification"), {
       variant: "success",
-    })
-    openLink(homeLink())
-  })
+    });
+    openLink(homeLink());
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -58,27 +58,27 @@ const AccountRegister = () => {
         .min(6, getText(language, "moreThanFiveChars"))
         .required(getText(language, "passwordRequired")),
     }),
-    onSubmit: (values) => {
-      setWaiting(true)
+    onSubmit: values => {
+      setWaiting(true);
       setTimeout(() => {
-        register(values.username, values.email, values.password)
-      }, 4000)
+        register(values.username, values.email, values.password);
+      }, 4000);
     },
     validateOnBlur: true,
-  })
+  });
 
   useEffect(() => {
-    formik.validateForm()
+    formik.validateForm();
     // eslint-disable-next-line
-  }, [language])
+  }, [language]);
 
   const [values, setValues] = useState({
     showPassword: false,
-  })
+  });
 
   const togglePasswordVisibility = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
 
   return (
     <Container maxWidth={"xs"}>
@@ -118,12 +118,8 @@ const AccountRegister = () => {
           sx={{ marginBottom: 2 }}
         />
         <LoadingButton
-          loading={
-            waiting || (registerData ? registerData.loading : false)
-          }
-          disabled={
-            !formik.isValid || formik.values === formik.initialValues
-          }
+          loading={waiting || (registerData ? registerData.loading : false)}
+          disabled={!formik.isValid || formik.values === formik.initialValues}
           color="secondary"
           variant="contained"
           fullWidth
@@ -132,16 +128,13 @@ const AccountRegister = () => {
         />
 
         <Link to={loginLink()} style={{ textDecoration: "none" }}>
-          <Typography
-            color="secondary"
-            sx={{ textAlign: "center", mt: 1 }}
-          >
+          <Typography color="secondary" sx={{ textAlign: "center", mt: 1 }}>
             {getText(language, "registeredAlready")}
           </Typography>
         </Link>
       </Paper>
     </Container>
-  )
-}
+  );
+};
 
-export default AccountRegister
+export default AccountRegister;

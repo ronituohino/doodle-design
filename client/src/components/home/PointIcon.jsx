@@ -1,4 +1,4 @@
-import { Box, Icon, Typography } from "@mui/material"
+import { Box, Icon, Typography } from "@mui/material";
 
 const PointIcon = ({ icon, text, textColor, iconColor }) => {
   return (
@@ -33,7 +33,7 @@ const PointIcon = ({ icon, text, textColor, iconColor }) => {
         {text}
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default PointIcon
+export default PointIcon;

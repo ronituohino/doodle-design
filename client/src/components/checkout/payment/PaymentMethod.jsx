@@ -1,23 +1,21 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material";
 
 const nonSelectedSx = {
   borderColor: "lightgray",
-}
+};
 const selectedSx = {
   borderColor: "secondary.main",
-}
+};
 
 const PaymentMethod = ({ name, imgSrc, selected, selectThis }) => {
-  const sx = selected === name ? selectedSx : nonSelectedSx
+  const sx = selected === name ? selectedSx : nonSelectedSx;
 
   return (
     <Box
       onClick={() => selectThis(name)}
       sx={{ textAlign: "center", cursor: "pointer" }}
     >
-      <Box
-        sx={{ cursor: "pointer", border: 2, borderRadius: 2, ...sx }}
-      >
+      <Box sx={{ cursor: "pointer", border: 2, borderRadius: 2, ...sx }}>
         <img
           alt={name}
           src={imgSrc}
@@ -30,7 +28,7 @@ const PaymentMethod = ({ name, imgSrc, selected, selectThis }) => {
       </Box>
       <Typography variant="caption">{name}</Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default PaymentMethod
+export default PaymentMethod;

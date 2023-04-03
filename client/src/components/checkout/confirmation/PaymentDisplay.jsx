@@ -1,27 +1,27 @@
-import LabelPaper from "../../general/LabelPaper"
-import { Typography } from "@mui/material"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import LabelPaper from "../../general/LabelPaper";
+import { Typography } from "@mui/material";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const PaymentDisplay = ({ checkout, constants }) => {
-  const { language } = useLanguage()
-  let paymentMethodText = ""
-  let paymentProviderText = ""
+  const { language } = useLanguage();
+  let paymentMethodText = "";
+  let paymentProviderText = "";
 
   switch (checkout.paymentDetails.paymentMethod) {
     case constants.PREPAYMENT:
-      paymentMethodText = getText(language, "prePayment")
-      paymentProviderText = checkout.paymentDetails.prePayment
-      break
+      paymentMethodText = getText(language, "prePayment");
+      paymentProviderText = checkout.paymentDetails.prePayment;
+      break;
     case constants.INSTALLMENT:
-      paymentMethodText = getText(language, "installment")
-      paymentProviderText = checkout.paymentDetails.installment
-      break
+      paymentMethodText = getText(language, "installment");
+      paymentProviderText = checkout.paymentDetails.installment;
+      break;
     case constants.LOCAL_PAYMENT:
-      paymentMethodText = getText(language, "localPayment")
-      break
+      paymentMethodText = getText(language, "localPayment");
+      break;
     default:
-      break
+      break;
   }
   return (
     <LabelPaper
@@ -39,7 +39,7 @@ const PaymentDisplay = ({ checkout, constants }) => {
         </Typography>
       )}
     </LabelPaper>
-  )
-}
+  );
+};
 
-export default PaymentDisplay
+export default PaymentDisplay;

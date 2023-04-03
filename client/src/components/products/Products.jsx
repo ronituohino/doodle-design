@@ -1,15 +1,15 @@
-import { matchPath } from "react-router"
-import { useLocation } from "react-router-dom"
+import { matchPath } from "react-router";
+import { useLocation } from "react-router-dom";
 
-import { useQuery } from "@apollo/client"
-import { GET_CATEGORIES } from "../../graphql/queries"
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORIES } from "../../graphql/queries";
 
-import ProductList from "./ProductList"
-import Loading from "../general/Loading"
+import ProductList from "./ProductList";
+import Loading from "../general/Loading";
 
 const Products = () => {
-  const { data, loading } = useQuery(GET_CATEGORIES)
-  const location = useLocation()
+  const { data, loading } = useQuery(GET_CATEGORIES);
+  const location = useLocation();
   const urlCategoryName = matchPath(
     {
       path: "/:language/product/:category",
@@ -17,22 +17,16 @@ const Products = () => {
       strict: false,
     },
     location.pathname
-  ).params.category
+  ).params.category;
 
   const category =
     data && data.getCategories
-      ? data.getCategories.find((c) => c.urlPath === urlCategoryName)
-      : undefined
+      ? data.getCategories.find(c => c.urlPath === urlCategoryName)
+      : undefined;
 
   return (
-    <>
-      {loading ? (
-        <Loading size={16} />
-      ) : (
-        <ProductList category={category} />
-      )}
-    </>
-  )
-}
+    <>{loading ? <Loading size={16} /> : <ProductList category={category} />}</>
+  );
+};
 
-export default Products
+export default Products;

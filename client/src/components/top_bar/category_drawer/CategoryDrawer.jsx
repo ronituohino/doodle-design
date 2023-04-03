@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   Drawer,
   IconButton,
@@ -6,19 +6,19 @@ import {
   ClickAwayListener,
   Icon,
   ListSubheader,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useQuery } from "@apollo/client"
-import { GET_CATEGORIES } from "../../../graphql/queries"
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORIES } from "../../../graphql/queries";
 
-import Category from "./Category"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import Category from "./Category";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const CategoryDrawer = () => {
-  const { language } = useLanguage()
-  const { data } = useQuery(GET_CATEGORIES)
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const { language } = useLanguage();
+  const { data } = useQuery(GET_CATEGORIES);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <>
       <Box sx={{ alignSelf: "center" }}>
@@ -39,7 +39,7 @@ const CategoryDrawer = () => {
               <>
                 {data.getCategories.length > 0 ? (
                   <>
-                    {data.getCategories.map((category) => {
+                    {data.getCategories.map(category => {
                       return (
                         <Category
                           closeMenu={() => setDrawerOpen(false)}
@@ -47,7 +47,7 @@ const CategoryDrawer = () => {
                           category={category}
                           language={language}
                         />
-                      )
+                      );
                     })}
                   </>
                 ) : (
@@ -61,7 +61,7 @@ const CategoryDrawer = () => {
         </ClickAwayListener>
       </Drawer>
     </>
-  )
-}
+  );
+};
 
-export default CategoryDrawer
+export default CategoryDrawer;

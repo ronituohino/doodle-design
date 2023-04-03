@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   Badge,
   IconButton,
@@ -8,48 +8,48 @@ import {
   Box,
   Typography,
   Icon,
-} from "@mui/material"
+} from "@mui/material";
 
-import { useShoppingCart } from "../../../hooks/useShoppingCart"
+import { useShoppingCart } from "../../../hooks/useShoppingCart";
 
-import ShoppingCartProduct from "./ShoppingCartProduct"
+import ShoppingCartProduct from "./ShoppingCartProduct";
 
-import { formatPrice } from "../../../utils/formatting"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { useRouting } from "../../../hooks/useRouting"
-import { getText } from "../../../utils/dictionary"
+import { formatPrice } from "../../../utils/formatting";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { useRouting } from "../../../hooks/useRouting";
+import { getText } from "../../../utils/dictionary";
 
 const ShoppingCart = () => {
-  const { language } = useLanguage()
-  const { openLink, checkoutLink, inCheckout } = useRouting()
-  const [anchorEl, setAnchorEl] = useState(null)
+  const { language } = useLanguage();
+  const { openLink, checkoutLink, inCheckout } = useRouting();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const { data, totalAmountOfProducts, totalPriceOfProducts } =
-    useShoppingCart()
-  const totalAmount = totalAmountOfProducts()
-  const totalPrice = totalPriceOfProducts()
+    useShoppingCart();
+  const totalAmount = totalAmountOfProducts();
+  const totalPrice = totalPriceOfProducts();
 
-  const openMenu = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  const openMenu = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const closeMenu = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
-  const notificationsLabel = (itemCount) => {
+  const notificationsLabel = itemCount => {
     if (itemCount === 0) {
-      return "no items in shopping cart"
+      return "no items in shopping cart";
     } else if (itemCount > 99) {
-      return "more than 99 items in shopping cart"
+      return "more than 99 items in shopping cart";
     } else if (itemCount === 1) {
-      return "1 item in shopping cart"
+      return "1 item in shopping cart";
     } else {
-      return `${itemCount} items in shopping cart`
+      return `${itemCount} items in shopping cart`;
     }
-  }
+  };
 
-  const disableCartButton = inCheckout()
+  const disableCartButton = inCheckout();
 
   return (
     <>
@@ -82,24 +82,21 @@ const ShoppingCart = () => {
       >
         {totalAmount === 0 && (
           <Box sx={{ p: 2, pb: 0 }}>
-            <Typography
-              color="grey.700"
-              sx={{ textAlign: "center", mb: 2 }}
-            >
+            <Typography color="grey.700" sx={{ textAlign: "center", mb: 2 }}>
               {getText(language, "cartEmptyText")}
             </Typography>
           </Box>
         )}
         {totalAmount > 0 && (
           <Box>
-            {data.cartProducts.map((obj) => {
+            {data.cartProducts.map(obj => {
               return (
                 <ShoppingCartProduct
                   key={obj.product.hash}
                   cartObject={obj}
                   closeMenu={closeMenu}
                 />
-              )
+              );
             })}
 
             <Box
@@ -131,8 +128,8 @@ const ShoppingCart = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                  openLink(checkoutLink())
-                  closeMenu()
+                  openLink(checkoutLink());
+                  closeMenu();
                 }}
               >
                 {getText(language, "openCheckout")}
@@ -142,7 +139,7 @@ const ShoppingCart = () => {
         )}
       </Menu>
     </>
-  )
-}
+  );
+};
 
-export default ShoppingCart
+export default ShoppingCart;

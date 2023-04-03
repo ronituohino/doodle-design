@@ -1,14 +1,14 @@
-import { Paper, Typography, Box, Divider } from "@mui/material"
+import { Paper, Typography, Box, Divider } from "@mui/material";
 
-import ProductCard from "../products/ProductCard"
-import { useQuery } from "@apollo/client"
-import { GET_PRODUCTS } from "../../graphql/queries"
-import PointIcon from "./PointIcon"
-import { getText } from "../../utils/dictionary"
-import { useLanguage } from "../../hooks/useLanguage"
+import ProductCard from "../products/ProductCard";
+import { useQuery } from "@apollo/client";
+import { GET_PRODUCTS } from "../../graphql/queries";
+import PointIcon from "./PointIcon";
+import { getText } from "../../utils/dictionary";
+import { useLanguage } from "../../hooks/useLanguage";
 
 const Home = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
 
   // A tagging system would be a lot handier here
   const sneakerQuery = useQuery(GET_PRODUCTS, {
@@ -20,7 +20,7 @@ const Home = () => {
         searchLanguage: "en",
       },
     },
-  })
+  });
 
   const sockQuery = useQuery(GET_PRODUCTS, {
     variables: {
@@ -31,7 +31,7 @@ const Home = () => {
         searchLanguage: "en",
       },
     },
-  })
+  });
 
   return (
     <Box>
@@ -102,16 +102,11 @@ const Home = () => {
                   <Typography variant="h5" sx={{ width: "150px" }}>
                     {getText(language, "sneakerPaperTitle")}
                   </Typography>
-                  <Typography
-                    color="grey.700"
-                    sx={{ width: "150px", mt: 2 }}
-                  >
+                  <Typography color="grey.700" sx={{ width: "150px", mt: 2 }}>
                     {getText(language, "sneakerPaperDescription")}
                   </Typography>
                 </Box>
-                <ProductCard
-                  product={sneakerQuery.data.getProducts.docs[0]}
-                />
+                <ProductCard product={sneakerQuery.data.getProducts.docs[0]} />
               </Paper>
             )}
         </>
@@ -160,7 +155,7 @@ const Home = () => {
         </Typography>
       </Paper>
     </Box>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

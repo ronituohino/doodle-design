@@ -4,7 +4,7 @@ import {
   ListItemText,
   Icon,
   IconButton,
-} from "@mui/material"
+} from "@mui/material";
 
 const Category = ({ category, openEditDialog, openDeleteDialog }) => {
   return (
@@ -25,7 +25,7 @@ const Category = ({ category, openEditDialog, openDeleteDialog }) => {
         </IconButton>
       </ListItemIcon>
     </ListItem>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

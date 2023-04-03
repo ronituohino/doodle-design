@@ -1,33 +1,26 @@
-import { List, Box, Pagination, Divider } from "@mui/material"
+import { List, Box, Pagination, Divider } from "@mui/material";
 
-import {
-  useQuery,
-  useMutation,
-  useApolloClient,
-} from "@apollo/client"
-import { GET_PRODUCTS } from "../../../graphql/queries"
-import {
-  EDIT_PRODUCT,
-  DELETE_PRODUCT,
-} from "../../../graphql/mutations"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import { GET_PRODUCTS } from "../../../graphql/queries";
+import { EDIT_PRODUCT, DELETE_PRODUCT } from "../../../graphql/mutations";
 
-import ConfirmDialog from "../../general/ConfirmDialog"
-import ProductDialog from "./dialog/ProductDialog"
+import ConfirmDialog from "../../general/ConfirmDialog";
+import ProductDialog from "./dialog/ProductDialog";
 
-import Loading from "../../general/Loading"
-import ProductLine from "./ProductLine"
-import { useState } from "react"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { useSnackbar } from "notistack"
+import Loading from "../../general/Loading";
+import ProductLine from "./ProductLine";
+import { useState } from "react";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { useSnackbar } from "notistack";
 
 const ProductList = ({ productSearchFilter }) => {
-  const client = useApolloClient()
-  const { enqueueSnackbar } = useSnackbar()
-  const { language } = useLanguage()
+  const client = useApolloClient();
+  const { enqueueSnackbar } = useSnackbar();
+  const { language } = useLanguage();
 
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
   // eslint-disable-next-line
-  const [size, setSize] = useState(10)
+  const [size, setSize] = useState(10);
 
   const { data, error } = useQuery(GET_PRODUCTS, {
     variables: {
@@ -38,62 +31,58 @@ const ProductList = ({ productSearchFilter }) => {
         searchLanguage: language,
       },
     },
-  })
+  });
 
   const [editProductMutation] = useMutation(EDIT_PRODUCT, {
     onCompleted: () => {
       enqueueSnackbar("Product updated!", {
         variant: "success",
-      })
+      });
 
       // Refetch GET_PRODUCTS query
       client.refetchQueries({
         include: [GET_PRODUCTS],
-      })
+      });
     },
-  })
+  });
   const [deleteProductMutation] = useMutation(DELETE_PRODUCT, {
     onCompleted: () => {
       enqueueSnackbar("Product deleted!", {
         variant: "success",
-      })
+      });
 
       // Refetch GET_PRODUCTS query
       client.refetchQueries({
         include: [GET_PRODUCTS],
-      })
+      });
     },
-  })
+  });
 
-  const [visibilityDialogOpen, setVisibilityDialogOpen] =
-    useState(false)
-  const [visibilityDialogProduct, setVisiblityDialogProduct] =
-    useState(false)
-  const openVisibilityDialog = (product) => {
-    setVisibilityDialogOpen(true)
-    setVisiblityDialogProduct(product)
-  }
+  const [visibilityDialogOpen, setVisibilityDialogOpen] = useState(false);
+  const [visibilityDialogProduct, setVisiblityDialogProduct] = useState(false);
+  const openVisibilityDialog = product => {
+    setVisibilityDialogOpen(true);
+    setVisiblityDialogProduct(product);
+  };
 
-  const [modifyDialogOpen, setModifyDialogOpen] = useState(false)
-  const [modifyDialogProduct, setModifyDialogProduct] =
-    useState(false)
-  const openModifyDialog = (product) => {
-    setModifyDialogOpen(true)
-    setModifyDialogProduct(product)
-  }
+  const [modifyDialogOpen, setModifyDialogOpen] = useState(false);
+  const [modifyDialogProduct, setModifyDialogProduct] = useState(false);
+  const openModifyDialog = product => {
+    setModifyDialogOpen(true);
+    setModifyDialogProduct(product);
+  };
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [deleteDialogProduct, setDeleteDialogProduct] =
-    useState(false)
-  const openDeleteDialog = (product) => {
-    setDeleteDialogOpen(true)
-    setDeleteDialogProduct(product)
-  }
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteDialogProduct, setDeleteDialogProduct] = useState(false);
+  const openDeleteDialog = product => {
+    setDeleteDialogOpen(true);
+    setDeleteDialogProduct(product);
+  };
 
   // callback from bottom pagination component
   const changePage = (event, value) => {
-    setPage(value - 1) // backend pagination starts from 0
-  }
+    setPage(value - 1); // backend pagination starts from 0
+  };
 
   return (
     <>
@@ -103,7 +92,7 @@ const ProductList = ({ productSearchFilter }) => {
           <List>
             {!data && <Loading size={16} />}
             {data &&
-              data.getProducts.docs.map((p) => (
+              data.getProducts.docs.map(p => (
                 <ProductLine
                   key={p._id}
                   product={p}
@@ -123,15 +112,11 @@ const ProductList = ({ productSearchFilter }) => {
               visibilityDialogProduct.visible ? "hidden" : "visible"
             }?`}
             text={`This will make the product ${
-              visibilityDialogProduct.visible
-                ? "hidden from"
-                : "visible to"
+              visibilityDialogProduct.visible ? "hidden from" : "visible to"
             } all users in the store`}
             cancelText="Cancel"
             acceptText={`${
-              visibilityDialogProduct.visible
-                ? "Make hidden"
-                : "Make visible"
+              visibilityDialogProduct.visible ? "Make hidden" : "Make visible"
             }`}
             acceptCallback={() => {
               editProductMutation({
@@ -139,7 +124,7 @@ const ProductList = ({ productSearchFilter }) => {
                   id: visibilityDialogProduct._id,
                   visible: !visibilityDialogProduct.visible,
                 },
-              })
+              });
             }}
           />
 
@@ -158,7 +143,7 @@ const ProductList = ({ productSearchFilter }) => {
                   }
                 : null
             }
-            overrideSubmit={(values) => {
+            overrideSubmit={values => {
               editProductMutation({
                 variables: {
                   id: modifyDialogProduct._id,
@@ -169,7 +154,7 @@ const ProductList = ({ productSearchFilter }) => {
                   description: values.description,
                   price: values.price,
                 },
-              })
+              });
             }}
           />
 
@@ -187,7 +172,7 @@ const ProductList = ({ productSearchFilter }) => {
             acceptCallback={() => {
               deleteProductMutation({
                 variables: { id: deleteDialogProduct._id },
-              })
+              });
             }}
           />
 
@@ -210,7 +195,7 @@ const ProductList = ({ productSearchFilter }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default ProductList
+export default ProductList;

@@ -1,16 +1,16 @@
-import { Container, Button } from "@mui/material"
+import { Container, Button } from "@mui/material";
 
-import { Box, Paper } from "@mui/material"
+import { Box, Paper } from "@mui/material";
 
-import FormikField from "../../general/formik/FormikField"
-import FormikAutoSave from "../../general/formik/FormikAutoSave"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import FormikField from "../../general/formik/FormikField";
+import FormikAutoSave from "../../general/formik/FormikAutoSave";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const BillingAddress = ({ formik, next, checkout, hidden }) => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   const nextButtonDisabled =
-    !checkout || !checkout.billingDetails || !formik.isValid
+    !checkout || !checkout.billingDetails || !formik.isValid;
 
   return (
     <>
@@ -90,7 +90,7 @@ const BillingAddress = ({ formik, next, checkout, hidden }) => {
         </Container>
       )}
     </>
-  )
-}
+  );
+};
 
-export default BillingAddress
+export default BillingAddress;

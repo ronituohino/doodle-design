@@ -1,6 +1,6 @@
-import { Box, IconButton, Typography, Icon } from "@mui/material"
+import { Box, IconButton, Typography, Icon } from "@mui/material";
 
-import LabelPaper from "./LabelPaper"
+import LabelPaper from "./LabelPaper";
 
 const AddressDisplay = ({
   elevation,
@@ -22,9 +22,7 @@ const AddressDisplay = ({
         >
           <Box sx={{ display: "flex" }}>
             <Box sx={{ flexBasis: "90%" }}>
-              <Typography
-                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-              >
+              <Typography sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
                 {address.firstName} {address.lastName}
               </Typography>
               <Typography
@@ -53,14 +51,10 @@ const AddressDisplay = ({
               >
                 {address.address}
               </Typography>
-              <Typography
-                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-              >
+              <Typography sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
                 {address.zipCode} {address.city}
               </Typography>
-              <Typography
-                sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-              >
+              <Typography sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
                 {address.phone}
               </Typography>
             </Box>
@@ -72,10 +66,7 @@ const AddressDisplay = ({
                   alignSelf: "center",
                 }}
               >
-                <IconButton
-                  onClick={enterEdit}
-                  sx={{ width: 48, height: 48 }}
-                >
+                <IconButton onClick={enterEdit} sx={{ width: 48, height: 48 }}>
                   <Icon>edit</Icon>
                 </IconButton>
               </Box>
@@ -84,7 +75,7 @@ const AddressDisplay = ({
         </LabelPaper>
       )}
     </>
-  )
-}
+  );
+};
 
-export default AddressDisplay
+export default AddressDisplay;

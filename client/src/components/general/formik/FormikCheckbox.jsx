@@ -1,16 +1,16 @@
-import { Box, Checkbox } from "@mui/material"
-import * as React from "react"
+import { Box, Checkbox } from "@mui/material";
+import * as React from "react";
 
 const FormikCheckbox = ({ formik, field, children }) => {
-  const checked = formik.values[field]
-  const childrenWithProps = React.Children.map(children, (child) => {
+  const checked = formik.values[field];
+  const childrenWithProps = React.Children.map(children, child => {
     // Checking isValidElement is the safe way and avoids a typescript
     // error too.
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { checked })
+      return React.cloneElement(child, { checked });
     }
-    return child
-  })
+    return child;
+  });
 
   return (
     <Box
@@ -33,7 +33,7 @@ const FormikCheckbox = ({ formik, field, children }) => {
 
       {childrenWithProps}
     </Box>
-  )
-}
+  );
+};
 
-export default FormikCheckbox
+export default FormikCheckbox;

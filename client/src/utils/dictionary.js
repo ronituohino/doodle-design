@@ -1,6 +1,6 @@
 export const getText = (language, variable) => {
-  return dictionary[language][variable]
-}
+  return dictionary[language][variable];
+};
 
 export const dictionary = {
   en: {
@@ -144,8 +144,7 @@ export const dictionary = {
     firstName: "Etunimi",
     firstNameRequired: "Etunimi on pakollinen",
     homeDelivery: "Kotiinkuljetus",
-    homeDeliveryDetails:
-      "Kuljetus suoraan sinun (tai kaverisi) kotiovelle",
+    homeDeliveryDetails: "Kuljetus suoraan sinun (tai kaverisi) kotiovelle",
     homeEndText: "Lisää tulossa...",
     homeExplanationOne:
       "Doodle Design on ympäristöystävällinen vaatelinja, joka luo vaattetia, joita ihmiset halauavat pitää",
@@ -207,8 +206,7 @@ export const dictionary = {
     recipientIsNotMe: "Minä en ole paketin vastaanottaja",
     register: "Rekisteröidy",
     registeredAlready: "Onko sinulla jo käyttäjätili?",
-    registrationNotification:
-      "Rekisteröityminen onnistui, tervetuloa!",
+    registrationNotification: "Rekisteröityminen onnistui, tervetuloa!",
     search: "Hae",
     searchEmptyText: "Kirjoita jotain hakeaksesi tuotteita!",
     searchNoFoundText: "Tuotteita ei löytynyt!",
@@ -229,4 +227,4 @@ export const dictionary = {
     zipCode: "Zip",
     zipCodeRequired: "Zip on pakollinen",
   },
-}
+};

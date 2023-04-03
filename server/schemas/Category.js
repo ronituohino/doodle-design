@@ -1,41 +1,41 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const LanguageString = require("../types/LanguageString")
+const LanguageString = require("../types/LanguageString");
 
 const categorySchema = new mongoose.Schema({
   urlPath: { type: String, required: true },
   label: { type: LanguageString, required: true },
   icon: { type: String, required: true },
-})
+});
 
-const Category = mongoose.model("Category", categorySchema)
+const Category = mongoose.model("Category", categorySchema);
 
-const { requireAdmin } = require("../utils/authentication")
+const { requireAdmin } = require("../utils/authentication");
 
 const categoryResolvers = {
   Query: {
     getCategories: async () => {
-      const categories = await Category.find({})
-      return categories
+      const categories = await Category.find({});
+      return categories;
     },
   },
   Mutation: {
     createCategory: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
       const category = new Category({
         urlPath: args.urlPath,
         label: args.label,
         icon: args.icon,
-      })
+      });
 
-      const response = category.save()
+      const response = category.save();
 
-      return response
+      return response;
     },
 
     editCategory: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
       const category = await Category.findByIdAndUpdate(
         args._id,
@@ -45,20 +45,20 @@ const categoryResolvers = {
           ...(args.icon != null && { icon: args.icon }),
         },
         { new: true }
-      )
+      );
 
-      return category
+      return category;
     },
 
     deleteCategory: async (root, args, context) => {
-      requireAdmin(context)
+      requireAdmin(context);
 
-      await Category.findByIdAndDelete(args._id)
+      await Category.findByIdAndDelete(args._id);
 
-      return true
+      return true;
     },
   },
-}
+};
 
 const categoryTypeDefs = `
   type Category {
@@ -88,6 +88,6 @@ const categoryTypeDefs = `
 
     deleteCategory(_id: ID!): Boolean!
   }
-`
+`;
 
-module.exports = { Category, categoryResolvers, categoryTypeDefs }
+module.exports = { Category, categoryResolvers, categoryTypeDefs };

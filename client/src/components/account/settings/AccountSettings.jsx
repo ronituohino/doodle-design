@@ -1,33 +1,33 @@
-import { useApolloClient, useMutation } from "@apollo/client"
-import { Box, Button } from "@mui/material"
-import PageSubtitle from "../PageSubtitle"
+import { useApolloClient, useMutation } from "@apollo/client";
+import { Box, Button } from "@mui/material";
+import PageSubtitle from "../PageSubtitle";
 
-import { useFormik } from "formik"
-import { useEffect } from "react"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import { useEffect } from "react";
+import * as yup from "yup";
 
-import { EDIT_ACCOUNT } from "../../../graphql/mutations"
-import { ACCOUNT } from "../../../graphql/queries"
-import { useAccount } from "../../../hooks/useAccount"
+import { EDIT_ACCOUNT } from "../../../graphql/mutations";
+import { ACCOUNT } from "../../../graphql/queries";
+import { useAccount } from "../../../hooks/useAccount";
 
-import FormikField from "../../general/formik/FormikField"
+import FormikField from "../../general/formik/FormikField";
 
-import { getText } from "../../../utils/dictionary"
-import { useLanguage } from "../../../hooks/useLanguage"
+import { getText } from "../../../utils/dictionary";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 const AccountSettings = () => {
-  const { language } = useLanguage()
-  const { data } = useAccount()
-  const client = useApolloClient()
+  const { language } = useLanguage();
+  const { data } = useAccount();
+  const client = useApolloClient();
 
   const [editUserMutation] = useMutation(EDIT_ACCOUNT, {
-    onCompleted: (response) => {
+    onCompleted: response => {
       client.writeQuery({
         query: ACCOUNT,
         data: { me: response.editAccountClient },
-      })
+      });
     },
-  })
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +37,7 @@ const AccountSettings = () => {
     validationSchema: yup.object({
       email: yup.string().email(getText(language, "emailIncorrect")),
     }),
-  })
+  });
 
   const passwordFormik = useFormik({
     initialValues: {
@@ -46,30 +46,25 @@ const AccountSettings = () => {
     },
 
     validationSchema: yup.object({
-      password: yup
-        .string()
-        .min(6, getText(language, "moreThanFiveChars")),
+      password: yup.string().min(6, getText(language, "moreThanFiveChars")),
       passwordConfirm: yup
         .string()
-        .oneOf(
-          [yup.ref("password")],
-          getText(language, "passwordNoMatch")
-        ),
+        .oneOf([yup.ref("password")], getText(language, "passwordNoMatch")),
     }),
-  })
+  });
 
   useEffect(() => {
-    formik.validateForm()
+    formik.validateForm();
     // eslint-disable-next-line
-  }, [language])
+  }, [language]);
 
   useEffect(() => {
     if (data && data.me) {
-      formik.setFieldValue("email", data.me.email)
+      formik.setFieldValue("email", data.me.email);
     }
 
     // eslint-disable-next-line
-  }, [data])
+  }, [data]);
 
   return (
     <>
@@ -143,7 +138,7 @@ const AccountSettings = () => {
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default AccountSettings
+export default AccountSettings;

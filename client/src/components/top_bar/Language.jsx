@@ -1,19 +1,19 @@
-import { useState } from "react"
-import { Box, IconButton, Menu, MenuItem, Icon } from "@mui/material"
+import { useState } from "react";
+import { Box, IconButton, Menu, MenuItem, Icon } from "@mui/material";
 
-import { useLanguage } from "../../hooks/useLanguage"
+import { useLanguage } from "../../hooks/useLanguage";
 
 const Language = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const { setLanguage } = useLanguage()
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { setLanguage } = useLanguage();
 
-  const openMenu = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  const openMenu = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const closeMenu = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -39,8 +39,8 @@ const Language = () => {
       >
         <MenuItem
           onClick={() => {
-            closeMenu()
-            setLanguage("fi")
+            closeMenu();
+            setLanguage("fi");
           }}
         >
           FI
@@ -48,15 +48,15 @@ const Language = () => {
 
         <MenuItem
           onClick={() => {
-            closeMenu()
-            setLanguage("en")
+            closeMenu();
+            setLanguage("en");
           }}
         >
           EN
         </MenuItem>
       </Menu>
     </>
-  )
-}
+  );
+};
 
-export default Language
+export default Language;

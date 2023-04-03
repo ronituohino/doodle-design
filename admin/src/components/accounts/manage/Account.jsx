@@ -5,7 +5,7 @@ import {
   Divider,
   Typography,
   ListItemText,
-} from "@mui/material"
+} from "@mui/material";
 
 const Account = ({ account, openModifyDialog, openDeleteDialog }) => {
   return (
@@ -19,7 +19,7 @@ const Account = ({ account, openModifyDialog, openDeleteDialog }) => {
         <Box sx={{ display: "flex", gap: "10px" }}>
           <Button
             onClick={() => {
-              openModifyDialog(account)
+              openModifyDialog(account);
             }}
             variant="contained"
           >
@@ -27,7 +27,7 @@ const Account = ({ account, openModifyDialog, openDeleteDialog }) => {
           </Button>
           <Button
             onClick={() => {
-              openDeleteDialog(account)
+              openDeleteDialog(account);
             }}
             color="error"
             variant="contained"
@@ -37,7 +37,7 @@ const Account = ({ account, openModifyDialog, openDeleteDialog }) => {
         </Box>
       </ListItem>
     </>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;

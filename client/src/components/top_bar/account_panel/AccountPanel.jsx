@@ -1,26 +1,26 @@
-import { useState } from "react"
-import { Box, IconButton, Menu, List, Icon } from "@mui/material"
+import { useState } from "react";
+import { Box, IconButton, Menu, List, Icon } from "@mui/material";
 
-import { useAccount } from "../../../hooks/useAccount"
+import { useAccount } from "../../../hooks/useAccount";
 
-import AccountPanelLoggedIn from "./AccountPanelLoggedIn"
-import AccountPanelNotLoggedIn from "./AccountPanelNotLoggedIn"
-import { useRouting } from "../../../hooks/useRouting"
+import AccountPanelLoggedIn from "./AccountPanelLoggedIn";
+import AccountPanelNotLoggedIn from "./AccountPanelNotLoggedIn";
+import { useRouting } from "../../../hooks/useRouting";
 
 const AccountPanel = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const { inCheckout } = useRouting()
-  const { data } = useAccount()
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { inCheckout } = useRouting();
+  const { data } = useAccount();
 
-  const openMenu = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  const openMenu = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const closeMenu = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
-  const disableAccountButton = inCheckout()
+  const disableAccountButton = inCheckout();
 
   return (
     <>
@@ -49,9 +49,7 @@ const AccountPanel = () => {
         onClose={closeMenu}
       >
         <List disablePadding>
-          {data && data.me && (
-            <AccountPanelLoggedIn closeMenu={closeMenu} />
-          )}
+          {data && data.me && <AccountPanelLoggedIn closeMenu={closeMenu} />}
 
           {(!data || !data.me) && (
             <AccountPanelNotLoggedIn closeMenu={closeMenu} />
@@ -59,7 +57,7 @@ const AccountPanel = () => {
         </List>
       </Menu>
     </>
-  )
-}
+  );
+};
 
-export default AccountPanel
+export default AccountPanel;

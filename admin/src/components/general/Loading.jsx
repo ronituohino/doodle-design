@@ -1,7 +1,7 @@
-import { CircularProgress } from "@mui/material"
+import { CircularProgress } from "@mui/material";
 
 const Loading = ({ size }) => {
-  return <CircularProgress color="inherit" size={size} />
-}
+  return <CircularProgress color="inherit" size={size} />;
+};
 
-export default Loading
+export default Loading;

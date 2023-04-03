@@ -1,7 +1,7 @@
-import { useEffect } from "react"
+import { useEffect } from "react";
 
-import { useFormik } from "formik"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 import {
   Dialog,
@@ -12,35 +12,31 @@ import {
   Box,
   Typography,
   MenuItem,
-} from "@mui/material/"
+} from "@mui/material/";
 
-import {
-  useMutation,
-  useApolloClient,
-  useQuery,
-} from "@apollo/client"
+import { useMutation, useApolloClient, useQuery } from "@apollo/client";
 
-import { useSnackbar } from "notistack"
-import { EDIT_ACCOUNT } from "../../../graphql/mutations"
+import { useSnackbar } from "notistack";
+import { EDIT_ACCOUNT } from "../../../graphql/mutations";
 import {
   ACCOUNT,
   GET_ACCOUNTS,
   GET_ACCOUNT_TYPES,
-} from "../../../graphql/queries"
+} from "../../../graphql/queries";
 
-import FormikSelect from "../../general/formik/FormikSelect"
-import FormikField from "../../general/formik/FormikField"
+import FormikSelect from "../../general/formik/FormikSelect";
+import FormikField from "../../general/formik/FormikField";
 
-import FormikAutoSave from "../../general/formik/FormikAutoSave"
+import FormikAutoSave from "../../general/formik/FormikAutoSave";
 
 const EditAccountDialog = ({ open, handleClose, values, userId }) => {
-  const client = useApolloClient()
-  const { enqueueSnackbar } = useSnackbar()
-  const { data } = useQuery(GET_ACCOUNT_TYPES)
+  const client = useApolloClient();
+  const { enqueueSnackbar } = useSnackbar();
+  const { data } = useQuery(GET_ACCOUNT_TYPES);
 
-  let accountTypes = null
+  let accountTypes = null;
   if (data && data.getAccountTypes) {
-    accountTypes = Object.entries(data.getAccountTypes)
+    accountTypes = Object.entries(data.getAccountTypes);
   }
 
   const formik = useFormik({
@@ -56,15 +52,13 @@ const EditAccountDialog = ({ open, handleClose, values, userId }) => {
       isPassword: yup.boolean(),
       email: yup.string().when("isPassword", {
         is: true,
-        then: yup
-          .string()
-          .min(6, "Password must be atleast 6 characters long"),
+        then: yup.string().min(6, "Password must be atleast 6 characters long"),
       }),
       password: yup.string(),
       accountType: yup.string(),
     }),
     onSubmit: () => {},
-  })
+  });
 
   useEffect(() => {
     if (open && values) {
@@ -74,27 +68,27 @@ const EditAccountDialog = ({ open, handleClose, values, userId }) => {
         isPassword: false,
         password: "",
         accountType: values.accountType,
-      })
+      });
     }
     // eslint-disable-next-line
-  }, [open, values])
+  }, [open, values]);
 
   const [editAccountMutation] = useMutation(EDIT_ACCOUNT, {
     onCompleted: () => {
       enqueueSnackbar("Account updated!", {
         variant: "success",
-      })
+      });
 
       // Refetch GET_ACCOUNTS query
       // Also refetch ACCOUNT query in case this was the
       // current account we were logged in with
       client.refetchQueries({
         include: [GET_ACCOUNTS, ACCOUNT],
-      })
+      });
 
-      handleClose()
+      handleClose();
     },
-  })
+  });
 
   return (
     <Dialog
@@ -105,10 +99,7 @@ const EditAccountDialog = ({ open, handleClose, values, userId }) => {
     >
       <DialogTitle id="alert-dialog-title">
         <Box sx={{ display: "flex" }}>
-          <Typography
-            variant="h5"
-            sx={{ width: "50%", alignSelf: "center" }}
-          >
+          <Typography variant="h5" sx={{ width: "50%", alignSelf: "center" }}>
             Modify account
           </Typography>
         </Box>
@@ -123,21 +114,17 @@ const EditAccountDialog = ({ open, handleClose, values, userId }) => {
           }}
         >
           <FormikAutoSave formik={formik} />
-          <FormikField
-            formik={formik}
-            field="username"
-            label="Username"
-          />
+          <FormikField formik={formik} field="username" label="Username" />
           <FormikField formik={formik} field="email" label="Email" />
           <FormikField
             formik={formik}
             field="password"
             label="Password"
-            onChange={(event) => {
+            onChange={event => {
               if (event.target.value.length > 0) {
-                formik.setFieldValue("isPassword", true)
+                formik.setFieldValue("isPassword", true);
               } else {
-                formik.setFieldValue("isPassword", false)
+                formik.setFieldValue("isPassword", false);
               }
             }}
           />
@@ -149,7 +136,7 @@ const EditAccountDialog = ({ open, handleClose, values, userId }) => {
           >
             {data &&
               data.getAccountTypes &&
-              accountTypes.map((type) => (
+              accountTypes.map(type => (
                 <MenuItem key={type[1]} value={type[1]}>
                   {type[1]}
                 </MenuItem>
@@ -180,14 +167,14 @@ const EditAccountDialog = ({ open, handleClose, values, userId }) => {
                   : null,
                 accountType: formik.values.accountType,
               },
-            })
+            });
           }}
         >
           Save
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default EditAccountDialog
+export default EditAccountDialog;

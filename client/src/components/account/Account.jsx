@@ -1,15 +1,15 @@
-import { Box, Divider } from "@mui/material"
+import { Box, Divider } from "@mui/material";
 
-import AccountDrawer from "./AccountDrawer"
+import AccountDrawer from "./AccountDrawer";
 
-import { Outlet, Navigate } from "react-router-dom"
-import { useAccount } from "../../hooks/useAccount"
-import { useRouting } from "../../hooks/useRouting"
+import { Outlet, Navigate } from "react-router-dom";
+import { useAccount } from "../../hooks/useAccount";
+import { useRouting } from "../../hooks/useRouting";
 
 const Account = () => {
-  const { loggedIn } = useAccount()
-  const { homeLink } = useRouting()
-  const isLoggedIn = loggedIn()
+  const { loggedIn } = useAccount();
+  const { homeLink } = useRouting();
+  const isLoggedIn = loggedIn();
 
   return (
     <>
@@ -26,7 +26,7 @@ const Account = () => {
       )}
       {!isLoggedIn && <Navigate to={homeLink()} />}
     </>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;

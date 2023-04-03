@@ -1,8 +1,8 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const LanguageString = require("../types/LanguageString")
-const CurrencyFloat = require("../types/CurrencyFloat")
-const DateObject = require("../types/DateObject")
+const LanguageString = require("../types/LanguageString");
+const CurrencyFloat = require("../types/CurrencyFloat");
+const DateObject = require("../types/DateObject");
 
 const addressDetails = {
   firstName: { type: String, required: true },
@@ -12,7 +12,7 @@ const addressDetails = {
   zipCode: { type: String, required: true },
   country: { type: String, required: true },
   company: String,
-}
+};
 
 const orderSchema = new mongoose.Schema({
   account: {
@@ -56,30 +56,30 @@ const orderSchema = new mongoose.Schema({
   },
   status: { type: String, required: true },
   extrainfo: String,
-})
+});
 
-const Order = mongoose.model("Order", orderSchema)
+const Order = mongoose.model("Order", orderSchema);
 
-const { Account } = require("../schemas/Account")
-const { requireLogin } = require("../utils/authentication")
+const { Account } = require("../schemas/Account");
+const { requireLogin } = require("../utils/authentication");
 
 const orderResolvers = {
   Query: {
     getOrders: async (root, args, context) => {
-      requireLogin(context)
+      requireLogin(context);
 
       const result = await Order.find({
         account: context.currentAccount._id,
-      }).populate("products.product")
+      }).populate("products.product");
 
       // Reverse results, so that newest order is first
-      return result.reverse()
+      return result.reverse();
     },
   },
   Mutation: {
     createOrder: async (root, args, context) => {
-      requireLogin(context)
-      const date = new Date()
+      requireLogin(context);
+      const date = new Date();
 
       // Disassembling date to separate parts so that date parsing
       // doesn't screw up on some browsers
@@ -99,13 +99,13 @@ const orderResolvers = {
         paymentDetails: args.paymentDetails,
         status: "Pending",
         extrainfo: args.extrainfo,
-      })
+      });
 
-      const result = await order.save()
-      return result
+      const result = await order.save();
+      return result;
     },
   },
-}
+};
 
 const orderAddressFields = `
   firstName: String!
@@ -115,7 +115,7 @@ const orderAddressFields = `
   zipCode: String!
   country: String!
   company: String
-`
+`;
 
 const orderTypeDefs = `
   type Order {
@@ -208,10 +208,10 @@ const orderTypeDefs = `
     method: String!
     provider: String
   }
-`
+`;
 
 module.exports = {
   Order,
   orderResolvers,
   orderTypeDefs,
-}
+};

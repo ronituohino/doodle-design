@@ -6,8 +6,8 @@ const getMongoose = () => {
     hours: Number,
     minutes: Number,
     seconds: Number,
-  }
-}
+  };
+};
 
 const getGql = () => {
   return `{
@@ -17,7 +17,7 @@ const getGql = () => {
     hours: Int!
     minutes: Int!
     seconds: Int!
-  }`
-}
+  }`;
+};
 
-module.exports = { getMongoose, getGql }
+module.exports = { getMongoose, getGql };

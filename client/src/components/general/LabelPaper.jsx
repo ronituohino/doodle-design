@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, Divider } from "@mui/material"
+import { Box, Paper, Typography, Divider } from "@mui/material";
 
 const LabelPaper = ({ label, elevation, variant, children, sx }) => {
   return (
@@ -21,7 +21,7 @@ const LabelPaper = ({ label, elevation, variant, children, sx }) => {
 
       <Box sx={{ p: 2, pt: 1 }}>{children}</Box>
     </Paper>
-  )
-}
+  );
+};
 
-export default LabelPaper
+export default LabelPaper;

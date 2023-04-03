@@ -10,48 +10,48 @@ export const hasParentWithMatchingSelector = (
   includeSelf = false
 ) => {
   if (includeSelf) {
-    return [...document.querySelectorAll(selector)].some((el) =>
+    return [...document.querySelectorAll(selector)].some(el =>
       el.contains(target)
-    )
+    );
   } else {
     return [...document.querySelectorAll(selector)].some(
-      (el) => el !== target && el.contains(target)
-    )
+      el => el !== target && el.contains(target)
+    );
   }
-}
+};
 
-export const isString = (any) => {
-  return typeof any === "string" || any instanceof String
-}
+export const isString = any => {
+  return typeof any === "string" || any instanceof String;
+};
 
 export const getInnerFieldFromObject = (object, stringField) => {
-  const subfields = stringField.split(".")
+  const subfields = stringField.split(".");
 
-  let value = null
-  value = traverseObject(object, subfields)
+  let value = null;
+  value = traverseObject(object, subfields);
 
-  return value
-}
+  return value;
+};
 
 const traverseObject = (object, subfields) => {
-  let value = null
+  let value = null;
 
-  let newSubFields = subfields
-  let field = newSubFields.shift()
+  let newSubFields = subfields;
+  let field = newSubFields.shift();
 
   if (newSubFields.length > 0) {
-    const newObject = object[field]
+    const newObject = object[field];
 
     if (newObject) {
-      value = traverseObject(newObject, newSubFields)
+      value = traverseObject(newObject, newSubFields);
     } else {
-      return null
+      return null;
     }
   }
 
   if (value === null) {
-    return object[field]
+    return object[field];
   } else {
-    return value
+    return value;
   }
-}
+};

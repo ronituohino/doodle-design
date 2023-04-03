@@ -1,9 +1,9 @@
-import Button from "@mui/material/Button"
-import Dialog from "@mui/material/Dialog"
-import DialogActions from "@mui/material/DialogActions"
-import DialogContent from "@mui/material/DialogContent"
-import DialogContentText from "@mui/material/DialogContentText"
-import DialogTitle from "@mui/material/DialogTitle"
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const ConfirmDialog = ({
   open,
@@ -32,8 +32,8 @@ const ConfirmDialog = ({
           <Button onClick={closeCallback}>{cancelText}</Button>
           <Button
             onClick={() => {
-              closeCallback()
-              acceptCallback()
+              closeCallback();
+              acceptCallback();
             }}
             autoFocus
           >
@@ -42,7 +42,7 @@ const ConfirmDialog = ({
         </DialogActions>
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-export default ConfirmDialog
+export default ConfirmDialog;

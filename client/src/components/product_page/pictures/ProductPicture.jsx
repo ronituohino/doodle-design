@@ -1,6 +1,6 @@
-import { Box } from "@mui/material"
-import { getFile } from "../../../utils/getFile"
-import { useTheme } from "@emotion/react"
+import { Box } from "@mui/material";
+import { getFile } from "../../../utils/getFile";
+import { useTheme } from "@emotion/react";
 
 // For use with react-window FixedSizeList
 export const renderRow = ({ index, style, data }) => {
@@ -15,8 +15,8 @@ export const renderRow = ({ index, style, data }) => {
         image={data.product.images[index]}
       />
     </Box>
-  )
-}
+  );
+};
 
 const ProductPicture = ({
   index,
@@ -25,8 +25,8 @@ const ProductPicture = ({
   setModalOpen,
   image,
 }) => {
-  const theme = useTheme()
-  const thisSelected = selected === index
+  const theme = useTheme();
+  const thisSelected = selected === index;
   return (
     <Box>
       <img
@@ -46,7 +46,7 @@ const ProductPicture = ({
         onClick={() => setModalOpen(true)}
       />
     </Box>
-  )
-}
+  );
+};
 
-export default ProductPicture
+export default ProductPicture;

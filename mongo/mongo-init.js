@@ -7,84 +7,82 @@ db.createUser({
       db: "store",
     },
   ],
-})
+});
 
-db.createCollection("accounts")
-db.createCollection("categories")
-db.createCollection("files")
-db.createCollection("products")
+db.createCollection("accounts");
+db.createCollection("categories");
+db.createCollection("files");
+db.createCollection("products");
 
 db.accounts.insert({
   username: "roni",
   email: "roni@gmail.com",
-  password:
-    "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
+  password: "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
   accountType: "Admin",
-})
+});
 
 db.accounts.insert({
   username: "jare",
   email: "jare@gmail.com",
-  password:
-    "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
+  password: "$2b$10$J/ICCEE1WkcBwRwZHXtXhuNMIl2duVjxPOgiv8m2eHwUqsuZ/jd4i", // 123qwe123
   accountType: "Customer",
-})
+});
 
 db.categories.insert({
   _id: ObjectId("61f519593c71ee71cd5270fd"),
   urlPath: "socks",
   label: { en: "Socks", fi: "Sukat" },
   icon: "tag",
-})
+});
 
 db.categories.insert({
   _id: ObjectId("61f519593c71ee71cd5270fe"),
   urlPath: "shoes",
   label: { en: "Shoes", fi: "Kengät" },
   icon: "tag",
-})
+});
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527114"),
   filename: "socks_dots.png",
   mimetype: "image/png",
   encoding: "7bit",
-})
+});
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527115"),
   filename: "socks_stripes.png",
   mimetype: "image/png",
   encoding: "7bit",
-})
+});
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527116"),
   filename: "socks_zebra.png",
   mimetype: "image/png",
   encoding: "7bit",
-})
+});
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527124"),
   filename: "sneakers_left.png",
   mimetype: "image/png",
   encoding: "7bit",
-})
+});
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527125"),
   filename: "sneakers_right.png",
   mimetype: "image/png",
   encoding: "7bit",
-})
+});
 
 db.files.insert({
   _id: ObjectId("61f51b243c71ee71cd527126"),
   filename: "sneakers_top.png",
   mimetype: "image/png",
   encoding: "7bit",
-})
+});
 
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527222"),
@@ -152,7 +150,7 @@ db.products.insert({
   },
   category: ObjectId("61f519593c71ee71cd5270fe"),
   visible: true,
-})
+});
 
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527231"),
@@ -171,7 +169,7 @@ db.products.insert({
   },
   category: ObjectId("61f519593c71ee71cd5270fd"),
   visible: true,
-})
+});
 
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527232"),
@@ -190,7 +188,7 @@ db.products.insert({
   },
   category: ObjectId("61f519593c71ee71cd5270fd"),
   visible: true,
-})
+});
 
 db.products.insert({
   _id: ObjectId("61f51b243c71ee71cd527233"),
@@ -209,4 +207,4 @@ db.products.insert({
   },
   category: ObjectId("61f519593c71ee71cd5270fd"),
   visible: true,
-})
+});

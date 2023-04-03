@@ -1,11 +1,11 @@
-import FormikBox from "../../../general/formik/FormikBox"
-import FormikFieldArray from "../../../general/formik/FormikFieldArray"
-import FormikField from "../../../general/formik/FormikField"
+import FormikBox from "../../../general/formik/FormikBox";
+import FormikFieldArray from "../../../general/formik/FormikFieldArray";
+import FormikField from "../../../general/formik/FormikField";
 
-import { Button, Box, IconButton, Icon } from "@mui/material"
+import { Button, Box, IconButton, Icon } from "@mui/material";
 
 const FormikCustomization = ({ formik, label, field }) => {
-  const customization = formik.values[field]
+  const customization = formik.values[field];
 
   return (
     <FormikBox label={label}>
@@ -21,9 +21,9 @@ const FormikCustomization = ({ formik, label, field }) => {
               onClick={() => {
                 const custArr = formik.values.customization.filter(
                   (c, i) => i !== index
-                )
+                );
 
-                formik.setFieldValue("customization", custArr)
+                formik.setFieldValue("customization", custArr);
               }}
               sx={{ alignSelf: "center", pb: 3 }}
               disableRipple
@@ -33,53 +33,49 @@ const FormikCustomization = ({ formik, label, field }) => {
           </FormikFieldArray>
 
           <FormikBox label="Options" sx={{ pl: 2, pr: 2 }}>
-            {customizationObject.options.map(
-              (option, optionIndex) => (
-                <Box
-                  key={`options-${optionIndex}`}
-                  sx={{
-                    display: "flex",
-                    gap: "15px",
-                    mb: 2,
+            {customizationObject.options.map((option, optionIndex) => (
+              <Box
+                key={`options-${optionIndex}`}
+                sx={{
+                  display: "flex",
+                  gap: "15px",
+                  mb: 2,
+                }}
+              >
+                {Object.keys(option).map(key => (
+                  <Box key={key}>
+                    <FormikField
+                      label={key}
+                      formik={formik}
+                      field={`${field}.${index}.options.${optionIndex}.${key}`}
+                    />
+                  </Box>
+                ))}
+
+                <IconButton
+                  onClick={() => {
+                    const custArr = formik.values.customization.map((c, i) => {
+                      if (i === index) {
+                        return {
+                          label: c.label,
+                          options: c.options.filter((o, i) => {
+                            return i !== optionIndex;
+                          }),
+                        };
+                      } else {
+                        return c;
+                      }
+                    });
+
+                    formik.setFieldValue("customization", custArr);
                   }}
+                  sx={{ alignSelf: "center" }}
+                  disableRipple
                 >
-                  {Object.keys(option).map((key) => (
-                    <Box key={key}>
-                      <FormikField
-                        label={key}
-                        formik={formik}
-                        field={`${field}.${index}.options.${optionIndex}.${key}`}
-                      />
-                    </Box>
-                  ))}
-
-                  <IconButton
-                    onClick={() => {
-                      const custArr = formik.values.customization.map(
-                        (c, i) => {
-                          if (i === index) {
-                            return {
-                              label: c.label,
-                              options: c.options.filter((o, i) => {
-                                return i !== optionIndex
-                              }),
-                            }
-                          } else {
-                            return c
-                          }
-                        }
-                      )
-
-                      formik.setFieldValue("customization", custArr)
-                    }}
-                    sx={{ alignSelf: "center" }}
-                    disableRipple
-                  >
-                    <Icon>clear</Icon>
-                  </IconButton>
-                </Box>
-              )
-            )}
+                  <Icon>clear</Icon>
+                </IconButton>
+              </Box>
+            ))}
 
             <Box
               sx={{
@@ -91,16 +87,16 @@ const FormikCustomization = ({ formik, label, field }) => {
             >
               <IconButton
                 onClick={() => {
-                  const arr = [...formik.values.customization]
+                  const arr = [...formik.values.customization];
                   arr[index].options.push({
                     en: "",
                     fi: "",
-                  })
+                  });
 
                   formik.setValues({
                     ...formik.values,
                     customization: arr,
-                  })
+                  });
                 }}
                 disableRipple
               >
@@ -121,12 +117,12 @@ const FormikCustomization = ({ formik, label, field }) => {
       >
         <Button
           onClick={() => {
-            const arr = [...formik.values.customization]
+            const arr = [...formik.values.customization];
             arr.push({
               label: { en: "", fi: "" },
               options: [{ en: "", fi: "" }],
-            })
-            formik.setValues({ ...formik.values, customization: arr })
+            });
+            formik.setValues({ ...formik.values, customization: arr });
           }}
           variant="outlined"
         >
@@ -134,7 +130,7 @@ const FormikCustomization = ({ formik, label, field }) => {
         </Button>
       </Box>
     </FormikBox>
-  )
-}
+  );
+};
 
-export default FormikCustomization
+export default FormikCustomization;

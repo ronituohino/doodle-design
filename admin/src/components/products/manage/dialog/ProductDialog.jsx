@@ -7,34 +7,27 @@ import {
   Box,
   Typography,
   MenuItem,
-} from "@mui/material/"
+} from "@mui/material/";
 
-import { useFormik } from "formik"
-import * as yup from "yup"
+import { useFormik } from "formik";
+import * as yup from "yup";
 
-import {
-  useQuery,
-  useMutation,
-  useApolloClient,
-} from "@apollo/client"
-import {
-  GET_CATEGORIES,
-  GET_PRODUCTS,
-} from "../../../../graphql/queries"
-import { FILE_UPLOAD } from "../../../../graphql/mutations"
-import { CREATE_PRODUCT } from "../../../../graphql/mutations"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import { GET_CATEGORIES, GET_PRODUCTS } from "../../../../graphql/queries";
+import { FILE_UPLOAD } from "../../../../graphql/mutations";
+import { CREATE_PRODUCT } from "../../../../graphql/mutations";
 
-import FormikBox from "../../../general/formik/FormikBox"
-import FormikFieldArray from "../../../general/formik/FormikFieldArray"
-import FormikCustomization from "./FormikCustomization"
+import FormikBox from "../../../general/formik/FormikBox";
+import FormikFieldArray from "../../../general/formik/FormikFieldArray";
+import FormikCustomization from "./FormikCustomization";
 
-import DropzonePictures from "../../../general/DropzonePictures"
-import FormikSelect from "../../../general/formik/FormikSelect"
+import DropzonePictures from "../../../general/DropzonePictures";
+import FormikSelect from "../../../general/formik/FormikSelect";
 
-import { useSnackbar } from "notistack"
-import { useEffect } from "react"
+import { useSnackbar } from "notistack";
+import { useEffect } from "react";
 
-import { getFileAsJSFile } from "../../../../utils/getFile"
+import { getFileAsJSFile } from "../../../../utils/getFile";
 
 const ProductDialog = ({
   open,
@@ -42,7 +35,7 @@ const ProductDialog = ({
   overrideValues,
   overrideSubmit,
 }) => {
-  const client = useApolloClient()
+  const client = useApolloClient();
   const formik = useFormik({
     initialValues: {
       pictures: [],
@@ -89,12 +82,8 @@ const ProductDialog = ({
             .of(
               yup
                 .object({
-                  en: yup
-                    .string()
-                    .required("English option required"),
-                  fi: yup
-                    .string()
-                    .required("Finnish option required"),
+                  en: yup.string().required("English option required"),
+                  fi: yup.string().required("Finnish option required"),
                 })
                 .required("Option object missing, contact IT!")
             )
@@ -106,46 +95,46 @@ const ProductDialog = ({
       // First upload pictures in the dropzone, then call other mutations
       uploadFileMutation({
         variables: { files: formik.values.pictures },
-      })
+      });
     },
     validateOnChange: false,
     validateOnBlur: false,
     enableReinitialize: true,
-  })
+  });
 
   useEffect(() => {
     if (open && overrideValues) {
-      const pics = []
+      const pics = [];
 
-      overrideValues.pictures.forEach((i) => {
-        getFileAsJSFile(i._id, i.filename).then((f) => {
+      overrideValues.pictures.forEach(i => {
+        getFileAsJSFile(i._id, i.filename).then(f => {
           const dropzonifiedFile = Object.assign(f, {
             preview: URL.createObjectURL(f),
-          })
-          pics.push(dropzonifiedFile)
-        })
-      })
+          });
+          pics.push(dropzonifiedFile);
+        });
+      });
 
       formik.setValues({
         ...overrideValues,
         pictures: pics,
-      })
+      });
     }
     // eslint-disable-next-line
-  }, [open, overrideValues])
+  }, [open, overrideValues]);
 
-  const { data } = useQuery(GET_CATEGORIES)
+  const { data } = useQuery(GET_CATEGORIES);
 
   const [uploadFileMutation] = useMutation(FILE_UPLOAD, {
-    onCompleted: (response) => {
-      let pictureIdList = []
-      response.fileUpload.forEach((f) => pictureIdList.push(f._id))
+    onCompleted: response => {
+      let pictureIdList = [];
+      response.fileUpload.forEach(f => pictureIdList.push(f._id));
 
       // Check if submit is overridden (modify),
       //otherwise create new product
       if (overrideSubmit) {
-        overrideSubmit({ ...formik.values, pictureIdList })
-        handleClose()
+        overrideSubmit({ ...formik.values, pictureIdList });
+        handleClose();
       } else {
         createProductMutation({
           variables: {
@@ -156,26 +145,26 @@ const ProductDialog = ({
             images: pictureIdList,
             category: formik.values.category,
           },
-        })
+        });
       }
     },
-  })
+  });
 
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
   const [createProductMutation] = useMutation(CREATE_PRODUCT, {
-    onCompleted: (response) => {
+    onCompleted: response => {
       enqueueSnackbar("Product created!", {
         variant: "success",
-      })
-      handleClose()
+      });
+      handleClose();
 
       // Refetch GET_PRODUCTS query
       client.refetchQueries({
         include: [GET_PRODUCTS],
-      })
+      });
     },
-  })
+  });
 
   return (
     <Dialog
@@ -186,10 +175,7 @@ const ProductDialog = ({
     >
       <DialogTitle id="alert-dialog-title">
         <Box sx={{ display: "flex" }}>
-          <Typography
-            variant="h5"
-            sx={{ width: "50%", alignSelf: "center" }}
-          >
+          <Typography variant="h5" sx={{ width: "50%", alignSelf: "center" }}>
             {overrideValues ? "Modify product" : "Add product"}
           </Typography>
           <Box sx={{ flexBasis: "100%" }} />
@@ -208,8 +194,8 @@ const ProductDialog = ({
           >
             <DropzonePictures
               files={formik.values.pictures}
-              setFilesCallback={(files) => {
-                formik.setFieldValue("pictures", files)
+              setFilesCallback={files => {
+                formik.setFieldValue("pictures", files);
               }}
               text="Drag and drop, or click here to add pictures"
               subtext="(select multiple pictures to upload them all)"
@@ -217,7 +203,7 @@ const ProductDialog = ({
 
             <Button
               onClick={() => {
-                formik.setFieldValue("pictures", [])
+                formik.setFieldValue("pictures", []);
               }}
               fullWidth
               variant="outlined"
@@ -235,18 +221,14 @@ const ProductDialog = ({
           >
             {data &&
               data.getCategories &&
-              data.getCategories.map((category) => (
+              data.getCategories.map(category => (
                 <MenuItem key={category._id} value={category._id}>
                   {category.label.en}
                 </MenuItem>
               ))}
           </FormikSelect>
 
-          <FormikFieldArray
-            formik={formik}
-            field="name"
-            label="Name"
-          />
+          <FormikFieldArray formik={formik} field="name" label="Name" />
 
           <FormikFieldArray
             formik={formik}
@@ -278,16 +260,12 @@ const ProductDialog = ({
         >
           Cancel
         </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={formik.handleSubmit}
-        >
+        <Button variant="contained" fullWidth onClick={formik.handleSubmit}>
           {overrideValues ? "Save" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default ProductDialog
+export default ProductDialog;

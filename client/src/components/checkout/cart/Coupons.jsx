@@ -1,10 +1,10 @@
-import { Box, Button, TextField } from "@mui/material"
-import { useLanguage } from "../../../hooks/useLanguage"
-import LabelPaper from "../../general/LabelPaper"
-import { getText } from "../../../utils/dictionary"
+import { Box, Button, TextField } from "@mui/material";
+import { useLanguage } from "../../../hooks/useLanguage";
+import LabelPaper from "../../general/LabelPaper";
+import { getText } from "../../../utils/dictionary";
 
 const Coupons = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <LabelPaper
       label={getText(language, "coupons")}
@@ -24,7 +24,7 @@ const Coupons = () => {
         </Button>
       </Box>
     </LabelPaper>
-  )
-}
+  );
+};
 
-export default Coupons
+export default Coupons;

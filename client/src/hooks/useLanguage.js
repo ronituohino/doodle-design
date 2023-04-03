@@ -1,19 +1,14 @@
-import {
-  useParams,
-  matchPath,
-  useLocation,
-  useNavigate,
-} from "react-router"
+import { useParams, matchPath, useLocation, useNavigate } from "react-router";
 
 export const useLanguage = () => {
-  let language = "en"
+  let language = "en";
 
-  const params = useParams()
-  const navigate = useNavigate()
-  const location = useLocation()
+  const params = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   if (params.language !== undefined) {
-    language = params.language
+    language = params.language;
   } else {
     const match = matchPath(
       {
@@ -22,18 +17,18 @@ export const useLanguage = () => {
         strict: false,
       },
       location.pathname
-    )
+    );
 
     if (match) {
-      language = match.params.language
+      language = match.params.language;
     } else {
-      language = "en"
+      language = "en";
     }
   }
 
-  const setLanguage = (language) => {
-    navigate(`/${language}${location.pathname.substring(3)}`)
-  }
+  const setLanguage = language => {
+    navigate(`/${language}${location.pathname.substring(3)}`);
+  };
 
-  return { language, setLanguage }
-}
+  return { language, setLanguage };
+};

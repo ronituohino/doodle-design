@@ -1,18 +1,18 @@
-const { GraphQLUpload } = require("graphql-upload")
+const { GraphQLUpload } = require("graphql-upload");
 
-const { accountResolvers, accountTypeDefs } = require("./Account")
+const { accountResolvers, accountTypeDefs } = require("./Account");
 
-const { categoryResolvers, categoryTypeDefs } = require("./Category")
+const { categoryResolvers, categoryTypeDefs } = require("./Category");
 
-const { fileResolvers, fileTypeDefs } = require("./File")
+const { fileResolvers, fileTypeDefs } = require("./File");
 
-const { orderResolvers, orderTypeDefs } = require("./Order")
+const { orderResolvers, orderTypeDefs } = require("./Order");
 
-const { productResolvers, productTypeDefs } = require("./Product")
+const { productResolvers, productTypeDefs } = require("./Product");
 
-const language = require("../constants/language")
-const currency = require("../constants/currency")
-const datetime = require("../constants/datetime")
+const language = require("../constants/language");
+const currency = require("../constants/currency");
+const datetime = require("../constants/datetime");
 
 const commonTypeDefs = `
   type Query {
@@ -53,7 +53,7 @@ const commonTypeDefs = `
 
   input LanguageStringInput ${language.getGql()}
   input CurrencyFloatInput ${currency.getGql()}
-`
+`;
 const typeDefs = [
   commonTypeDefs,
   accountTypeDefs,
@@ -61,7 +61,7 @@ const typeDefs = [
   fileTypeDefs,
   orderTypeDefs,
   productTypeDefs,
-]
+];
 
 const resolvers = {
   Query: {
@@ -85,6 +85,6 @@ const resolvers = {
   },
 
   Upload: GraphQLUpload,
-}
+};
 
-module.exports = { typeDefs, resolvers }
+module.exports = { typeDefs, resolvers };

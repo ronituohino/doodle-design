@@ -1,9 +1,9 @@
-import { Box, Typography } from "@mui/material"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import { Box, Typography } from "@mui/material";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 const Ratings = ({ tab, index }) => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <>
       {tab === index && (
@@ -14,7 +14,7 @@ const Ratings = ({ tab, index }) => {
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Ratings
+export default Ratings;

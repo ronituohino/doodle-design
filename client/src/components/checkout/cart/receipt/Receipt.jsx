@@ -1,17 +1,17 @@
-import { List, Paper } from "@mui/material"
-import { useShoppingCart } from "../../../../hooks/useShoppingCart"
-import { formatPrice } from "../../../../utils/formatting"
-import { useLanguage } from "../../../../hooks/useLanguage"
+import { List, Paper } from "@mui/material";
+import { useShoppingCart } from "../../../../hooks/useShoppingCart";
+import { formatPrice } from "../../../../utils/formatting";
+import { useLanguage } from "../../../../hooks/useLanguage";
 
-import ProductListing from "./ProductListing"
-import ReceiptLine from "./ReceiptLine"
-import { getText } from "../../../../utils/dictionary"
+import ProductListing from "./ProductListing";
+import ReceiptLine from "./ReceiptLine";
+import { getText } from "../../../../utils/dictionary";
 
 const Receipt = () => {
-  const { language } = useLanguage()
-  const { data, totalPriceOfProducts } = useShoppingCart()
+  const { language } = useLanguage();
+  const { data, totalPriceOfProducts } = useShoppingCart();
 
-  const totalPrice = totalPriceOfProducts()
+  const totalPrice = totalPriceOfProducts();
 
   return (
     <Paper elevation={4} sx={{ width: "100%" }}>
@@ -35,14 +35,14 @@ const Receipt = () => {
             fontWeight: "bold",
           }}
         />
-        {data.cartProducts.map((cartObject) => {
+        {data.cartProducts.map(cartObject => {
           return (
             <ProductListing
               key={cartObject.product.hash}
               cartObject={cartObject}
               language={language}
             />
-          )
+          );
         })}
 
         <ReceiptLine
@@ -65,7 +65,7 @@ const Receipt = () => {
         />
       </List>
     </Paper>
-  )
-}
+  );
+};
 
-export default Receipt
+export default Receipt;

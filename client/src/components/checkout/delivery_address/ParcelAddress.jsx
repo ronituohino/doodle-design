@@ -1,21 +1,19 @@
-import { Box, Typography, Button } from "@mui/material"
-import { useLanguage } from "../../../hooks/useLanguage"
-import { getText } from "../../../utils/dictionary"
+import { Box, Typography, Button } from "@mui/material";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { getText } from "../../../utils/dictionary";
 
 // Don't use language here, because not all points have "en" in them
 const ParcelAddress = ({ point, selectCallback }) => {
-  const { language } = useLanguage()
-  const location = point.address.fi
+  const { language } = useLanguage();
+  const location = point.address.fi;
   if (!location) {
-    return <></>
+    return <></>;
   }
 
   return (
     <Box sx={{ display: "flex", width: "100%", margin: 2 }}>
       <Box sx={{ width: "75%" }}>
-        <Typography
-          sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-        >
+        <Typography sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
           {point.publicName.fi}
         </Typography>
         <Typography
@@ -26,9 +24,7 @@ const ParcelAddress = ({ point, selectCallback }) => {
         >
           {location.address ? location.address : location.streetName}
         </Typography>
-        <Typography
-          sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-        >
+        <Typography sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
           {location.postalCode} {location.postalCodeName}
         </Typography>
       </Box>
@@ -50,7 +46,7 @@ const ParcelAddress = ({ point, selectCallback }) => {
         </Button>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default ParcelAddress
+export default ParcelAddress;
