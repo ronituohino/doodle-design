@@ -7,8 +7,6 @@ env:
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   deploy:
@@ -31,13 +29,11 @@ jobs:
       - name: Create .env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Build and Push Container
         run: |-
           DOCKER_BUILDKIT=1 docker build -t gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
           docker push gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
 
       - name: Deploy container to Cloud Run
         id: deploy

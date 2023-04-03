@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 
 ENV NODE_ENV=production
-ENV REACT_APP_BACKEND_URL=http://localhost:4000
+ENV REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app
 
 RUN cd ./admin && npm ci && npm run build && mv build ../server/admin \
   && cd ../client && npm ci && npm run build && mv build ../server/client
