@@ -32,7 +32,7 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          DOCKER_BUILDKIT=1 docker build -t gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
+          DOCKER_BUILDKIT=1 docker build -t gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} --build-arg REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app .
           docker push gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
 
       - name: Deploy container to Cloud Run
