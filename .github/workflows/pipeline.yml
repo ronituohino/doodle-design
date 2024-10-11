@@ -1,8 +1,10 @@
 name: CI&CD
 
 env:
-  SERVICE: recom
-  REGION: europe-north1
+  IMAGE_NAME:
+    ${{ secrets.REGION }}-docker.pkg.dev/${{ secrets.GCP_CREDENTIALS_PROJECT_ID
+    }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/${{ secrets.SERVICE }}:${{
+    github.sha }}
 
 on:
   push:
@@ -23,27 +25,26 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: Authorize Docker push
-        run: gcloud auth configure-docker
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker ${{ secrets.REGION }}-docker.pkg.dev
 
       - name: Create .env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Build and Push Container
-        run: |-
-          DOCKER_BUILDKIT=1 docker build -t gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} --build-arg REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app .
-          docker push gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
+      - name: Build and Push image to Artifact Registry
+        run: |
+          DOCKER_BUILDKIT=1 docker build -t $IMAGE_NAME --build-arg REACT_APP_BACKEND_URL=https://recom-pnxd5duksa-lz.a.run.app .
+          docker push $IMAGE_NAME
 
       - name: Deploy container to Cloud Run
         id: deploy
-        uses: "google-github-actions/deploy-cloudrun@v1"
+        uses: "google-github-actions/deploy-cloudrun@v2"
         with:
-          service: ${{ env.SERVICE }}
-          image:
-            gcr.io/${{ secrets.GCP_CREDENTIALS_PROJECT_ID }}/${{ env.SERVICE
-            }}:${{ github.sha }}
-          region: ${{ env.REGION }}
+          service: ${{ secrets.SERVICE }}
+          image: ${{ env.IMAGE_NAME }}
+          region: ${{ secrets.REGION }}
           env_vars_file: .env
 
       - name: "Service output"

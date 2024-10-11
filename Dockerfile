@@ -1,4 +1,4 @@
-FROM node:18-alpine AS build-stage
+FROM node:22-alpine3.19 AS build-stage
 WORKDIR /app
 
 COPY . .
@@ -11,7 +11,7 @@ RUN cd ./admin && npm ci && npm run build && mv build ../server/admin \
 
 RUN cd server
 
-FROM node:18-alpine
+FROM node:22-alpine3.19
 WORKDIR /app
 
 COPY --from=build-stage /app/server ./
