@@ -7,8 +7,8 @@ env:
     github.sha }}
 
 on:
-  push:
-    branches: [main]
+  # Run this workflow manually from the Actions tab on GitHub.
+  workflow_dispatch:
 
 jobs:
   deploy:
